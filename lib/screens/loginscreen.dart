@@ -28,8 +28,10 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          SizedBox(height: 25),
           Container(
             height: 75,
             child: Row(
@@ -67,12 +69,12 @@ class _LoginState extends State<Login> {
               ],
             ),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 0),
           Expanded(
             child: Center(
               child: Container(
-                height: 100,
-                width: 100,
+                height: 145,
+                width: 145,
                 margin: EdgeInsets.all(20.0),
                 decoration: const BoxDecoration(
                   image: DecorationImage(
@@ -86,15 +88,15 @@ class _LoginState extends State<Login> {
                   padding: const EdgeInsets.all(16.0),
                   child: Image.asset(
                     'assets/images/login_icon.png', // Replace with your image asset path
-                    width: 100,
-                    height: 100,
+                    width: 145,
+                    height: 145,
                     fit: BoxFit.contain, // Adjust as needed
                   ),
                 ),
               ),
             ),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 0),
           Padding(
             padding: const EdgeInsets.only(left: 15),
             child: Text(
@@ -102,75 +104,110 @@ class _LoginState extends State<Login> {
               style: TextStyle(
                 fontFamily: 'Montserrat',
                 color: Color(0xFF255899),
-                fontSize: 22.0,
+                fontSize: 18.0,
                 fontWeight: FontWeight.bold),
             ),
           ),
-          TextFormField(
-            controller: _phoneNumberController,
-            keyboardType: TextInputType.phone,
-            decoration: const InputDecoration(
-              labelText: 'Mobile Number',
-              // border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.phone,color:Color(0xFF255899),),
-            ),
-          ),
-          SizedBox(height: 10),
-          TextFormField(
-            obscureText: _isObscured,
-            controller: _passWordController,
-            decoration: InputDecoration(
-              labelText: 'Password',
-              // border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.lock,color:Color(0xFF255899)),
-              suffixIcon: IconButton(
-                icon:
-                    Icon(_isObscured ? Icons.visibility : Icons.visibility_off),
-                onPressed: () {
-                  setState(() {
-                    _isObscured = !_isObscured;
-                  });
-                },
+          SizedBox(height: 20),
+
+          Padding(
+            padding: const EdgeInsets.only(left: 15,right: 15),
+            child: TextFormField(
+              controller: _phoneNumberController,
+              keyboardType: TextInputType.phone,
+              decoration: const InputDecoration(
+                labelText: 'Mobile Number',
+                 border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+                prefixIcon: Icon(Icons.phone,color:Color(0xFF255899),),
               ),
             ),
           ),
           SizedBox(height: 10),
           Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15),
+            padding: const EdgeInsets.only(left: 10,right: 10),
+            child: TextFormField(
+              obscureText: _isObscured,
+              controller: _passWordController,
+              decoration: InputDecoration(
+                labelText: 'Password',
+                 border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+                prefixIcon: Icon(Icons.lock,color:Color(0xFF255899)),
+                suffixIcon: IconButton(
+                  icon:
+                      Icon(_isObscured ? Icons.visibility : Icons.visibility_off),
+                  onPressed: () {
+                    setState(() {
+                      _isObscured = !_isObscured;
+                    });
+                  },
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.only(left: 15,right: 15),
             child: InkWell(
               onTap: (){
+                print('--------------');
+                Navigator.pushReplacement(context,
+                                 MaterialPageRoute(builder:
+                                     (context) => HomePage()
+                                 )   // VisitListHome
+                             );
+              },
+              child: Container(
+                width: double.infinity, // Make container fill the width of its parent
+                height: 45,
+                padding: EdgeInsets.all(5.0),
+                decoration: BoxDecoration(
+                  color: Color(0xFF255899), // Background color using HEX value
+                  borderRadius: BorderRadius.circular(10.0), // Rounded corners
+                ),
+                child: Center(
+                  child: Text(
+                    'Login',
+                    style: TextStyle(fontSize: 16.0),
+                  ),
+                ),
+              ),
+            ),
+          ),
 
-                  },
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                    Color(0xFF255899), // Replace with your hexadecimal color code
-                  ),
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      //side: BorderSide(color: Colors.red), // Set border color here
-                    ),
-                  ),
-                ),
-                onPressed: () {
-                   print('---------');
-                   Navigator.pushReplacement(context,
-                       MaterialPageRoute(builder:
-                           (context) => HomePage()
-                       )   // VisitListHome
-                   );
-                },
-                child: Text('Login',
-                  style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      color: Colors.white,
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.bold),
-                ),
-                ),
-            ),
-            ),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 15, right: 15),
+          //   child: ElevatedButton(
+          //       style: ButtonStyle(
+          //         backgroundColor: MaterialStateProperty.all<Color>(
+          //           Color(0xFF255899), // Replace with your hexadecimal color code
+          //         ),
+          //         shape: MaterialStateProperty.all(
+          //           RoundedRectangleBorder(
+          //             borderRadius: BorderRadius.circular(5.0),
+          //             //side: BorderSide(color: Colors.red), // Set border color here
+          //           ),
+          //         ),
+          //       ),
+          //       onPressed: () {
+          //          print('---------');
+          //          Navigator.pushReplacement(context,
+          //              MaterialPageRoute(builder:
+          //                  (context) => HomePage()
+          //              )   // VisitListHome
+          //          );
+          //       },
+          //       child: Text('Login',
+          //         style: TextStyle(
+          //             fontFamily: 'Montserrat',
+          //             color: Colors.white,
+          //             fontSize: 18.0,
+          //             fontWeight: FontWeight.bold),
+          //       ),
+          //       ),
+          //   ),
+
           GestureDetector(
             onTap: () {
               print('----');
@@ -182,30 +219,33 @@ class _LoginState extends State<Login> {
                     style: TextStyle(
                         fontFamily: 'Montserrat',
                         color: Color(0xFF255899),
-                        fontSize: 22.0,
+                        fontSize: 16.0,
                         fontWeight: FontWeight.bold)), // Replace with your TextView
               ),
             ),
           ),
-          Container(
-            width: 150, // Set width as needed
-            height: 200, // Set height as needed
-            decoration: BoxDecoration(
-              image: const DecorationImage(
-                image: AssetImage(
-                    'assets/images/login_bottom_nw.png'), // Replace with your asset image path
-                fit: BoxFit.cover, // You can adjust the fit as needed
-              ),
-              borderRadius:
-                  BorderRadius.circular(10), // Optional: border radius
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5), // Shadow color
-                  spreadRadius: 5, // Spread radius
-                  blurRadius: 7, // Blur radius
-                  offset: Offset(0, 3), // Offset
+          Opacity(
+            opacity: 0.5,
+            child: Container(
+              width: double.infinity, // Set width as needed
+              height: 200, // Set height as needed
+              decoration: BoxDecoration(
+                image: const DecorationImage(
+                  image: AssetImage(
+                      'assets/images/login_bottom_nw.png'), // Replace with your asset image path
+                  fit: BoxFit.cover, // You can adjust the fit as needed
                 ),
-              ],
+                borderRadius:
+                    BorderRadius.circular(10), // Optional: border radius
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5), // Shadow color
+                    spreadRadius: 5, // Spread radius
+                    blurRadius: 7, // Blur radius
+                    offset: Offset(0, 3), // Offset
+                  ),
+                ],
+              ),
             ),
           ),
         ],

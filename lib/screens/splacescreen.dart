@@ -86,8 +86,8 @@ class SplaceScreen extends StatelessWidget {
             Expanded(
               child: Center(
                 child: Container(
-                  height: 100,
-                  width: 100,
+                  height: 160,
+                  width: 160,
                   margin: EdgeInsets.all(20.0),
                   decoration: const BoxDecoration(
                     image: DecorationImage(
@@ -100,8 +100,8 @@ class SplaceScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(16.0),
                     child: Image.asset(
                       'assets/images/login_icon.png', // Replace with your image asset path
-                      width: 100,
-                      height: 100,
+                      width: 160,
+                      height: 160,
                       fit: BoxFit.contain, // Adjust as needed
                     ),
                   ),
