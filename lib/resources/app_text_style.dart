@@ -67,6 +67,11 @@ class AppTextStyle {
   static TextStyle font18OpenSansboldredTextStyle = GoogleFonts.openSans(
       color: AppColors.red, fontSize: 18, fontWeight: FontWeight.w700);
 
+  static TextStyle font18OpenSansboldAppBasicTextStyle = GoogleFonts.openSans(
+      color: Color(0xFF255899),
+      fontSize: 18,
+      fontWeight: FontWeight.bold);
+
   static TextStyle font18OpenSansExtraBoldUnderlinePurpleTextStyle =
       GoogleFonts.openSans(
           color: AppColors.purpleColor,
@@ -89,7 +94,9 @@ class AppTextStyle {
       color: AppColors.black, fontSize: 15, fontWeight: FontWeight.w400);
 
   static TextStyle font14OpenSansBoldBlackTextStyle = GoogleFonts.openSans(
-      color: AppColors.black, fontSize: 14, fontWeight: FontWeight.w700);
+      color: Color(0xFF255899),
+      fontSize: 14,
+      fontWeight: FontWeight.bold);
   static TextStyle font14OpenSansBoldBlueTextStyle = GoogleFonts.openSans(
       color: AppColors.blue, fontSize: 14, fontWeight: FontWeight.w700);
   static TextStyle font14OpenSansRegularBlackTextStyle = GoogleFonts.openSans(

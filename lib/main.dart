@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:noidaone/resources/app_strings.dart';
+import 'package:noidaone/resources/theme_manager.dart';
 import 'package:noidaone/screens/splacescreen.dart';
 import 'package:provider/provider.dart';
 
@@ -51,12 +52,13 @@ class MyApp extends StatelessWidget {
         //ReportDownlodeProvider
          MaterialApp(
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-            //
-          ),
-          initialRoute: AppStrings.routeToSplash,
+          // theme: ThemeData(
+          //   primarySwatch: Colors.blue,
+          //   //
+          // ),
+         // initialRoute: AppStrings.routeToSplash,
           home: Splace(),
+           theme: getApplicationTheme(),
           builder: EasyLoading.init(),
         );
   }

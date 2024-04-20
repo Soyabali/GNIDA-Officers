@@ -29,6 +29,14 @@ class ImageAssets {
    static const String adminicon = "$IMAGE_PATH/adminicon.png";
   static const String location50 = "$IMAGE_PATH/location50.png";
   static const String location100 = "$IMAGE_PATH/location100.png";
+  // Noida One
+  static const String roundcircle = "$IMAGE_PATH/round_circle.png";
+  static const String noidaauthoritylogo = "$IMAGE_PATH/noidaauthoritylogo.png";
+  static const String favicon = "$IMAGE_PATH/favicon.png"; //  login_icon
+  static const String loginIcon = "$IMAGE_PATH/login_icon.png";// noidaauthoritylogo.png
+  static const String loginBottomnw = "$IMAGE_PATH/login_bottom_nw.png";
+
+
 
 }
 class JsonAssets {

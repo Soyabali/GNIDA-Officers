@@ -1,7 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
-import '../Controllers/pendinglist_repo.dart';
-import '../Controllers/userlist_repo.dart';
+
 
 class PendingListProvider with ChangeNotifier {
 
@@ -29,7 +28,7 @@ class PendingListProvider with ChangeNotifier {
   }
   // Repo into the provider
   Future<void> loadRepoInProvider() async {
-    pendingDataPro = await PendingList().getCompleApi();
+    //pendingDataPro = await PendingList().getCompleApi();
     print('-------33---$pendingDataPro');
     if (pendingDataPro != null) {
       setIsLoaded(true);

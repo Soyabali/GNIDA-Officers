@@ -1,8 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
-import 'package:sebi/Controllers/profile_repo.dart';
-import '../Controllers/pendinglist_repo.dart';
-import '../Controllers/userlist_repo.dart';
+
 
 class ProfileProvider with ChangeNotifier {
 
@@ -30,7 +28,7 @@ class ProfileProvider with ChangeNotifier {
   }
   // Repo into the provider
   Future<void> loadRepoInProvider() async {
-    profiledata = await ProfileRepo().getCompleApi();
+   // profiledata = await ProfileRepo().getCompleApi();
     if (profiledata != null) {
       setIsLoaded(true);
     }

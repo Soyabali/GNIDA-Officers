@@ -20,156 +20,160 @@ class TabPage extends StatefulWidget {
 }
 
 class _TabPageState extends State<TabPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left: 10,right: 10),
-            child: Container(
-              height: 50,
-              width: double.infinity,
-              //color: Color(0xFF255899),
-              decoration: const BoxDecoration(
-                color: Color(0xFFf2f3f5), // Container background color
-                borderRadius: BorderRadius.horizontal(
-                  left: Radius.circular(25), // Adjust this value as per your preference
-                  right: Radius.circular(25), // Adjust this value as per your preference
-                ),
-              ),
-              child: const Padding(
-                padding: EdgeInsets.only(left: 15,right: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text('4 ',style: TextStyle(
-                        fontFamily: 'Montserrat',
-                       // color: Colors.white,
-                        color: Color(0xFF707d83),
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold),),
-                    // First TextView
-                    SizedBox(width: 15),
-                    // icon
-                    Icon(Icons.person,size: 20,color: Color(0xFF707d83),), // Admin icon
-                    SizedBox(width: 15),
-                    Text('Ravi Yadav', style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        color: Color(0xFF707d83),
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.bold),), // Second TextView
-                    Spacer(), // To push the last Text to the rightmost
-                    Text('2 point',style: TextStyle(
-                          fontFamily: 'Montserrat',
-                        color: Color(0xFFad964a),
-                          //color: Colors.white,
-                        fontSize: 16.0,
-                          fontWeight: FontWeight.bold)),
-                     // Last TextView
-                  ],
-                ),
-              ),
+           Padding(
+              padding: const EdgeInsets.only(left: 15,right: 15),
+              child: Container(
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFf2f3f5), // Container background color
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                   child: const Card(
+                     elevation: 8,
+                     child: Padding(
+                       padding: EdgeInsets.only(left: 10.0,right: 10.0),
+                       child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text('4 . ',style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                 // color: Colors.white,
+                                  color: Color(0xFF707d83),
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold),),
+                              // First TextView
+                              SizedBox(width: 8),
+                              // icon
+                              Icon(Icons.person,size: 20,color: Color(0xFF3375af),), // Admin icon
+                              SizedBox(width: 8),
+                              Text('Ravi Yadav', style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Color(0xFF707d83),
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.bold),), // Second TextView
+                              Spacer(), // To push the last Text to the rightmost
+                              Text('2 point',style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                  color: Color(0xFFad964a),
+                                    //color: Colors.white,
+                                  fontSize: 16.0,
+                                    fontWeight: FontWeight.bold)),
+                               // Last TextView
+                            ],
+                          ),
+                     ),
+                   ),
+                    ),
             ),
-          ),
-          const SizedBox(height: 10),
+
+
+
+          SizedBox(height: 10),
           Padding(
-            padding: const EdgeInsets.only(left: 10,right: 10),
+            padding: const EdgeInsets.only(left: 15,right: 15),
             child: Container(
               height: 50,
               width: double.infinity,
-              //color: Color(0xFF255899),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: Color(0xFFf2f3f5), // Container background color
-                borderRadius: BorderRadius.horizontal(
-                  left: Radius.circular(25), // Adjust this value as per your preference
-                  right: Radius.circular(25), // Adjust this value as per your preference
-                ),
+                borderRadius: BorderRadius.circular(20),
               ),
-              child: const Padding(
-                padding: EdgeInsets.only(left: 15,right: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text('4 ',style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        // color: Colors.white,
-                        color: Color(0xFF707d83),
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold),),
-                    // First TextView
-                    SizedBox(width: 15),
-                    // icon
-                    Icon(Icons.person,size: 20,color: Color(0xFF707d83),), // Admin icon
-                    SizedBox(width: 15),
-                    Text('Ravi Yadav', style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        color: Color(0xFF707d83),
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.bold),), // Second TextView
-                    Spacer(), // To push the last Text to the rightmost
-                    Text('2 point',style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        color: Color(0xFFad964a),
-                        //color: Colors.white,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold)),
-                    // Last TextView
-                  ],
+              child: const Card(
+                elevation: 8,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10.0,right: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text('4 . ',style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          // color: Colors.white,
+                          color: Color(0xFF707d83),
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold),),
+                      // First TextView
+                      SizedBox(width: 8),
+                      // icon
+                      Icon(Icons.person,size: 20,color: Color(0xFF3375af),), // Admin icon
+                      SizedBox(width: 8),
+                      Text('Ravi Yadav', style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          color: Color(0xFF707d83),
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold),), // Second TextView
+                      Spacer(), // To push the last Text to the rightmost
+                      Text('2 point',style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          color: Color(0xFFad964a),
+                          //color: Colors.white,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold)),
+                      // Last TextView
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
           SizedBox(height: 10),
           Padding(
-            padding: const EdgeInsets.only(left: 10,right: 10),
+            padding: const EdgeInsets.only(left: 15,right: 15),
             child: Container(
               height: 50,
               width: double.infinity,
-              //color: Color(0xFF255899),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: Color(0xFFf2f3f5), // Container background color
-                borderRadius: BorderRadius.horizontal(
-                  left: Radius.circular(25), // Adjust this value as per your preference
-                  right: Radius.circular(25), // Adjust this value as per your preference
-                ),
+                borderRadius: BorderRadius.circular(20),
               ),
-              child: const Padding(
-                padding: EdgeInsets.only(left: 15,right: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text('4 ',style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        // color: Colors.white,
-                        color: Color(0xFF707d83),
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold),),
-                    // First TextView
-                    SizedBox(width: 15),
-                    // icon
-                    Icon(Icons.person,size: 20,color: Color(0xFF707d83),), // Admin icon
-                    SizedBox(width: 15),
-                    Text('Ravi Yadav', style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        color: Color(0xFF707d83),
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.bold),), // Second TextView
-                    Spacer(), // To push the last Text to the rightmost
-                    Text('2 point',style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        color: Color(0xFFad964a),
-                        //color: Colors.white,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold)),
-                    // Last TextView
-                  ],
+              child: const Card(
+                elevation: 8,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10.0,right: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text('4 . ',style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          // color: Colors.white,
+                          color: Color(0xFF707d83),
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold),),
+                      // First TextView
+                      SizedBox(width: 8),
+                      // icon
+                      Icon(Icons.person,size: 20,color: Color(0xFF3375af),), // Admin icon
+                      SizedBox(width: 8),
+                      Text('Ravi Yadav', style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          color: Color(0xFF707d83),
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold),), // Second TextView
+                      Spacer(), // To push the last Text to the rightmost
+                      Text('2 point',style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          color: Color(0xFFad964a),
+                          //color: Colors.white,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold)),
+                      // Last TextView
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
+
         ],
       ),
+
+
     );
   }
 }

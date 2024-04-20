@@ -3,7 +3,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'base_api.dart';
 
 class LoginRepo {
@@ -24,27 +24,7 @@ request.headers.addAll(headers);
 
 http.StreamedResponse response = await request.send();
 
-//       var baseApi = BaseApi.baseApi;
-//       var UserListApi2 = baseApi + endPoint;
-      
-//     //  print('-----userList Api---23---$userListApi');
-//       SharedPreferences prefs = await SharedPreferences.getInstance();
-//       var token = prefs.getString('token');
-//        var userid = prefs.getString('userid');
-//           var visitListPendingApi = "$UserListApi2$userid";
-
-//           print('------24--$visitListPendingApi');
-
-  
-//       var headers = {
-//   'Authorization': 'Bearer $token'
-// };
-// var request = http.Request('GET', Uri.parse('http://49.50.118.112:8080/sebi-api/api/vistlistpending/89'));
-// request.headers.addAll(headers);
-
-// http.StreamedResponse response = await request.send();
-   
-      if (response.statusCode == 200) {
+    if (response.statusCode == 200) {
         var data = await response.stream.bytesToString();
         var map = json.decode(data);
         print('-----50--$map');

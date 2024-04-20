@@ -1,19 +1,22 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:lec/view/widgets/loader_services.dart';
-
+import '../Helpers/loader_helper.dart';
 import 'base_repo.dart';
 
-class LoginRepo {
+
+class LoginRepo1 {
+
   // this is a loginApi call functin
 
-  Future authenticate(BuildContext context, String email, String pass) async {
+  Future authenticate(BuildContext context, String number, String pass) async {
 
     try {
+      print('----Number---$number');
+      print('----PassWord---$pass');
 
       var baseURL = BaseRepo().baseurl;
-      var endPoint = "/api/login";
+      var endPoint = "AppLogin/AppLogin";
       var loginApi = "$baseURL$endPoint";
       print('------------17---loginAPI---$loginApi');
 
@@ -21,9 +24,8 @@ class LoginRepo {
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request(
           'POST',
-          Uri.parse(
-              '$loginApi')); //  http://49.50.107.91/hmel/api/login //  https://49.50.77.135/api/login
-      request.body = json.encode({"email": email, "password": pass});
+          Uri.parse('$loginApi'));
+      request.body = json.encode({"sContactNo": number, "sPassword": pass,"sAppVersion":1});
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
@@ -33,9 +35,6 @@ class LoginRepo {
       print('----------20---LOGINaPI RESPONSE----$map');
       if (response.statusCode == 200) {
         hideLoader();
-        print("map: $map");
-        print("map1: $map");
-
         print('----------22-----$map');
         return map;
       } else {

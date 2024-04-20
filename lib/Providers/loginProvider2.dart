@@ -1,8 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
-import 'package:sebi/Controllers/loginrepo.dart';
-import '../Controllers/pendinglist_repo.dart';
-import '../Controllers/userlist_repo.dart';
+
+import '../Controllers/loginrepo.dart';
 
 class LoginProvider2 with ChangeNotifier {
 

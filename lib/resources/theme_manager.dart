@@ -5,6 +5,7 @@ import 'color_manager.dart';
 import 'font_manager.dart';
 
 ThemeData getApplicationTheme() {
+
   return ThemeData(
       // main colors of the app
       primaryColor: ColorManager.primary,

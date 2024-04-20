@@ -23,12 +23,12 @@ class AppStrings {
       "Please Check Username Or Password";
   static const String txtEmail = "Email";
   static const String txtUsername = "Username";
-  static const String txtForgetPassword = "Enter your email";
+  static const String txtForgetPassword = "Forgot Password?";
   static const String txtPassword = "Password";
   static const String txtLECReportUpload = "LEC Report Upload";
   static const String txtLocationID = "Location ID";
   static const String txtName = "Name";
-   static const String txtMobile = "Mobile";
+   static const String txtMobile = "Mobile Number";
    static const String txtUserType = "User Type";
    static const String txtRole = "Role";
    static const String txtUserStatus = "User Status";
@@ -50,7 +50,7 @@ class AppStrings {
   static const String txtLECPendingList = "LEC Pending List";
   static const String txtLECCompletedList = "LEC Completed List";
   static const String txtDismiss = "Dismiss";
-  static const String txtForgotPassword = "Reset Password?";
+  static const String txtForgotPassword = "Forgot Password?";
   static const String txtYes = "Yes";
   static const String txtNo = "No";
   static const String txtNA = "NA";
@@ -63,7 +63,9 @@ class AppStrings {
   static const String txtvalidemail = "Enter valid email id";
   static const String txtpassword = "Password";
   static const String txtenterpassword = "Enter Password";// RESET
-  static const String txtreset = "Reset";
+  static const String txtreset = "Reset"; // Forgot Password?
+
+
   
 
   static const String txtDownloadLecVisitZip =
