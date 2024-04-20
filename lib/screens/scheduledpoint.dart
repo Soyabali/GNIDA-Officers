@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'homeScreen.dart';
 
 class ScheduledPointScreen extends StatelessWidget {
@@ -56,433 +58,250 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
         ),
       ),
       body: Column(
-            children: <Widget>[
-
-              const Center(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 15, right: 15),
-                  child: SearchBar(),
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15.0, right: 15, bottom: 10),
-                    child: Card(
-                      elevation: 1,
-                      child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.0),
-                            border: Border.all(
-                              color: Colors.grey, // Outline border color
-                              width: 0.2, // Outline border width
-                            ),
-                            color: Colors.white,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              // MyListTile(),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8, top: 8),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Container(
-                                        width: 30.0,
-                                        height: 30.0,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(15.0),
-                                          border: Border.all(
-                                            color:Color(0xFF255899), // Outline border color
-                                            width: 0.5, // Outline border width
-                                          ),
-                                          color: Colors.white,
-                                        ),
-                                        child: const Center(
-                                          child: Text(
-                                            "1.",
-                                            style:TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Color(0xFF255899),
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        )),
-                                    SizedBox(width: 5),
-                                    const Column(
-                                      children: <Widget>[
-                                        Text(
-                                          'C&D Waste',
-                                          style: TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Color(0xff3f617d),
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          'Point Name',
-                                          style: TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Color(0xff3f617d),
-                                              fontSize: 12.0,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15, right: 15),
-                                child: Container(
-                                  height: 0.5,
-                                  color: Color(0xff3f617d),
-                                ),
-                              ),
-                              SizedBox(height: 5),
-                              const Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.forward,
-                                    size: 10,
-                                    color: Color(0xff3f617d),
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    'Sector',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF255899),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 15),
-                                child: Text(
-                                  'Sector-1',
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xff3f617d),
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              const Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Icon(Icons.forward, size: 10,
-                                      color:  Color(0xff3f617d)),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    'Location',
-                                    style:  TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF255899),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 15),
-                                child: Text(
-                                  'Near underground Car Parking',
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xff3f617d),
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              // e4e4e4
-                              Container(
-                                color: Color(0xffe4e4e4),
-                                height: 40,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 10, right: 10),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      const Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'View Image',
-                                            style: TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Color(0xFF255899),
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          SizedBox(width: 5),
-                                          Icon(
-                                            Icons.forward_sharp,
-                                            color: Color(0xFF255899),
-                                          )
-                                        ],
-                                      ),
-                                      Container(height: 10, width: 1, color: Colors.grey),
-                                      const Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Action',
-                                            style: TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Color(0xFF255899),
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          SizedBox(width: 5),
-                                          Icon(
-                                            Icons.forward_sharp,
-                                            color: Color(0xFF255899),
-                                          ),
-                                        ],
-                                      ),
-                                      Container(height: 10, width: 1, color: Colors.grey),
-                                      const Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Text('Navigate',
-                                              style: TextStyle(
-                                                  fontFamily: 'Montserrat',
-                                                  color: Color(0xFF255899),
-                                                  fontSize: 14.0,
-                                                  fontWeight: FontWeight.bold)),
-                                          // SizedBox(width: 5),
-                                          //Icon(Icons.forward_sharp,color: Color(0xFF255899))
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
-                          )),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15.0, right: 15, bottom: 10),
-                    child: Card(
-                      elevation: 1,
-                      child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.0),
-                            border: Border.all(
-                              color: Colors.grey, // Outline border color
-                              width: 0.2, // Outline border width
-                            ),
-                            color: Colors.white,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              // MyListTile(),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8, top: 8),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Container(
-                                        width: 30.0,
-                                        height: 30.0,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(15.0),
-                                          border: Border.all(
-                                            color:Color(0xFF255899), // Outline border color
-                                            width: 0.5, // Outline border width
-                                          ),
-                                          color: Colors.white,
-                                        ),
-                                        child: const Center(
-                                          child: Text(
-                                            "1.",
-                                            style:TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Color(0xFF255899),
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        )),
-                                    SizedBox(width: 5),
-                                    const Column(
-                                      children: <Widget>[
-                                        Text(
-                                          'C&D Waste',
-                                          style: TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Color(0xff3f617d),
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          'Point Name',
-                                          style: TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Color(0xff3f617d),
-                                              fontSize: 12.0,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15, right: 15),
-                                child: Container(
-                                  height: 0.5,
-                                  color: Color(0xff3f617d),
-                                ),
-                              ),
-                              SizedBox(height: 5),
-                              const Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.forward,
-                                    size: 10,
-                                    color: Color(0xff3f617d),
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    'Sector',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF255899),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 15),
-                                child: Text(
-                                  'Sector-1',
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xff3f617d),
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              const Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Icon(Icons.forward, size: 10,
-                                      color:  Color(0xff3f617d)),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    'Location',
-                                    style:  TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF255899),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 15),
-                                child: Text(
-                                  'Near underground Car Parking',
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xff3f617d),
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              // e4e4e4
-                              Container(
-                                color: Color(0xffe4e4e4),
-                                height: 40,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 10, right: 10),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      const Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'View Image',
-                                            style: TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Color(0xFF255899),
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          SizedBox(width: 5),
-                                          Icon(
-                                            Icons.forward_sharp,
-                                            color: Color(0xFF255899),
-                                          )
-                                        ],
-                                      ),
-                                      Container(height: 10, width: 1, color: Colors.grey),
-                                      const Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Action',
-                                            style: TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Color(0xFF255899),
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          SizedBox(width: 5),
-                                          Icon(
-                                            Icons.forward_sharp,
-                                            color: Color(0xFF255899),
-                                          ),
-                                        ],
-                                      ),
-                                      Container(height: 10, width: 1, color: Colors.grey),
-                                      const Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Text('Navigate',
-                                              style: TextStyle(
-                                                  fontFamily: 'Montserrat',
-                                                  color: Color(0xFF255899),
-                                                  fontSize: 14.0,
-                                                  fontWeight: FontWeight.bold)),
-                                          // SizedBox(width: 5),
-                                          //Icon(Icons.forward_sharp,color: Color(0xFF255899))
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
-                          )),
-                    ),
-                  ),
-                ],
-              ),
-              
-          
-            ],
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          const Center(
+            child: Padding(
+              padding: EdgeInsets.only(left: 15, right: 15),
+              child: SearchBar(),
+            ),
           ),
-      );
-
-
+          // scroll item after search bar
+          Expanded(
+            child: ListView.builder(
+              itemCount: 4,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(left: 8, top: 8,right: 8),
+                  child: Container(
+                    child: Column(
+                      children: [
+                        Card(
+                          elevation: 1,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5.0),
+                              border: Border.all(
+                                color: Colors.grey, // Outline border color
+                                width: 0.2, // Outline border width
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8, right: 8),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Container(
+                                          width: 30.0,
+                                          height: 30.0,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15.0),
+                                            border: Border.all(
+                                              color: Color(
+                                                  0xFF255899), // Outline border color
+                                              width:
+                                                  0.5, // Outline border width
+                                            ),
+                                            color: Colors.white,
+                                          ),
+                                          child: const Center(
+                                            child: Text(
+                                              "1.",
+                                              style: TextStyle(
+                                                  fontFamily: 'Montserrat',
+                                                  color: Color(0xFF255899),
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          )),
+                                      SizedBox(width: 5),
+                                      const Column(
+                                        children: <Widget>[
+                                          Text(
+                                            'C&D Waste',
+                                            style: TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                color: Color(0xff3f617d),
+                                                fontSize: 14.0,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            'Point Name',
+                                            style: TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                color: Color(0xff3f617d),
+                                                fontSize: 12.0,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 15, right: 15),
+                                    child: Container(
+                                      height: 0.5,
+                                      color: Color(0xff3f617d),
+                                    ),
+                                  ),
+                                  SizedBox(height: 5),
+                                  const Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.forward,
+                                        size: 10,
+                                        color: Color(0xff3f617d),
+                                      ),
+                                      SizedBox(width: 5),
+                                      Text(
+                                        'Sector',
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Color(0xFF255899),
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    ],
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 15),
+                                    child: Text(
+                                      'Sector-1',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xff3f617d),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  const Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Icon(Icons.forward,
+                                          size: 10, color: Color(0xff3f617d)),
+                                      SizedBox(width: 5),
+                                      Text(
+                                        'Location',
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Color(0xFF255899),
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    ],
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 15),
+                                    child: Text(
+                                      'Near underground Car Parking',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xff3f617d),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Container(
+                                    color: Color(0xffe4e4e4),
+                                    height: 40,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          const Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'View Image',
+                                                style: TextStyle(
+                                                    fontFamily: 'Montserrat',
+                                                    color: Color(0xFF255899),
+                                                    fontSize: 14.0,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              SizedBox(width: 5),
+                                              Icon(
+                                                Icons.forward_sharp,
+                                                color: Color(0xFF255899),
+                                              )
+                                            ],
+                                          ),
+                                          Container(
+                                              height: 10,
+                                              width: 1,
+                                              color: Colors.grey),
+                                          const Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Action',
+                                                style: TextStyle(
+                                                    fontFamily: 'Montserrat',
+                                                    color: Color(0xFF255899),
+                                                    fontSize: 14.0,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              SizedBox(width: 5),
+                                              Icon(
+                                                Icons.forward_sharp,
+                                                color: Color(0xFF255899),
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                              height: 10,
+                                              width: 1,
+                                              color: Colors.grey),
+                                          const Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Text('Navigate',
+                                                  style: TextStyle(
+                                                      fontFamily: 'Montserrat',
+                                                      color: Color(0xFF255899),
+                                                      fontSize: 14.0,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                              // SizedBox(width: 5),
+                                              //Icon(Icons.forward_sharp,color: Color(0xFF255899))
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+                },
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
 
@@ -560,7 +379,7 @@ class SearchBar extends StatelessWidget {
               child: TextFormField(
                 decoration: const InputDecoration(
                   hintText: 'Enter Keywords',
-                  hintStyle:  TextStyle(
+                  hintStyle: TextStyle(
                       fontFamily: 'Montserrat',
                       color: Color(0xFF707d83),
                       fontSize: 14.0,
