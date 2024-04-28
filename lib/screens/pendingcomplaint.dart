@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:noidaone/screens/viewimage.dart';
 import '../Controllers/pendingInternalComplaintRepo.dart';
 import 'actionOnSchedulePoint.dart';
 import 'homeScreen.dart';
+import 'navigateScreen.dart';
 
 class PendingComplaintScreen extends StatelessWidget {
   const PendingComplaintScreen({Key? key}) : super(key: key);
@@ -38,6 +41,9 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
   List<Map<String, dynamic>>? pendingInternalComplaintList;
   List<Map<String, dynamic>> _filteredData = [];
   TextEditingController _searchController = TextEditingController();
+  double? lat;
+  double? long;
+
 
   // Get a api response
   pendingInternalComplaintResponse() async {
@@ -75,7 +81,52 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
           [];
     });
   }
+  // location
+  void getLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    debugPrint("-------------Position-----------------");
+    debugPrint(position.latitude.toString());
 
+    lat = position.latitude;
+    long = position.longitude;
+    print('-----------105----$lat');
+    print('-----------106----$long');
+    // setState(() {
+    // });
+    debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
+    debugPrint(position.toString());
+  }
+
+//
+  void displayToast(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -462,6 +513,20 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                             child: GestureDetector(
                                               onTap: (){
                                                 print('----Navigate---');
+                                                getLocation();
+                                                if(lat !=null && long!=null){
+
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            NavigateScreen(
+                                                                lat: lat,
+                                                                long: long)),
+                                                  );
+                                                }else{
+                                                  displayToast("Please check the location.");
+                                                }
                                               },
                                               child: const Row(
                                                 mainAxisAlignment:
