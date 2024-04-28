@@ -35,6 +35,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
   TextEditingController _phoneNumberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -268,8 +269,7 @@ class _LoginPageState extends State<LoginPage> {
                                     FocusScope.of(context).nextFocus(),
                                 keyboardType: TextInputType.phone,
                                 inputFormatters: [
-                                  LengthLimitingTextInputFormatter(
-                                      10), // Limit to 10 digits
+                                  LengthLimitingTextInputFormatter(10), // Limit to 10 digits
                                   //FilteringTextInputFormatter.allow(RegExp(r'[0-9]')), // Only allow digits
                                 ],
                                 decoration: const InputDecoration(
@@ -360,8 +360,7 @@ class _LoginPageState extends State<LoginPage> {
                                    }
                                  } // condition to fetch a response form a api
                                 if(result=="1"){
-                                    var iUserId =
-                                        "${loginMap['Data'][0]['iUserId']}";
+                                    var iUserId = "${loginMap['Data'][0]['iUserId']}";
                                     var sName =
                                         "${loginMap['Data'][0]['sName']}";
                                     var sContactNo =

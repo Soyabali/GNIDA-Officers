@@ -4,17 +4,15 @@ class ContainerWithRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-
       decoration: BoxDecoration(
-
-        borderRadius: BorderRadius.circular(5.0),
+     borderRadius: BorderRadius.circular(5.0),
       ),
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFFf2f3f5),
           borderRadius: BorderRadius.circular(10.0), // Border radius
         ),
-        child: const Padding(
+        child: Padding(
           padding: EdgeInsets.only(bottom: 10),
           child: Row(
             children: [
@@ -54,12 +52,17 @@ class ContainerWithRow extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(right: 10,top: 5),
-                child: Icon(
-                  Icons.camera,
-                  size: 24.0,
-                  color: Color(0xFF255899),
+              InkWell(
+                onTap: (){
+                  print('---------57-----');
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(right: 10,top: 5),
+                  child: Icon(
+                    Icons.camera,
+                    size: 24.0,
+                    color: Color(0xFF255899),
+                  ),
                 ),
               ),
             ],
