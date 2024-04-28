@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:noidaone/screens/viewimage.dart';
+import '../Controllers/pendingInternalComplaintRepo.dart';
+import 'actionOnSchedulePoint.dart';
 import 'homeScreen.dart';
 
 class PendingComplaintScreen extends StatelessWidget {
@@ -32,6 +35,48 @@ class SchedulePointScreen extends StatefulWidget {
 class _SchedulePointScreenState extends State<SchedulePointScreen> {
   var variableName;
   var variableName2;
+  List<Map<String, dynamic>>? pendingInternalComplaintList;
+  List<Map<String, dynamic>> _filteredData = [];
+  TextEditingController _searchController = TextEditingController();
+
+  // Get a api response
+  pendingInternalComplaintResponse() async {
+    pendingInternalComplaintList = await PendingInternalComplaintRepo().pendingInternalComplaint(context);
+    _filteredData = List<Map<String, dynamic>>.from(pendingInternalComplaintList ?? []);
+
+    print('--44--$pendingInternalComplaintList');
+    print('--45--$_filteredData');
+    setState(() {});
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    pendingInternalComplaintResponse();
+    _searchController.addListener(_search);
+    super.initState();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _searchController.dispose();
+    super.dispose();
+  }
+  void _search() {
+    String query = _searchController.text.toLowerCase();
+    setState(() {
+      _filteredData = pendingInternalComplaintList?.where((item) {
+        String location = item['sLocation'].toLowerCase();
+        String pointType = item['sPointTypeName'].toLowerCase();
+        String sector = item['sSectorName'].toLowerCase();
+        return location.contains(query) ||
+            pointType.contains(query) ||
+            sector.contains(query);
+      }).toList() ??
+          [];
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,17 +105,48 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          const Center(
+          Center(
             child: Padding(
               padding: EdgeInsets.only(left: 15, right: 15),
-              child: SearchBar(),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5.0),
+                  border: Border.all(
+                    color: Colors.grey, // Outline border color
+                    width: 0.2, // Outline border width
+                  ),
+                  color: Colors.white,
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: _searchController,
+                        autofocus: true,
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.search),
+                          hintText: 'Enter Keywords',
+                          hintStyle: TextStyle(
+                              fontFamily: 'Montserrat',
+                              color: Color(0xFF707d83),
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
           // scroll item after search bar
           Expanded(
             child: ListView.builder(
-              itemCount: 3,
+              itemCount: _filteredData.length ?? 0,
               itemBuilder: (context, index) {
+              Map<String, dynamic> item = _filteredData[index];
                 return Padding(
                   padding: const EdgeInsets.only(left: 8, top: 8,right: 8),
                   child: Container(
@@ -113,19 +189,18 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                             child: Icon(Icons.ac_unit_rounded,color:Color(0xFF255899),size: 20)
                                           )),
                                       SizedBox(width: 5),
-                                      const Column(
+                                       Column(
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          Text(
-                                            'Garbage Vulnerable Points (GVP)',
-                                            style: TextStyle(
+                                          Text(item['sPointTypeName'] ??'',
+                                            style: const TextStyle(
                                                 fontFamily: 'Montserrat',
                                                 color: Color(0xff3f617d),
                                                 fontSize: 14.0,
                                                 fontWeight: FontWeight.bold),
                                           ),
-                                          Text(
+                                          const Text(
                                             'Point Name',
                                             style: TextStyle(
                                                 fontFamily: 'Montserrat',
@@ -166,11 +241,10 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                       )
                                     ],
                                   ),
-                                  const Padding(
+                                  Padding(
                                     padding: EdgeInsets.only(left: 15),
-                                    child: Text(
-                                      'Sector-50',
-                                      style: TextStyle(
+                                    child: Text(item['sSectorName'] ??'',
+                                      style: const TextStyle(
                                           fontFamily: 'Montserrat',
                                           color: Color(0xff3f617d),
                                           fontSize: 14.0,
@@ -196,11 +270,11 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                       )
                                     ],
                                   ),
-                                  const Padding(
+                                   Padding(
                                     padding: EdgeInsets.only(left: 15),
                                     child: Text(
-                                      '16/Apr/2024 1240',
-                                      style: TextStyle(
+                                      item['dPostedOn'] ??'',
+                                      style: const TextStyle(
                                           fontFamily: 'Montserrat',
                                           color: Color(0xff3f617d),
                                           fontSize: 14.0,
@@ -223,11 +297,11 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                       )
                                     ],
                                   ),
-                                  const Padding(
+                                   Padding(
                                     padding: EdgeInsets.only(left: 15),
                                     child: Text(
-                                      'Near underground Car Parking',
-                                      style: TextStyle(
+                                      item['sLocation'] ??'',
+                                      style: const TextStyle(
                                           fontFamily: 'Montserrat',
                                           color: Color(0xff3f617d),
                                           fontSize: 14.0,
@@ -250,27 +324,27 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                       )
                                     ],
                                   ),
-                                  const Padding(
+                                   Padding(
                                     padding: EdgeInsets.only(left: 15),
                                     child: Text(
-                                      'Garbage is Gadering',
-                                      style: TextStyle(
+                                      item['sDescription'] ??'',
+                                      style: const TextStyle(
                                           fontFamily: 'Montserrat',
                                           color: Color(0xff3f617d),
                                           fontSize: 14.0,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
-                                  const Row(
+                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      Icon(
+                                      const Icon(
                                         Icons.calendar_month,
                                         size: 10,
                                         color: Color(0xff3f617d),
                                       ),
                                       SizedBox(width: 5),
-                                      Text(
+                                      const Text(
                                         'Pending Since :-',
                                         style: TextStyle(
                                             fontFamily: 'Montserrat',
@@ -278,12 +352,11 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                             fontSize: 14.0,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        '2 Min',
-                                        style: TextStyle(
+                                      const SizedBox(width: 5),
+                                      Text(item['sPendingFrom'] ??'',
+                                        style: const TextStyle(
                                             fontFamily: 'Montserrat',
-                                            color: Color(0xFF255899),
+                                            color: Color(0xff3f617d),
                                             fontSize: 14.0,
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -300,68 +373,112 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                         mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
-                                          const Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'View Image',
-                                                style: TextStyle(
-                                                    fontFamily: 'Montserrat',
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: GestureDetector(
+                                              onTap: (){
+                                                var sBeforePhoto = "${item['sBeforePhoto']}";
+                                                print('---$sBeforePhoto');
+
+                                                if (sBeforePhoto != null) {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ImageScreen(
+                                                                  sBeforePhoto:
+                                                                  sBeforePhoto)));
+                                                } else {
+                                                  // toast
+                                                }
+                                              },
+                                              child: const Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'View Image',
+                                                    style: TextStyle(
+                                                        fontFamily: 'Montserrat',
+                                                        color: Color(0xFF255899),
+                                                        fontSize: 14.0,
+                                                        fontWeight:
+                                                        FontWeight.bold),
+                                                  ),
+                                                  SizedBox(width: 5),
+                                                  Icon(
+                                                    Icons.forward_sharp,
                                                     color: Color(0xFF255899),
-                                                    fontSize: 14.0,
-                                                    fontWeight:
-                                                    FontWeight.bold),
+                                                  )
+                                                ],
                                               ),
-                                              SizedBox(width: 5),
-                                              Icon(
-                                                Icons.forward_sharp,
-                                                color: Color(0xFF255899),
-                                              )
-                                            ],
+                                            ),
                                           ),
                                           Container(
                                               height: 10,
                                               width: 1,
                                               color: Colors.grey),
-                                          const Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'Action',
-                                                style: TextStyle(
-                                                    fontFamily: 'Montserrat',
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: GestureDetector(
+                                              onTap: (){
+                                                print('----341---');
+                                                var sBeforePhoto = "${item['sBeforePhoto']}";
+                                                print('----357---$sBeforePhoto');
+                                                //
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(builder: (context) => ActionOnSchedultPointScreen(sBeforePhoto:sBeforePhoto)),
+                                                );
+                                              },
+                                              child: const Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'Action',
+                                                    style: TextStyle(
+                                                        fontFamily: 'Montserrat',
+                                                        color: Color(0xFF255899),
+                                                        fontSize: 14.0,
+                                                        fontWeight:
+                                                        FontWeight.bold),
+                                                  ),
+                                                  SizedBox(width: 5),
+                                                  Icon(
+                                                    Icons.forward_sharp,
                                                     color: Color(0xFF255899),
-                                                    fontSize: 14.0,
-                                                    fontWeight:
-                                                    FontWeight.bold),
+                                                  ),
+                                                ],
                                               ),
-                                              SizedBox(width: 5),
-                                              Icon(
-                                                Icons.forward_sharp,
-                                                color: Color(0xFF255899),
-                                              ),
-                                            ],
+                                            ),
                                           ),
                                           Container(
                                               height: 10,
                                               width: 1,
                                               color: Colors.grey),
-                                          const Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                            children: [
-                                              Text('Navigate',
-                                                  style: TextStyle(
-                                                      fontFamily: 'Montserrat',
-                                                      color: Color(0xFF255899),
-                                                      fontSize: 14.0,
-                                                      fontWeight:
-                                                      FontWeight.bold)),
-                                              // SizedBox(width: 5),
-                                              //Icon(Icons.forward_sharp,color: Color(0xFF255899))
-                                            ],
+                                          Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: GestureDetector(
+                                              onTap: (){
+                                                print('----Navigate---');
+                                              },
+                                              child: const Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                children: [
+                                                  Text('Navigate',
+                                                      style: TextStyle(
+                                                          fontFamily: 'Montserrat',
+                                                          color: Color(0xFF255899),
+                                                          fontSize: 14.0,
+                                                          fontWeight:
+                                                          FontWeight.bold)),
+                                                  // SizedBox(width: 5),
+                                                  //Icon(Icons.forward_sharp,color: Color(0xFF255899))
+                                                ],
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -431,49 +548,51 @@ class MyListTile extends StatelessWidget {
 }
 
 // Searchbar
-class SearchBar extends StatelessWidget {
-  const SearchBar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 0,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5.0),
-          border: Border.all(
-            color: Colors.grey, // Outline border color
-            width: 0.2, // Outline border width
-          ),
-          color: Colors.white,
-        ),
-        child: Row(
-          children: [
-            const Icon(
-              Icons.search,
-              color: Colors.black54,
-            ),
-            const SizedBox(width: 10.0),
-            Expanded(
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Enter Keywords',
-                  hintStyle: TextStyle(
-                      fontFamily: 'Montserrat',
-                      color: Color(0xFF707d83),
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.bold),
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+// class SearchBar extends StatelessWidget {
+//   const SearchBar({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Card(
+//       elevation: 0,
+//       child: Container(
+//         padding: EdgeInsets.symmetric(horizontal: 10.0),
+//         decoration: BoxDecoration(
+//           borderRadius: BorderRadius.circular(5.0),
+//           border: Border.all(
+//             color: Colors.grey, // Outline border color
+//             width: 0.2, // Outline border width
+//           ),
+//           color: Colors.white,
+//         ),
+//         child: Row(
+//           children: [
+//             const Icon(
+//               Icons.search,
+//               color: Colors.black54,
+//             ),
+//             const SizedBox(width: 10.0),
+//             Expanded(
+//               child: TextFormField(
+//                 controller: _searchController,
+//                 autofocus: true,
+//                 decoration: const InputDecoration(
+//                   hintText: 'Enter Keywords',
+//                   hintStyle: TextStyle(
+//                       fontFamily: 'Montserrat',
+//                       color: Color(0xFF707d83),
+//                       fontSize: 14.0,
+//                       fontWeight: FontWeight.bold),
+//                   border: InputBorder.none,
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 
 

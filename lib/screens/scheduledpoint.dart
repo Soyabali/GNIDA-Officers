@@ -1,7 +1,20 @@
+import 'dart:async';
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:noidaone/screens/loginScreen_2.dart';
+import 'package:noidaone/screens/otpverification.dart';
+import 'package:noidaone/screens/viewimage.dart';
+import '../Controllers/PendingScheduledPointRepo.dart';
+import '../Controllers/markLocationRepo.dart';
+
+import 'actionOnSchedulePoint.dart';
+import 'drywetsegregation.dart';
+import 'flull_screen_image.dart';
 import 'homeScreen.dart';
+import 'navigateScreen.dart';
 
 class ScheduledPointScreen extends StatelessWidget {
   const ScheduledPointScreen({Key? key}) : super(key: key);
@@ -9,13 +22,6 @@ class ScheduledPointScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        appBarTheme: const AppBarTheme(
-          iconTheme: IconThemeData(
-            color: Colors.white, // Change the color of the drawer icon here
-          ),
-        ),
-      ),
       debugShowCheckedModeBanner: false,
       home: SchedulePointScreen(),
     );
@@ -30,8 +36,85 @@ class SchedulePointScreen extends StatefulWidget {
 }
 
 class _SchedulePointScreenState extends State<SchedulePointScreen> {
-  var variableName;
-  var variableName2;
+  List<Map<String, dynamic>>? pendingSchedulepointList;
+  List<Map<String, dynamic>> _filteredData = [];
+  TextEditingController _searchController = TextEditingController();
+ double? lat;
+ double? long;
+
+  @override
+  void initState() {
+    super.initState();
+    schedulePointresponse();
+    _searchController.addListener(_search);
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+  // get location
+  void getLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    debugPrint("-------------Position-----------------");
+    debugPrint(position.latitude.toString());
+
+    lat = position.latitude;
+    long = position.longitude;
+    print('-----------105----$lat');
+    print('-----------106----$long');
+    // setState(() {
+    // });
+    debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
+    debugPrint(position.toString());
+  }
+
+  schedulePointresponse() async {
+    pendingSchedulepointList =
+        await PendingSchedulePointRepo().pendingschedulepoint(context);
+    _filteredData =
+        List<Map<String, dynamic>>.from(pendingSchedulepointList ?? []);
+
+    print('--59--$pendingSchedulepointList');
+    print('--60--$_filteredData');
+    setState(() {});
+  }
+
+  void _search() {
+    String query = _searchController.text.toLowerCase();
+    setState(() {
+      _filteredData = pendingSchedulepointList?.where((item) {
+            String location = item['sLocation'].toLowerCase();
+            String pointType = item['sPointTypeName'].toLowerCase();
+            String sector = item['sSectorName'].toLowerCase();
+            return location.contains(query) ||
+                pointType.contains(query) ||
+                sector.contains(query);
+          }).toList() ??
+          [];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,40 +122,79 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
       appBar: AppBar(
         backgroundColor: Color(0xFF255899),
         leading: GestureDetector(
-            onTap: () {
-              //Navigator.pop(context);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const HomePage()));
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(Icons.arrow_back_ios),
-            )),
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const HomePage()));
+          },
+          child: const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(Icons.arrow_back_ios),
+          ),
+        ),
         title: const Text(
           'Scheduled Point',
           style: TextStyle(
-              fontFamily: 'Montserrat',
-              color: Colors.white,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold),
+            fontFamily: 'Montserrat',
+            color: Colors.white,
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          const Center(
+          Center(
             child: Padding(
-              padding: EdgeInsets.only(left: 15, right: 15),
-              child: SearchBar(),
+              padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+              // child: SearchBar(),
+              child: Container(
+                height: 45,
+                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5.0),
+                  border: Border.all(
+                    color: Colors.grey, // Outline border color
+                    width: 0.2, // Outline border width
+                  ),
+                  color: Colors.white,
+                ),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: _searchController,
+                            autofocus: true,
+                            decoration: const InputDecoration(
+                              hintText: 'Enter Keywords',
+                              prefixIcon: Icon(Icons.search),
+                              hintStyle: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Color(0xFF707d83),
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.bold),
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
           // scroll item after search bar
           Expanded(
             child: ListView.builder(
-              itemCount: 4,
+              itemCount: _filteredData.length ?? 0,
               itemBuilder: (context, index) {
+                Map<String, dynamic> item = _filteredData[index];
                 return Padding(
-                  padding: const EdgeInsets.only(left: 8, top: 8,right: 8),
+                  padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
                   child: Container(
                     child: Column(
                       children: [
@@ -109,9 +231,9 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                             ),
                                             color: Colors.white,
                                           ),
-                                          child: const Center(
+                                          child: Center(
                                             child: Text(
-                                              "1.",
+                                              "${index + 1}",
                                               style: TextStyle(
                                                   fontFamily: 'Montserrat',
                                                   color: Color(0xFF255899),
@@ -120,17 +242,20 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                             ),
                                           )),
                                       SizedBox(width: 5),
-                                      const Column(
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          Text(
-                                            'C&D Waste',
-                                            style: TextStyle(
+                                          Text(item['sPointTypeName'] ?? '',
+                                            style: const TextStyle(
                                                 fontFamily: 'Montserrat',
                                                 color: Color(0xff3f617d),
                                                 fontSize: 14.0,
                                                 fontWeight: FontWeight.bold),
                                           ),
-                                          Text(
+                                          const Text(
                                             'Point Name',
                                             style: TextStyle(
                                                 fontFamily: 'Montserrat',
@@ -171,10 +296,10 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                       )
                                     ],
                                   ),
-                                  const Padding(
+                                  Padding(
                                     padding: EdgeInsets.only(left: 15),
                                     child: Text(
-                                      'Sector-1',
+                                      item['sSectorName'] ?? '',
                                       style: TextStyle(
                                           fontFamily: 'Montserrat',
                                           color: Color(0xff3f617d),
@@ -198,10 +323,10 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                       )
                                     ],
                                   ),
-                                  const Padding(
+                                  Padding(
                                     padding: EdgeInsets.only(left: 15),
                                     child: Text(
-                                      'Near underground Car Parking',
+                                      item['sLocation'] ?? '',
                                       style: TextStyle(
                                           fontFamily: 'Montserrat',
                                           color: Color(0xff3f617d),
@@ -220,18 +345,37 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
-                                          const Row(
+                                          Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             children: [
-                                              Text(
-                                                'View Image',
-                                                style: TextStyle(
-                                                    fontFamily: 'Montserrat',
-                                                    color: Color(0xFF255899),
-                                                    fontSize: 14.0,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                              InkWell(
+                                                onTap: () {
+                                                  print('00000000----');
+                                                  var sBeforePhoto = "${item['sBeforePhoto']}";
+                                                  print('---$sBeforePhoto');
+
+                                                  if (sBeforePhoto != null) {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                ImageScreen(
+                                                                    sBeforePhoto:
+                                                                        sBeforePhoto)));
+                                                  } else {
+                                                    // toast
+                                                  }
+                                                },
+                                                child: const Text(
+                                                  'View Image',
+                                                  style: TextStyle(
+                                                      fontFamily: 'Montserrat',
+                                                      color: Color(0xFF255899),
+                                                      fontSize: 14.0,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
                                               ),
                                               SizedBox(width: 5),
                                               Icon(
@@ -244,45 +388,80 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                               height: 10,
                                               width: 1,
                                               color: Colors.grey),
-                                          const Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'Action',
-                                                style: TextStyle(
-                                                    fontFamily: 'Montserrat',
-                                                    color: Color(0xFF255899),
-                                                    fontSize: 14.0,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                          GestureDetector(
+                                            onTap: () {
+                                              print('----341---');
+                                              var sBeforePhoto = "${item['sBeforePhoto']}";
+                                              print('----357---$sBeforePhoto');
+
+                                              //
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(builder: (context) => ActionOnSchedultPointScreen(sBeforePhoto:sBeforePhoto)),
+                                              );
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                child: const Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'Action',
+                                                      style: TextStyle(
+                                                          fontFamily:
+                                                              'Montserrat',
+                                                          color:
+                                                              Color(0xFF255899),
+                                                          fontSize: 14.0,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    SizedBox(width: 5),
+                                                    Icon(
+                                                      Icons.forward_sharp,
+                                                      color: Color(0xFF255899),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                              SizedBox(width: 5),
-                                              Icon(
-                                                Icons.forward_sharp,
-                                                color: Color(0xFF255899),
-                                              ),
-                                            ],
+                                            ),
                                           ),
                                           Container(
                                               height: 10,
                                               width: 1,
                                               color: Colors.grey),
-                                          const Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Text('Navigate',
-                                                  style: TextStyle(
-                                                      fontFamily: 'Montserrat',
-                                                      color: Color(0xFF255899),
-                                                      fontSize: 14.0,
-                                                      fontWeight:
-                                                          FontWeight.bold)),
-                                              // SizedBox(width: 5),
-                                              //Icon(Icons.forward_sharp,color: Color(0xFF255899))
-                                            ],
-                                          ),
+                                           GestureDetector(
+                                             onTap: (){
+                                               print('-----401--');
+
+                                               getLocation();
+                                               Navigator.push(
+                                                 context,
+                                                 MaterialPageRoute(builder: (context) => NavigateScreen(lat:lat,long:long)),
+                                               );
+                                             },
+                                             child: const Padding(
+                                               padding: EdgeInsets.all(4.0),
+                                               child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Text('Navigate',
+                                                      style: TextStyle(
+                                                          fontFamily: 'Montserrat',
+                                                          color: Color(0xFF255899),
+                                                          fontSize: 14.0,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  // SizedBox(width: 5),
+                                                  //Icon(Icons.forward_sharp,color: Color(0xFF255899))
+                                                ],
+                                                                                         ),
+                                             ),
+                                           ),
                                         ],
                                       ),
                                     ),
@@ -296,101 +475,460 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                     ),
                   ),
                 );
-                },
+              },
             ),
           )
         ],
       ),
+      // body: Column(
+      //   crossAxisAlignment: CrossAxisAlignment.stretch,
+      //   children: <Widget>[
+      //     Padding(
+      //       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+      //       child: TextField(
+      //         controller: _searchController,
+      //         decoration: InputDecoration(
+      //           hintText: 'Search...',
+      //           prefixIcon: Icon(Icons.search),
+      //           border: OutlineInputBorder(
+      //             borderRadius: BorderRadius.circular(5.0),
+      //           ),
+      //         ),
+      //       ),
+      //     ),
+      //     Expanded(
+      //       child: ListView.builder(
+      //         itemCount: _filteredData.length,
+      //         itemBuilder: (context, index) {
+      //           Map<String, dynamic> item = _filteredData[index];
+      //           return ListTile(
+      //             title: Text(item['sPointTypeName'] ?? ''),
+      //             subtitle: Text(item['sSectorName'] ?? ''),
+      //             onTap: () {
+      //               // Handle onTap action
+      //             },
+      //           );
+      //         },
+      //       ),
+      //     )
+      //   ],
+      // ),
     );
   }
 }
 
-// ListTile CLASS
-class MyListTile extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Container(
-          width: 50.0,
-          height: 50.0,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25.0),
-            border: Border.all(
-              color: Colors.grey, // Outline border color
-              width: 0.5, // Outline border width
-            ),
-            color: Colors.white,
-          ),
-          child: const Center(
-            child: Text(
-              "1.",
-              style: TextStyle(color: Colors.black, fontSize: 20),
-            ),
-          )),
-      title: const Text(
-        'C&D Waste',
-        style: TextStyle(
-            fontFamily: 'Montserrat',
-            color: Colors.black,
-            fontSize: 16.0,
-            fontWeight: FontWeight.bold),
-      ),
-      subtitle: const Text(
-        'Point Name',
-        style: TextStyle(
-            fontFamily: 'Montserrat',
-            color: Colors.black54,
-            fontSize: 14.0,
-            fontWeight: FontWeight.bold),
-      ),
-      onTap: () {
-        // Handle onTap
-      },
-    );
-  }
-}
-
-// Searchbar
-class SearchBar extends StatelessWidget {
-  const SearchBar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 0,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5.0),
-          border: Border.all(
-            color: Colors.grey, // Outline border color
-            width: 0.2, // Outline border width
-          ),
-          color: Colors.white,
-        ),
-        child: Row(
-          children: [
-            const Icon(
-              Icons.search,
-              color: Colors.black54,
-            ),
-            const SizedBox(width: 10.0),
-            Expanded(
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Enter Keywords',
-                  hintStyle: TextStyle(
-                      fontFamily: 'Montserrat',
-                      color: Color(0xFF707d83),
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.bold),
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+// import 'dart:io';
+//
+// import 'package:flutter/material.dart';
+// import '../Controllers/PendingScheduledPointRepo.dart';
+// import '../Controllers/markLocationRepo.dart';
+// import 'actionOnSchedulePointRepo.dart';
+// import 'flull_screen_image.dart';
+// import 'homeScreen.dart';
+//
+// class ScheduledPointScreen extends StatelessWidget {
+//   const ScheduledPointScreen({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       theme: ThemeData(
+//         appBarTheme: const AppBarTheme(
+//           iconTheme: IconThemeData(
+//             color: Colors.white, // Change the color of the drawer icon here
+//           ),
+//         ),
+//       ),
+//       debugShowCheckedModeBanner: false,
+//       home: SchedulePointScreen(),
+//     );
+//   }
+// }
+//
+// class SchedulePointScreen extends StatefulWidget {
+//   const SchedulePointScreen({Key? key}) : super(key: key);
+//
+//   @override
+//   State<SchedulePointScreen> createState() => _SchedulePointScreenState();
+// }
+//
+// class _SchedulePointScreenState extends State<SchedulePointScreen> {
+//
+//   List pendingSchedulepointList = [];
+//   List _filteredData  = [];
+//   TextEditingController _searchControllerController = TextEditingController();
+//
+//   File? _imageFile;
+//
+//   schedulePointresponse() async
+//   {
+//     pendingSchedulepointList = await PendingSchedulePointRepo().pendingschedulepoint(context);
+//     print(" ----60--> $pendingSchedulepointList");
+//    // print(" ----61--> ${res.length}");
+//     setState(() {});
+//   }
+//
+//   @override
+//   void initState() {
+//     // TODO: implement initState
+//     _filteredData = pendingSchedulepointList;
+//     schedulePointresponse();
+//     _searchControllerController.addListener(_search);
+//     super.initState();
+//   }
+//   @override
+//   void dispose() {
+//     // TODO: implement dispose
+//     _searchControllerController.dispose();
+//     super.dispose();
+//   }
+//   // saerch logig
+//   void _search() {
+//     String query = _searchControllerController.text.toLowerCase();
+//     setState(() {
+//       // here we apply logic data or main list
+//       _filteredData = pendingSchedulepointList.where((item) {
+//         String location = item['sLocation'].toLowerCase();
+//         String pointType = item['sPointTypeName'].toLowerCase();
+//         String sector = item['sSectorName'].toLowerCase();
+//         return location.contains(query) ||
+//             pointType.contains(query) ||
+//             sector.contains(query);
+//       }).toList();
+//     });
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.white,
+//       appBar: AppBar(
+//         backgroundColor: Color(0xFF255899),
+//         leading: GestureDetector(
+//             onTap: () {
+//               //Navigator.pop(context);
+//               Navigator.push(context,
+//                   MaterialPageRoute(builder: (context) => const HomePage()));
+//             },
+//             child: const Padding(
+//               padding: EdgeInsets.all(8.0),
+//               child: Icon(Icons.arrow_back_ios),
+//             )),
+//         title: const Text(
+//           'Scheduled Point',
+//           style: TextStyle(
+//               fontFamily: 'Montserrat',
+//               color: Colors.white,
+//               fontSize: 18.0,
+//               fontWeight: FontWeight.bold),
+//         ),
+//       ),
+//       body: Column(
+//         crossAxisAlignment: CrossAxisAlignment.stretch,
+//         children: <Widget>[
+//           Center(
+//             child: Padding(
+//               padding: const EdgeInsets.only(left: 15, right: 15),
+//              // child: SearchBar(),
+//               child: Container(
+//                 padding: EdgeInsets.symmetric(horizontal: 10.0),
+//                 decoration: BoxDecoration(
+//                   borderRadius: BorderRadius.circular(5.0),
+//                   border: Border.all(
+//                     color: Colors.grey, // Outline border color
+//                     width: 0.2, // Outline border width
+//                   ),
+//                   color: Colors.white,
+//                 ),
+//                 child: Row(
+//                   children: [
+//                     const Icon(
+//                       Icons.search,
+//                       color: Colors.black54,
+//                     ),
+//                     const SizedBox(width: 10.0),
+//                     Expanded(
+//                       child: TextFormField(
+//                         controller: _searchControllerController,
+//                         autofocus: true,
+//                         decoration: const InputDecoration(
+//                           hintText: 'Enter Keywords',
+//                           hintStyle: TextStyle(
+//                               fontFamily: 'Montserrat',
+//                               color: Color(0xFF707d83),
+//                               fontSize: 14.0,
+//                               fontWeight: FontWeight.bold),
+//                           border: InputBorder.none,
+//                         ),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ),
+//           // scroll item after search bar
+//           Expanded(
+//             child: ListView.builder(
+//               itemCount: pendingSchedulepointList.length ?? 0,
+//               itemBuilder: (context, index) {
+//                // Map<String, dynamic> item = _filteredData[index];
+//                 return Padding(
+//                   padding: const EdgeInsets.only(left: 8, top: 8,right: 8),
+//                   child: Container(
+//                     child: Column(
+//                       children: [
+//                         Card(
+//                           elevation: 1,
+//                           child: Container(
+//                             decoration: BoxDecoration(
+//                               borderRadius: BorderRadius.circular(5.0),
+//                               border: Border.all(
+//                                 color: Colors.grey, // Outline border color
+//                                 width: 0.2, // Outline border width
+//                               ),
+//                             ),
+//                             child: Padding(
+//                               padding: const EdgeInsets.only(left: 8, right: 8),
+//                               child: Column(
+//                                 mainAxisAlignment: MainAxisAlignment.start,
+//                                 crossAxisAlignment: CrossAxisAlignment.start,
+//                                 children: [
+//                                   Row(
+//                                     mainAxisAlignment: MainAxisAlignment.start,
+//                                     children: <Widget>[
+//                                       Container(
+//                                           width: 30.0,
+//                                           height: 30.0,
+//                                           decoration: BoxDecoration(
+//                                             borderRadius:
+//                                                 BorderRadius.circular(15.0),
+//                                             border: Border.all(
+//                                               color: Color(
+//                                                   0xFF255899), // Outline border color
+//                                               width:
+//                                                   0.5, // Outline border width
+//                                             ),
+//                                             color: Colors.white,
+//                                           ),
+//                                           child: Center(
+//                                             child: Text(
+//                                               "${index+1}",
+//                                               style: TextStyle(
+//                                                   fontFamily: 'Montserrat',
+//                                                   color: Color(0xFF255899),
+//                                                   fontSize: 14.0,
+//                                                   fontWeight: FontWeight.bold),
+//                                             ),
+//                                           )),
+//                                       SizedBox(width: 5),
+//                                        Column(
+//                                          mainAxisAlignment: MainAxisAlignment.start,
+//                                         crossAxisAlignment: CrossAxisAlignment.start,
+//                                         children: <Widget>[
+//                                           Text(
+//                                             '${pendingSchedulepointList[index]['sPointTypeName']}',
+//                                             style: const TextStyle(
+//                                                 fontFamily: 'Montserrat',
+//                                                 color: Color(0xff3f617d),
+//                                                 fontSize: 14.0,
+//                                                 fontWeight: FontWeight.bold),
+//                                           ),
+//                                           const Text(
+//                                             'Point Name',
+//                                             style: TextStyle(
+//                                                 fontFamily: 'Montserrat',
+//                                                 color: Color(0xff3f617d),
+//                                                 fontSize: 12.0,
+//                                                 fontWeight: FontWeight.bold),
+//                                           ),
+//                                         ],
+//                                       )
+//                                     ],
+//                                   ),
+//                                   const SizedBox(height: 10),
+//                                   Padding(
+//                                     padding: const EdgeInsets.only(
+//                                         left: 15, right: 15),
+//                                     child: Container(
+//                                       height: 0.5,
+//                                       color: Color(0xff3f617d),
+//                                     ),
+//                                   ),
+//                                   SizedBox(height: 5),
+//                                   const Row(
+//                                     mainAxisAlignment: MainAxisAlignment.start,
+//                                     children: <Widget>[
+//                                       Icon(
+//                                         Icons.forward,
+//                                         size: 10,
+//                                         color: Color(0xff3f617d),
+//                                       ),
+//                                       SizedBox(width: 5),
+//                                       Text(
+//                                         'Sector',
+//                                         style: TextStyle(
+//                                             fontFamily: 'Montserrat',
+//                                             color: Color(0xFF255899),
+//                                             fontSize: 14.0,
+//                                             fontWeight: FontWeight.bold),
+//                                       )
+//                                     ],
+//                                   ),
+//                                    Padding(
+//                                     padding: EdgeInsets.only(left: 15),
+//                                     child: Text(
+//                                       '${pendingSchedulepointList[index]['sSectorName']}',
+//                                       style: TextStyle(
+//                                           fontFamily: 'Montserrat',
+//                                           color: Color(0xff3f617d),
+//                                           fontSize: 14.0,
+//                                           fontWeight: FontWeight.bold),
+//                                     ),
+//                                   ),
+//                                   const Row(
+//                                     mainAxisAlignment: MainAxisAlignment.start,
+//                                     children: <Widget>[
+//                                       Icon(Icons.forward,
+//                                           size: 10, color: Color(0xff3f617d)),
+//                                       SizedBox(width: 5),
+//                                       Text(
+//                                         'Location',
+//                                         style: TextStyle(
+//                                             fontFamily: 'Montserrat',
+//                                             color: Color(0xFF255899),
+//                                             fontSize: 14.0,
+//                                             fontWeight: FontWeight.bold),
+//                                       )
+//                                     ],
+//                                   ),
+//                                    Padding(
+//                                     padding: EdgeInsets.only(left: 15),
+//                                     child: Text(
+//                                       '${pendingSchedulepointList[index]['sLocation']}',
+//                                       style: TextStyle(
+//                                           fontFamily: 'Montserrat',
+//                                           color: Color(0xff3f617d),
+//                                           fontSize: 14.0,
+//                                           fontWeight: FontWeight.bold),
+//                                     ),
+//                                   ),
+//                                   SizedBox(height: 10),
+//                                   Container(
+//                                     color: Color(0xffe4e4e4),
+//                                     height: 40,
+//                                     child: Padding(
+//                                       padding: const EdgeInsets.only(
+//                                           left: 10, right: 10),
+//                                       child: Row(
+//                                         mainAxisAlignment:
+//                                             MainAxisAlignment.spaceBetween,
+//                                         children: <Widget>[
+//                                            Row(
+//                                             mainAxisAlignment:
+//                                                 MainAxisAlignment.start,
+//                                             children: [
+//                                               InkWell(
+//                                                 onTap: () {
+//
+//                                                   if(_imageFile!=null){
+//                                                     Navigator.push(
+//                                                         context,
+//                                                         MaterialPageRoute(
+//                                                             builder: (context) =>
+//                                                                 FullScreenPage(
+//                                                                   child: _imageFile!,
+//                                                                   dark: true,
+//                                                                 )));
+//                                                   }else{}
+//                                                   },
+//
+//                                                 child: const Text(
+//                                                   'View Image',
+//                                                   style: TextStyle(
+//                                                       fontFamily: 'Montserrat',
+//                                                       color: Color(0xFF255899),
+//                                                       fontSize: 14.0,
+//                                                       fontWeight:
+//                                                           FontWeight.bold),
+//                                                 ),
+//                                               ),
+//                                               SizedBox(width: 5),
+//                                               Icon(
+//                                                 Icons.forward_sharp,
+//                                                 color: Color(0xFF255899),
+//                                               )
+//                                             ],
+//                                           ),
+//                                           Container(
+//                                               height: 10,
+//                                               width: 1,
+//                                               color: Colors.grey),
+//                                            Row(
+//                                             mainAxisAlignment:
+//                                                 MainAxisAlignment.start,
+//                                             children: [
+//                                               InkWell(
+//                                                onTap: (){
+//                                                  Navigator.push(
+//                                                    context,
+//                                                    MaterialPageRoute(builder: (context) => const ActionOnSchedulePoint()),
+//                                                  );
+//                                                },
+//                                                 child: const Text(
+//                                                   'Action',
+//                                                   style: TextStyle(
+//                                                       fontFamily: 'Montserrat',
+//                                                       color: Color(0xFF255899),
+//                                                       fontSize: 14.0,
+//                                                       fontWeight:
+//                                                           FontWeight.bold),
+//                                                 ),
+//                                               ),
+//                                               SizedBox(width: 5),
+//                                               Icon(
+//                                                 Icons.forward_sharp,
+//                                                 color: Color(0xFF255899),
+//                                               ),
+//                                             ],
+//                                           ),
+//                                           Container(
+//                                               height: 10,
+//                                               width: 1,
+//                                               color: Colors.grey),
+//                                           const Row(
+//                                             mainAxisAlignment:
+//                                                 MainAxisAlignment.start,
+//                                             children: [
+//                                               Text('Navigate',
+//                                                   style: TextStyle(
+//                                                       fontFamily: 'Montserrat',
+//                                                       color: Color(0xFF255899),
+//                                                       fontSize: 14.0,
+//                                                       fontWeight:
+//                                                           FontWeight.bold)),
+//                                               // SizedBox(width: 5),
+//                                               //Icon(Icons.forward_sharp,color: Color(0xFF255899))
+//                                             ],
+//                                           ),
+//                                         ],
+//                                       ),
+//                                     ),
+//                                   ),
+//                                 ],
+//                               ),
+//                             ),
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                 );
+//                 },
+//             ),
+//           )
+//         ],
+//       ),
+//     );
+//   }
+// }

@@ -7,11 +7,14 @@ import 'package:noidaone/screens/MarkPointScreen.dart';
 import 'package:noidaone/screens/drywetsegregation.dart';
 import 'package:noidaone/screens/foodlist.dart';
 import 'package:noidaone/screens/pendingcomplaint.dart';
+import 'package:noidaone/screens/postComplaint.dart';
 import 'package:noidaone/screens/scheduledpoint.dart';
 import 'package:noidaone/screens/tabbarHome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../Controllers/userModuleRight.dart';
 import '../resources/app_text_style.dart';
 import 'changePassword.dart';
+import 'dailyActivity.dart';
 import 'forgotpassword.dart';
 import 'loginScreen_2.dart';
 import 'logout.dart';
@@ -46,9 +49,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
+  List userModuleRightList = [];
   TabController? tabController;
-
-  //
   Future<bool> _onWillPop() async {
     return (await showDialog(
       context: context,
@@ -76,11 +78,22 @@ class _MyHomePageState extends State<MyHomePage>
         false;
   }
 
+
+  usermoduleright() async
+  {
+    userModuleRightList = await UserModuleRightRepo().usermoduleright();
+    print(" ----83--> $userModuleRightList");
+    print(" ----84--> ${userModuleRightList.length}");
+    print(" ----85--> $userModuleRightList['sActivityName']");
+    setState(() {});
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     tabController = TabController(vsync: this, length: 3);
+    usermoduleright();
   }
 
   @override
@@ -93,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage>
           appBar: AppBar(
             backgroundColor: Color(0xFF255899),
             title: const Text(
-              'Noida One',
+              'Noida One...',
               style: TextStyle(
                   fontFamily: 'Montserrat',
                   color: Colors.white,
@@ -508,223 +521,112 @@ class _MyHomePageState extends State<MyHomePage>
                   child: Container(
                       // color: Colors.grey,
                       height: 100,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: <Widget>[
-                          InkWell(
-                            onTap: () {
-                              print('----Marks----');
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const MarkPointScreen()));
-                            },
-                            child: Container(
-                              width: 91,
-                              height: 80,
-                              margin: EdgeInsets.only(
-                                  left: 8, right: 8, bottom: 8, top: 8),
-                              decoration: BoxDecoration(
-                                color: Color(0xff81afea),
-                                borderRadius: BorderRadius.circular(
-                                    10), // Adjust the value for more or less rounded corners
-                              ),
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Image.asset(
-                                      'assets/images/post_complaint.png', // Replace with your asset image path
-                                      width: 30, // Adjust image width as needed
-                                      height: 30, // Adjust image height as needed
-                                    ),
-                                    SizedBox(height: 2),
-                                    const Text(
-                                      'Marks',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Colors.white,
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(height: 0),
-                                    const Text(
-                                      'Points',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Colors.white,
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              print('----333----');
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ScheduledPointScreen()));
-                            },
-                            child: Container(
-                              width: 91,
-                              height: 80,
-                              margin: EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
-                                color: Color(0xff81afea),
-                                borderRadius: BorderRadius.circular(
-                                    10), // Adjust the value for more or less rounded corners
-                              ),
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Image.asset(
-                                      'assets/images/schedule_point.png', // Replace with your asset image path
-                                      width: 30, // Adjust image width as needed
-                                      height: 30, // Adjust image height as needed
-                                    ),
-                                    SizedBox(height: 2),
-                                    const Text(
-                                      'Scheduled',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Colors.white,
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(height: 0),
-                                    const Text(
-                                      'Points',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Colors.white,
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              print('----369----');
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
+                      child: ListView.builder(
+                       scrollDirection: Axis.horizontal,
+                        itemCount: userModuleRightList.length,
+                        itemBuilder: (context,index){
+                         return
+                            InkWell(
+                              onTap: () {
+                                var activatecode = '${userModuleRightList[index]['iActivityCode']}';
+                                if(activatecode=="1"){
+                                 // print('---Mark---');
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const MarkPointScreen()));
+
+                                }else if(activatecode=="6"){
+                                  //print('---Scheduled \n Points---');
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ScheduledPointScreen()));
+
+                                }else if(activatecode=="3"){
+                                 // print('---Pending \n Complaint---');
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
                                           const PendingComplaintScreen()));
-                            },
-                            child: Container(
-                              width: 91,
-                              height: 80,
-                              margin: EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
-                                color: Color(0xff81afea),
-                                borderRadius: BorderRadius.circular(
-                                    10), // Adjust the value for more or less rounded corners
-                              ),
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Image.asset(
-                                      'assets/images/complaint_status.png', // Replace with your asset image path
-                                      width: 30, // Adjust image width as needed
-                                      height: 30, // Adjust image height as needed
-                                    ),
-                                    SizedBox(height: 2),
-                                    const Text(
-                                      'Pending',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Colors.white,
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(height: 0),
-                                    const Text(
-                                      'Complaint',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Colors.white,
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
+
+                                }else if(activatecode=="2"){
+                                  print('---Post \n Complaint---');
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                          const PostComplaintScreen()));
+
+                                }else if(activatecode=="7"){
+                                  print('---Daily \n Activity---');
+                                  //  DailyActivitytScreen
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                          const DailyActivitytScreen()));
+                                }else if(activatecode=="4"){
+                                  // Dry/Wet \n Segregation
+                                  print('---Dry/Wet \n Segregation---');
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
                                           const DryWetSegregationScreen()));
-                            },
-                            child: Container(
-                              width: 91,
-                              height: 80,
-                              margin: EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
-                                color: Color(0xff81afea),
-                                borderRadius: BorderRadius.circular(
-                                    10), // Adjust the value for more or less rounded corners
-                              ),
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Image.asset(
-                                      'assets/images/complaint_status.png', // Replace with your asset image path
-                                      width: 30, // Adjust image width as needed
-                                      height: 30, // Adjust image height as needed
-                                    ),
-                                    SizedBox(height: 2),
-                                    const Text(
-                                      'Dry/Wet',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Colors.white,
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(height: 0),
-                                    const Text(
-                                      'Segregation',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Colors.white,
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
+                                }
+                              },
+                              child: Container(
+                                width: 91,
+                                height: 80,
+                                margin: EdgeInsets.only(
+                                    left: 8, right: 8, bottom: 8, top: 8),
+                                decoration: BoxDecoration(
+                                  color: Color(0xff81afea),
+                                  borderRadius: BorderRadius.circular(
+                                      10), // Adjust the value for more or less rounded corners
+                                ),
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Image.asset(
+                                        'assets/images/post_complaint.png', // Replace with your asset image path
+                                        width: 30, // Adjust image width as needed
+                                        height: 30, // Adjust image height as needed
+                                      ),
+                                      SizedBox(height: 2),
+                                      Center(
+                                           child: Text(
+                                            '${userModuleRightList[index]['sActivityName']}',
+                                            style: const TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                color: Colors.white,
+                                                fontSize: 12.0,
+                                                fontWeight: FontWeight.bold),
+                                                                                 ),
+                                         ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        ],
-                      )),
+                            );
+                       }
+                       )
+
+                  ),
                 ),
               )
             ],
           ),
         ),
     );
-
   }
+
 
   // bottom screen
   void _showBottomSheet(BuildContext context) {

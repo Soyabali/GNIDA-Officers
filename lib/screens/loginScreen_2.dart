@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:noidaone/screens/otpverification.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Controllers/login_repo.dart';
 import '../resources/app_strings.dart';
@@ -52,7 +54,62 @@ class _LoginPageState extends State<LoginPage> {
   var msg;
   var result;
   var loginMap;
+  double? lat, long;
+  String _latitude = 'Unknown';
+  String _longitude = 'Unknown';
+  // get latitude and logitude
+
+  // Future<void> _getLocation() async {
+  //   try {
+  //     Position position = await Geolocator.getCurrentPosition(
+  //         desiredAccuracy: LocationAccuracy.high);
+  //     setState(() {
+  //       _latitude = position.latitude.toString();
+  //       _longitude = position.longitude.toString();
   //
+  //     });
+  //     print('----69--$_latitude');
+  //     print('----70--$_longitude');
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+  //
+  // location
+  void getLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    debugPrint("-------------Position-----------------");
+    debugPrint(position.latitude.toString());
+
+    lat = position.latitude;
+    long = position.longitude;
+    print('-----------105----$lat');
+    print('-----------106----$long');
+    // setState(() {
+    // });
+    debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
+    debugPrint(position.toString());
+  }
+
   Future<bool> _onWillPop() async {
     return (await showDialog(
       context: context,
@@ -79,7 +136,36 @@ class _LoginPageState extends State<LoginPage> {
     )) ??
         false;
   }
+ @override
+  void initState() {
+    // TODO: implement initState
+  // _getLocation();
+   print('-----------106----');
+    super.initState();
+ // getLocation();
+   Future.delayed(const Duration(milliseconds: 100), () {
+     requestLocationPermission();
+     setState(() {
+       // Here you can write your code for open new view
+     });
 
+   });
+  }
+  // request location permission
+  // location Permission
+  Future<void> requestLocationPermission() async {
+
+    final status = await Permission.locationWhenInUse.request();
+
+    if (status == PermissionStatus.granted) {
+      print('Permission Granted');
+    } else if (status == PermissionStatus.denied) {
+      print('Permission denied');
+    } else if (status == PermissionStatus.permanentlyDenied) {
+      print('Permission Permanently Denied');
+      await openAppSettings();
+    }
+  }
   @override
   void dispose() {
     // TODO: implement dispose
@@ -341,6 +427,7 @@ class _LoginPageState extends State<LoginPage> {
                             /// LoginButton code and onclik Operation
                             InkWell(
                               onTap: () async {
+                                getLocation();
                                  var phone = _phoneNumberController.text;
                                  var password = passwordController.text;
                                  if(_formKey.currentState!.validate() && phone != null && password != null){
@@ -390,6 +477,9 @@ class _LoginPageState extends State<LoginPage> {
                                     prefs.setString('iUserTypeCode',iUserTypeCode);
                                     prefs.setString('sToken',sToken);
                                     prefs.setString('dLastLoginAt',dLastLoginAt);
+                                   // prefs.setDouble('lat',lat!);
+                                    //prefs.setDouble('long',long!);
+
 
                                     Navigator.pushReplacement(
                                       context,

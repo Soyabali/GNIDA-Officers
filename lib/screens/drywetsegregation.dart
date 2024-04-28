@@ -274,56 +274,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                   color: Colors.black54,
                                 )),
                             const Text(
-                                'Location',
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    color: Color(0xFF707d83),
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold)
-                            ),
-                          ],
-                        ),
-                      ),
-                      // TextFormField
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 0, right: 0),
-                        child: Container(
-                          height: 42,
-                          color: Color(0xFFf2f3f5),
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: TextFormField(
-                              autofocus: true,
-                              focusNode: locationfocus,
-                              controller: _locationController,
-                              textInputAction: TextInputAction.next,
-                              onEditingComplete: () => FocusScope.of(context).nextFocus(),
-
-                              decoration: const InputDecoration(
-                                // labelText: AppStrings.txtMobile,
-                                // border: OutlineInputBorder(),
-                                contentPadding:
-                                EdgeInsets.symmetric(vertical: AppPadding.p10),
-                                //prefixIcon: Icon(Icons.phone,color:Color(0xFF255899),),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 5,top: 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                                margin: EdgeInsets.only(left: 8,right: 2),
-                                child: const Icon(
-                                  Icons.forward_sharp,
-                                  size: 12,
-                                  color: Colors.black54,
-                                )),
-                            const Text(
                                 'Remarks',
                                 style: TextStyle(
                                     fontFamily: 'Montserrat',

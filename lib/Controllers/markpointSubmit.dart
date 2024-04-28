@@ -2,50 +2,96 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../Helpers/loader_helper.dart';
 import 'baseurl.dart';
 
-
-class   MarkPointSubmitRepo {
-
+class MarkPointSubmitRepo {
   // this is a loginApi call functin
 
-  Future markpointsubmit(BuildContext context, String markLocation,
-      String sector,String location,String description,File? imagePath) async {
+  Future markpointsubmit(
+      BuildContext context,
+      randomNumber,
+      dropDownValueMarkLocation,
+      dropDownValueDistric,
+      String location,
+      slat,
+      slong,
+      String description,
+      String uplodedImage,
+      String? todayDate,
+      userId) async {
+    // sharedP
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('sToken');
 
     try {
-      print('----markLocation---$markLocation');
-      print('----sector---$sector');
+      print('----markLocation---$dropDownValueMarkLocation');
+      print('----sectorvalue---$dropDownValueDistric');
       print('----location---$location');
+      print('----slat---$slat');
+      print('----slong---$slong');
       print('----description---$description');
-      print('----imagePath---$imagePath');
-
+      print('----photopath---$uplodedImage');
+      print('----todayDate---$todayDate');
+      print('----userId---$userId');
+      print('----token---$token');
+      print('----randomNumber---$randomNumber');
 
       var baseURL = BaseRepo().baseurl;
-      /// TODO CHANGE HERE
-      var endPoint = "AppLogin/AppLogin";
-      var markPointSubmitApi = "$baseURL$endPoint";
-      print('------------17---loginAPI---$markPointSubmitApi');
 
-      showLoader();
-      var headers = {'Content-Type': 'application/json'};
+      /// TODO CHANGE HERE
+      var endPoint = "MarkLocation/MarkLocation";
+      var markPointSubmitApi = "$baseURL$endPoint";
+      print('------------39---markPointSubmitApi---$markPointSubmitApi');
+
+      String jsonResponse =
+          '{"sArray":[{"iCompCode":$randomNumber,"iPointTypeCode":$dropDownValueMarkLocation,"iSectorCode":$dropDownValueDistric,"sLocation":"$location","fLatitude":$slat,"fLongitude":$slong,"sDescription":"$description","sBeforePhoto":"$uplodedImage","dPostedOn":"$todayDate","iPostedBy":$userId}]}';
+// Parse the JSON response
+      Map<String, dynamic> parsedResponse = jsonDecode(jsonResponse);
+
+// Get the array value
+      List<dynamic> sArray = parsedResponse['sArray'];
+
+// Convert the array to a string representation
+      String sArrayAsString = jsonEncode(sArray);
+
+// Update the response object with the string representation of the array
+      parsedResponse['sArray'] = sArrayAsString;
+
+// Convert the updated response object back to JSON string
+      String updatedJsonResponse = jsonEncode(parsedResponse);
+
+// Print the updated JSON response (optional)
+      print(updatedJsonResponse);
+      print('---63-----$updatedJsonResponse');
+
+//Your API call
+      var headers = {'token': '$token', 'Content-Type': 'application/json'};
+
       var request = http.Request(
           'POST',
-          Uri.parse('$markPointSubmitApi'));
-      request.body = json.encode({"sContactNo": markLocation, "sPassword": sector,"sAppVersion":description});
+          Uri.parse(
+              'https://upegov.in/noidaoneapi/Api/MarkLocation/MarkLocation'));
+      request.body =
+          updatedJsonResponse; // Assign the JSON string to the request body
       request.headers.addAll(headers);
-
       http.StreamedResponse response = await request.send();
+
       var map;
       var data = await response.stream.bytesToString();
       map = json.decode(data);
-      print('----------20---LOGINaPI RESPONSE----$map');
+      print('-------89--$map');
+      print('---90---${response.statusCode}');
+      // var response;
+      // var map;
+      //print('----------20---LOGINaPI RESPONSE----$map');
       if (response.statusCode == 200) {
         hideLoader();
-        print('----------22-----$map');
+        print('----------96-----$map');
         return map;
       } else {
-        print('----------29---LOGINaPI RESPONSE----$map');
+        print('----------99----$map');
         hideLoader();
         print(response.reasonPhrase);
         return map;
