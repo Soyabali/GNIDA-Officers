@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../Controllers/userContributionRepo.dart';
 
 class TabBarHome extends StatelessWidget {
   const TabBarHome({super.key});
@@ -21,6 +21,21 @@ class TabPage extends StatefulWidget {
 
 class _TabPageState extends State<TabPage> {
 
+  List<Map<String, dynamic>>? userContributionList;
+
+  userContributionResponse() async {
+    userContributionList = await UserContributionRepo().userContribution(context);
+    print('--30---xxxx------$userContributionList');
+    setState(() {});
+  }
+
+   @override
+  void initState() {
+    // TODO: implement initState
+     userContributionResponse();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,151 +44,68 @@ class _TabPageState extends State<TabPage> {
            Padding(
               padding: const EdgeInsets.only(left: 15,right: 15),
               child: Container(
-                    height: 50,
+                    height: 250,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: Color(0xFFf2f3f5), // Container background color
                       borderRadius: BorderRadius.circular(20),
                     ),
-                   child: const Card(
-                     elevation: 8,
-                     child: Padding(
-                       padding: EdgeInsets.only(left: 10.0,right: 10.0),
-                       child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text('4 . ',style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                 // color: Colors.white,
-                                  color: Color(0xFF707d83),
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold),),
-                              // First TextView
-                              SizedBox(width: 8),
-                              // icon
-                              Icon(Icons.person,size: 20,color: Color(0xFF3375af),), // Admin icon
-                              SizedBox(width: 8),
-                              Text('Ravi Yadav', style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Color(0xFF707d83),
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold),), // Second TextView
-                              Spacer(), // To push the last Text to the rightmost
-                              Text('2 point',style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                  color: Color(0xFFad964a),
-                                    //color: Colors.white,
-                                  fontSize: 16.0,
-                                    fontWeight: FontWeight.bold)),
-                               // Last TextView
-                            ],
-                          ),
-                     ),
-                   ),
-                    ),
-            ),
-
-
-
-          SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.only(left: 15,right: 15),
-            child: Container(
-              height: 50,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Color(0xFFf2f3f5), // Container background color
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Card(
-                elevation: 8,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10.0,right: 10.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text('4 . ',style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          // color: Colors.white,
-                          color: Color(0xFF707d83),
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold),),
-                      // First TextView
-                      SizedBox(width: 8),
-                      // icon
-                      Icon(Icons.person,size: 20,color: Color(0xFF3375af),), // Admin icon
-                      SizedBox(width: 8),
-                      Text('Ravi Yadav', style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          color: Color(0xFF707d83),
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold),), // Second TextView
-                      Spacer(), // To push the last Text to the rightmost
-                      Text('2 point',style: TextStyle(
+                   child:ListView.builder(
+    itemCount: userContributionList?.length ?? 0,
+    itemBuilder: (context, index) {
+      return Container(
+        height: 60,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 8,bottom: 0),
+          child: Card(
+            elevation: 8,
+            child: Padding(
+              padding: EdgeInsets.only(left: 10.0, right: 10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('${index+4}', style: const TextStyle(
+                      fontFamily: 'Montserrat',
+                      // color: Colors.white,
+                      color: Color(0xFF707d83),
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold),),
+                  // First TextView
+                  const SizedBox(width: 8),
+                  // icon
+                  const Icon(Icons.person, size: 20, color: Color(0xFF3375af),),
+                  // Admin icon
+                  const SizedBox(width: 8),
+                  Text(userContributionList?[index+3]['sName'].toString() ?? '',
+                    style: const TextStyle(
+                        fontFamily: 'Montserrat',
+                        color: Color(0xFF707d83),
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.bold),),
+                  // Second TextView
+                  Spacer(),
+                  // To push the last Text to the rightmost
+                  Text(userContributionList?[index+3]['iEarnedPoints'].toString() ??
+                      '',
+                      style: const TextStyle(
                           fontFamily: 'Montserrat',
                           color: Color(0xFFad964a),
                           //color: Colors.white,
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold)),
-                      // Last TextView
-                    ],
-                  ),
-                ),
+                  // Last TextView
+                ],
               ),
             ),
-          ),
-          SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.only(left: 15,right: 15),
-            child: Container(
-              height: 50,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Color(0xFFf2f3f5), // Container background color
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Card(
-                elevation: 8,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10.0,right: 10.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text('4 . ',style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          // color: Colors.white,
-                          color: Color(0xFF707d83),
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold),),
-                      // First TextView
-                      SizedBox(width: 8),
-                      // icon
-                      Icon(Icons.person,size: 20,color: Color(0xFF3375af),), // Admin icon
-                      SizedBox(width: 8),
-                      Text('Ravi Yadav', style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          color: Color(0xFF707d83),
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold),), // Second TextView
-                      Spacer(), // To push the last Text to the rightmost
-                      Text('2 point',style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          color: Color(0xFFad964a),
-                          //color: Colors.white,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold)),
-                      // Last TextView
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
 
+          ),
+        ),
+      );
+    }
+            ),
+              ))
         ],
       ),
-
-
     );
   }
 }

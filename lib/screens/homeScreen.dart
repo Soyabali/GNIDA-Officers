@@ -4,13 +4,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:noidaone/screens/MarkPointScreen.dart';
+import 'package:noidaone/screens/TabBarHomeMonth.dart';
 import 'package:noidaone/screens/drywetsegregation.dart';
 import 'package:noidaone/screens/foodlist.dart';
 import 'package:noidaone/screens/pendingcomplaint.dart';
 import 'package:noidaone/screens/postComplaint.dart';
 import 'package:noidaone/screens/scheduledpoint.dart';
 import 'package:noidaone/screens/tabbarHome.dart';
+import 'package:noidaone/screens/tabbarHomeToday.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../Controllers/userContributionRepo.dart';
 import '../Controllers/userModuleRight.dart';
 import '../resources/app_text_style.dart';
 import 'changePassword.dart';
@@ -50,7 +53,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   List userModuleRightList = [];
+  List<Map<String, dynamic>>? userContributionList;
   TabController? tabController;
+  var nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird;
   Future<bool> _onWillPop() async {
     return (await showDialog(
       context: context,
@@ -78,6 +83,21 @@ class _MyHomePageState extends State<MyHomePage>
         false;
   }
 
+  userContributionResponse() async {
+    userContributionList = await UserContributionRepo().userContribution(context);
+   // userContributionList?[index]['sName'].toString() ?? '',userContributionList?[index]['sName'].toString() ?? '',
+      nameFirst = userContributionList?[0]['sName'].toString();
+     pointFirst = userContributionList?[0]['iEarnedPoints'].toString();
+     nameSecond = userContributionList?[1]['sName'].toString();
+     pointSecond = userContributionList?[1]['iEarnedPoints'].toString();
+     nameThird = userContributionList?[2]['sName'].toString();
+     pointThird = userContributionList?[2]['iEarnedPoints'].toString();
+    print('----88----xxx-$nameFirst');
+    print('----89-----xxx-$pointFirst');
+
+    print('--30---xxxx------$userContributionList');
+    setState(() {});
+  }
 
   usermoduleright() async
   {
@@ -94,6 +114,7 @@ class _MyHomePageState extends State<MyHomePage>
     super.initState();
     tabController = TabController(vsync: this, length: 3);
     usermoduleright();
+    userContributionResponse();
   }
 
   @override
@@ -106,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage>
           appBar: AppBar(
             backgroundColor: Color(0xFF255899),
             title: const Text(
-              'Noida One...',
+              'Noida One',
               style: TextStyle(
                   fontFamily: 'Montserrat',
                   color: Colors.white,
@@ -413,104 +434,245 @@ class _MyHomePageState extends State<MyHomePage>
                                     'assets/images/trophy.png', // Asset image path
                                     width: 90,
                                     height: 90,
+                                  ), // Add some space between the image and text
+                                   Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                       Text(
+                                        '1.',
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.white,
+                                            fontSize: 12.0,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                       SizedBox(width: 5),
+                                       Text(
+                                        '$nameFirst',
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.white,
+                                            fontSize: 12.0,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(
-                                      height:
-                                          0), // Add some space between the image and text
-                                  const Text(
-                                    '1. Krishna tomar',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Colors.white,
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.normal),
+                                   Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        '$pointFirst',
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.white,
+                                            fontSize: 12.0,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                      SizedBox(width: 5),
+                                      Text(
+                                        'Point',
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.white,
+                                            fontSize: 12.0,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(height: 0),
-                                  const Text(
-                                    '2 Points',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Colors.white,
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.normal),
-                                  ),
+
                                 ],
                               ),
                               Column(
                                 children: <Widget>[
                                   Image.asset(
                                     'assets/images/trophy.png', // Asset image path
-                                    width: 70,
-                                    height: 70,
+                                    width: 90,
+                                    height: 90,
+                                  ), // Add some space between the image and text
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        '2.',
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.white,
+                                            fontSize: 12.0,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                      SizedBox(width: 5),
+                                      Text(
+                                        '$nameSecond',
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.white,
+                                            fontSize: 12.0,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(
-                                      height:
-                                          0), // Add some space between the image and text
-                                  const Text(
-                                    '2. Lokesh',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Colors.white,
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.normal),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        '$pointSecond',
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.white,
+                                            fontSize: 12.0,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                      SizedBox(width: 5),
+                                      Text(
+                                        'Point',
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.white,
+                                            fontSize: 12.0,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                    ],
                                   ),
-                                  const SizedBox(height: 0),
-                                  const Text(
-                                    '2 Points',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Colors.white,
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.normal),
-                                  ),
+
                                 ],
                               ),
                               Column(
                                 children: <Widget>[
                                   Image.asset(
                                     'assets/images/trophy.png', // Asset image path
-                                    width: 55,
-                                    height: 55,
+                                    width: 90,
+                                    height: 90,
+                                  ), // Add some space between the image and text
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        '3.',
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.white,
+                                            fontSize: 12.0,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                      SizedBox(width: 5),
+                                      Text(
+                                        '$nameThird',
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.white,
+                                            fontSize: 12.0,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                    ],
                                   ),
-                                  const SizedBox(
-                                      height:
-                                          0), // Add some space between the image and text
-                                  const Text(
-                                    '3. Husain',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Colors.white,
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.normal),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        '$pointThird',
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.white,
+                                            fontSize: 12.0,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                      SizedBox(width: 5),
+                                      Text(
+                                        'Point',
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.white,
+                                            fontSize: 12.0,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(height: 0),
-                                  const Text(
-                                    '3 Points',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Colors.white,
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.normal),
-                                  ),
+
                                 ],
                               ),
+
+                              // Column(
+                              //   children: <Widget>[
+                              //     Image.asset(
+                              //       'assets/images/trophy.png', // Asset image path
+                              //       width: 70,
+                              //       height: 70,
+                              //     ),
+                              //     SizedBox(
+                              //         height:
+                              //             0), // Add some space between the image and text
+                              //     const Text(
+                              //       '2. Lokesh',
+                              //       style: TextStyle(
+                              //           fontFamily: 'Montserrat',
+                              //           color: Colors.white,
+                              //           fontSize: 12.0,
+                              //           fontWeight: FontWeight.normal),
+                              //     ),
+                              //     const SizedBox(height: 0),
+                              //     const Text(
+                              //       '2 Points',
+                              //       style: TextStyle(
+                              //           fontFamily: 'Montserrat',
+                              //           color: Colors.white,
+                              //           fontSize: 12.0,
+                              //           fontWeight: FontWeight.normal),
+                              //     ),
+                              //   ],
+                              // ),
+                              // Column(
+                              //   children: <Widget>[
+                              //     Image.asset(
+                              //       'assets/images/trophy.png', // Asset image path
+                              //       width: 55,
+                              //       height: 55,
+                              //     ),
+                              //     const SizedBox(
+                              //         height:
+                              //             0), // Add some space between the image and text
+                              //     const Text(
+                              //       '3. Husain',
+                              //       style: TextStyle(
+                              //           fontFamily: 'Montserrat',
+                              //           color: Colors.white,
+                              //           fontSize: 12.0,
+                              //           fontWeight: FontWeight.normal),
+                              //     ),
+                              //     SizedBox(height: 0),
+                              //     const Text(
+                              //       '3 Points',
+                              //       style: TextStyle(
+                              //           fontFamily: 'Montserrat',
+                              //           color: Colors.white,
+                              //           fontSize: 12.0,
+                              //           fontWeight: FontWeight.normal),
+                              //     ),
+                              //   ],
+                              // ),
                             ],
                           ),
                         ))
                   ],
                 ),
               ),
-              Container(
-                height: 225,
-                //height: MediaQuery.of(context).size.height - 450.0,
-                child: TabBarView(
-                  controller: tabController,
-                  children: <Widget>[
-                    //new FoodList(),
-                    new TabBarHome(),
-                    new TabBarHome(),
-                    new TabBarHome(),
-                  ],
+              Padding(
+                padding: const EdgeInsets.only(bottom: 0),
+                child: Container(
+                  height: 200,
+                  //height: MediaQuery.of(context).size.height - 450.0,
+                  child: TabBarView(
+                    controller: tabController,
+                    children: <Widget>[
+                      //new FoodList(),
+                     // new TabBarHomeToday(),
+                      new TabBarHomeToday(),
+                      new TabBarHomeMonth(),
+                      new TabBarHome(),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: 10),
@@ -626,7 +788,6 @@ class _MyHomePageState extends State<MyHomePage>
         ),
     );
   }
-
 
   // bottom screen
   void _showBottomSheet(BuildContext context) {
