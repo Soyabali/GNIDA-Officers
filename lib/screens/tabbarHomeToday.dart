@@ -27,23 +27,8 @@ class TabTodayPage extends StatefulWidget {
 
  class _TabPageState extends State<TabTodayPage> {
 
-  // String dataToSend = 'Data from today --callBack---';
-
-   //void sendData(String data) {
-     // Implement your logic to handle the received data here
-     //print('Received data in _TabPageState xxxxxxxxxx: $data');
-     // Call the callback function to update data on the HomePage
-     // widget.sendData(data);
-    // sendData(dataToSend);
-
-     var nameFirst;
+  var nameFirst;
      List<Map<String, dynamic>>? userContributionTodayList;
-
-     // Call the callback function to send data to homePage
-
-
-     // Call the callback function to send data to homePage
-
 
      userContributionResponse() async {
        userContributionTodayList =
@@ -86,7 +71,7 @@ class TabTodayPage extends StatefulWidget {
              Padding(
                  padding: const EdgeInsets.only(left: 15, right: 15),
                  child: Container(
-                   height: 250,
+                   height: MediaQuery.of(context).size.height,
                    width: double.infinity,
                    decoration: BoxDecoration(
                      color: Color(0xFFf2f3f5), // Container background color
@@ -108,7 +93,7 @@ class TabTodayPage extends StatefulWidget {
                                    mainAxisAlignment: MainAxisAlignment.center,
                                    children: <Widget>[
                                      Text(
-                                       '${index + 3}', style: const TextStyle(
+                                       '${index + 4}', style: const TextStyle(
                                          fontFamily: 'Montserrat',
                                          // color: Colors.white,
                                          color: Color(0xFF707d83),

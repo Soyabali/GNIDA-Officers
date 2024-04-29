@@ -44,8 +44,8 @@ class _TabPageState extends State<TabPage> {
            Padding(
               padding: const EdgeInsets.only(left: 15,right: 15),
               child: Container(
-                    height: 250,
-                    width: double.infinity,
+                height: MediaQuery.of(context).size.height,
+                width: double.infinity,
                     decoration: BoxDecoration(
                       color: Color(0xFFf2f3f5), // Container background color
                       borderRadius: BorderRadius.circular(20),

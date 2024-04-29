@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../Controllers/myPointRepo.dart';
 import 'changePassword.dart';
 import 'logout.dart';
 import 'notification.dart';
@@ -20,19 +21,35 @@ class Mypoint extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: MyHomePage(),
+      home: MyPointPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class MyPointPage extends StatefulWidget {
+  const MyPointPage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyPointPage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyPointPage> {
+  List<Map<String, dynamic>>? myPoinList;
+  var totalPoint;
+
+  // GET REPO FUNCTION
+  getMyPointResponse() async {
+    myPoinList = await MyPointTypeRepo().mypointType(context);
+    totalPoint = myPoinList?[0]['iTotal'].toString();
+    setState(() {
+    });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    getMyPointResponse();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -348,10 +365,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ],
                               ),
                             ),
-                            SizedBox(height: 10),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: const Row(
+                            const SizedBox(height: 10),
+                             Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
@@ -364,7 +381,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                   SizedBox(width: 10),
                                   Text(
-                                    '2',
+                                    '$totalPoint',
                                     style: TextStyle(
                                         fontFamily: 'Montserrat',
                                         color: Colors.black,
@@ -379,57 +396,73 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
+          SizedBox(height: 10),
 
-
-            SizedBox(height: 10),
+          Container(
+          height: 150,
+            child: ListView.separated(
+                itemCount: myPoinList != null ? myPoinList!.length : 0,
+                separatorBuilder: (BuildContext context, int index) {
+                // Return the separator widget here
+                return Divider(); // Example separator, you can customize this
+                },
+                itemBuilder: (context, index) {
+            return
             Padding(
-              padding: const EdgeInsets.only(left: 10,right: 10),
-              child: Container(
-                height: 50,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Color(0xFFf2f3f5), // Container background color
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const Card(
-                  elevation: 8,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 10,right: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text('1 . ',style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            // color: Colors.white,
-                            color: Color(0xFF707d83),
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold),),
-                        // First TextView
-                        SizedBox(width: 8),
-                        // icon
-                        Icon(Icons.calendar_month,size: 20,color: Color(0xFF3375af),), // Admin icon
-                        SizedBox(width: 8),
-                        Text('Apr-2024', style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            color: Color(0xFF707d83),
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.bold),), // Second TextView
-                        Spacer(), // To push the last Text to the rightmost
-                        Text('2 point',style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            color: Color(0xFFad964a),
-                            //color: Colors.white,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold)),
-                        // Last TextView
-                      ],
+                padding: const EdgeInsets.only(left: 10,right: 10),
+                child: Container(
+                  height: 50,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFf2f3f5), // Container background color
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Card(
+                    elevation: 8,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 10,right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text('${index+1}',style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              // color: Colors.white,
+                              color: Color(0xFF707d83),
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold),),
+                          // First TextView
+                          SizedBox(width: 8),
+                          // icon
+                          Icon(Icons.calendar_month,size: 20,color: Color(0xFF3375af),), // Admin icon
+                          SizedBox(width: 8),
+                          Text(myPoinList?[index]['dMonth'].toString() ?? '',
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              color: Color(0xFF707d83),
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold),), // Second TextView
+                          Spacer(), // To push the last Text to the rightmost
+                          Text(myPoinList?[index]['iTotal'].toString() ?? '',
+                             style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              color: Color(0xFFad964a),
+                              //color: Colors.white,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold)),
+                          // Last TextView
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
+              );
 
-          ],
+
+
+    }
+    )
+          )
+    ],
         ));
   }
 }

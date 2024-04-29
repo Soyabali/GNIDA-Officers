@@ -17,6 +17,8 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'flull_screen_image.dart';
 import 'dart:math';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+
 
 class MarkPointScreen extends StatelessWidget {
   const MarkPointScreen({super.key});
@@ -203,61 +205,6 @@ class _MyHomePageState extends State<MyHomePage> {
       final responseData = json.decode(responsed.body);
       print('---155----$responseData');
 
-    // showLoader();
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // String? sToken = prefs.getString('sToken');
-    // print('---147---$sToken');
-    // var request = http.MultipartRequest('POST',
-    //     Uri.parse('https://upegov.in/noidaoneapi/Api/PostImage/PostImage'))
-    //   //for token
-    //   ..headers.addAll({"Authorization": "1E49A314-959A-4CF4-91EC-63059F10C7A0"});
-    // // TextFields
-    //
-    // http.MultipartFile multipartFile1 =
-    //     await http.MultipartFile.fromPath('sImagePath', image!.path);
-    // request.files.add(multipartFile1);
-    //
-    // try {
-    //   // for completing the request
-    //   var response = await request.send();
-    //   var responsed = await http.Response.fromStream(response);
-    //   final responseData = json.decode(responsed.body);
-    //   print('---159----$responseData');
-    //   //   alreadydataonserver = responseData['data'];
-    //   if (response.statusCode == 200) {
-    //     hideLoader();
-    //     //clearText();
-    //     setState(() {
-    //       // to start spinner on a screen
-    //       // showSpinner = false;
-    //     });
-    //     print('status code-------------173---->${response.statusCode}');
-    //     // flutter_tost();
-    //     //  Navigator.push(
-    //     //    context,
-    //     //    MaterialPageRoute(builder: (context) => DashBoard()),
-    //     // );
-    //   } else if (response.statusCode == 403) {
-    //     hideLoader();
-    //     setState(() {
-    //       // to start spinner on a screen
-    //       // showSpinner = false;
-    //     });
-    //     print('dublicate entry-------------326---->${response.statusCode}');
-    //     //duplicatedata_tost();
-    //   } else {
-    //     setState(() {
-    //       // to start spinner on a screen
-    //       // showSpinner = false;
-    //     });
-    //     print('status code-------------328---->${response.statusCode}');
-    //     // flutter_tost_1();
-    //   }
-    // } catch (e) {
-    //   // unhandledError();
-    //   hideLoader();
-    //   print("error $e");
-    // }
   }
   // datepicker
   // InitState
@@ -458,14 +405,14 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: <Widget>[
             SizedBox(
-              height: 130, // Height of the container
+              height: 150, // Height of the container
               width: 200, // Width of the container
               child: Opacity(
                 opacity: 0.9,
+                //step3.jpg
                 child: Image.asset(
-                  'assets/images/step3.jpg', // Replace 'image_name.png' with your asset image path
-                  fit: BoxFit
-                      .cover, // Adjust the image fit to cover the container
+                  'assets/images/markpointheader.jpeg', // Replace 'image_name.png' with your asset image path
+                  fit: BoxFit.cover, // Adjust the image fit to cover the container
                 ),
               ),
             ),
@@ -495,6 +442,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
+                            // 'assets/images/favicon.png',
                             Container(
                               margin:
                                   EdgeInsets.only(left: 0, right: 10, top: 10),

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:noidaone/screens/MarkPointScreen.dart';
 import 'package:noidaone/screens/TabBarHomeMonth.dart';
 import 'package:noidaone/screens/drywetsegregation.dart';
@@ -161,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage>
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
-                const DrawerHeader(
+                DrawerHeader(
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage(
@@ -367,261 +368,266 @@ class _MyHomePageState extends State<MyHomePage>
             ),
           ),
           // body
-          body: ListView(
+          body: Column(
             children: <Widget>[
               // stack
-              Container(
-                height: 300,
-                width: double.infinity,
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                      width: double.infinity,
-                      height: 300,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(
-                              'assets/images/top_contributor_header.png'), // Provide your image path here
-                          fit: BoxFit.cover,
+              Expanded(
+                child: Container(
+                  height: 220,
+                  width: double.infinity,
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                        width: double.infinity,
+                        height: 220,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                                'assets/images/top_contributor_header.png'), // Provide your image path here
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      top: 20,
-                      left: 0,
-                      right: 0,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 0, right: 0),
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 15, right: 15),
-                          child: Container(
-                            height: 35,
-                            width: MediaQuery.of(context).size.width - 30,
-                            //color: Color(0xFF255899),
-                            decoration: const BoxDecoration(
-                              color:
-                                  Color(0xFF3375af), // Container background color
-                              // color: Colors.grey,
-                              borderRadius: BorderRadius.horizontal(
-                                left: Radius.circular(
-                                    0), // Adjust this value as per your preference
-                                right: Radius.circular(
-                                    0), // Adjust this value as per your preference
+                          padding: const EdgeInsets.only(left: 0, right: 0),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 15, right: 15),
+                            child: Container(
+                              height: 35,
+                              width: MediaQuery.of(context).size.width - 30,
+                              //color: Color(0xFF255899),
+                              decoration: const BoxDecoration(
+                                color: Color(0xFF3375af), // Container background color
+                                // color: Colors.grey,
+                                borderRadius: BorderRadius.horizontal(
+                                  left: Radius.circular(
+                                      0), // Adjust this value as per your preference
+                                  right: Radius.circular(
+                                      0), // Adjust this value as per your preference
+                                ),
+                              ),
+                
+                              child: TabBar(
+                                controller: tabController,
+                                indicatorColor: Colors.white,
+                                indicatorSize: TabBarIndicatorSize.label,
+                                indicatorWeight: 0.9,
+                                labelPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                                unselectedLabelColor: Colors.white,
+                                labelColor: Colors.black,
+                                indicator: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.white,
+                                    border: Border.all(
+                                      color: Colors.blue,
+                                      width: 0,
+                                    )),
+                                tabs: <Widget>[
+                                  _buildTab('Today', context),
+                                  _buildTab('Month', context),
+                                  _buildTab('All Time', context),
+                                ],
                               ),
                             ),
-
-                            child: TabBar(
-                              controller: tabController,
-                              indicatorColor: Colors.white,
-                              indicatorSize: TabBarIndicatorSize.label,
-                              indicatorWeight: 0.9,
-                              labelPadding: EdgeInsets.symmetric(horizontal: 0.0),
-                              unselectedLabelColor: Colors.white,
-                              labelColor: Colors.black,
-                              indicator: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Colors.white,
-                                  border: Border.all(
-                                    color: Colors.blue,
-                                    width: 0,
-                                  )),
-                              tabs: <Widget>[
-                                _buildTab('Today', context),
-                                _buildTab('Month', context),
-                                _buildTab('All Time', context),
-                              ],
-                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                        top: 80,
-                        left: 15,
-                        right: 15,
-                        child: Container(
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                Column(
-                                  children: <Widget>[
-                                    Image.asset(
-                                      'assets/images/trophy.png', // Asset image path
-                                      width: 90,
-                                      height: 90,
-                                    ), // Add some space between the image and text
-                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[
-                                         Text(
-                                          '1.',
-                                          style: TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Colors.white,
-                                              fontSize: 12.0,
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                         SizedBox(width: 5),
-                                         Text(
-                                          '$nameFirst',
-                                          style: TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Colors.white,
-                                              fontSize: 12.0,
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                      ],
-                                    ),
-                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          '$pointFirst',
-                                          style: TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Colors.white,
-                                              fontSize: 12.0,
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Text(
-                                          'Point',
-                                          style: TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Colors.white,
-                                              fontSize: 12.0,
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                      ],
-                                    ),
-
-                                  ],
-                                ),
-                                Column(
-                                  children: <Widget>[
-                                    Image.asset(
-                                      'assets/images/trophy.png', // Asset image path
-                                      width: 90,
-                                      height: 90,
-                                    ), // Add some space between the image and text
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Text(
-                                          '2.',
-                                          style: TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Colors.white,
-                                              fontSize: 12.0,
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Text(
-                                          '$nameSecond',
-                                          style: TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Colors.white,
-                                              fontSize: 12.0,
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          '$pointSecond',
-                                          style: const TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Colors.white,
-                                              fontSize: 12.0,
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Text(
-                                          'Point',
-                                          style: TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Colors.white,
-                                              fontSize: 12.0,
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                      ],
-                                    ),
-
-                                  ],
-                                ),
-                                Column(
-                                  children: <Widget>[
-                                    Image.asset(
-                                      'assets/images/trophy.png', // Asset image path
-                                      width: 90,
-                                      height: 90,
-                                    ), // Add some space between the image and text
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Text(
-                                          '3.',
-                                          style: TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Colors.white,
-                                              fontSize: 12.0,
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Text(
-                                          '$nameThird',
-                                          style: TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Colors.white,
-                                              fontSize: 12.0,
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          '$pointThird',
-                                          style: TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Colors.white,
-                                              fontSize: 12.0,
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Text(
-                                          'Point',
-                                          style: TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Colors.white,
-                                              fontSize: 12.0,
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                      ],
-                                    ),
-
-                                  ],
-                                ),
-                              ],
+                      Positioned(
+                          top: 35,
+                          left: 15,
+                          right: 15,
+                          child: Container(
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: <Widget>[
+                                  Column(
+                                    children: <Widget>[
+                                      //
+                                      Image.asset(
+                                        'assets/images/trophy.png', // Asset image path
+                                        width: 90,
+                                        height: 90,
+                                        fit: BoxFit.cover,
+                                      ),
+                
+                                       Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: <Widget>[
+                                           Text(
+                                            '1.',
+                                            style: TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                color: Colors.white,
+                                                fontSize: 12.0,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                           SizedBox(width: 5),
+                                           Text(
+                                            '$nameFirst',
+                                            style: TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                color: Colors.white,
+                                                fontSize: 12.0,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                        ],
+                                      ),
+                                       Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            '$pointFirst',
+                                            style: TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                color: Colors.white,
+                                                fontSize: 12.0,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                          SizedBox(width: 5),
+                                          Text(
+                                            'Point',
+                                            style: TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                color: Colors.white,
+                                                fontSize: 12.0,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                        ],
+                                      ),
+                
+                                    ],
+                                  ),
+                                  Column(
+                                    children: <Widget>[
+                                      Image.asset(
+                                        'assets/images/trophy.png', // Asset image path
+                                        width: 75,
+                                        height: 75,
+                                        fit: BoxFit.cover,
+                                      ), // Add some space between the image and text
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Text(
+                                            '2.',
+                                            style: TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                color: Colors.white,
+                                                fontSize: 10.0,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                          SizedBox(width: 5),
+                                          Text(
+                                            '$nameSecond',
+                                            style: TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                color: Colors.white,
+                                                fontSize: 10.0,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            '$pointSecond',
+                                            style: const TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                color: Colors.white,
+                                                fontSize: 10.0,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                          SizedBox(width: 5),
+                                          Text(
+                                            'Point',
+                                            style: TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                color: Colors.white,
+                                                fontSize: 10.0,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                        ],
+                                      ),
+                
+                                    ],
+                                  ),
+                                  Column(
+                                    children: <Widget>[
+                                      Image.asset(
+                                        'assets/images/trophy.png', // Asset image path
+                                        width: 60,
+                                        height: 60,
+                                        fit: BoxFit.cover,
+                                      ), // Add some space between the image and text
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Text(
+                                            '3.',
+                                            style: TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                color: Colors.white,
+                                                fontSize: 8.0,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                          SizedBox(width: 5),
+                                          Text(
+                                            '$nameThird',
+                                            style: TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                color: Colors.white,
+                                                fontSize: 8.0,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            '$pointThird',
+                                            style: TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                color: Colors.white,
+                                                fontSize: 8.0,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                          SizedBox(width: 5),
+                                          Text(
+                                            'Point',
+                                            style: TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                color: Colors.white,
+                                                fontSize: 8.0,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                        ],
+                                      ),
+                
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ))
-                  ],
+                          ))
+                    ],
+                  ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 0),
                 child: Container(
-                  height: 200,
-                  //height: MediaQuery.of(context).size.height - 450.0,
+                  height: MediaQuery.of(context).size.height - 400.0,
                   child: TabBarView(
                     controller: tabController,
                     children: <Widget>[
@@ -634,114 +640,118 @@ class _MyHomePageState extends State<MyHomePage>
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 0),
               Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
-                child: Card(
-                  elevation: 10,
-                  child: Container(
-                      // color: Colors.grey,
+                    padding: const EdgeInsets.only(left: 15, right: 15, bottom: 0),
+                    child: Container(
                       height: 100,
-                      child: ListView.builder(
-                       scrollDirection: Axis.horizontal,
-                        itemCount: userModuleRightList.length,
-                        itemBuilder: (context,index){
-                         return
-                            InkWell(
-                              onTap: () {
-                                var activatecode = '${userModuleRightList[index]['iActivityCode']}';
-                                if(activatecode=="1"){
-                                 // print('---Mark---');
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const MarkPointScreen()));
-
-                                }else if(activatecode=="6"){
-                                  //print('---Scheduled \n Points---');
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const ScheduledPointScreen()));
-
-                                }else if(activatecode=="3"){
-                                 // print('---Pending \n Complaint---');
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                          const PendingComplaintScreen()));
-
-                                }else if(activatecode=="2"){
-                                  print('---Post \n Complaint---');
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                          const PostComplaintScreen()));
-
-                                }else if(activatecode=="7"){
-                                  print('---Daily \n Activity---');
-                                  //  DailyActivitytScreen
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                          const DailyActivitytScreen()));
-                                }else if(activatecode=="4"){
-                                  // Dry/Wet \n Segregation
-                                  print('---Dry/Wet \n Segregation---');
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                          const DryWetSegregationScreen()));
-                                }
-                              },
-                              child: Container(
-                                width: 91,
-                                height: 80,
-                                margin: EdgeInsets.only(
-                                    left: 8, right: 8, bottom: 8, top: 8),
-                                decoration: BoxDecoration(
-                                  color: Color(0xff81afea),
-                                  borderRadius: BorderRadius.circular(
-                                      10), // Adjust the value for more or less rounded corners
-                                ),
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Image.asset(
-                                        'assets/images/post_complaint.png', // Replace with your asset image path
-                                        width: 30, // Adjust image width as needed
-                                        height: 30, // Adjust image height as needed
+                      child: Card(
+                          elevation: 10,
+                          child: Container(
+                              // color: Colors.grey,
+                              height: 100,
+                              width: MediaQuery.of(context).size.width,
+                              child: ListView.builder(
+                               scrollDirection: Axis.horizontal,
+                                itemCount: userModuleRightList.length,
+                                itemBuilder: (context,index){
+                                 return
+                                    InkWell(
+                                      onTap: () {
+                                        var activatecode = '${userModuleRightList[index]['iActivityCode']}';
+                                        if(activatecode=="1"){
+                                         // print('---Mark---');
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const MarkPointScreen()));
+                
+                                        }else if(activatecode=="6"){
+                                          //print('---Scheduled \n Points---');
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const ScheduledPointScreen()));
+                
+                                        }else if(activatecode=="3"){
+                                         // print('---Pending \n Complaint---');
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                  const PendingComplaintScreen()));
+                
+                                        }else if(activatecode=="2"){
+                                          print('---Post \n Complaint---');
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                  const PostComplaintScreen()));
+                
+                                        }else if(activatecode=="7"){
+                                          print('---Daily \n Activity---');
+                                          //  DailyActivitytScreen
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                  const DailyActivitytScreen()));
+                                        }else if(activatecode=="4"){
+                                          // Dry/Wet \n Segregation
+                                          print('---Dry/Wet \n Segregation---');
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                  const DryWetSegregationScreen()));
+                                        }
+                                      },
+                                      child: Container(
+                                        width: 91,
+                                        height: 80,
+                                        margin: EdgeInsets.only(
+                                            left: 8, right: 8, bottom: 8, top: 8),
+                                        decoration: BoxDecoration(
+                                          color: Color(0xff81afea),
+                                          borderRadius: BorderRadius.circular(
+                                              10), // Adjust the value for more or less rounded corners
+                                        ),
+                                        child: Center(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Image.asset(
+                                                'assets/images/post_complaint.png', // Replace with your asset image path
+                                                width: 30, // Adjust image width as needed
+                                                height: 30, // Adjust image height as needed
+                                              ),
+                                              SizedBox(height: 2),
+                                              Center(
+                                                   child: Text(
+                                                    '${userModuleRightList[index]['sActivityName']}',
+                                                    style: const TextStyle(
+                                                        fontFamily: 'Montserrat',
+                                                        color: Colors.white,
+                                                        fontSize: 12.0,
+                                                        fontWeight: FontWeight.bold),
+                                                                                         ),
+                                                 ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
-                                      SizedBox(height: 2),
-                                      Center(
-                                           child: Text(
-                                            '${userModuleRightList[index]['sActivityName']}',
-                                            style: const TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Colors.white,
-                                                fontSize: 12.0,
-                                                fontWeight: FontWeight.bold),
-                                                                                 ),
-                                         ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                       }
-                       )
-
-                  ),
-                ),
-              )
+                                    );
+                               }
+                               )
+                
+                          ),
+                        ),
+                    ),
+                    ),
             ],
           ),
         ),
@@ -754,7 +764,7 @@ class _MyHomePageState extends State<MyHomePage>
       context: context,
       builder: (BuildContext context) {
         return Container(
-          height: 200,
+          height: 150,
             color: Colors.white,
           child: GestureDetector(
             onTap: () {
