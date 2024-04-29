@@ -51,7 +51,7 @@ class _TabPageState extends State<TabPage> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                    child:ListView.builder(
-    itemCount: userContributionList?.length ?? 0,
+    itemCount: userContributionList != null ? userContributionList!.length - 3 : 0,
     itemBuilder: (context, index) {
       return Container(
         height: 60,

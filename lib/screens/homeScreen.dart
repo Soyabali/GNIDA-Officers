@@ -52,6 +52,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
+
+
+  void sendData(String data) {
+    // Implement your logic to update data on the HomePage
+    print('xxxxxxxxxxxxxxxxxx:---------xx--------xx----- $data');
+  }
+
+
   List userModuleRightList = [];
   List<Map<String, dynamic>>? userContributionList;
   TabController? tabController;
@@ -115,11 +123,24 @@ class _MyHomePageState extends State<MyHomePage>
     tabController = TabController(vsync: this, length: 3);
     usermoduleright();
     userContributionResponse();
+    //sendDataToHomePage("hello call Back");
+    getlocalvalue();
+
   }
+   getlocalvalue()async{
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+     String? nameFirst = prefs.getString('nameFirst');
+     int? pointFirst = prefs.getInt('pointFirst');
+     print("------132---$nameFirst");
+     print("------133---$pointFirst");
+
+     setState(() {
+
+     });
+   }
 
   @override
   Widget build(BuildContext context) {
-
     return  WillPopScope(
       onWillPop: ()async =>false,
       child: Scaffold(
@@ -315,12 +336,6 @@ class _MyHomePageState extends State<MyHomePage>
                         GestureDetector(
                           onTap: () {
                             _showBottomSheet(context);
-
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) => LogoutScreen()),
-                            // );
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -425,234 +440,178 @@ class _MyHomePageState extends State<MyHomePage>
                         left: 15,
                         right: 15,
                         child: Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              Column(
-                                children: <Widget>[
-                                  Image.asset(
-                                    'assets/images/trophy.png', // Asset image path
-                                    width: 90,
-                                    height: 90,
-                                  ), // Add some space between the image and text
-                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                       Text(
-                                        '1.',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                       SizedBox(width: 5),
-                                       Text(
-                                        '$nameFirst',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                    ],
-                                  ),
-                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        '$pointFirst',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        'Point',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                    ],
-                                  ),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                Column(
+                                  children: <Widget>[
+                                    Image.asset(
+                                      'assets/images/trophy.png', // Asset image path
+                                      width: 90,
+                                      height: 90,
+                                    ), // Add some space between the image and text
+                                     Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+                                         Text(
+                                          '1.',
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.white,
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                         SizedBox(width: 5),
+                                         Text(
+                                          '$nameFirst',
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.white,
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                      ],
+                                    ),
+                                     Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          '$pointFirst',
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.white,
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                        SizedBox(width: 5),
+                                        Text(
+                                          'Point',
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.white,
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                      ],
+                                    ),
 
-                                ],
-                              ),
-                              Column(
-                                children: <Widget>[
-                                  Image.asset(
-                                    'assets/images/trophy.png', // Asset image path
-                                    width: 90,
-                                    height: 90,
-                                  ), // Add some space between the image and text
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(
-                                        '2.',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        '$nameSecond',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        '$pointSecond',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        'Point',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                    ],
-                                  ),
+                                  ],
+                                ),
+                                Column(
+                                  children: <Widget>[
+                                    Image.asset(
+                                      'assets/images/trophy.png', // Asset image path
+                                      width: 90,
+                                      height: 90,
+                                    ), // Add some space between the image and text
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          '2.',
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.white,
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                        SizedBox(width: 5),
+                                        Text(
+                                          '$nameSecond',
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.white,
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          '$pointSecond',
+                                          style: const TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.white,
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                        SizedBox(width: 5),
+                                        Text(
+                                          'Point',
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.white,
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                      ],
+                                    ),
 
-                                ],
-                              ),
-                              Column(
-                                children: <Widget>[
-                                  Image.asset(
-                                    'assets/images/trophy.png', // Asset image path
-                                    width: 90,
-                                    height: 90,
-                                  ), // Add some space between the image and text
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(
-                                        '3.',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        '$nameThird',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        '$pointThird',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        'Point',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                    ],
-                                  ),
+                                  ],
+                                ),
+                                Column(
+                                  children: <Widget>[
+                                    Image.asset(
+                                      'assets/images/trophy.png', // Asset image path
+                                      width: 90,
+                                      height: 90,
+                                    ), // Add some space between the image and text
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          '3.',
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.white,
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                        SizedBox(width: 5),
+                                        Text(
+                                          '$nameThird',
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.white,
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          '$pointThird',
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.white,
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                        SizedBox(width: 5),
+                                        Text(
+                                          'Point',
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.white,
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                      ],
+                                    ),
 
-                                ],
-                              ),
-
-                              // Column(
-                              //   children: <Widget>[
-                              //     Image.asset(
-                              //       'assets/images/trophy.png', // Asset image path
-                              //       width: 70,
-                              //       height: 70,
-                              //     ),
-                              //     SizedBox(
-                              //         height:
-                              //             0), // Add some space between the image and text
-                              //     const Text(
-                              //       '2. Lokesh',
-                              //       style: TextStyle(
-                              //           fontFamily: 'Montserrat',
-                              //           color: Colors.white,
-                              //           fontSize: 12.0,
-                              //           fontWeight: FontWeight.normal),
-                              //     ),
-                              //     const SizedBox(height: 0),
-                              //     const Text(
-                              //       '2 Points',
-                              //       style: TextStyle(
-                              //           fontFamily: 'Montserrat',
-                              //           color: Colors.white,
-                              //           fontSize: 12.0,
-                              //           fontWeight: FontWeight.normal),
-                              //     ),
-                              //   ],
-                              // ),
-                              // Column(
-                              //   children: <Widget>[
-                              //     Image.asset(
-                              //       'assets/images/trophy.png', // Asset image path
-                              //       width: 55,
-                              //       height: 55,
-                              //     ),
-                              //     const SizedBox(
-                              //         height:
-                              //             0), // Add some space between the image and text
-                              //     const Text(
-                              //       '3. Husain',
-                              //       style: TextStyle(
-                              //           fontFamily: 'Montserrat',
-                              //           color: Colors.white,
-                              //           fontSize: 12.0,
-                              //           fontWeight: FontWeight.normal),
-                              //     ),
-                              //     SizedBox(height: 0),
-                              //     const Text(
-                              //       '3 Points',
-                              //       style: TextStyle(
-                              //           fontFamily: 'Montserrat',
-                              //           color: Colors.white,
-                              //           fontSize: 12.0,
-                              //           fontWeight: FontWeight.normal),
-                              //     ),
-                              //   ],
-                              // ),
-                            ],
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ))
                   ],
@@ -668,7 +627,7 @@ class _MyHomePageState extends State<MyHomePage>
                     children: <Widget>[
                       //new FoodList(),
                      // new TabBarHomeToday(),
-                      new TabBarHomeToday(),
+                      new TabBarHomeToday(sendData: sendData),
                       new TabBarHomeMonth(),
                       new TabBarHome(),
                     ],
@@ -795,7 +754,6 @@ class _MyHomePageState extends State<MyHomePage>
       context: context,
       builder: (BuildContext context) {
         return Container(
-
           height: 200,
             color: Colors.white,
           child: GestureDetector(
@@ -851,11 +809,15 @@ class _MyHomePageState extends State<MyHomePage>
                               //Return String
                               // String? sName = prefs.getString('sName');
                               //print('---745--$sName');
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                      const LoginScreen_2()));
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) =>
+                              //         const LoginScreen_2()));
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (context) => LoginScreen_2()),
+                              );
 
                               },
                             style: ElevatedButton.styleFrom(
