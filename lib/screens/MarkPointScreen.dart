@@ -466,15 +466,15 @@ class _MyHomePageState extends State<MyHomePage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
 
-                              // Container(
-                              //     margin: EdgeInsets.only(
-                              //         left: 8, right: 2, bottom: 2),
-                              //     child: const Icon(
-                              //       Icons.forward_sharp,
-                              //       size: 12,
-                              //       color: Colors.black54,
-                              //     )),
-                              const Text('‣ Point Type',
+                              Container(
+                                  margin: EdgeInsets.only(
+                                      left: 8, right: 2, bottom: 2),
+                                  child: const Icon(
+                                    Icons.forward_sharp,
+                                    size: 12,
+                                    color: Colors.black54,
+                                  )),
+                              const Text('Point Type',
                                   style: TextStyle(
                                       fontFamily: 'Montserrat',
                                       color: Color(0xFF707d83),
@@ -491,14 +491,14 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              // Container(
-                              //     margin: EdgeInsets.only(left: 8, right: 2),
-                              //     child: const Icon(
-                              //       Icons.forward_sharp,
-                              //       size: 12,
-                              //       color: Colors.black54,
-                              //     )),
-                              const Text('‣ Sector',
+                              Container(
+                                  margin: EdgeInsets.only(left: 8, right: 2),
+                                  child: const Icon(
+                                    Icons.forward_sharp,
+                                    size: 12,
+                                    color: Colors.black54,
+                                  )),
+                              const Text('Sector',
                                   style: TextStyle(
                                       fontFamily: 'Montserrat',
                                       color: Color(0xFF707d83),
@@ -514,14 +514,14 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              // Container(
-                              //     margin: EdgeInsets.only(left: 8, right: 2),
-                              //     child: const Icon(
-                              //       Icons.forward_sharp,
-                              //       size: 12,
-                              //       color: Colors.black54,
-                              //     )),
-                              const Text('‣ Location',
+                              Container(
+                                  margin: EdgeInsets.only(left: 8, right: 2),
+                                  child: const Icon(
+                                    Icons.forward_sharp,
+                                    size: 12,
+                                    color: Colors.black54,
+                                  )),
+                              const Text('Location',
                                   style: TextStyle(
                                       fontFamily: 'Montserrat',
                                       color: Color(0xFF707d83),
@@ -566,14 +566,14 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              // Container(
-                              //     margin: EdgeInsets.only(left: 8, right: 2),
-                              //     child: const Icon(
-                              //       Icons.forward_sharp,
-                              //       size: 12,
-                              //       color: Colors.black54,
-                              //     )),
-                              const Text('‣ Description',
+                              Container(
+                                  margin: EdgeInsets.only(left: 8, right: 2),
+                                  child: const Icon(
+                                    Icons.forward_sharp,
+                                    size: 12,
+                                    color: Colors.black54,
+                                  )),
+                              const Text('Description',
                                   style: TextStyle(
                                       fontFamily: 'Montserrat',
                                       color: Color(0xFF707d83),
@@ -620,14 +620,14 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              // Container(
-                              //     margin: EdgeInsets.only(left: 8, right: 2),
-                              //     child: const Icon(
-                              //       Icons.forward_sharp,
-                              //       size: 12,
-                              //       color: Colors.black54,
-                              //     )),
-                              const Text('‣ Upload Photo',
+                              Container(
+                                  margin: EdgeInsets.only(left: 8, right: 2),
+                                  child: const Icon(
+                                    Icons.forward_sharp,
+                                    size: 12,
+                                    color: Colors.black54,
+                                  )),
+                              const Text('Upload Photo',
                                   style: TextStyle(
                                       fontFamily: 'Montserrat',
                                       color: Color(0xFF707d83),

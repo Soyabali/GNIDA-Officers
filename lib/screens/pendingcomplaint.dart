@@ -276,14 +276,14 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                   const Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      // Icon(
-                                      //   Icons.forward,
-                                      //   size: 10,
-                                      //   color: Color(0xff3f617d),
-                                      // ),
-                                      // SizedBox(width: 5),
+                                      Icon(
+                                        Icons.forward,
+                                        size: 10,
+                                        color: Color(0xff3f617d),
+                                      ),
+                                      SizedBox(width: 5),
                                       Text(
-                                        '‣ Sector',
+                                        'Sector',
                                         style: TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Color(0xFF255899),
@@ -305,14 +305,14 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                   const Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      // Icon(
-                                      //   Icons.forward,
-                                      //   size: 10,
-                                      //   color: Color(0xff3f617d),
-                                      // ),
-                                      //SizedBox(width: 5),
+                                      Icon(
+                                        Icons.forward,
+                                        size: 10,
+                                        color: Color(0xff3f617d),
+                                      ),
+                                      SizedBox(width: 5),
                                       Text(
-                                        '‣ Posted At',
+                                        'Posted At',
                                         style: TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Color(0xFF255899),
@@ -335,11 +335,11 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                   const Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      // Icon(Icons.forward,
-                                      //     size: 10, color: Color(0xff3f617d)),
-                                      // SizedBox(width: 5),
+                                      Icon(Icons.forward,
+                                          size: 10, color: Color(0xff3f617d)),
+                                      SizedBox(width: 5),
                                       Text(
-                                        '‣ Location',
+                                        'Location',
                                         style: TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Color(0xFF255899),
@@ -362,11 +362,11 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                   const Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      // Icon(Icons.forward,
-                                      //     size: 10, color: Color(0xff3f617d)),
-                                      // SizedBox(width: 5),
+                                      Icon(Icons.forward,
+                                          size: 10, color: Color(0xff3f617d)),
+                                      SizedBox(width: 5),
                                       Text(
-                                        '‣ Description',
+                                        'Description',
                                         style: TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Color(0xFF255899),

@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage>
     print('xxxxxxxxxxxxxxxxxx:---------xx--------xx----- $data');
   }
 
-
+  String? sName,sContactNo;
   List userModuleRightList = [];
   List<Map<String, dynamic>>? userContributionList;
   TabController? tabController;
@@ -124,21 +124,23 @@ class _MyHomePageState extends State<MyHomePage>
     tabController = TabController(vsync: this, length: 3);
     usermoduleright();
     userContributionResponse();
-    //sendDataToHomePage("hello call Back");
     getlocalvalue();
   }
 
-
   getlocalvalue()async{
      SharedPreferences prefs = await SharedPreferences.getInstance();
-     String? nameFirst = prefs.getString('nameFirst');
-     int? pointFirst = prefs.getInt('pointFirst');
-     print("------132---$nameFirst");
-     print("------133---$pointFirst");
-
      setState(() {
-
+      // sName = prefs.getString('name') ?? ""; // Retrieve value from SharedPreferences
+       String? nameFirst = prefs.getString('nameFirst') ?? "";
+       int? pointFirst = prefs.getInt('pointFirst');
+        sName = prefs.getString('sName') ?? "";
+        sContactNo = prefs.getString('sContactNo') ?? "";
+       print("------146---$nameFirst");
+       print("------1147---$pointFirst");
+       print("------148---$sName");
+       print("------1149---$sContactNo");
      });
+
    }
    @override
   void didChangeDependencies() {
@@ -174,6 +176,7 @@ class _MyHomePageState extends State<MyHomePage>
           ),
           // drawer
           drawer: Drawer(
+
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
@@ -195,7 +198,7 @@ class _MyHomePageState extends State<MyHomePage>
                           color: Color(0xff3f617d),
                         ),
                         Text(
-                          'ABHISHEK (Supervisor)',
+                          '${sName}',
                           style: TextStyle(
                               fontFamily: 'Montserrat',
                               color: Color(0xff3f617d),
@@ -212,7 +215,7 @@ class _MyHomePageState extends State<MyHomePage>
                             ),
                             SizedBox(width: 5),
                             Text(
-                              '987195xxxx',
+                              '${sContactNo}',
                               style: TextStyle(
                                   fontFamily: 'Montserrat',
                                   color: Color(0xff3f617d),

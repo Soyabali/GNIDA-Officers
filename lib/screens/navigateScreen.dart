@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:noidaone/screens/scheduledpoint.dart';
 
 
 class NavigateScreen extends StatefulWidget {
@@ -78,7 +74,7 @@ class _MyAppState extends State<NavigateScreen> {
             ),
           ),
           title: const Text(
-            'Scheduled Point',
+            'Map Location',
             style: TextStyle(
               fontFamily: 'Montserrat',
               color: Colors.white,
@@ -89,7 +85,6 @@ class _MyAppState extends State<NavigateScreen> {
         ),
         body: GoogleMap(
           mapType: MapType.normal,
-         // myLocationEnabled: true,
           compassEnabled: true,
           onMapCreated: _onMapCreated,
           initialCameraPosition: CameraPosition(
