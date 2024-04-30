@@ -294,14 +294,14 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                   const Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      Icon(
-                                        Icons.forward,
-                                        size: 10,
-                                        color: Color(0xff3f617d),
-                                      ),
+                                      // Icon(
+                                      //   Icons.forward,
+                                      //   size: 10,
+                                      //   color: Color(0xff3f617d),
+                                      // ),
                                       SizedBox(width: 5),
                                       Text(
-                                        'Sector',
+                                        '‣ Sector',
                                         style: TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Color(0xFF255899),
@@ -324,11 +324,11 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                   const Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      Icon(Icons.forward,
-                                          size: 10, color: Color(0xff3f617d)),
-                                      SizedBox(width: 5),
+                                      // Icon(Icons.forward,
+                                      //     size: 10, color: Color(0xff3f617d)),
+                                      // SizedBox(width: 5),
                                       Text(
-                                        'Location',
+                                        '‣ Location',
                                         style: TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Color(0xFF255899),
@@ -455,18 +455,22 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                               color: Colors.grey),
                                           GestureDetector(
                                             onTap: () {
-                                              print('-----401--');
-                                              getLocation();
+                                              print('-----458--');
+                                             // getLocation();
+                                              var fLatitude =  item['fLatitude'] ?? '';
+                                              var fLongitude =  item['fLongitude'] ?? '';
+                                              print('----462----${fLatitude}');
+                                              print('-----463---${fLongitude}');
 
-                                              if(lat !=null && long!=null){
+                                             if(fLatitude !=null && fLongitude!=null){
 
                                                 Navigator.push(
                                                    context,
                                                    MaterialPageRoute(
                                                        builder: (context) =>
                                                            NavigateScreen(
-                                                               lat: lat,
-                                                               long: long)),
+                                                               lat: fLatitude,
+                                                               long: fLongitude)),
                                                  );
                                               }else{
                                                 displayToast("Please check the location.");

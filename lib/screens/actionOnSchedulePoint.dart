@@ -138,7 +138,7 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
             },
             child: const Padding(
               padding: EdgeInsets.all(8.0),
-              child: Icon(Icons.arrow_back_ios),
+              child: Icon(Icons.arrow_back_ios,color: Colors.white),
             )),
         title: const Text(
           'Action on Scheduled Point',
@@ -191,9 +191,9 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
                           Container(
                             margin: EdgeInsets.only(left: 0,right: 10,top: 10),
                             child: Image.asset(
-                              'assets/images/favicon.png', // Replace with your image asset path
-                              width: 14,
-                              height: 14,
+                              'assets/images/ic_expense.png', // Replace with your image asset path
+                              width: 24,
+                              height: 24,
                             ),
                           ),
                           const Text(

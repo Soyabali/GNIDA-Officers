@@ -447,9 +447,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               margin:
                                   EdgeInsets.only(left: 0, right: 10, top: 10),
                               child: Image.asset(
-                                'assets/images/favicon.png', // Replace with your image asset path
-                                width: 14,
-                                height: 14,
+                                'assets/images/ic_expense.png', // Replace with your image asset path
+                                width: 24,
+                                height: 24,
                               ),
                             ),
                             const Text('Fill the below details',
@@ -461,19 +461,20 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
+                          padding: const EdgeInsets.only(bottom: 5,top: 10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              Container(
-                                  margin: EdgeInsets.only(
-                                      left: 8, right: 2, bottom: 2),
-                                  child: const Icon(
-                                    Icons.forward_sharp,
-                                    size: 12,
-                                    color: Colors.black54,
-                                  )),
-                              const Text('Point Type',
+
+                              // Container(
+                              //     margin: EdgeInsets.only(
+                              //         left: 8, right: 2, bottom: 2),
+                              //     child: const Icon(
+                              //       Icons.forward_sharp,
+                              //       size: 12,
+                              //       color: Colors.black54,
+                              //     )),
+                              const Text('‣ Point Type',
                                   style: TextStyle(
                                       fontFamily: 'Montserrat',
                                       color: Color(0xFF707d83),
@@ -490,14 +491,14 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              Container(
-                                  margin: EdgeInsets.only(left: 8, right: 2),
-                                  child: const Icon(
-                                    Icons.forward_sharp,
-                                    size: 12,
-                                    color: Colors.black54,
-                                  )),
-                              const Text('Sector',
+                              // Container(
+                              //     margin: EdgeInsets.only(left: 8, right: 2),
+                              //     child: const Icon(
+                              //       Icons.forward_sharp,
+                              //       size: 12,
+                              //       color: Colors.black54,
+                              //     )),
+                              const Text('‣ Sector',
                                   style: TextStyle(
                                       fontFamily: 'Montserrat',
                                       color: Color(0xFF707d83),
@@ -513,14 +514,14 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              Container(
-                                  margin: EdgeInsets.only(left: 8, right: 2),
-                                  child: const Icon(
-                                    Icons.forward_sharp,
-                                    size: 12,
-                                    color: Colors.black54,
-                                  )),
-                              const Text('Location',
+                              // Container(
+                              //     margin: EdgeInsets.only(left: 8, right: 2),
+                              //     child: const Icon(
+                              //       Icons.forward_sharp,
+                              //       size: 12,
+                              //       color: Colors.black54,
+                              //     )),
+                              const Text('‣ Location',
                                   style: TextStyle(
                                       fontFamily: 'Montserrat',
                                       color: Color(0xFF707d83),
@@ -565,14 +566,14 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              Container(
-                                  margin: EdgeInsets.only(left: 8, right: 2),
-                                  child: const Icon(
-                                    Icons.forward_sharp,
-                                    size: 12,
-                                    color: Colors.black54,
-                                  )),
-                              const Text('Description',
+                              // Container(
+                              //     margin: EdgeInsets.only(left: 8, right: 2),
+                              //     child: const Icon(
+                              //       Icons.forward_sharp,
+                              //       size: 12,
+                              //       color: Colors.black54,
+                              //     )),
+                              const Text('‣ Description',
                                   style: TextStyle(
                                       fontFamily: 'Montserrat',
                                       color: Color(0xFF707d83),
@@ -619,14 +620,14 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              Container(
-                                  margin: EdgeInsets.only(left: 8, right: 2),
-                                  child: const Icon(
-                                    Icons.forward_sharp,
-                                    size: 12,
-                                    color: Colors.black54,
-                                  )),
-                              const Text('Upload Photo',
+                              // Container(
+                              //     margin: EdgeInsets.only(left: 8, right: 2),
+                              //     child: const Icon(
+                              //       Icons.forward_sharp,
+                              //       size: 12,
+                              //       color: Colors.black54,
+                              //     )),
+                              const Text('‣ Upload Photo',
                                   style: TextStyle(
                                       fontFamily: 'Montserrat',
                                       color: Color(0xFF707d83),
@@ -677,9 +678,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             SizedBox(width: 10),
-                                            Icon(Icons.forward_sharp,
-                                                size: 10,
-                                                color: Colors.redAccent),
+                                            Image(image: AssetImage('assets/images/ic_long_right_arrow.PNG'),
+                                              width: 15,
+                                              height: 15,
+                                              fit: BoxFit.fill,
+                                            ),
                                           ],
                                         ),
                                       )
@@ -695,11 +698,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                   },
                                   child: const Padding(
                                     padding: EdgeInsets.only(right: 10, top: 5),
-                                    child: Icon(
-                                      Icons.camera,
-                                      size: 24.0,
-                                      color: Color(0xFF255899),
+                                    child: Image(image: AssetImage('assets/images/ic_camera.PNG'),
+                                    width: 40,
+                                      height: 40,
+                                      fit: BoxFit.fill,
                                     ),
+                                    // child: Icon(
+                                    //   Icons.camera,
+                                    //   size: 24.0,
+                                    //   color: Color(0xFF255899),
+                                    // ),
                                   ),
                                 ),
                               ],
@@ -710,7 +718,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              _imageFile != null
+                              image != null
                                   ? Stack(
                                       children: [
                                         GestureDetector(
@@ -721,7 +729,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 MaterialPageRoute(
                                                     builder: (context) =>
                                                         FullScreenPage(
-                                                          child: _imageFile!,
+                                                          child: image!,
                                                           dark: true,
                                                         )));
                                           },
@@ -730,7 +738,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               height: 100,
                                               width: 70,
                                               child: Image.file(
-                                                _imageFile!,
+                                                image!,
                                                 fit: BoxFit.fill,
                                               )),
                                         ),
@@ -739,7 +747,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             left: 35,
                                             child: IconButton(
                                               onPressed: () {
-                                                _imageFile = null;
+                                                image = null;
                                                 setState(() {});
                                               },
                                               icon: const Icon(

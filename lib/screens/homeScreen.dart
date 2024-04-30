@@ -126,9 +126,10 @@ class _MyHomePageState extends State<MyHomePage>
     userContributionResponse();
     //sendDataToHomePage("hello call Back");
     getlocalvalue();
-
   }
-   getlocalvalue()async{
+
+
+  getlocalvalue()async{
      SharedPreferences prefs = await SharedPreferences.getInstance();
      String? nameFirst = prefs.getString('nameFirst');
      int? pointFirst = prefs.getInt('pointFirst');
@@ -139,6 +140,20 @@ class _MyHomePageState extends State<MyHomePage>
 
      });
    }
+   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+     userContributionResponse();
+    super.didChangeDependencies();
+  }
+  @override
+  void didUpdateWidget(covariant MyHomePage oldWidget) {
+    // TODO: implement didUpdateWidget
+    userContributionResponse();
+    super.didUpdateWidget(oldWidget);
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -444,18 +459,22 @@ class _MyHomePageState extends State<MyHomePage>
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
                                 children: <Widget>[
                                   Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      //
+
+                                      SizedBox(height: 10),
                                       Image.asset(
-                                        'assets/images/trophy.png', // Asset image path
-                                        width: 90,
-                                        height: 90,
+                                        'assets/images/firsttrophy.png', // Asset image path
+                                        width: 50,
+                                        height: 50,
                                         fit: BoxFit.cover,
                                       ),
-                
+                                      SizedBox(height: 10),
                                        Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: <Widget>[
@@ -501,17 +520,20 @@ class _MyHomePageState extends State<MyHomePage>
                                           ),
                                         ],
                                       ),
-                
+
                                     ],
                                   ),
+                                  SizedBox(width: 20),
                                   Column(
                                     children: <Widget>[
                                       Image.asset(
-                                        'assets/images/trophy.png', // Asset image path
-                                        width: 75,
-                                        height: 75,
+                                        'assets/images/firsttrophy.png', // Asset image path
+                                        width: 40,
+                                        height: 40,
                                         fit: BoxFit.cover,
-                                      ), // Add some space between the image and text
+                                      ),
+                                      // Add some space between the image and text
+                                      SizedBox(height: 10),
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: <Widget>[
@@ -523,7 +545,7 @@ class _MyHomePageState extends State<MyHomePage>
                                                 fontSize: 10.0,
                                                 fontWeight: FontWeight.normal),
                                           ),
-                                          SizedBox(width: 5),
+
                                           Text(
                                             '$nameSecond',
                                             style: TextStyle(
@@ -546,7 +568,7 @@ class _MyHomePageState extends State<MyHomePage>
                                                 fontSize: 10.0,
                                                 fontWeight: FontWeight.normal),
                                           ),
-                                          SizedBox(width: 5),
+
                                           Text(
                                             'Point',
                                             style: TextStyle(
@@ -557,17 +579,19 @@ class _MyHomePageState extends State<MyHomePage>
                                           ),
                                         ],
                                       ),
-                
+
                                     ],
                                   ),
+                                  SizedBox(width: 20),
                                   Column(
                                     children: <Widget>[
                                       Image.asset(
-                                        'assets/images/trophy.png', // Asset image path
-                                        width: 60,
-                                        height: 60,
+                                        'assets/images/firsttrophy.png', // Asset image path
+                                        width: 30,
+                                        height: 30,
                                         fit: BoxFit.cover,
-                                      ), // Add some space between the image and text
+                                      ),
+                                      SizedBox(height: 10),// Add some space between the image and text
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: <Widget>[
@@ -613,7 +637,7 @@ class _MyHomePageState extends State<MyHomePage>
                                           ),
                                         ],
                                       ),
-                
+
                                     ],
                                   ),
                                 ],
@@ -645,9 +669,7 @@ class _MyHomePageState extends State<MyHomePage>
                     padding: const EdgeInsets.only(left: 15, right: 15, bottom: 0),
                     child: Container(
                       height: 100,
-                      child: Card(
-                          elevation: 10,
-                          child: Container(
+                   child: Container(
                               // color: Colors.grey,
                               height: 100,
                               width: MediaQuery.of(context).size.width,
@@ -751,7 +773,7 @@ class _MyHomePageState extends State<MyHomePage>
                           ),
                         ),
                     ),
-                    ),
+
             ],
           ),
         ),

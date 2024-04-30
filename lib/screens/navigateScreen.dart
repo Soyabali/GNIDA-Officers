@@ -41,10 +41,20 @@ class _MyAppState extends State<NavigateScreen> {
   late LatLng _center;
   void initState() {
     // TODO: implement initState
-    print('----24---lat--${widget.lat}');
-    print('----24---long---${widget.long}');
+    print('----44---lat--${widget.lat}');
+    print('----45---long---${widget.long}');
     _center = LatLng(widget.lat ?? 0.0, widget.long ?? 0.0);
     super.initState();
+  }
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+  }
+  @override
+  void didUpdateWidget(covariant NavigateScreen oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -52,10 +62,6 @@ class _MyAppState extends State<NavigateScreen> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
-      // theme: ThemeData(
-      //   useMaterial3: true,
-      //   colorSchemeSeed: Colors.green[700],
-      // ),
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
