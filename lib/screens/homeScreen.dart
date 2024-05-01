@@ -18,6 +18,7 @@ import '../Controllers/usercontributionMonthRepo.dart';
 import '../Controllers/usercontributionTodayRepo.dart';
 import '../resources/app_text_style.dart';
 import 'changePassword.dart';
+import 'complaintStatus.dart';
 import 'dailyActivity.dart';
 import 'loginScreen_2.dart';
 import 'mypoint.dart';
@@ -173,7 +174,7 @@ class _MyHomePageState extends State<MyHomePage>
 
   usermoduleright() async {
     userModuleRightList = await UserModuleRightRepo().usermoduleright();
-    print(" ----83--> $userModuleRightList");
+    print(" ----83----xxxxx-> $userModuleRightList");
     // print(" ----84--> ${userModuleRightList.length}");
     // print(" ----85--> $userModuleRightList['sActivityName']");
     setState(() {});
@@ -808,6 +809,13 @@ class _MyHomePageState extends State<MyHomePage>
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             const DryWetSegregationScreen()));
+                              }
+                              else if(activatecode =="5"){
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                        const ComplaintStatusScreen()));
                               }
                             },
                             child: Container(

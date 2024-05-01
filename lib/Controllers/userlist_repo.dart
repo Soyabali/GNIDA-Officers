@@ -30,17 +30,6 @@ var request = http.Request('GET', Uri.parse(visitListCompletedApi));
 request.headers.addAll(headers);
 
 http.StreamedResponse response = await request.send();
-    //   var userId = 118;
-    //   var baseApi = BaseApi.baseApi;
-    //   var UserListApi2 = baseApi + endPoint;
-    //   var userListApi = "$UserListApi2$userId";
-    //   print('-----userList Api---23---$userListApi');
-    //  // var userListUrl = userListApi;
-    //   //
-    //   var headers = {'Authorization': '$token'};
-    //   var request = http.Request('GET', Uri.parse(userListApi));
-    //   request.headers.addAll(headers);
-    //   http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
         var data = await response.stream.bytesToString();

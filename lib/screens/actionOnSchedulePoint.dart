@@ -196,13 +196,16 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
                               height: 24,
                             ),
                           ),
-                          const Text(
-                              'Fill the below details',
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Color(0xFF707d83),
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: const Text(
+                                'Fill the below details',
+                                style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: Color(0xFF707d83),
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold)
+                            ),
                           ),
                         ],
                       ),
@@ -213,7 +216,7 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                                margin: EdgeInsets.only(left: 8,right: 2),
+                                margin: EdgeInsets.only(left: 0,right: 2),
                                 child: const Icon(
                                   Icons.forward_sharp,
                                   size: 12,
@@ -231,7 +234,7 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
                         ),
                       ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 10,right: 10),
+                      padding: const EdgeInsets.only(left: 0,right: 0),
                       child: Container(
                         height: 180,
                         width: double.infinity,
@@ -247,7 +250,7 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                                margin: EdgeInsets.only(left: 8,right: 2),
+                                margin: EdgeInsets.only(left: 0,right: 2),
                                 child: const Icon(
                                   Icons.forward_sharp,
                                   size: 12,
@@ -296,7 +299,7 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                                margin: EdgeInsets.only(left: 8,right: 2),
+                                margin: EdgeInsets.only(left: 0,right: 2),
                                 child: const Icon(
                                   Icons.forward_sharp,
                                   size: 12,
@@ -369,11 +372,16 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
                                 },
                                 child: const Padding(
                                   padding: EdgeInsets.only(right: 10,top: 5),
-                                  child: Icon(
-                                    Icons.camera,
-                                    size: 24.0,
-                                    color: Color(0xFF255899),
+                                  child: Image(image: AssetImage('assets/images/ic_camera.PNG'),
+                                    width: 40,
+                                    height: 40,
+                                    fit: BoxFit.fill,
                                   ),
+                                  // child: Icon(
+                                  //   Icons.camera,
+                                  //   size: 24.0,
+                                  //   color: Color(0xFF255899),
+                                  // ),
                                 ),
                               ),
                             ],

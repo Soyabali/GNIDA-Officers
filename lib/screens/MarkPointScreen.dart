@@ -274,14 +274,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         _selectedBlockId = element['iSectorCode'];
                       });
                       print('-----170--$_selectedBlockId');
-                      // if (_selectedDisticId != null) {
-                      //   updatedBlock();
-                      // } else {
-                      //   print('Please Select Distic name');
-                      // }
-                      // print("Distic Id value xxxxx.... $_selectedDisticId");
-                      print("Distic Name xxxxxxx.... $_dropDownValueDistric");
-                      print("Block list Ali xxxxxxxxx.... $blockList");
                     }
                   });
                 });
@@ -452,12 +444,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                 height: 24,
                               ),
                             ),
-                            const Text('Fill the below details',
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    color: Color(0xFF707d83),
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold)),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: const Text('Fill the below details',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xFF707d83),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold)),
+                            ),
                           ],
                         ),
                         Padding(
@@ -468,7 +463,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                               Container(
                                   margin: EdgeInsets.only(
-                                      left: 8, right: 2, bottom: 2),
+                                      left: 0, right: 2, bottom: 2),
                                   child: const Icon(
                                     Icons.forward_sharp,
                                     size: 12,
@@ -492,7 +487,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Container(
-                                  margin: EdgeInsets.only(left: 8, right: 2),
+                                  margin: EdgeInsets.only(left: 0, right: 2),
                                   child: const Icon(
                                     Icons.forward_sharp,
                                     size: 12,
@@ -515,7 +510,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Container(
-                                  margin: EdgeInsets.only(left: 8, right: 2),
+                                  margin: EdgeInsets.only(left: 0, right: 2),
                                   child: const Icon(
                                     Icons.forward_sharp,
                                     size: 12,
@@ -567,7 +562,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Container(
-                                  margin: EdgeInsets.only(left: 8, right: 2),
+                                  margin: EdgeInsets.only(left: 0, right: 2),
                                   child: const Icon(
                                     Icons.forward_sharp,
                                     size: 12,
@@ -621,7 +616,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Container(
-                                  margin: EdgeInsets.only(left: 8, right: 2),
+                                  margin: EdgeInsets.only(left: 0, right: 2),
                                   child: const Icon(
                                     Icons.forward_sharp,
                                     size: 12,
@@ -703,11 +698,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                       height: 40,
                                       fit: BoxFit.fill,
                                     ),
-                                    // child: Icon(
-                                    //   Icons.camera,
-                                    //   size: 24.0,
-                                    //   color: Color(0xFF255899),
-                                    // ),
                                   ),
                                 ),
                               ],

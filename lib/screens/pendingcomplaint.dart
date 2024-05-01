@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:noidaone/Controllers/ajencyUserRepo.dart';
+import 'package:noidaone/Controllers/complaintForwardRepo.dart';
 import 'package:noidaone/screens/viewimage.dart';
+import '../Controllers/bindAjencyRepo.dart';
+import '../Controllers/markLocationRepo.dart';
 import '../Controllers/pendingInternalComplaintRepo.dart';
 import 'actionOnSchedulePoint.dart';
 import 'homeScreen.dart';
@@ -40,47 +46,73 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
   var variableName2;
   List<Map<String, dynamic>>? pendingInternalComplaintList;
   List<Map<String, dynamic>> _filteredData = [];
+  List bindAjencyList = [];
+  List userAjencyList = [];
+  var iAgencyCode;
+  var agencyUserId;
   TextEditingController _searchController = TextEditingController();
   double? lat;
   double? long;
+  var _dropDownValueMarkLocation;
+  var _dropDownAgency;
+  var _dropDownValueUserAgency;
+  var _dropDownValueDistric;
+  final distDropdownFocus = GlobalKey();
+  final _formKey = GlobalKey<FormState>();
+  double _borderRadius = 0.0; // Initial border radius
+  var _selectedBlockId;
+  var result,msg;
 
-
+  // Function to toggle between border radii
+  void _toggleBorderRadius() {
+    setState(() {
+      _borderRadius = _borderRadius == 0.0 ? 20.0 : 0.0;
+    });
+  }
   // Get a api response
   pendingInternalComplaintResponse() async {
-    pendingInternalComplaintList = await PendingInternalComplaintRepo().pendingInternalComplaint(context);
-    _filteredData = List<Map<String, dynamic>>.from(pendingInternalComplaintList ?? []);
+    pendingInternalComplaintList =
+        await PendingInternalComplaintRepo().pendingInternalComplaint(context);
+    _filteredData =
+        List<Map<String, dynamic>>.from(pendingInternalComplaintList ?? []);
 
     print('--44--$pendingInternalComplaintList');
     print('--45--$_filteredData');
     setState(() {});
   }
+
   @override
   void initState() {
     // TODO: implement initState
     pendingInternalComplaintResponse();
     _searchController.addListener(_search);
+    //marklocationData();
+    bindAjency();
     super.initState();
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
     _searchController.dispose();
     super.dispose();
   }
+
   void _search() {
     String query = _searchController.text.toLowerCase();
     setState(() {
       _filteredData = pendingInternalComplaintList?.where((item) {
-        String location = item['sLocation'].toLowerCase();
-        String pointType = item['sPointTypeName'].toLowerCase();
-        String sector = item['sSectorName'].toLowerCase();
-        return location.contains(query) ||
-            pointType.contains(query) ||
-            sector.contains(query);
-      }).toList() ??
+            String location = item['sLocation'].toLowerCase();
+            String pointType = item['sPointTypeName'].toLowerCase();
+            String sector = item['sSectorName'].toLowerCase();
+            return location.contains(query) ||
+                pointType.contains(query) ||
+                sector.contains(query);
+          }).toList() ??
           [];
     });
   }
+
   // location
   void getLocation() async {
     bool serviceEnabled;
@@ -128,6 +160,49 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
         fontSize: 16.0);
   }
 
+  //
+  bindAjency() async {
+    bindAjencyList = await BindAjencyRepo().bindajency();
+    print(" -----1607---bindAjencyList---> $bindAjencyList");
+    setState(() {});
+  }
+  userAjency(int ajencyCode) async {
+    print('-----170--$ajencyCode');
+    List<dynamic>? myList ;
+    myList = await AjencyUserRepo().ajencyuser(ajencyCode);
+    if(myList !=null){
+      print('----List is not null');
+    }else{
+      print('----List is null');
+    }
+    //print('---list length-----172----${userAjencyList.length}');
+    //print('-----172--xxxxxxx-$userAjencyList');
+   //  var map = await AjencyUserRepo().ajencyuser(ajencyCode);
+   //  print(" -----174----xxxxxxxx---> $map");
+   // var result1 = "${map['Data']}";
+   //  result = "${map['Result']}";
+   //  msg = "${map['Msg']}";
+   //  print('---177--$result');
+   //  print('---178--$msg');
+   //  if(result=="1"){
+   //
+   //    var result1 = "${map['Data']}";
+   //    List<dynamic> userAjencyList = jsonDecode(result1);
+   //    print('---183-----xxxxx--$userAjencyList');
+   //    // print('----$result1');
+   //    //   map['data'].forEach((element) {
+   //    //   debugPrint("element: $element");
+   //    //   // store the data into the list after interation
+   //    //   userAjencyList.add(element);
+   //    //   print('----185--xxxxxxxxxxx----$userAjencyList');
+   //
+   //    //});
+   //  }else{
+   //    print('---183---to give result is not found--');
+   //  }
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -158,7 +233,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
         children: <Widget>[
           Center(
             child: Padding(
-              padding: EdgeInsets.only(left: 15, right: 15),
+              padding: EdgeInsets.only(left: 15, right: 15,top: 10),
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 10.0),
                 decoration: BoxDecoration(
@@ -197,9 +272,9 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
             child: ListView.builder(
               itemCount: _filteredData.length ?? 0,
               itemBuilder: (context, index) {
-              Map<String, dynamic> item = _filteredData[index];
+                Map<String, dynamic> item = _filteredData[index];
                 return Padding(
-                  padding: const EdgeInsets.only(left: 8, top: 8,right: 8),
+                  padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
                   child: Container(
                     child: Column(
                       children: [
@@ -214,54 +289,101 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                               ),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 8, right: 8),
+                              padding: const EdgeInsets.only(left: 8, right: 0),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 5),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Container(
                                           width: 30.0,
                                           height: 30.0,
                                           decoration: BoxDecoration(
                                             borderRadius:
-                                            BorderRadius.circular(15.0),
+                                                BorderRadius.circular(15.0),
                                             border: Border.all(
-                                              color: Color(
-                                                  0xFF255899), // Outline border color
+                                              color: Color(0xFF255899),
+                                              // Outline border color
                                               width:
-                                              0.5, // Outline border width
+                                                  0.5, // Outline border width
                                             ),
                                             color: Colors.white,
                                           ),
                                           child: const Center(
-                                            child: Icon(Icons.ac_unit_rounded,color:Color(0xFF255899),size: 20)
-                                          )),
-                                      SizedBox(width: 5),
-                                       Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(item['sPointTypeName'] ??'',
-                                            style: const TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Color(0xff3f617d),
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold),
+                                              child: Icon(Icons.ac_unit_rounded,
+                                                  color: Color(0xFF255899),
+                                                  size: 20)),
+                                        ),
+                                        SizedBox(width: 5),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text(
+                                              item['sPointTypeName'] ?? '',
+                                              style: const TextStyle(
+                                                  fontFamily: 'Montserrat',
+                                                  color: Color(0xff3f617d),
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            const Text(
+                                              'Point Name',
+                                              style: TextStyle(
+                                                  fontFamily: 'Montserrat',
+                                                  color: Color(0xff3f617d),
+                                                  fontSize: 12.0,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(width: 0),
+                                        Expanded(
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              var fLatitude =
+                                                  item['fLatitude'] ?? '';
+                                              var fLongitude =
+                                                  item['fLongitude'] ?? '';
+                                              print('----462----${fLatitude}');
+                                              print('-----463---${fLongitude}');
+
+                                              // getLocation();
+                                              if (fLatitude != null &&
+                                                  fLongitude != null) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          NavigateScreen(
+                                                              lat: fLatitude,
+                                                              long:
+                                                                  fLongitude)),
+                                                );
+                                              } else {
+                                                displayToast(
+                                                    "Please check the location.");
+                                              }
+                                            },
+                                            child: Container(
+                                              alignment: Alignment.centerRight,
+                                              height: 40,
+                                              width: 40,
+                                              child: Image(
+                                                  image: AssetImage(
+                                                      'assets/images/ic_google_maps.PNG')),
+                                            ),
                                           ),
-                                          const Text(
-                                            'Point Name',
-                                            style: TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Color(0xff3f617d),
-                                                fontSize: 12.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
-                                      )
-                                    ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   const SizedBox(height: 10),
                                   Padding(
@@ -283,6 +405,36 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                       ),
                                       SizedBox(width: 5),
                                       Text(
+                                        'Complaint NO',
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Color(0xFF255899),
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 15),
+                                    child: Text(
+                                      item['iCompCode'].toString() ?? '',
+                                      style: const TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xff3f617d),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  const Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.forward,
+                                        size: 10,
+                                        color: Color(0xff3f617d),
+                                      ),
+                                      SizedBox(width: 5),
+                                      Text(
                                         'Sector',
                                         style: TextStyle(
                                             fontFamily: 'Montserrat',
@@ -294,7 +446,8 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                   ),
                                   Padding(
                                     padding: EdgeInsets.only(left: 15),
-                                    child: Text(item['sSectorName'] ??'',
+                                    child: Text(
+                                      item['sSectorName'] ?? '',
                                       style: const TextStyle(
                                           fontFamily: 'Montserrat',
                                           color: Color(0xff3f617d),
@@ -321,10 +474,10 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                       )
                                     ],
                                   ),
-                                   Padding(
+                                  Padding(
                                     padding: EdgeInsets.only(left: 15),
                                     child: Text(
-                                      item['dPostedOn'] ??'',
+                                      item['dPostedOn'] ?? '',
                                       style: const TextStyle(
                                           fontFamily: 'Montserrat',
                                           color: Color(0xff3f617d),
@@ -348,10 +501,10 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                       )
                                     ],
                                   ),
-                                   Padding(
+                                  Padding(
                                     padding: EdgeInsets.only(left: 15),
                                     child: Text(
-                                      item['sLocation'] ??'',
+                                      item['sLocation'] ?? '',
                                       style: const TextStyle(
                                           fontFamily: 'Montserrat',
                                           color: Color(0xff3f617d),
@@ -375,10 +528,10 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                       )
                                     ],
                                   ),
-                                   Padding(
+                                  Padding(
                                     padding: EdgeInsets.only(left: 15),
                                     child: Text(
-                                      item['sDescription'] ??'',
+                                      item['sDescription'] ?? '',
                                       style: const TextStyle(
                                           fontFamily: 'Montserrat',
                                           color: Color(0xff3f617d),
@@ -386,7 +539,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
-                                   Row(
+                                  Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
                                       const Icon(
@@ -404,7 +557,8 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                             fontWeight: FontWeight.bold),
                                       ),
                                       const SizedBox(width: 5),
-                                      Text(item['sPendingFrom'] ??'',
+                                      Text(
+                                        item['sPendingFrom'] ?? '',
                                         style: const TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Color(0xff3f617d),
@@ -422,13 +576,14 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                           left: 10, right: 10),
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: GestureDetector(
-                                              onTap: (){
-                                                var sBeforePhoto = "${item['sBeforePhoto']}";
+                                              onTap: () {
+                                                var sBeforePhoto =
+                                                    "${item['sBeforePhoto']}";
                                                 print('---$sBeforePhoto');
 
                                                 if (sBeforePhoto != null) {
@@ -438,23 +593,25 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                                           builder: (context) =>
                                                               ImageScreen(
                                                                   sBeforePhoto:
-                                                                  sBeforePhoto)));
+                                                                      sBeforePhoto)));
                                                 } else {
                                                   // toast
                                                 }
                                               },
                                               child: const Row(
                                                 mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                                    MainAxisAlignment.start,
                                                 children: [
                                                   Text(
                                                     'View Image',
                                                     style: TextStyle(
-                                                        fontFamily: 'Montserrat',
-                                                        color: Color(0xFF255899),
+                                                        fontFamily:
+                                                            'Montserrat',
+                                                        color:
+                                                            Color(0xFF255899),
                                                         fontSize: 14.0,
                                                         fontWeight:
-                                                        FontWeight.bold),
+                                                            FontWeight.bold),
                                                   ),
                                                   SizedBox(width: 5),
                                                   Icon(
@@ -472,28 +629,36 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: GestureDetector(
-                                              onTap: (){
+                                              onTap: () {
                                                 print('----341---');
-                                                var sBeforePhoto = "${item['sBeforePhoto']}";
-                                                print('----357---$sBeforePhoto');
+                                                var sBeforePhoto =
+                                                    "${item['sBeforePhoto']}";
+                                                print(
+                                                    '----357---$sBeforePhoto');
                                                 //
                                                 Navigator.push(
                                                   context,
-                                                  MaterialPageRoute(builder: (context) => ActionOnSchedultPointScreen(sBeforePhoto:sBeforePhoto)),
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ActionOnSchedultPointScreen(
+                                                              sBeforePhoto:
+                                                                  sBeforePhoto)),
                                                 );
                                               },
                                               child: const Row(
                                                 mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                                    MainAxisAlignment.start,
                                                 children: [
                                                   Text(
                                                     'Action',
                                                     style: TextStyle(
-                                                        fontFamily: 'Montserrat',
-                                                        color: Color(0xFF255899),
+                                                        fontFamily:
+                                                            'Montserrat',
+                                                        color:
+                                                            Color(0xFF255899),
                                                         fontSize: 14.0,
                                                         fontWeight:
-                                                        FontWeight.bold),
+                                                            FontWeight.bold),
                                                   ),
                                                   SizedBox(width: 5),
                                                   Icon(
@@ -511,38 +676,25 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                           Padding(
                                             padding: const EdgeInsets.all(4.0),
                                             child: GestureDetector(
-                                              onTap: (){
-                                                var fLatitude =  item['fLatitude'] ?? '';
-                                                var fLongitude =  item['fLongitude'] ?? '';
-                                                print('----462----${fLatitude}');
-                                                print('-----463---${fLongitude}');
+                                              onTap: () {
+                                                print('---Forward---');
+                                                //bindAjency();
+                                                _showBottomSheet(context);
 
-                                               // getLocation();
-                                                if(fLatitude !=null && fLongitude!=null){
-
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            NavigateScreen(
-                                                                lat: fLatitude,
-                                                                long: fLongitude)),
-                                                  );
-                                                }else{
-                                                  displayToast("Please check the location.");
-                                                }
                                               },
                                               child: const Row(
                                                 mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                                    MainAxisAlignment.start,
                                                 children: [
-                                                  Text('Navigate',
+                                                  Text('Forward',
                                                       style: TextStyle(
-                                                          fontFamily: 'Montserrat',
-                                                          color: Color(0xFF255899),
+                                                          fontFamily:
+                                                              'Montserrat',
+                                                          color:
+                                                              Color(0xFF255899),
                                                           fontSize: 14.0,
                                                           fontWeight:
-                                                          FontWeight.bold)),
+                                                              FontWeight.bold)),
                                                   // SizedBox(width: 5),
                                                   //Icon(Icons.forward_sharp,color: Color(0xFF255899))
                                                 ],
@@ -569,9 +721,319 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
       ),
     );
   }
+
+// bottom sheet
+// bottom screen
+  void _showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return AnimatedContainer(
+          duration: Duration(seconds: 1),
+          curve: Curves.easeInOut,
+          height: 400, // Adjust height as needed
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20.0), // Adjust the radius as needed
+                topRight: Radius.circular(20.0), // Adjust the radius as needed
+              ),
+            ),
+          child:  Column(
+          children: <Widget>[
+            SizedBox(
+              height: 150, // Height of the container
+              width: 200, // Width of the container
+              child: Opacity(
+                opacity: 0.9,
+                //step3.jpg
+                child: Image.asset(
+                  'assets/images/markpointheader.jpeg',
+                  fit: BoxFit.cover, // Adjust the image fit to cover the container
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: Container(
+                width: MediaQuery.of(context).size.width - 30,
+                decoration: BoxDecoration(
+                    color: Colors.white, // Background color of the container
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5), // Color of the shadow
+                        spreadRadius: 5, // Spread radius
+                        blurRadius: 7, // Blur radius
+                        offset: Offset(0, 3), // Offset of the shadow
+                      ),
+                    ]),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: Form(
+                     key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            // 'assets/images/favicon.png',
+                            Container(
+                              margin:
+                                  EdgeInsets.only(left: 0, right: 10, top: 10),
+                              child: Image.asset(
+                                'assets/images/ic_expense.png',
+                                // Replace with your image asset path
+                                width: 24,
+                                height: 24,
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 10),
+                              child: Text('Fill the below details',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xFF707d83),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 5, top: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                  margin: EdgeInsets.only(
+                                      left: 0, right: 2, bottom: 2),
+                                  child: const Icon(
+                                    Icons.forward_sharp,
+                                    size: 12,
+                                    color: Colors.black54,
+                                  )),
+                              const Text('Agency',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xFF707d83),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width - 50,
+                          height: 42,
+                          color: Color(0xFFf2f3f5),
+                          child: DropdownButtonHideUnderline(
+                            child: ButtonTheme(
+                              alignedDropdown: true,
+                              child: DropdownButton(
+                                onTap: () {
+                                  FocusScope.of(context).unfocus();
+                                },
+                                hint: RichText(
+                                  text: const TextSpan(
+                                    text: "Please choose a Agency",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                          text: '',
+                                          style: TextStyle(
+                                              color: Colors.red,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold)),
+                                    ],
+                                  ),
+                                ), // Not necessary for Option 1
+                                value: _dropDownAgency,
+                              //  key: distDropdownFocus,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _dropDownAgency = newValue;
+                                    setState(() {
+
+                                    });
+                                    print('---1100---$_dropDownAgency');
+                                    //  _isShowChosenDistError = false;
+                                    // Iterate the List
+                                    bindAjencyList.forEach((element) async {
+                                      if (element["sAgencyName"] == _dropDownAgency) {
+                                        setState(() {
+                                          iAgencyCode = element['iAgencyCode'];
+                                        });
+                                        if (iAgencyCode != null) {
+                                          print('---842----$iAgencyCode');
+                                          userAjency(iAgencyCode);
+
+                                        } else {
+                                          print('----845-------');
+                                        }
+                                      }
+                                    });
+                                  });
+                                },
+                                items: bindAjencyList.map((dynamic item) {
+                                  return DropdownMenuItem(
+                                    child: Text(item['sAgencyName'].toString()),
+                                    value: item["sAgencyName"].toString(),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 5),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                  margin: EdgeInsets.only(left: 0, right: 2),
+                                  child: const Icon(
+                                    Icons.forward_sharp,
+                                    size: 12,
+                                    color: Colors.black54,
+                                  )),
+                              const Text('User',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xFF707d83),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width - 50,
+                          height: 42,
+                          color: Color(0xFFf2f3f5),
+                          child: DropdownButtonHideUnderline(
+                            child: ButtonTheme(
+                              alignedDropdown: true,
+                              child: DropdownButton(
+                                onTap: () {
+                                  FocusScope.of(context).unfocus();
+                                },
+                                hint: RichText(
+                                  text: const TextSpan(
+                                    text: "Please choose a Agency",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                          text: '',
+                                          style: TextStyle(
+                                              color: Colors.red,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold)),
+                                    ],
+                                  ),
+                                ), // Not necessary for Option 1
+                                value: _dropDownValueUserAgency,
+                              //  key: distDropdownFocus,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _dropDownValueUserAgency = newValue;
+                                    print('---917---$_dropDownValueUserAgency');
+                                    //  _isShowChosenDistError = false;
+                                    // Iterate the List
+                                    userAjencyList.forEach((element) {
+                                      if (element["sName"] == _dropDownValueUserAgency) {
+                                        setState(() {
+                                          agencyUserId = element['iUserId'];
+                                        });
+                                        //print('-----926--$agencyUserId');
+                                      }
+                                    });
+                                  });
+                                },
+                                items: userAjencyList.map((dynamic item) {
+                                  return DropdownMenuItem(
+                                    child: Text(item['sName'].toString()),
+                                    value: item["sName"].toString(),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        ElevatedButton(
+                            onPressed: ()async {
+                              /// TODO REMOVE COMMENT AND apply proper api below and handle api data
+                             // print('----clicked--xxxxxxxx--');
+                              if(iAgencyCode!=null && agencyUserId!=null){
+                                print('----call Api--');
+                                print('----$iAgencyCode');
+                                print('----$agencyUserId');
+                               var complaintForwardResponse = await ComplaintForwardRepo().complaintForward(iAgencyCode,agencyUserId);
+                               print('----949---$complaintForwardResponse');
+                                List<dynamic> userAjencyList = jsonDecode(complaintForwardResponse);
+                                   //print('---183-----xxxxx--$userAjencyList['Msg']');
+                                print('----$userAjencyList');
+
+
+
+
+                                var map;
+                                var data = await complaintForwardResponse.stream.bytesToString();
+                                map = json.decode(data);
+                               print('----952--$map');
+
+                              }else{
+                                print('----Not call a Api--');
+
+                              }
+                              // var markPointSubmitResponse =
+                              // await MarkPointSubmitRepo().markpointsubmit(
+                              //     context,
+                              //     randomNumber,
+                              //     _selectedPointId,
+                              //     _selectedBlockId,
+                              //     location,
+                              //     slat,
+                              //     slong,
+                              //     description,
+                              //     uplodedImage,
+                              //     todayDate,
+                              //     userId);
+                              //
+                              // print('----699---$markPointSubmitResponse');
+
+                              /// Todo next Apply condition
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(
+                                  0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+                            ),
+                            child: const Text("Submit",
+                              style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Colors.white,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold),
+                            ))
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        )
+        );
+      },
+    );
+  }
 }
 
-// ListTile CLASS
 class MyListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -615,1238 +1077,3 @@ class MyListTile extends StatelessWidget {
     );
   }
 }
-
-// Searchbar
-// class SearchBar extends StatelessWidget {
-//   const SearchBar({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       elevation: 0,
-//       child: Container(
-//         padding: EdgeInsets.symmetric(horizontal: 10.0),
-//         decoration: BoxDecoration(
-//           borderRadius: BorderRadius.circular(5.0),
-//           border: Border.all(
-//             color: Colors.grey, // Outline border color
-//             width: 0.2, // Outline border width
-//           ),
-//           color: Colors.white,
-//         ),
-//         child: Row(
-//           children: [
-//             const Icon(
-//               Icons.search,
-//               color: Colors.black54,
-//             ),
-//             const SizedBox(width: 10.0),
-//             Expanded(
-//               child: TextFormField(
-//                 controller: _searchController,
-//                 autofocus: true,
-//                 decoration: const InputDecoration(
-//                   hintText: 'Enter Keywords',
-//                   hintStyle: TextStyle(
-//                       fontFamily: 'Montserrat',
-//                       color: Color(0xFF707d83),
-//                       fontSize: 14.0,
-//                       fontWeight: FontWeight.bold),
-//                   border: InputBorder.none,
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-
-
-
-// import 'package:flutter/material.dart';
-// import 'homeScreen.dart';
-//
-// class PendingComplaintScreen extends StatelessWidget {
-//   const PendingComplaintScreen({Key? key}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       theme: ThemeData(
-//         appBarTheme: const AppBarTheme(
-//           iconTheme: IconThemeData(
-//             color: Colors.white, // Change the color of the drawer icon here
-//           ),
-//         ),
-//       ),
-//       debugShowCheckedModeBanner: false,
-//       home: SchedulePointScreen(),
-//     );
-//   }
-// }
-//
-// class SchedulePointScreen extends StatefulWidget {
-//   const SchedulePointScreen({Key? key}) : super(key: key);
-//
-//   @override
-//   State<SchedulePointScreen> createState() => _SchedulePointScreenState();
-// }
-//
-// class _SchedulePointScreenState extends State<SchedulePointScreen> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       appBar: AppBar(
-//         backgroundColor: Color(0xFF255899),
-//         leading: GestureDetector(
-//             onTap: () {
-//               //Navigator.pop(context);
-//               Navigator.push(context,
-//                   MaterialPageRoute(builder: (context) => const HomePage()));
-//             },
-//             child: Padding(
-//               padding: const EdgeInsets.all(8.0),
-//               child: Icon(Icons.arrow_back_ios),
-//             )),
-//         title: const Text(
-//           'Pending Complaint',
-//           style: TextStyle(
-//               fontFamily: 'Montserrat',
-//               color: Colors.white,
-//               fontSize: 18.0,
-//               fontWeight: FontWeight.bold),
-//         ),
-//       ),
-//       body: SingleChildScrollView(
-//         child: Column(
-//           children: <Widget>[
-//             const Center(
-//               child: Padding(
-//                 padding: EdgeInsets.only(left: 15, right: 15),
-//                 child: SearchBar(),
-//               ),
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.only(left: 15.0, right: 15, bottom: 10),
-//               child: Card(
-//                 elevation: 1,
-//                 child: Container(
-//                     decoration: BoxDecoration(
-//                       borderRadius: BorderRadius.circular(5.0),
-//                       border: Border.all(
-//                         color: Colors.grey, // Outline border color
-//                         width: 0.2, // Outline border width
-//                       ),
-//                       color: Colors.white,
-//                     ),
-//                     child: Column(
-//                       mainAxisAlignment: MainAxisAlignment.start,
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: <Widget>[
-//                         // MyListTile(),
-//                         Padding(
-//                           padding: const EdgeInsets.only(left: 8, top: 8),
-//                           child: Row(
-//                             mainAxisAlignment: MainAxisAlignment.start,
-//                             children: <Widget>[
-//                               Container(
-//                                   width: 30.0,
-//                                   height: 30.0,
-//                                   decoration: BoxDecoration(
-//                                     borderRadius: BorderRadius.circular(15.0),
-//                                     border: Border.all(
-//                                       color:Color(0xFF255899), // Outline border color
-//                                       width: 0.5, // Outline border width
-//                                     ),
-//                                     color: Colors.white,
-//                                   ),
-//                                   child: const Center(
-//                                     child:  Icon(Icons.ac_unit_rounded,color:Color(0xFF255899),size: 20)
-//                                   )),
-//                               SizedBox(width: 5),
-//                               const Column(
-//                                 crossAxisAlignment: CrossAxisAlignment.start,
-//                                 children: <Widget>[
-//                                   Text(
-//                                     'Garbage Vulnerable Points (GVP)',
-//                                     style: TextStyle(
-//                                         fontFamily: 'Montserrat',
-//                                         color: Color(0xff3f617d),
-//                                         fontSize: 14.0,
-//                                         fontWeight: FontWeight.bold),
-//                                   ),
-//                                   Text(
-//                                     'Point Name',
-//                                     style: TextStyle(
-//                                         fontFamily: 'Montserrat',
-//                                         color: Color(0xff3f617d),
-//                                         fontSize: 12.0,
-//                                         fontWeight: FontWeight.bold),
-//                                   ),
-//                                 ],
-//                               )
-//                             ],
-//                           ),
-//                         ),
-//                         const SizedBox(height: 10),
-//                         Padding(
-//                           padding: const EdgeInsets.only(left: 15, right: 15),
-//                           child: Container(
-//                             height: 0.5,
-//                             color: Color(0xff3f617d),
-//                           ),
-//                         ),
-//                         SizedBox(height: 5),
-//                         const Row(
-//                           mainAxisAlignment: MainAxisAlignment.start,
-//                           children: <Widget>[
-//                             Icon(
-//                               Icons.forward,
-//                               size: 10,
-//                               color: Color(0xff3f617d),
-//                             ),
-//                             SizedBox(width: 5),
-//                             Text(
-//                               'Sector',
-//                               style: TextStyle(
-//                                   fontFamily: 'Montserrat',
-//                                   color: Color(0xFF255899),
-//                                   fontSize: 14.0,
-//                                   fontWeight: FontWeight.bold),
-//                             )
-//                           ],
-//                         ),
-//                         const Padding(
-//                           padding: EdgeInsets.only(left: 15),
-//                           child: Text(
-//                             'Sector-50',
-//                             style: TextStyle(
-//                                 fontFamily: 'Montserrat',
-//                                 color: Color(0xff3f617d),
-//                                 fontSize: 14.0,
-//                                 fontWeight: FontWeight.bold),
-//                           ),
-//                         ),
-//                         const Row(
-//                           mainAxisAlignment: MainAxisAlignment.start,
-//                           children: <Widget>[
-//                             Icon(
-//                               Icons.forward,
-//                               size: 10,
-//                               color: Color(0xff3f617d),
-//                             ),
-//                             SizedBox(width: 5),
-//                             Text(
-//                               'Posted At',
-//                               style: TextStyle(
-//                                   fontFamily: 'Montserrat',
-//                                   color: Color(0xFF255899),
-//                                   fontSize: 14.0,
-//                                   fontWeight: FontWeight.bold),
-//                             )
-//                           ],
-//                         ),
-//                         const Padding(
-//                           padding: EdgeInsets.only(left: 15),
-//                           child: Text(
-//                             '16/Apr/2024 1240',
-//                             style: TextStyle(
-//                                 fontFamily: 'Montserrat',
-//                                 color: Color(0xff3f617d),
-//                                 fontSize: 14.0,
-//                                 fontWeight: FontWeight.bold),
-//                           ),
-//                         ),
-//                         const Row(
-//                           mainAxisAlignment: MainAxisAlignment.start,
-//                           children: <Widget>[
-//                             Icon(Icons.forward, size: 10,
-//                                 color:  Color(0xff3f617d)),
-//                             SizedBox(width: 5),
-//                             Text(
-//                               'Location',
-//                               style:  TextStyle(
-//                                   fontFamily: 'Montserrat',
-//                                   color: Color(0xFF255899),
-//                                   fontSize: 14.0,
-//                                   fontWeight: FontWeight.bold),
-//                             )
-//                           ],
-//                         ),
-//                         const Padding(
-//                           padding: EdgeInsets.only(left: 15),
-//                           child: Text(
-//                             'F Block Twin Tower',
-//                             style: TextStyle(
-//                                 fontFamily: 'Montserrat',
-//                                 color: Color(0xff3f617d),
-//                                 fontSize: 14.0,
-//                                 fontWeight: FontWeight.bold),
-//                           ),
-//                         ),
-//                         const Row(
-//                           mainAxisAlignment: MainAxisAlignment.start,
-//                           children: <Widget>[
-//                             Icon(Icons.forward, size: 10,
-//                                 color:  Color(0xff3f617d)),
-//                             SizedBox(width: 5),
-//                             Text(
-//                               'Description',
-//                               style:  TextStyle(
-//                                   fontFamily: 'Montserrat',
-//                                   color: Color(0xFF255899),
-//                                   fontSize: 14.0,
-//                                   fontWeight: FontWeight.bold),
-//                             )
-//                           ],
-//                         ),
-//                         const Padding(
-//                           padding: EdgeInsets.only(left: 15),
-//                           child: Text(
-//                             'Garbage is Gadering',
-//                             style: TextStyle(
-//                                 fontFamily: 'Montserrat',
-//                                 color: Color(0xff3f617d),
-//                                 fontSize: 14.0,
-//                                 fontWeight: FontWeight.bold),
-//                           ),
-//                         ),
-//                         const Row(
-//                           children: <Widget>[
-//                            Icon(Icons.edit_calendar_outlined,
-//                              color:Color(0xff3f617d),
-//                              size: 20,
-//                            ),
-//                             SizedBox(width: 10),
-//                             Text('Pending Since :-',style:TextStyle(
-//                                 fontFamily: 'Montserrat',
-//                                 color: Color(0xFF255899),
-//                                 fontSize: 14.0,
-//                                 fontWeight: FontWeight.bold),),
-//
-//                             Text('2 Min',style:TextStyle(
-//                                 fontFamily: 'Montserrat',
-//                                 color: Color(0xff3f617d),
-//                                 fontSize: 14.0,
-//                                 fontWeight: FontWeight.bold),),
-//
-//                           ],
-//                         ),
-//                         const SizedBox(height: 10),
-//                         // e4e4e4
-//                         Container(
-//                           color: Color(0xffe4e4e4),
-//                           height: 40,
-//                           child: Padding(
-//                             padding: const EdgeInsets.only(left: 10, right: 10),
-//                             child: Row(
-//                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                               children: <Widget>[
-//                                 const Row(
-//                                   mainAxisAlignment: MainAxisAlignment.start,
-//                                   children: [
-//                                     Text(
-//                                       'View Image',
-//                                       style: TextStyle(
-//                                           fontFamily: 'Montserrat',
-//                                           color: Color(0xFF255899),
-//                                           fontSize: 14.0,
-//                                           fontWeight: FontWeight.bold),
-//                                     ),
-//                                     SizedBox(width: 5),
-//                                     Icon(
-//                                       Icons.forward_sharp,
-//                                       color: Color(0xFF255899),
-//                                     )
-//                                   ],
-//                                 ),
-//                                 Container(height: 10, width: 1, color: Colors.grey),
-//                                 const Row(
-//                                   mainAxisAlignment: MainAxisAlignment.start,
-//                                   children: [
-//                                     Text(
-//                                       'Action',
-//                                       style: TextStyle(
-//                                           fontFamily: 'Montserrat',
-//                                           color: Color(0xFF255899),
-//                                           fontSize: 14.0,
-//                                           fontWeight: FontWeight.bold),
-//                                     ),
-//                                     SizedBox(width: 5),
-//                                     Icon(
-//                                       Icons.forward_sharp,
-//                                       color: Color(0xFF255899),
-//                                     ),
-//                                   ],
-//                                 ),
-//                                 Container(height: 10, width: 1, color: Colors.grey),
-//                                 const Row(
-//                                   mainAxisAlignment: MainAxisAlignment.start,
-//                                   children: [
-//                                     Text('Navigate',
-//                                         style: TextStyle(
-//                                             fontFamily: 'Montserrat',
-//                                             color: Color(0xFF255899),
-//                                             fontSize: 14.0,
-//                                             fontWeight: FontWeight.bold)),
-//                                     // SizedBox(width: 5),
-//                                     //Icon(Icons.forward_sharp,color: Color(0xFF255899))
-//                                   ],
-//                                 ),
-//                               ],
-//                             ),
-//                           ),
-//                         )
-//                       ],
-//                     )),
-//               ),
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.only(left: 15.0, right: 15, bottom: 10),
-//               child: Card(
-//                 elevation: 1,
-//                 child: Container(
-//                     decoration: BoxDecoration(
-//                       borderRadius: BorderRadius.circular(5.0),
-//                       border: Border.all(
-//                         color: Colors.grey, // Outline border color
-//                         width: 0.2, // Outline border width
-//                       ),
-//                       color: Colors.white,
-//                     ),
-//                     child: Column(
-//                       mainAxisAlignment: MainAxisAlignment.start,
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: <Widget>[
-//                         // MyListTile(),
-//                         Padding(
-//                           padding: const EdgeInsets.only(left: 8, top: 8),
-//                           child: Row(
-//                             mainAxisAlignment: MainAxisAlignment.start,
-//                             children: <Widget>[
-//                               Container(
-//                                   width: 30.0,
-//                                   height: 30.0,
-//                                   decoration: BoxDecoration(
-//                                     borderRadius: BorderRadius.circular(15.0),
-//                                     border: Border.all(
-//                                       color:Color(0xFF255899), // Outline border color
-//                                       width: 0.5, // Outline border width
-//                                     ),
-//                                     color: Colors.white,
-//                                   ),
-//                                   child: const Center(
-//                                       child:  Icon(Icons.ac_unit_rounded,color:Color(0xFF255899),size: 20)
-//                                   )),
-//                               SizedBox(width: 5),
-//                               const Column(
-//                                 crossAxisAlignment: CrossAxisAlignment.start,
-//                                 children: <Widget>[
-//                                   Text(
-//                                     'Garbage Vulnerable Points (GVP)',
-//                                     style: TextStyle(
-//                                         fontFamily: 'Montserrat',
-//                                         color: Color(0xff3f617d),
-//                                         fontSize: 14.0,
-//                                         fontWeight: FontWeight.bold),
-//                                   ),
-//                                   Text(
-//                                     'Point Name',
-//                                     style: TextStyle(
-//                                         fontFamily: 'Montserrat',
-//                                         color: Color(0xff3f617d),
-//                                         fontSize: 12.0,
-//                                         fontWeight: FontWeight.bold),
-//                                   ),
-//                                 ],
-//                               )
-//                             ],
-//                           ),
-//                         ),
-//                         const SizedBox(height: 10),
-//                         Padding(
-//                           padding: const EdgeInsets.only(left: 15, right: 15),
-//                           child: Container(
-//                             height: 0.5,
-//                             color: Color(0xff3f617d),
-//                           ),
-//                         ),
-//                         SizedBox(height: 5),
-//                         const Row(
-//                           mainAxisAlignment: MainAxisAlignment.start,
-//                           children: <Widget>[
-//                             Icon(
-//                               Icons.forward,
-//                               size: 10,
-//                               color: Color(0xff3f617d),
-//                             ),
-//                             SizedBox(width: 5),
-//                             Text(
-//                               'Sector',
-//                               style: TextStyle(
-//                                   fontFamily: 'Montserrat',
-//                                   color: Color(0xFF255899),
-//                                   fontSize: 14.0,
-//                                   fontWeight: FontWeight.bold),
-//                             )
-//                           ],
-//                         ),
-//                         const Padding(
-//                           padding: EdgeInsets.only(left: 15),
-//                           child: Text(
-//                             'Sector-50',
-//                             style: TextStyle(
-//                                 fontFamily: 'Montserrat',
-//                                 color: Color(0xff3f617d),
-//                                 fontSize: 14.0,
-//                                 fontWeight: FontWeight.bold),
-//                           ),
-//                         ),
-//                         const Row(
-//                           mainAxisAlignment: MainAxisAlignment.start,
-//                           children: <Widget>[
-//                             Icon(
-//                               Icons.forward,
-//                               size: 10,
-//                               color: Color(0xff3f617d),
-//                             ),
-//                             SizedBox(width: 5),
-//                             Text(
-//                               'Posted At',
-//                               style: TextStyle(
-//                                   fontFamily: 'Montserrat',
-//                                   color: Color(0xFF255899),
-//                                   fontSize: 14.0,
-//                                   fontWeight: FontWeight.bold),
-//                             )
-//                           ],
-//                         ),
-//                         const Padding(
-//                           padding: EdgeInsets.only(left: 15),
-//                           child: Text(
-//                             '16/Apr/2024 1240',
-//                             style: TextStyle(
-//                                 fontFamily: 'Montserrat',
-//                                 color: Color(0xff3f617d),
-//                                 fontSize: 14.0,
-//                                 fontWeight: FontWeight.bold),
-//                           ),
-//                         ),
-//                         const Row(
-//                           mainAxisAlignment: MainAxisAlignment.start,
-//                           children: <Widget>[
-//                             Icon(Icons.forward, size: 10,
-//                                 color:  Color(0xff3f617d)),
-//                             SizedBox(width: 5),
-//                             Text(
-//                               'Location',
-//                               style:  TextStyle(
-//                                   fontFamily: 'Montserrat',
-//                                   color: Color(0xFF255899),
-//                                   fontSize: 14.0,
-//                                   fontWeight: FontWeight.bold),
-//                             )
-//                           ],
-//                         ),
-//                         const Padding(
-//                           padding: EdgeInsets.only(left: 15),
-//                           child: Text(
-//                             'F Block Twin Tower',
-//                             style: TextStyle(
-//                                 fontFamily: 'Montserrat',
-//                                 color: Color(0xff3f617d),
-//                                 fontSize: 14.0,
-//                                 fontWeight: FontWeight.bold),
-//                           ),
-//                         ),
-//                         const Row(
-//                           mainAxisAlignment: MainAxisAlignment.start,
-//                           children: <Widget>[
-//                             Icon(Icons.forward, size: 10,
-//                                 color:  Color(0xff3f617d)),
-//                             SizedBox(width: 5),
-//                             Text(
-//                               'Description',
-//                               style:  TextStyle(
-//                                   fontFamily: 'Montserrat',
-//                                   color: Color(0xFF255899),
-//                                   fontSize: 14.0,
-//                                   fontWeight: FontWeight.bold),
-//                             )
-//                           ],
-//                         ),
-//                         const Padding(
-//                           padding: EdgeInsets.only(left: 15),
-//                           child: Text(
-//                             'Garbage is Gadering',
-//                             style: TextStyle(
-//                                 fontFamily: 'Montserrat',
-//                                 color: Color(0xff3f617d),
-//                                 fontSize: 14.0,
-//                                 fontWeight: FontWeight.bold),
-//                           ),
-//                         ),
-//                         const Row(
-//                           children: <Widget>[
-//                             Icon(Icons.edit_calendar_outlined,
-//                               color:Color(0xff3f617d),
-//                               size: 20,
-//                             ),
-//                             SizedBox(width: 10),
-//                             Text('Pending Since :-',style:TextStyle(
-//                                 fontFamily: 'Montserrat',
-//                                 color: Color(0xFF255899),
-//                                 fontSize: 14.0,
-//                                 fontWeight: FontWeight.bold),),
-//
-//                             Text('2 Min',style:TextStyle(
-//                                 fontFamily: 'Montserrat',
-//                                 color: Color(0xff3f617d),
-//                                 fontSize: 14.0,
-//                                 fontWeight: FontWeight.bold),),
-//
-//                           ],
-//                         ),
-//                         const SizedBox(height: 10),
-//                         // e4e4e4
-//                         Container(
-//                           color: Color(0xffe4e4e4),
-//                           height: 40,
-//                           child: Padding(
-//                             padding: const EdgeInsets.only(left: 10, right: 10),
-//                             child: Row(
-//                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                               children: <Widget>[
-//                                 const Row(
-//                                   mainAxisAlignment: MainAxisAlignment.start,
-//                                   children: [
-//                                     Text(
-//                                       'View Image',
-//                                       style: TextStyle(
-//                                           fontFamily: 'Montserrat',
-//                                           color: Color(0xFF255899),
-//                                           fontSize: 14.0,
-//                                           fontWeight: FontWeight.bold),
-//                                     ),
-//                                     SizedBox(width: 5),
-//                                     Icon(
-//                                       Icons.forward_sharp,
-//                                       color: Color(0xFF255899),
-//                                     )
-//                                   ],
-//                                 ),
-//                                 Container(height: 10, width: 1, color: Colors.grey),
-//                                 const Row(
-//                                   mainAxisAlignment: MainAxisAlignment.start,
-//                                   children: [
-//                                     Text(
-//                                       'Action',
-//                                       style: TextStyle(
-//                                           fontFamily: 'Montserrat',
-//                                           color: Color(0xFF255899),
-//                                           fontSize: 14.0,
-//                                           fontWeight: FontWeight.bold),
-//                                     ),
-//                                     SizedBox(width: 5),
-//                                     Icon(
-//                                       Icons.forward_sharp,
-//                                       color: Color(0xFF255899),
-//                                     ),
-//                                   ],
-//                                 ),
-//                                 Container(height: 10, width: 1, color: Colors.grey),
-//                                 const Row(
-//                                   mainAxisAlignment: MainAxisAlignment.start,
-//                                   children: [
-//                                     Text('Navigate',
-//                                         style: TextStyle(
-//                                             fontFamily: 'Montserrat',
-//                                             color: Color(0xFF255899),
-//                                             fontSize: 14.0,
-//                                             fontWeight: FontWeight.bold)),
-//                                     // SizedBox(width: 5),
-//                                     //Icon(Icons.forward_sharp,color: Color(0xFF255899))
-//                                   ],
-//                                 ),
-//                               ],
-//                             ),
-//                           ),
-//                         )
-//                       ],
-//                     )),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-//
-// // ListTile CLASS
-// class MyListTile extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListTile(
-//       leading: Container(
-//           width: 50.0,
-//           height: 50.0,
-//           decoration: BoxDecoration(
-//             borderRadius: BorderRadius.circular(25.0),
-//             border: Border.all(
-//               color: Colors.grey, // Outline border color
-//               width: 0.5, // Outline border width
-//             ),
-//             color: Colors.white,
-//           ),
-//           child: const Center(
-//             child: Text(
-//               "1.",
-//               style: TextStyle(color: Colors.black, fontSize: 20),
-//             ),
-//           )),
-//       title: const Text(
-//         'C&D Waste',
-//         style: TextStyle(
-//             fontFamily: 'Montserrat',
-//             color: Colors.black,
-//             fontSize: 16.0,
-//             fontWeight: FontWeight.bold),
-//       ),
-//       subtitle: const Text(
-//         'Point Name',
-//         style: TextStyle(
-//             fontFamily: 'Montserrat',
-//             color: Colors.black54,
-//             fontSize: 14.0,
-//             fontWeight: FontWeight.bold),
-//       ),
-//       onTap: () {
-//         // Handle onTap
-//       },
-//     );
-//   }
-// }
-//
-// // Searchbar
-// class SearchBar extends StatelessWidget {
-//   const SearchBar({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       elevation: 0,
-//       child: Container(
-//         padding: EdgeInsets.symmetric(horizontal: 10.0),
-//         decoration: BoxDecoration(
-//           borderRadius: BorderRadius.circular(5.0),
-//           border: Border.all(
-//             color: Colors.grey, // Outline border color
-//             width: 0.2, // Outline border width
-//           ),
-//           color: Colors.white,
-//         ),
-//         child: Row(
-//           children: [
-//             const Icon(
-//               Icons.search,
-//               color: Colors.black54,
-//             ),
-//             const SizedBox(width: 10.0),
-//             Expanded(
-//               child: TextFormField(
-//                 decoration: const InputDecoration(
-//                   hintText: 'Enter Keywords',
-//                   hintStyle:  TextStyle(
-//                       fontFamily: 'Montserrat',
-//                       color: Color(0xFF707d83),
-//                       fontSize: 14.0,
-//                       fontWeight: FontWeight.bold),
-//                   border: InputBorder.none,
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-//
-// // import 'package:flutter/material.dart';
-// // import 'homeScreen.dart';
-// //
-// // class PendingComplaintScreen extends StatelessWidget {
-// //
-// //   const PendingComplaintScreen({Key? key}) : super(key: key);
-// //
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return MaterialApp(
-// //       theme: ThemeData(
-// //         appBarTheme: const AppBarTheme(
-// //           iconTheme: IconThemeData(
-// //             color: Colors.white, // Change the color of the drawer icon here
-// //           ),
-// //         ),
-// //       ),
-// //       debugShowCheckedModeBanner: false,
-// //       home: SchedulePointScreen(),
-// //     );
-// //   }
-// // }
-// //
-// // class SchedulePointScreen extends StatefulWidget {
-// //   const SchedulePointScreen({Key? key}) : super(key: key);
-// //
-// //   @override
-// //   State<SchedulePointScreen> createState() => _SchedulePointScreenState();
-// // }
-// //
-// // class _SchedulePointScreenState extends State<SchedulePointScreen> {
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return Scaffold(
-// //       backgroundColor: Colors.white,
-// //       appBar: AppBar(
-// //         backgroundColor: Color(0xFF255899),
-// //         leading: GestureDetector(
-// //             onTap: () {
-// //               //Navigator.pop(context);
-// //               Navigator.push(context,
-// //                   MaterialPageRoute(builder: (context) => const HomePage()));
-// //             },
-// //             child: Icon(Icons.arrow_back_ios)),
-// //         title: const Text(
-// //           'Pending Complaint.',
-// //           style: TextStyle(
-// //               fontFamily: 'Montserrat',
-// //               color: Colors.white,
-// //               fontSize: 18.0,
-// //               fontWeight: FontWeight.bold),
-// //         ),
-// //       ),
-// //       body: ListView(
-// //         children: <Widget>[
-// //           const Center(
-// //             child: Padding(
-// //               padding: EdgeInsets.only(left: 15, right: 15),
-// //               child: SearchBar(),
-// //             ),
-// //           ),
-// //           const SizedBox(height: 5),
-// //           Padding(
-// //             padding: const EdgeInsets.only(left: 15.0, right: 15, bottom: 10),
-// //             child: Card(
-// //               elevation: 5,
-// //               child: Container(
-// //                   decoration: BoxDecoration(
-// //                     borderRadius: BorderRadius.circular(5.0),
-// //                     border: Border.all(
-// //                       color: Colors.grey, // Outline border color
-// //                       width: 0.5, // Outline border width
-// //                     ),
-// //                     color: Colors.white,
-// //                   ),
-// //                   child: Column(
-// //                     mainAxisAlignment: MainAxisAlignment.start,
-// //                     crossAxisAlignment: CrossAxisAlignment.start,
-// //                     children: <Widget>[
-// //                       // MyListTile(),
-// //                       Padding(
-// //                         padding: const EdgeInsets.only(left: 8, top: 8),
-// //                         child: Row(
-// //                           mainAxisAlignment: MainAxisAlignment.start,
-// //                           children: <Widget>[
-// //                             Container(
-// //                                 width: 50.0,
-// //                                 height: 50.0,
-// //                                 decoration: BoxDecoration(
-// //                                   borderRadius: BorderRadius.circular(25.0),
-// //                                   border: Border.all(
-// //                                     color: Colors.grey, // Outline border color
-// //                                     width: 0.5, // Outline border width
-// //                                   ),
-// //                                   color: Colors.white,
-// //                                 ),
-// //                                 child: const Center(
-// //                                   child: Icon(Icons.ac_unit,
-// //                                       color: Colors.black54),
-// //                                 )),
-// //                             SizedBox(width: 5),
-// //                             const Column(
-// //                               crossAxisAlignment: CrossAxisAlignment.start,
-// //                               children: <Widget>[
-// //                                 Text(
-// //                                   'Garbage Vulnerable Points (GVP)',
-// //                                   style: TextStyle(
-// //                                       fontFamily: 'Montserrat',
-// //                                       color: Colors.black,
-// //                                       fontSize: 14.0,
-// //                                       fontWeight: FontWeight.bold),
-// //                                 ),
-// //                                 Text(
-// //                                   'Point Name',
-// //                                   style: TextStyle(
-// //                                       fontFamily: 'Montserrat',
-// //                                       color: Colors.black54,
-// //                                       fontSize: 14.0,
-// //                                       fontWeight: FontWeight.normal),
-// //                                 ),
-// //                               ],
-// //                             )
-// //                           ],
-// //                         ),
-// //                       ),
-// //                       const SizedBox(height: 10),
-// //                       Padding(
-// //                         padding: const EdgeInsets.only(left: 10),
-// //                         child: Column(
-// //                           mainAxisAlignment: MainAxisAlignment.start,
-// //                           crossAxisAlignment: CrossAxisAlignment.start,
-// //                           children: <Widget>[
-// //                             Padding(
-// //                               padding: const EdgeInsets.only(left: 15, right: 15),
-// //                               child: Container(
-// //                                 height: 0.5,
-// //                                 color: Colors.grey,
-// //                               ),
-// //                             ),
-// //                             SizedBox(height: 5),
-// //                             Row(
-// //                               mainAxisAlignment: MainAxisAlignment.start,
-// //                               children: <Widget>[
-// //                                 //Icon(Icons.forward, size: 16,color:  Colors.black87,),
-// //                                 Container(
-// //                                   height: 10,
-// //                                   width: 10,
-// //                                   // color: Colors.black54,
-// //                                   decoration: BoxDecoration(
-// //                                     color: Colors.black, // Container background color
-// //                                     borderRadius:
-// //                                     BorderRadius.circular(5.0), // Border radius
-// //                                   ),
-// //                                 ),
-// //                                 SizedBox(width: 5),
-// //                                 const Text(
-// //                                   'Sector',
-// //                                   style: TextStyle(
-// //                                       fontFamily: 'Montserrat',
-// //                                       color: Colors.black87,
-// //                                       fontSize: 16.0,
-// //                                       fontWeight: FontWeight.bold),
-// //                                 )
-// //                               ],
-// //                             ),
-// //                             const Padding(
-// //                               padding: EdgeInsets.only(left: 20),
-// //                               child: Text(
-// //                                 'Sector-50',
-// //                                 style: TextStyle(
-// //                                     fontFamily: 'Montserrat',
-// //                                     color: Colors.black54,
-// //                                     fontSize: 14.0,
-// //                                     fontWeight: FontWeight.bold),
-// //                               ),
-// //                             ),
-// //                             Row(
-// //                               mainAxisAlignment: MainAxisAlignment.start,
-// //                               children: <Widget>[
-// //                                 Container(
-// //                                   height: 10,
-// //                                   width: 10,
-// //                                   // color: Colors.black54,
-// //                                   decoration: BoxDecoration(
-// //                                     color: Colors.black, // Container background color
-// //                                     borderRadius:
-// //                                     BorderRadius.circular(5.0), // Border radius
-// //                                   ),
-// //                                 ),
-// //                                 SizedBox(width: 5),
-// //                                 const Text(
-// //                                   'Posted At',
-// //                                   style: TextStyle(
-// //                                       fontFamily: 'Montserrat',
-// //                                       color: Colors.black87,
-// //                                       fontSize: 16.0,
-// //                                       fontWeight: FontWeight.bold),
-// //                                 )
-// //                               ],
-// //                             ),
-// //                             const Padding(
-// //                               padding: EdgeInsets.only(left: 20),
-// //                               child: Text(
-// //                                 '16/Apr/2024/ 12.50',
-// //                                 style: TextStyle(
-// //                                     fontFamily: 'Montserrat',
-// //                                     color: Colors.black54,
-// //                                     fontSize: 16.0,
-// //                                     fontWeight: FontWeight.normal),
-// //                               ),
-// //                             ),
-// //                             Row(
-// //                               mainAxisAlignment: MainAxisAlignment.start,
-// //                               children: <Widget>[
-// //                                 Container(
-// //                                   height: 10,
-// //                                   width: 10,
-// //                                   // color: Colors.black54,
-// //                                   decoration: BoxDecoration(
-// //                                     color: Colors.black, // Container background color
-// //                                     borderRadius:
-// //                                     BorderRadius.circular(5.0), // Border radius
-// //                                   ),
-// //                                 ),
-// //                                 SizedBox(width: 5),
-// //                                 const Text(
-// //                                   'Location',
-// //                                   style: TextStyle(
-// //                                       fontFamily: 'Montserrat',
-// //                                       color: Colors.black87,
-// //                                       fontSize: 16.0,
-// //                                       fontWeight: FontWeight.bold),
-// //                                 )
-// //                               ],
-// //                             ),
-// //                             const Padding(
-// //                               padding: EdgeInsets.only(left: 20),
-// //                               child: Text(
-// //                                 'F Block Twin Tower',
-// //                                 style: TextStyle(
-// //                                     fontFamily: 'Montserrat',
-// //                                     color: Colors.black54,
-// //                                     fontSize: 16.0,
-// //                                     fontWeight: FontWeight.normal),
-// //                               ),
-// //                             ),
-// //                             const Padding(
-// //                               padding: EdgeInsets.only(left: 20),
-// //                               child: Text(
-// //                                 '16/Apr/2024/ 12.50',
-// //                                 style: TextStyle(
-// //                                     fontFamily: 'Montserrat',
-// //                                     color: Colors.black54,
-// //                                     fontSize: 16.0,
-// //                                     fontWeight: FontWeight.normal),
-// //                               ),
-// //                             ),
-// //                             Row(
-// //                               mainAxisAlignment: MainAxisAlignment.start,
-// //                               children: <Widget>[
-// //                                 Container(
-// //                                   height: 10,
-// //                                   width: 10,
-// //                                   // color: Colors.black54,
-// //                                   decoration: BoxDecoration(
-// //                                     color: Colors.black, // Container background color
-// //                                     borderRadius:
-// //                                     BorderRadius.circular(5.0), // Border radius
-// //                                   ),
-// //                                 ),
-// //                                 SizedBox(width: 5),
-// //                                 const Text(
-// //                                   'Description',
-// //                                   style: TextStyle(
-// //                                       fontFamily: 'Montserrat',
-// //                                       color: Colors.black87,
-// //                                       fontSize: 16.0,
-// //                                       fontWeight: FontWeight.bold),
-// //                                 )
-// //                               ],
-// //                             ),
-// //                             const Padding(
-// //                               padding: EdgeInsets.only(left: 20),
-// //                               child: Text(
-// //                                 'Garbage is nearby Noida 59',
-// //                                 style: TextStyle(
-// //                                     fontFamily: 'Montserrat',
-// //                                     color: Colors.black54,
-// //                                     fontSize: 16.0,
-// //                                     fontWeight: FontWeight.normal),
-// //                               ),
-// //                             ),
-// //                             Padding(
-// //                               padding: const EdgeInsets.only(left: 15,right: 15),
-// //                               child: Card(
-// //                                 child: Container(
-// //                                   decoration: BoxDecoration(
-// //                                     borderRadius: BorderRadius.circular(5.0),
-// //                                     border: Border.all(
-// //                                       color: Colors.grey, // Outline border color
-// //                                       width: 0.1, // Outline border width
-// //                                     ),
-// //                                     color: Colors.white,
-// //                                   ),
-// //                                 ),
-// //                               ),
-// //                             ),
-// //                             const Row(
-// //                               mainAxisAlignment: MainAxisAlignment.start,
-// //                               children: <Widget>[
-// //                                 Icon(Icons.edit_calendar_outlined),
-// //                                 SizedBox(width: 5),
-// //                                 Text('Pending Since :-'),
-// //                                 SizedBox(width: 5),
-// //                                 Text('2 Min'),
-// //                               ],
-// //                             ),
-// //                             Padding(
-// //                               padding: const EdgeInsets.only(left: 10, right: 10),
-// //                               child: Row(
-// //                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-// //                                 children: <Widget>[
-// //                                   const Row(
-// //                                     mainAxisAlignment: MainAxisAlignment.start,
-// //                                     children: [
-// //                                       Text(
-// //                                         'View Image',
-// //                                         style: TextStyle(
-// //                                             fontFamily: 'Montserrat',
-// //                                             color: Color(0xFF255899),
-// //                                             fontSize: 14.0,
-// //                                             fontWeight: FontWeight.bold),
-// //                                       ),
-// //                                       SizedBox(width: 5),
-// //                                       Icon(
-// //                                         Icons.forward_sharp,
-// //                                         color: Color(0xFF255899),
-// //                                       )
-// //                                     ],
-// //                                   ),
-// //                                   Container(height: 10, width: 1, color: Colors.grey),
-// //                                   const Row(
-// //                                     mainAxisAlignment: MainAxisAlignment.start,
-// //                                     children: [
-// //                                       Text(
-// //                                         'Action',
-// //                                         style: TextStyle(
-// //                                             fontFamily: 'Montserrat',
-// //                                             color: Color(0xFF255899),
-// //                                             fontSize: 14.0,
-// //                                             fontWeight: FontWeight.bold),
-// //                                       ),
-// //                                       SizedBox(width: 5),
-// //                                       Icon(
-// //                                         Icons.forward_sharp,
-// //                                         color: Color(0xFF255899),
-// //                                       ),
-// //                                     ],
-// //                                   ),
-// //                                   Container(height: 10, width: 1, color: Colors.grey),
-// //                                   const Row(
-// //                                     mainAxisAlignment: MainAxisAlignment.start,
-// //                                     children: [
-// //                                       Text('Navigate',
-// //                                           style: TextStyle(
-// //                                               fontFamily: 'Montserrat',
-// //                                               color: Color(0xFF255899),
-// //                                               fontSize: 14.0,
-// //                                               fontWeight: FontWeight.bold)),
-// //                                       // SizedBox(width: 5),
-// //                                       //Icon(Icons.forward_sharp,color: Color(0xFF255899))
-// //                                     ],
-// //                                   ),
-// //                                 ],
-// //                               ),
-// //                             )
-// //
-// //                           ],
-// //                         ),
-// //                       )
-// //
-// //
-// //                     ],
-// //                   )),
-// //             ),
-// //           ),
-// //         ],
-// //       ),
-// //     );
-// //   }
-// // }
-// //
-// // // ListTile CLASS
-// // class MyListTile extends StatelessWidget {
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return ListTile(
-// //       leading: Container(
-// //           width: 50.0,
-// //           height: 50.0,
-// //           decoration: BoxDecoration(
-// //             borderRadius: BorderRadius.circular(25.0),
-// //             border: Border.all(
-// //               color: Colors.grey, // Outline border color
-// //               width: 0.5, // Outline border width
-// //             ),
-// //             color: Colors.white,
-// //           ),
-// //           child: const Center(
-// //             child: Text(
-// //               "1.",
-// //               style: TextStyle(color: Colors.black, fontSize: 20),
-// //             ),
-// //           )),
-// //       title: const Text(
-// //         'C&D Waste',
-// //         style: TextStyle(
-// //             fontFamily: 'Montserrat',
-// //             color: Colors.black,
-// //             fontSize: 16.0,
-// //             fontWeight: FontWeight.bold),
-// //       ),
-// //       subtitle: const Text(
-// //         'Point Name',
-// //         style: TextStyle(
-// //             fontFamily: 'Montserrat',
-// //             color: Colors.black54,
-// //             fontSize: 14.0,
-// //             fontWeight: FontWeight.bold),
-// //       ),
-// //       onTap: () {
-// //         // Handle onTap
-// //       },
-// //     );
-// //   }
-// // }
-// //
-// // // Searchbar
-// // class SearchBar extends StatelessWidget {
-// //   const SearchBar({super.key});
-// //
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return Card(
-// //       elevation: 5,
-// //       child: Container(
-// //         padding: EdgeInsets.symmetric(horizontal: 10.0),
-// //         decoration: BoxDecoration(
-// //           borderRadius: BorderRadius.circular(5.0),
-// //           border: Border.all(
-// //             color: Colors.grey, // Outline border color
-// //             width: 1.0, // Outline border width
-// //           ),
-// //           color: Colors.white,
-// //         ),
-// //         child: const Row(
-// //           children: [
-// //             Icon(Icons.search, color: Colors.black54),
-// //             SizedBox(width: 10.0),
-// //             Expanded(
-// //               child: TextField(
-// //                 decoration: InputDecoration(
-// //                   hintText: 'Enter Keywords',
-// //                   border: InputBorder.none,
-// //                 ),
-// //               ),
-// //             ),
-// //           ],
-// //         ),
-// //       ),
-// //     );
-// //   }
-// // }

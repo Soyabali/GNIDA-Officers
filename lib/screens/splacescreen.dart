@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:noidaone/resources/assets_manager.dart';
@@ -20,6 +21,28 @@ class Splace extends StatefulWidget {
 }
 
 class _SplaceState extends State<Splace> {
+
+  bool ActiveConnection = false;
+  String T = "";
+  Future CheckUserConnection() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        setState(() {
+          ActiveConnection = true;
+          T = "Turn off the data and repress again";
+          versionAliCall();
+          //displayToast(T);
+        });
+      }
+    } on SocketException catch (_) {
+      setState(() {
+        ActiveConnection = false;
+        T = "Turn On the data and repress again";
+        displayToast(T);
+      });
+    }
+  }
 
   String? _appVersion ;
 
@@ -58,8 +81,10 @@ class _SplaceState extends State<Splace> {
   @override
   void initState() {
     // TODO: implement initState
+    CheckUserConnection();
     _getAppVersion();
-    versionAliCall();
+   // versionAliCall();
+
     super.initState();
   }
   versionAliCall() async{
