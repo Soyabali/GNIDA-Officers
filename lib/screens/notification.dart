@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:noidaone/Controllers/notificationRepo.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'changePassword.dart';
 import 'homeScreen.dart';
 import 'logout.dart';
@@ -35,6 +36,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<Map<String, dynamic>>? notificationList;
+  String? sName, sContactNo;
   getnotificationResponse() async {
     // notificationList = NotificationRepo().
     notificationList = await NotificationRepo().notification(context);
@@ -46,9 +48,20 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     // TODO: implement initState
+    getlocalvalue();
     getnotificationResponse();
     super.initState();
   }
+  getlocalvalue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      sName = prefs.getString('sName') ?? "";
+      sContactNo = prefs.getString('sContactNo') ?? "";
+      print("------148---$sName");
+      print("------1149---$sContactNo");
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
-              const DrawerHeader(
+               DrawerHeader(
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
@@ -88,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: Color(0xff3f617d),
                       ),
                       Text(
-                        'ABHISHEK (Supervisor)',
+                        '${sName}',
                         style: TextStyle(
                             fontFamily: 'Montserrat',
                             color: Color(0xff3f617d),
@@ -105,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           SizedBox(width: 5),
                           Text(
-                            '987195xxxx',
+                            '${sContactNo}',
                             style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 color: Color(0xff3f617d),

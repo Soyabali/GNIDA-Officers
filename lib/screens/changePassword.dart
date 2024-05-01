@@ -56,10 +56,12 @@ class _MyHomePageState extends State<MyHomePage> {
   var result;
   var loginMap;
   var  changePasswordRepo;
+  String? sName, sContactNo;
 
   @override
   void initState() {
     // TODO: implement initState
+    getlocalvalue();
     super.initState();
     oldPasswordfocus = FocusNode();
     newPasswordfocus = FocusNode();
@@ -73,6 +75,15 @@ class _MyHomePageState extends State<MyHomePage> {
     confirmPasswordfocus.dispose();
     super.dispose();
 
+  }
+  getlocalvalue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      sName = prefs.getString('sName') ?? "";
+      sContactNo = prefs.getString('sContactNo') ?? "";
+      print("------148---$sName");
+      print("------1149---$sContactNo");
+    });
   }
 
   @override
@@ -95,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            const DrawerHeader(
+            DrawerHeader(
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage(
@@ -113,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Color(0xff3f617d),
                     ),
                     Text(
-                      'ABHISHEK (Supervisor)',
+                      '${sName}',
                       style: TextStyle(
                           fontFamily: 'Montserrat',
                           color: Color(0xff3f617d),
@@ -130,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         SizedBox(width: 5),
                         Text(
-                          '987195xxxx',
+                          '${sContactNo}',
                           style: TextStyle(
                               fontFamily: 'Montserrat',
                               color: Color(0xff3f617d),

@@ -69,9 +69,10 @@ class TabTodayPage extends StatefulWidget {
          body: ListView(
            children: <Widget>[
              Padding(
-                 padding: const EdgeInsets.only(left: 15, right: 15),
+                 padding: const EdgeInsets.only(left: 15, right: 15,bottom: 10),
                  child: Container(
-                   height: MediaQuery.of(context).size.height,
+                   //height: MediaQuery.of(context).size.height,
+                   height: 330,
                    width: double.infinity,
                    decoration: BoxDecoration(
                      color: Color(0xFFf2f3f5), // Container background color

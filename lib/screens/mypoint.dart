@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Controllers/myPointRepo.dart';
 import 'changePassword.dart';
+import 'homeScreen.dart';
 import 'logout.dart';
 import 'notification.dart';
 
@@ -37,6 +39,8 @@ class _MyHomePageState extends State<MyPointPage> {
   List<Map<String, dynamic>>? myPoinList;
   var totalPoint;
 
+  String? sName, sContactNo;
+
   // GET REPO FUNCTION
   getMyPointResponse() async {
     myPoinList = await MyPointTypeRepo().mypointType(context);
@@ -48,7 +52,17 @@ class _MyHomePageState extends State<MyPointPage> {
   void initState() {
     // TODO: implement initState
     getMyPointResponse();
+    getlocalvalue();
     super.initState();
+  }
+  getlocalvalue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      sName = prefs.getString('sName') ?? "";
+      sContactNo = prefs.getString('sContactNo') ?? "";
+      print("------148---$sName");
+      print("------1149---$sContactNo");
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -70,7 +84,7 @@ class _MyHomePageState extends State<MyPointPage> {
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
-              const DrawerHeader(
+              DrawerHeader(
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
@@ -88,7 +102,7 @@ class _MyHomePageState extends State<MyPointPage> {
                         color: Color(0xff3f617d),
                       ),
                       Text(
-                        'ABHISHEK (Supervisor)',
+                        '${sName}',
                         style: TextStyle(
                             fontFamily: 'Montserrat',
                             color: Color(0xff3f617d),
@@ -105,7 +119,7 @@ class _MyHomePageState extends State<MyPointPage> {
                           ),
                           SizedBox(width: 5),
                           Text(
-                            '987195xxxx',
+                            '${sContactNo}',
                             style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 color: Color(0xff3f617d),
@@ -138,13 +152,24 @@ class _MyHomePageState extends State<MyPointPage> {
                               height: 25, // Adjust image height as needed
                             ),
                             SizedBox(width: 10),
-                            const Text(
-                              'Home',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                color: Color(0xff3f617d),
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
+                            InkWell(
+                              onTap:() {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const HomePage()),
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: const Text(
+                                  'Home',
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: Color(0xff3f617d),
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                             ),
                           ],

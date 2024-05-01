@@ -28,7 +28,7 @@ class UserContributionRepo {
       request.body = json.encode({
         "iUserId": '$iUserId',
         "sSearchType": "1",   // A means All
-        "sFilters": "A"
+        "sFilters": "T"
       });
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
