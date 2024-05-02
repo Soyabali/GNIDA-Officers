@@ -483,23 +483,27 @@ class _SchedulePointScreenState extends State<ComplaintScreen> {
                                   ),
                                   SizedBox(height: 10),
 
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  // Button action based on status
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: buttonColor,
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10,bottom: 3),
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child:ElevatedButton(
+                                    onPressed: () {
+                                      // Button action based on status
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: buttonColor,
+                                    ),
+                                    child: Text(status!,style: const TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Colors.white,
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                                 ),
-                                child: Text(status!,style: const TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    color: Colors.white,
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold),
-                                ),
-                              ),
                             ),
+
 
 
 

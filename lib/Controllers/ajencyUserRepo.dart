@@ -39,8 +39,8 @@ import 'baseurl.dart';
 
 class AjencyUserRepo
 {
-  List listAgencyUserList = [];
-  Future<List> ajencyuser(int ajencyCode) async
+  List ajencyUserList = [];
+  Future<List>  ajencyuser(int ajencyCode) async
   {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
@@ -56,13 +56,6 @@ class AjencyUserRepo
       var ajencyUserApi = "$baseURL$endPoint";
       print('------------17---ajencyUserApi---$ajencyUserApi');
 
-      // var headers = {
-      //   'token': '$sToken'
-      // };
-      // var request = http.Request('GET', Uri.parse('$bindajencyApi'));
-      // request.headers.addAll(headers);
-      // http.StreamedResponse response = await request.send();
-
       var headers = {
         'token': '$sToken',
         'Content-Type': 'application/json'
@@ -74,20 +67,25 @@ class AjencyUserRepo
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
-
+      // var map;
+      //
+      // var data = await response.stream.bytesToString();
+      // map = json.decode(data);
 
       if (response.statusCode == 200)
       {
-        hideLoader();
         var data = await response.stream.bytesToString();
         Map<String, dynamic> parsedJson = jsonDecode(data);
-        listAgencyUserList = parsedJson['Data'];
-        //  print("Dist list bindajencyList Api ----81------>:$bindajencyList");
-        return listAgencyUserList;
+
+        ajencyUserList = parsedJson['Data'];
+        //print('')
+       // ajencyUserList = parsedJson as List;
+        hideLoader();
+        return ajencyUserList;
       } else
       {
         hideLoader();
-        return listAgencyUserList;
+        return ajencyUserList;
       }
     } catch (e)
     {
@@ -95,59 +93,5 @@ class AjencyUserRepo
       throw (e);
     }
   }
-  // List ajencyUserList = [];
-  // var map;
-  //
-  //  Future ajencyuser(int ajencyCode) async
-  // {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   String? sToken = prefs.getString('sToken');
-  //   String? iUserId = prefs.getString('iUserId');
-  //
-  //   print('-----22---$sToken');
-  //   print('-----23---$iUserId');
-  //   print('------52---AjencyCode---$ajencyCode');
-  //
-  //   try
-  //   {
-  //     showLoader();
-  //     var baseURL = BaseRepo().baseurl;
-  //     var endPoint = "AgencyUsers/AgencyUsers";
-  //     var ajencyUserApi = "$baseURL$endPoint";
-  //     print('------------17---ajencyUserApi---$ajencyUserApi');
-  //
-  //     var headers = {
-  //       'token': '$sToken',
-  //       'Content-Type': 'application/json'
-  //     };
-  //     var request = http.Request('POST', Uri.parse('$ajencyUserApi'));
-  //     request.body = json.encode({
-  //       "iAgencyCode": ajencyCode
-  //     });
-  //     request.headers.addAll(headers);
-  //     http.StreamedResponse response = await request.send();
-  //     map;
-  //     var data = await response.stream.bytesToString();
-  //     map = json.decode(data);
-  //     print('----------75---userAgency----$map');
-  //
-  //     if (response.statusCode == 200)
-  //     {
-  //        hideLoader();
-  //       // var data = await response.stream.bytesToString();
-  //       // Map<String, dynamic> parsedJson = jsonDecode(data);
-  //       // ajencyUserList = parsedJson['Data'];
-  //       // print("Dist list Ajency response Api ----78--xxxxx---->:$ajencyUserList");
-  //       return map;
-  //     } else
-  //     {
-  //       hideLoader();
-  //       return map;
-  //     }
-  //   } catch (e)
-  //   {
-  //     hideLoader();
-  //     throw (e);
-  //   }
-  // }
+
 }
