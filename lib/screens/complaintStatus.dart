@@ -211,8 +211,13 @@ class _SchedulePointScreenState extends State<ComplaintScreen> {
             child: ListView.builder(
               itemCount: _filteredData.length ?? 0,
               itemBuilder: (context, index) {
-                Map<String, dynamic> item = _filteredData[index];
-                return Padding(
+              Map<String, dynamic> item = _filteredData[index];
+
+              final status = _filteredData[index]['sStatusName'];
+              final buttonColor = status == 'Pending' ? Colors.red : Colors.green;
+
+
+              return Padding(
                   padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
                   child: Container(
                     child: Column(
@@ -477,32 +482,25 @@ class _SchedulePointScreenState extends State<ComplaintScreen> {
                                     ],
                                   ),
                                   SizedBox(height: 10),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 10,right: 10),
-                                    child: Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Container(
-                                        height: 35,
-                                        width: 90,
-                                        decoration: BoxDecoration(
-                                          color: Colors.blue, // Background color
-                                          borderRadius: BorderRadius.circular(22), // Border radius
-                                        ),
 
-                                        child:  Center(
-                                          child: Text(
-                                            item['sStatusName'] ?? '',
-                                            style: const TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Colors.white,
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  // Button action based on status
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: buttonColor,
+                                ),
+                                child: Text(status!,style: const TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: Colors.white,
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
 
-                                      ),
-                                    ),
-                                  ),
 
 
                                 ],

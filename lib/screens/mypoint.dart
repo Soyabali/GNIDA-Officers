@@ -467,7 +467,7 @@ class _MyHomePageState extends State<MyPointPage> {
                               fontSize: 14.0,
                               fontWeight: FontWeight.bold),), // Second TextView
                           Spacer(), // To push the last Text to the rightmost
-                          Text(myPoinList?[index]['iTotal'].toString() ?? '',
+                          Text(myPoinList?[index]['iEarnedPoint'].toString() ?? '',
                              style: TextStyle(
                               fontFamily: 'Montserrat',
                               color: Color(0xFFad964a),
