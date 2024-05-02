@@ -41,6 +41,7 @@ class SchedulePointScreen extends StatefulWidget {
 }
 
 class _SchedulePointScreenState extends State<SchedulePointScreen> {
+
   var variableName;
   var variableName2;
   List<Map<String, dynamic>>? pendingInternalComplaintList;
@@ -60,6 +61,9 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
   double _borderRadius = 0.0; // Initial border radius
   var result, msg;
   var userAjencyData;
+
+  var result1;
+  var msg1;
 
   // Function to toggle between border radii
 
@@ -160,16 +164,19 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
 
   userAjency(int ajencyCode) async {
     print('-----170--$ajencyCode');
+    // setState(() {
+    // });
+   // List ajencyUserList = [];
+    userAjencyList = await AjencyUserRepo().ajencyuser(ajencyCode);
     setState(() {
     });
-   // List ajencyUserList = [];
-    userAjencyData = await AjencyUserRepo().ajencyuser(ajencyCode);
-    print('----165--$userAjencyData');
-    if(userAjencyData ==null || userAjencyData.isEmpty){
+    print('----165--$userAjencyList');
+    if(userAjencyList ==null || userAjencyList.isEmpty){
       displayToast("No Record Found");
     }else{
       displayToast("Record Found");
-      print('---172--$userAjencyData');
+      print('---172--$userAjencyList');
+      print('${userAjencyList.length}');
     }
     }
 
@@ -698,6 +705,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
   void _showBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      backgroundColor: Colors.grey,
       builder: (BuildContext context) {
         return AnimatedContainer(
             duration: Duration(seconds: 1),
@@ -712,19 +720,25 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
             ),
             child: Column(
               children: <Widget>[
-                SizedBox(
-                  height: 150, // Height of the container
-                  width: 200, // Width of the container
+                Container(
+                  height: 120, // Height of the container
+                  width: MediaQuery.of(context).size.width, // Width of the container
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20.0),
+                  topRight: Radius.circular(20.0),
+                )),
                   child: Opacity(
                     opacity: 0.9,
                     //step3.jpg
                     child: Image.asset(
-                      'assets/images/markpointheader.jpeg',
+                      'assets/images/forward.jpeg',
                       fit: BoxFit
                           .cover, // Adjust the image fit to cover the container
                     ),
                   ),
                 ),
+                const SizedBox(height: 2),
                 Padding(
                   padding: const EdgeInsets.only(left: 15, right: 15),
                   child: Container(
@@ -817,7 +831,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                       },
                                       hint: RichText(
                                         text: const TextSpan(
-                                          text: 'Please choose a State ',
+                                          text: 'Please choose a Agency ',
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 16,
@@ -839,7 +853,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                       onChanged: (newValue) {
                                         setState(() {
                                           _dropDownAgency2 = newValue;
-                                          userAjencyData = [];
+                                          userAjencyList = [];
                                           _dropDownValueUserAgency = null;
                                           bindAjencyList.forEach((element) async {
                                             if (element["sAgencyName"] == _dropDownAgency2) {
@@ -876,7 +890,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Container(
-                                      margin: EdgeInsets.only(
+                                      margin: const EdgeInsets.only(
                                           left: 0, right: 2),
                                       child: const Icon(
                                         Icons.forward_sharp,
@@ -899,7 +913,6 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                   .width - 50,
                               height: 50,
                               child:
-                              userAjencyData != null && userAjencyData!.isNotEmpty ?
                               SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: DropdownButtonHideUnderline(
@@ -935,7 +948,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                           _dropDownValueUserAgency = newValue;
                                          // userAjencyData = [];
                                           //_dropDownValueUserAgency = null;
-                                          userAjencyData.forEach((element) async {
+                                          userAjencyList.forEach((element) async {
                                             if (element["sName"] == _dropDownValueUserAgency) {
                                               agencyUserId = element['iUserId'];
                                               setState(() {});
@@ -952,7 +965,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                           print("_dropDownValueUserAgency Name----xxx$_dropDownValueUserAgency");
                                         });
                                       },
-                                      items: userAjencyData.map((dynamic item) {
+                                      items: userAjencyList.map((dynamic item) {
                                         return DropdownMenuItem(
                                           child: Text(item['sName'].toString()),
                                           value: item["sName"].toString(),
@@ -960,9 +973,10 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                       }).toList(),
                                     ),
                                   ),
-                                ),
+                                )
+
                               )
-                                  :  Text('No data available'),
+
 
                             ),
                             // Container(
@@ -1103,48 +1117,30 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                   // print('----clicked--xxxxxxxx--');
                                   if (iAgencyCode != null &&
                                       agencyUserId != null) {
-                                    print('----call Api--');
-                                    print('----$iAgencyCode');
-                                    print('----$agencyUserId');
                                     var complaintForwardResponse = await ComplaintForwardRepo()
                                         .complaintForward(
                                         iAgencyCode, agencyUserId);
-                                    print(
-                                        '----949---$complaintForwardResponse');
-                                    List<dynamic> userAjencyList = jsonDecode(
-                                        complaintForwardResponse);
-                                    //print('---183-----xxxxx--$userAjencyList['Msg']');
-                                    print('----$userAjencyList');
+                                    result1 = "${complaintForwardResponse['Result']}";
+                                     msg1 = "${complaintForwardResponse['Msg']}";
+                                    print('---1126---$result1');
+                                    if(result1=="1"){
 
+                                      print('----1----xxx----');
+                                      displayToast(msg1);
+                                      Navigator.pop(context);
 
-                                    var map;
-                                    var data = await complaintForwardResponse
-                                        .stream.bytesToString();
-                                    map = json.decode(data);
-                                    print('----952--$map');
+                                    }else{
+                                      displayToast(msg1);
+                                      print('----0---');
+                                    }
+
                                   } else {
                                     print('----Not call a Api--');
                                   }
-                                  // var markPointSubmitResponse =
-                                  // await MarkPointSubmitRepo().markpointsubmit(
-                                  //     context,
-                                  //     randomNumber,
-                                  //     _selectedPointId,
-                                  //     _selectedBlockId,
-                                  //     location,
-                                  //     slat,
-                                  //     slong,
-                                  //     description,
-                                  //     uplodedImage,
-                                  //     todayDate,
-                                  //     userId);
-                                  //
-                                  // print('----699---$markPointSubmitResponse');
-
                                   /// Todo next Apply condition
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color(
+                                  backgroundColor: const Color(
                                       0xFF255899), // Hex color code (FF for alpha, followed by RGB)
                                 ),
                                 child: const Text("Submit",
@@ -1166,6 +1162,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
       },
     );
   }
+
 
 // state dropdown
   Widget _stateDropDown() {

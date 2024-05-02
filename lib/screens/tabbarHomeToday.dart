@@ -121,7 +121,7 @@ class TabTodayPage extends StatefulWidget {
                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                    children: [
                                                      Container(
-                                                        width: MediaQuery.of(context).size.width - 120,
+                                                        width: MediaQuery.of(context).size.width - 125,
                                                        child:  Text(userContributionTodayList?[index + 3]['sName'].toString() ?? '',
                                                          overflow: TextOverflow.clip,
                                                          textAlign: TextAlign.start,

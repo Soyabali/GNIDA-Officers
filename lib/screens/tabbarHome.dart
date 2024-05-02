@@ -94,7 +94,7 @@ class _TabPageState extends State<TabPage> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Container(
-                                                    width: MediaQuery.of(context).size.width - 120,
+                                                    width: MediaQuery.of(context).size.width - 125,
                                                     child:  Text(userContributionList?[index + 3]['sName'].toString() ?? '',
                                                       overflow: TextOverflow.clip,
                                                       textAlign: TextAlign.start,
