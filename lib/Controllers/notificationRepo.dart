@@ -14,6 +14,7 @@ class NotificationRepo {
     String? iUserId = prefs.getString('iUserId');
 
     print('-----16---$sToken');
+    print('-----17---$iUserId');
 
     try {
       var baseURL = BaseRepo().baseurl;
@@ -28,8 +29,8 @@ class NotificationRepo {
       var request = http.Request('POST', Uri.parse('$notificationApi'));
       request.body = json.encode({
         "iUserId": "$iUserId",
-        "iPage": "10",
-        "iPageSize": "5"
+        "iPage": "1",
+        "iPageSize": "10"
       });
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
@@ -42,7 +43,7 @@ class NotificationRepo {
 
         if (dataList != null) {
           List<Map<String, dynamic>> notificationList = dataList.cast<Map<String, dynamic>>();
-          print("xxxxxxxxxxxxxxxxxxx----: $notificationList");
+          print("xxxxx------46----: $notificationList");
           return notificationList;
         } else {
           return null;

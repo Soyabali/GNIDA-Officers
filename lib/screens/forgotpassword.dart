@@ -10,7 +10,6 @@ import '../resources/values_manager.dart';
 import 'changePassword.dart';
 import 'homeScreen.dart';
 import 'loginScreen_2.dart';
-import 'logout.dart';
 import 'mypoint.dart';
 import 'notification.dart';
 

@@ -736,21 +736,22 @@ class _MyHomePageState extends State<MyHomePage>
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 0),
+              padding: const EdgeInsets.only(bottom: 5),
               child: Container(
                 height: MediaQuery.of(context).size.height - 400.0,
+               // height: 250,
                 child: TabBarView(
-                  controller: tabController,
-                  children: <Widget>[
-                    //new FoodList(),
-                    // new TabBarHomeToday(),
-                    new TabBarHomeToday(sendData: sendData),
-                    new TabBarHomeMonth(),
-                    new TabBarHome(),
-                  ],
+                    controller: tabController,
+                    children: <Widget>[
+                      //new FoodList(),
+                      // new TabBarHomeToday(),
+                      new TabBarHomeToday(sendData: sendData),
+                      new TabBarHomeMonth(),
+                      new TabBarHome(),
+                    ],
+                  ),
                 ),
               ),
-            ),
             const SizedBox(height: 0),
             Padding(
               padding:

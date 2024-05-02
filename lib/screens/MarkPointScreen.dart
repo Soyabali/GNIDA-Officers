@@ -830,8 +830,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 } else if (_descriptionController
                                     .text.isEmpty) {
                                   descriptionfocus.requestFocus();
-                                }
-                              }
+                                }}
 
                               /// Todo next Apply condition
                             },
