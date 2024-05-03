@@ -47,7 +47,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
     super.initState();
     schedulePointresponse();
     _searchController.addListener(_search);
-    getLocation();
+    //getLocation();
   }
 
   @override
@@ -83,8 +83,8 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
 
     lat = position.latitude;
     long = position.longitude;
-    print('-----------105----$lat');
-    print('-----------106----$long');
+    print('-----------86----$lat');
+    print('-----------87----$long');
     // setState(() {
     // });
     debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
@@ -407,8 +407,11 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                           GestureDetector(
                                             onTap: () {
                                               print('----341---');
-                                              var sBeforePhoto =
-                                                  "${item['sBeforePhoto']}";
+                                              getLocation();
+                                              print('---411--$lat');
+                                              print('---412--$long');
+                                              var sBeforePhoto = "${item['sBeforePhoto']}";
+                                              var iTaskCode = "${item['iTaskCode']}";
                                               print('----357---$sBeforePhoto');
 
                                               //
@@ -417,8 +420,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                                 MaterialPageRoute(
                                                     builder: (context) =>
                                                         ActionOnSchedultPointScreen(
-                                                            sBeforePhoto:
-                                                                sBeforePhoto)),
+                                                            sBeforePhoto: sBeforePhoto,iTaskCode:iTaskCode,lat:lat,long:long)),
                                               );
                                             },
                                             child: Padding(

@@ -17,7 +17,10 @@ import 'homeScreen.dart';
 
 class ActionOnSchedultPointScreen extends StatefulWidget {
   final sBeforePhoto;
-  const ActionOnSchedultPointScreen({super.key,this.sBeforePhoto});
+  final iTaskCode;
+  double? lat;
+  double? long;
+  ActionOnSchedultPointScreen({super.key,this.sBeforePhoto, this.iTaskCode, this.lat, this.long});
 
   @override
   State<ActionOnSchedultPointScreen> createState() => _ActionOnSchedultPointScreenState();
@@ -41,8 +44,6 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
   FocusNode remarkfocus = FocusNode();
   File? _imageFile;
 
-
-
   // Sector Api get response
   updatedSector() async {
     distList = await DistRepo().getDistList();
@@ -50,7 +51,8 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
     setState(() {});
   }
 
-  //location
+
+  // //location
   void getLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -77,8 +79,8 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
 
     lat = position.latitude;
     long = position.longitude;
-    print('-----------105----$lat');
-    print('-----------106----$long');
+    print('-----------79----$lat');
+    print('-----------80----$long');
     // setState(() {
     // });
     debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
@@ -103,8 +105,13 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
   void initState() {
     // TODO: implement initState
     super.initState();
-    updatedSector();
-    print('------71----${widget.sBeforePhoto}');
+   // updatedSector();
+    getLocation();
+    print('------106----${widget.sBeforePhoto}');
+    print('------107----${widget.iTaskCode}');
+    print('------111----${widget.lat}');
+    print('------112----${widget.long}');
+
 
   }
   // toast
@@ -196,9 +203,9 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
                               height: 24,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: const Text(
+                          const Padding(
+                            padding: EdgeInsets.only(top: 10),
+                            child: Text(
                                 'Fill the below details',
                                 style: TextStyle(
                                     fontFamily: 'Montserrat',
@@ -442,7 +449,7 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
                       ElevatedButton(
                           onPressed: () async {
                               // get a location
-                            getLocation();
+                           getLocation();
                             // current date
                             DateTime currentDate = DateTime.now();
                          var  todayDate = DateFormat('dd/MMM/yyyy HH:mm')
@@ -456,36 +463,39 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
                             print('--508---Image-$_imageFile');
 
                             if(_formKey.currentState!.validate()
-                                && remarks!=null && _imageFile!=null){
+                                && remarks!=null && _imageFile!=null && lat!=null && long!=null){
 
-                              /// Todo call Api
-                              print('----Call Api----');
+                                var iTaskCode = '${widget.iTaskCode}';
+
+                              print('---ita---$iTaskCode');
+                               print('---_imageFile--$_imageFile');
+                               print('---lat--$lat');
+                               print('---long--$long');
+                               print('---iTaskCode--${widget.iTaskCode}');
+                               print('---todayDate--${todayDate}');
+                              //  Todo call Api
+                              // print('----Call Api----');
                               /// TODO REMOVE COMMENT AND APPLY right api
-                              // var  loginMap = await DrywetSegregationSumitRepo()
-                              //       .drywetsegregation(context, remarks!,
-                              //   _imageFile);
                               var  actiononSchedulepointresponse = await ActionOnScheduleRepo()
                                     .actionOnSchedulePoint(context, remarks!,
-                                _imageFile,lat,long,todayDate);
+                                _imageFile,lat,long,todayDate,iTaskCode);
+                              /// TODO REMOVE THIS API
 
-                              print('---418--$actiononSchedulepointresponse');
+                              print('---475--------$actiononSchedulepointresponse');
                             var  result = "${actiononSchedulepointresponse['Result']}";
                             var  mag = "${actiononSchedulepointresponse['Msg']}";
                             if(result=="1"){
                               displayToast(mag);
-                              Navigator.pop(context);
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(builder: (context) => const ScheduledPointScreen()),
-                              // );
-
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const HomePage()));
                             }else{
                               displayToast(mag);
                             }
-
-                            print('---421--$result');
-                              print('---422--$mag');
+                            print('---484----$result');
+                              print('---485-----$mag');
                             }else{
+                              displayToast("Please pick image");
                               print('----Not Call Api----');
                             }
                             /// TODO Apply logic behage of api response

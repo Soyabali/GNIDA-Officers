@@ -710,7 +710,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
         return AnimatedContainer(
             duration: Duration(seconds: 1),
             curve: Curves.easeInOut,
-            height: 410,
+            height: 280,
             // Adjust height as needed
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
@@ -720,25 +720,25 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
             ),
             child: Column(
               children: <Widget>[
-                Container(
-                  height: 120, // Height of the container
-                  width: MediaQuery.of(context).size.width, // Width of the container
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0),
-                )),
-                  child: Opacity(
-                    opacity: 0.9,
-                    //step3.jpg
-                    child: Image.asset(
-                      'assets/images/forward.jpeg',
-                      fit: BoxFit
-                          .cover, // Adjust the image fit to cover the container
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 2),
+                // Container(
+                //   height: 110, // Height of the container
+                //   width: MediaQuery.of(context).size.width-30, // Width of the container
+                // decoration: const BoxDecoration(
+                // borderRadius: BorderRadius.only(
+                //   topLeft: Radius.circular(20.0),
+                //   topRight: Radius.circular(20.0),
+                // )),
+                //   child: Opacity(
+                //     opacity: 0.9,
+                //     //step3.jpg
+                //     child: Image.asset(
+                //       'assets/images/forward.jpeg',
+                //       fit: BoxFit
+                //           .cover, // Adjust the image fit to cover the container
+                //     ),
+                //   ),
+                // ),
+
                 Padding(
                   padding: const EdgeInsets.only(left: 15, right: 15),
                   child: Container(
@@ -762,7 +762,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                           ),
                         ]),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15),
+                      padding: const EdgeInsets.only(left: 15, right: 15,top: 0),
                       child: Form(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -976,140 +976,8 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                 )
 
                               )
-
-
                             ),
-                            // Container(
-                            //   width: MediaQuery
-                            //       .of(context)
-                            //       .size
-                            //       .width - 50,
-                            //   height: 50,
-                            //   child: SingleChildScrollView(
-                            //     scrollDirection: Axis.horizontal,
-                            //     child: DropdownButtonHideUnderline(
-                            //       child: ButtonTheme(
-                            //         alignedDropdown: true,
-                            //         child: DropdownButton(
-                            //           onTap: () {
-                            //             FocusScope.of(context).unfocus();
-                            //           },
-                            //           hint: RichText(
-                            //             text: const TextSpan(
-                            //               text: 'Please choose a State ',
-                            //               style: TextStyle(
-                            //                 color: Colors.black,
-                            //                 fontSize: 16,
-                            //                 fontWeight: FontWeight.normal,
-                            //               ),
-                            //               children: <TextSpan>[
-                            //                 TextSpan(
-                            //                   text: '*',
-                            //                   style: TextStyle(
-                            //                     color: Colors.red,
-                            //                     fontSize: 16,
-                            //                     fontWeight: FontWeight.bold,
-                            //                   ),
-                            //                 ),
-                            //               ],
-                            //             ),
-                            //           ),
-                            //           value: _dropDownValueUserAgency,
-                            //           onChanged: (newValue) {
-                            //             setState(() {
-                            //               _dropDownValueUserAgency = newValue;
-                            //             //  userAjencyList = [];
-                            //               //_dropDownValueUserAgency = null;
-                            //               userAjencyData .forEach((element) async {
-                            //                 if (element["sName"] == _dropDownAgency2) {
-                            //                   agencyUserId = element['iUserId'];
-                            //                   setState(() {});
-                            //                   if (agencyUserId != null) {
-                            //                     // TODO: update next api
-                            //                    // userAjency(iAgencyCode);
-                            //
-                            //                   } else {
-                            //                     print('Please Select State name');
-                            //                   }
-                            //                 }
-                            //               });
-                            //               print("iAgencyCode value----xxx $agencyUserId");
-                            //               print("_dropDownAgency Name----xxx$_dropDownValueUserAgency");
-                            //             });
-                            //           },
-                            //           items: userAjencyData .map((dynamic item) {
-                            //             return DropdownMenuItem(
-                            //               child: Text(item['sName'].toString()),
-                            //               value: item["sName"].toString(),
-                            //             );
-                            //           }).toList(),
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
-                            // Container(
-                            //   width: MediaQuery
-                            //       .of(context)
-                            //       .size
-                            //       .width - 50,
-                            //   height: 42,
-                            //   color: Color(0xFFf2f3f5),
-                            //   child: DropdownButtonHideUnderline(
-                            //     child: ButtonTheme(
-                            //       alignedDropdown: true,
-                            //       child: DropdownButton(
-                            //         onTap: () {
-                            //           FocusScope.of(context).unfocus();
-                            //         },
-                            //         hint: RichText(
-                            //           text: const TextSpan(
-                            //             text: "Please choose a Agency",
-                            //             style: TextStyle(
-                            //                 color: Colors.black,
-                            //                 fontSize: 16,
-                            //                 fontWeight: FontWeight.normal),
-                            //             children: <TextSpan>[
-                            //               TextSpan(
-                            //                   text: '',
-                            //                   style: TextStyle(
-                            //                       color: Colors.red,
-                            //                       fontSize: 16,
-                            //                       fontWeight: FontWeight.bold)),
-                            //             ],
-                            //           ),
-                            //         ),
-                            //         // Not necessary for Option 1
-                            //         value: _dropDownValueUserAgency,
-                            //         //  key: distDropdownFocus,
-                            //         onChanged: (newValue) {
-                            //           setState(() {
-                            //             _dropDownValueUserAgency = newValue;
-                            //             print(
-                            //                 '---917---$_dropDownValueUserAgency');
-                            //             //  _isShowChosenDistError = false;
-                            //             // Iterate the List
-                            //             userAjencyList.forEach((element) {
-                            //               if (element["sName"] ==
-                            //                   _dropDownValueUserAgency) {
-                            //                 setState(() {
-                            //                   agencyUserId = element['iUserId'];
-                            //                 });
-                            //                 //print('-----926--$agencyUserId');
-                            //               }
-                            //             });
-                            //           });
-                            //         },
-                            //         items: userAjencyList.map((dynamic item) {
-                            //           return DropdownMenuItem(
-                            //             child: Text(item['sName'].toString()),
-                            //             value: item["sName"].toString(),
-                            //           );
-                            //         }).toList(),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
+
                             SizedBox(height: 10),
                             ElevatedButton(
                                 onPressed: () async {
@@ -1160,82 +1028,6 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
             )
         );
       },
-    );
-  }
-
-
-// state dropdown
-  Widget _stateDropDown() {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(10.0),
-      child: Container(
-        width: MediaQuery
-            .of(context)
-            .size
-            .width - 50,
-        height: 50,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: DropdownButtonHideUnderline(
-            child: ButtonTheme(
-              alignedDropdown: true,
-              child: DropdownButton(
-                onTap: () {
-                  FocusScope.of(context).unfocus();
-                },
-                hint: RichText(
-                  text: TextSpan(
-                    text: 'Please choose a State ',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: '*',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                value: _dropDownAgency2,
-                onChanged: (newValue) {
-                  setState(() {
-                    _dropDownAgency2 = newValue;
-                    userAjencyList = [];
-                    _dropDownValueUserAgency = null;
-                    bindAjencyList.forEach((element) async {
-                      if (element["sAgencyName"] == _dropDownAgency) {
-                        iAgencyCode = element['iAgencyCode'];
-                        setState(() {});
-                        if (iAgencyCode != null) {
-                          // TODO: update next api
-                        } else {
-                          print('Please Select State name');
-                        }
-                      }
-                    });
-                    print("iAgencyCode value----xxx $iAgencyCode");
-                    print("_dropDownAgency Name----xxx$_dropDownAgency");
-                  });
-                },
-                items: bindAjencyList.map((dynamic item) {
-                  return DropdownMenuItem(
-                    child: Text(item['sAgencyName'].toString()),
-                    value: item["sAgencyName"].toString(),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

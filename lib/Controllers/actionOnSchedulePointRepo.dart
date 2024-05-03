@@ -10,7 +10,7 @@ import 'baseurl.dart';
 class ActionOnScheduleRepo {
 
   Future actionOnSchedulePoint(
-      BuildContext context, String remarks, File? imageFile, double? lat, double? long, String todayDate) async {
+      BuildContext context, String remarks, File? imageFile, double? lat, double? long, String todayDate, String iTaskCode) async {
     // sharedP
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('sToken');
@@ -27,6 +27,7 @@ class ActionOnScheduleRepo {
       print('----lat---$lat');
       print('----long---$long');
       print('----todayDate---$todayDate');
+      print('-----iTaskCode---$iTaskCode');
 
       var baseURL = BaseRepo().baseurl;
 
@@ -36,7 +37,7 @@ class ActionOnScheduleRepo {
       print('------------39---actionOnSchedulePointApi---$actionOnSchedulePointApi');
 
       String jsonResponse =
-          '{"sArray":[{"iTaskCode":"","iResolveBy":"$userId","dResolveAt":"$todayDate","sAfterPhoto":"$imageFile","sResolveRemarks":"$remarks","fResolveLatitude":"$lat","fResolveLongitude":"$long"}]}';
+          '{"sArray":[{"iTaskCode":"$iTaskCode","iResolveBy":"$userId","dResolveAt":"$todayDate","sAfterPhoto":"$imageFile","sResolveRemarks":"$remarks","fResolveLatitude":"$lat","fResolveLongitude":"$long"}]}';
 // Parse the JSON response
       Map<String, dynamic> parsedResponse = jsonDecode(jsonResponse);
 
