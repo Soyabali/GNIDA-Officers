@@ -2,10 +2,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../Helpers/loader_helper.dart';
+import '../screens/generalFunction.dart';
 import 'baseurl.dart';
 
 class ForgotPassWordRepo {
-
+  GeneralFunction generalFunction = GeneralFunction();
   Future forgotpassword(BuildContext context, String phone) async {
 
     try {
@@ -34,7 +35,9 @@ class ForgotPassWordRepo {
         hideLoader();
         print('----------22-----$map');
         return map;
-      } else {
+      } else if(response.statusCode==401){
+        generalFunction.logout(context);
+      }else{
         print('----------29---LOGINaPI RESPONSE----$map');
         hideLoader();
         print(response.reasonPhrase);

@@ -3,12 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../Helpers/loader_helper.dart';
+import '../screens/generalFunction.dart';
 import 'baseurl.dart';
 
 
 class DrywetSegregationSumitRepo {
 
   // this is a loginApi call functin
+  GeneralFunction generalFunction = GeneralFunction();
 
   Future drywetsegregation(BuildContext context, String sector, String location,
       String remarks,File? imagePath) async {
@@ -41,7 +43,10 @@ class DrywetSegregationSumitRepo {
         hideLoader();
         print('----------22-----$map');
         return map;
-      } else {
+      } else if(response.statusCode ==401) {
+        generalFunction.logout(context);
+
+      }else{
         print('----------29---LOGINaPI RESPONSE----$map');
         hideLoader();
         print(response.reasonPhrase);

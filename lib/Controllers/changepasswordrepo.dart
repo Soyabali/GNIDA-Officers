@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Helpers/loader_helper.dart';
+import '../screens/generalFunction.dart';
 import 'baseurl.dart';
 
 
 class ChangePasswordRepo {
 
   // this is a loginApi call functin
+  GeneralFunction generalFunction = GeneralFunction();
 
   Future changePassword(BuildContext context, String oldpassword, String newpassword) async {
 
@@ -49,11 +51,15 @@ class ChangePasswordRepo {
       var data = await response.stream.bytesToString();
       map = json.decode(data);
       print('----------50---changePassword Response----$map');
+      if(response.statusCode ==401){
+        generalFunction.logout(context);
+      }
+
       if (response.statusCode == 200) {
         hideLoader();
         print('----------53-----$map');
         return map;
-      } else {
+      } else{
         print('----------29---changePassword Response----$map');
         hideLoader();
         print(response.reasonPhrase);

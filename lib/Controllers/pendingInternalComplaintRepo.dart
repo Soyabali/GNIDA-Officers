@@ -4,9 +4,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../Helpers/loader_helper.dart';
 import 'package:http/http.dart' as http;
+import '../screens/generalFunction.dart';
 import 'baseurl.dart';
 
 class PendingInternalComplaintRepo {
+  GeneralFunction generalFunction = GeneralFunction();
   Future<List<Map<String, dynamic>>?> pendingInternalComplaint(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
@@ -39,8 +41,8 @@ class PendingInternalComplaintRepo {
           List<Map<String, dynamic>> pendingInternalComplaintList = dataList.cast<Map<String, dynamic>>();
           print("Dist list: $pendingInternalComplaintList");
           return pendingInternalComplaintList;
-        } else {
-          return null;
+        } else if(response.statusCode==401) {
+          generalFunction.logout(context);
         }
       } else {
         hideLoader();

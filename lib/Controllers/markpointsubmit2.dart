@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Helpers/loader_helper.dart';
+import '../screens/generalFunction.dart';
 import 'baseurl.dart';
 
 
 class   MarkPointSubmitRepo2 {
-
+  GeneralFunction generalFunction = GeneralFunction();
    sendPostRequest(BuildContext context) async {
 
        SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -64,7 +65,9 @@ class   MarkPointSubmitRepo2 {
 
         print('Response: ${response.body}');
         print('Status code: ${response.statusCode}');
-      } else {
+      } else if(response.statusCode == 401) {
+        generalFunction.logout(context);
+      }else{
         // Print error response
         print('Status code: ${response.statusCode}');
         print('Error: ${response.reasonPhrase}');

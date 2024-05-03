@@ -4,10 +4,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../Helpers/loader_helper.dart';
 import 'package:http/http.dart' as http;
+import '../screens/generalFunction.dart';
 import 'baseurl.dart';
 
 class NotificationRepo {
-
+  GeneralFunction generalFunction = GeneralFunction();
   Future<List<Map<String, dynamic>>?> notification(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
@@ -34,7 +35,9 @@ class NotificationRepo {
       });
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
-
+      if(response.statusCode ==401){
+        generalFunction.logout(context);
+      }
       if (response.statusCode == 200) {
         hideLoader();
         var data = await response.stream.bytesToString();
@@ -45,7 +48,7 @@ class NotificationRepo {
           List<Map<String, dynamic>> notificationList = dataList.cast<Map<String, dynamic>>();
           print("xxxxx------46----: $notificationList");
           return notificationList;
-        } else {
+        } else{
           return null;
         }
       } else {

@@ -4,10 +4,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../Helpers/loader_helper.dart';
 import 'package:http/http.dart' as http;
+import '../screens/generalFunction.dart';
 import 'baseurl.dart';
 
 class UserContributionRepo {
-
+  GeneralFunction generalFunction = GeneralFunction();
   Future<List<Map<String, dynamic>>?> userContribution(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
@@ -43,7 +44,9 @@ class UserContributionRepo {
       // });
       // request.headers.addAll(headers);
       // http.StreamedResponse response = await request.send();
-
+      if(response.statusCode ==401){
+        generalFunction.logout(context);
+      }
       if (response.statusCode == 200) {
         hideLoader();
         var data = await response.stream.bytesToString();

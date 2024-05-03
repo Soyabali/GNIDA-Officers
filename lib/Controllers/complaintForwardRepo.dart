@@ -31,17 +31,20 @@
 //   }
 // }
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Helpers/loader_helper.dart';
+import '../screens/generalFunction.dart';
 import 'baseurl.dart';
 
 
 class ComplaintForwardRepo
 {
+  GeneralFunction generalFunction = GeneralFunction();
  // List complaitForwardList = [];
-  Future complaintForward(iAgencyCode, agencyUserId) async
+  Future complaintForward(BuildContext context, iAgencyCode, agencyUserId) async
   {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
@@ -83,8 +86,10 @@ class ComplaintForwardRepo
         print('----------83-----$map');
         return map;
 
-      } else
-      {
+      } else if(response.statusCode ==200){
+        generalFunction.logout(context);
+      }
+      else{
         print('---95---Not call--');
         hideLoader();
         return map;

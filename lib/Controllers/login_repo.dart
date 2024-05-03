@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:noidaone/screens/generalFunction.dart';
 import '../Helpers/loader_helper.dart';
 import 'baseurl.dart';
 
@@ -8,6 +9,7 @@ import 'baseurl.dart';
 class LoginRepo1 {
 
   // this is a loginApi call functin
+  GeneralFunction generalFunction = GeneralFunction();
 
   Future authenticate(BuildContext context, String number, String pass) async {
 
@@ -33,8 +35,13 @@ class LoginRepo1 {
       var data = await response.stream.bytesToString();
       map = json.decode(data);
       print('----------20---LOGINaPI RESPONSE----$map');
+
+
       if (response.statusCode == 200) {
+        // create an instance of auth class
+        print('----44-${response.statusCode}');
         hideLoader();
+
         print('----------22-----$map');
         return map;
       } else {
@@ -49,4 +56,5 @@ class LoginRepo1 {
       throw e;
     }
   }
+
 }

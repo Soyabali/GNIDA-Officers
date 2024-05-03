@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Helpers/loader_helper.dart';
+import '../screens/generalFunction.dart';
 import 'baseurl.dart';
 
 class MarkPointSubmitRepo {
   // this is a loginApi call functin
+  GeneralFunction generalFunction = GeneralFunction();
 
   Future markpointsubmit(
       BuildContext context,
@@ -90,7 +92,10 @@ class MarkPointSubmitRepo {
         hideLoader();
         print('----------96-----$map');
         return map;
-      } else {
+      } else if(response.statusCode==401)
+      {
+        generalFunction.logout(context);
+      }else{
         print('----------99----$map');
         hideLoader();
         print(response.reasonPhrase);

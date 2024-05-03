@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:noidaone/Controllers/notificationRepo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'changePassword.dart';
+import 'generalFunction.dart';
 import 'homeScreen.dart';
 import 'loginScreen_2.dart';
 import 'mypoint.dart';
@@ -37,6 +38,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   List<Map<String, dynamic>>? notificationList;
   String? sName, sContactNo;
+  GeneralFunction generalFunction = GeneralFunction();
   getnotificationResponse() async {
     // notificationList = NotificationRepo().
     notificationList = await NotificationRepo().notification(context);
@@ -191,7 +193,6 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -208,239 +209,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         // drawer
-        drawer: Drawer(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-               DrawerHeader(
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                            'assets/images/citysimpe.png'), // Replace with your asset image path
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Icon(
-                          Icons.person,
-                          size: 50,
-                          color: Color(0xff3f617d),
-                        ),
-                        Text(
-                          '${sName}',
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Color(0xff3f617d),
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Icon(
-                              Icons.call,
-                              size: 18,
-                              color: Color(0xff3f617d),
-                            ),
-                            SizedBox(width: 5),
-                            Text(
-                              '${sContactNo}',
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Color(0xff3f617d),
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        )
-                      ],
-                    )),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
-                  child: SingleChildScrollView(
-                    // Wrap with SingleChildScrollView to make it scrollable
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const HomePage()));
-                            // Add your navigation or action logic here
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Image.asset(
-                                'assets/images/home_nw.png', // Replace with your asset image path
-                                width: 25, // Adjust image width as needed
-                                height: 25, // Adjust image height as needed
-                              ),
-                              SizedBox(width: 10),
-                              const Text(
-                                'Home',
-                                style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Color(0xff3f617d),
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 15),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Mypoint()),
-                            );
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Image.asset(
-                                'assets/images/my_wallet.png', // Replace with your asset image path
-                                width: 25, // Adjust image width as needed
-                                height: 25, // Adjust image height as needed
-                              ),
-                              SizedBox(width: 10),
-                              const Text(
-                                'My Points',
-                                style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Color(0xff3f617d),
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 15),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const ChangePassWord()),
-                            );
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Image.asset(
-                                'assets/images/change_password_nw.png', // Replace with your asset image path
-                                width: 25, // Adjust image width as needed
-                                height: 25, // Adjust image height as needed
-                              ),
-                              SizedBox(width: 10),
-                              const Text(
-                                'Change Password',
-                                style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Color(0xff3f617d),
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 15),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => NotificationPage()),
-                            );
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Image.asset(
-                                'assets/images/notification.png', // Replace with your asset image path
-                                width: 25, // Adjust image width as needed
-                                height: 25, // Adjust image height as needed
-                              ),
-                              SizedBox(width: 10),
-                              const Text(
-                                'Notification',
-                                style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Color(0xff3f617d),
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+        drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
 
-                        SizedBox(height: 15),
-                        GestureDetector(
-                          onTap: () {
-                            _showBottomSheet(context);
-
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) => LogoutScreen()),
-                            // );
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Image.asset(
-                                'assets/images/logout_new.png', // Replace with your asset image path
-                                width: 25, // Adjust image width as needed
-                                height: 25, // Adjust image height as needed
-                              ),
-                              SizedBox(width: 10),
-                              const Text(
-                                'Logout',
-                                style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Color(0xff3f617d),
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        // SizedBox(height: 280),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Container(
-                            height: 100,
-                            child: const Text(
-                              '',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
         body: Container(
           child: SingleChildScrollView(
             child: Column(

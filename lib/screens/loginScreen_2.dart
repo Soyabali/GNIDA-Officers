@@ -15,6 +15,7 @@ import '../resources/assets_manager.dart';
 import '../resources/values_manager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'forgotpassword.dart';
+import 'generalFunction.dart';
 import 'homeScreen.dart';
 
 class LoginScreen_2 extends StatelessWidget {
@@ -58,24 +59,8 @@ class _LoginPageState extends State<LoginPage> {
   String _latitude = 'Unknown';
   String _longitude = 'Unknown';
   // get latitude and logitude
+  GeneralFunction generalFunction = GeneralFunction();
 
-  // Future<void> _getLocation() async {
-  //   try {
-  //     Position position = await Geolocator.getCurrentPosition(
-  //         desiredAccuracy: LocationAccuracy.high);
-  //     setState(() {
-  //       _latitude = position.latitude.toString();
-  //       _longitude = position.longitude.toString();
-  //
-  //     });
-  //     print('----69--$_latitude');
-  //     print('----70--$_longitude');
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
-  //
-  // location
   void getLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -489,6 +474,7 @@ class _LoginPageState extends State<LoginPage> {
                                 }else{
                                   print('----373---To display error msg---');
                                   displayToast(msg);
+
                                 }
                                 },
                               child: Padding(

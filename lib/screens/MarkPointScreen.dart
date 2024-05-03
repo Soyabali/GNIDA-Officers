@@ -51,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List distList = [];
   List blockList = [];
   List marklocationList = [];
+  var result2,msg2;
   //File? image;
 
   //
@@ -380,8 +381,8 @@ class _MyHomePageState extends State<MyHomePage> {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const HomePage()));
             },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Icon(Icons.arrow_back_ios),
             )),
         title: const Text(
@@ -444,9 +445,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                 height: 24,
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: const Text('Fill the below details',
+                            const Padding(
+                              padding: EdgeInsets.only(top: 10),
+                              child: Text('Fill the below details',
                                   style: TextStyle(
                                       fontFamily: 'Montserrat',
                                       color: Color(0xFF707d83),
@@ -462,7 +463,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             children: <Widget>[
 
                               Container(
-                                  margin: EdgeInsets.only(
+                                  margin: const EdgeInsets.only(
                                       left: 0, right: 2, bottom: 2),
                                   child: const Icon(
                                     Icons.forward_sharp,
@@ -753,6 +754,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       style: TextStyle(color: Colors.red[700]),
                                     )
                             ]),
+
                         ElevatedButton(
                             onPressed: () async {
                               // random number
@@ -761,14 +763,11 @@ class _MyHomePageState extends State<MyHomePage> {
                               int randomNumber =
                                   random.nextInt(99999999 - 10000000) +
                                       10000000;
-                              print(
-                                  'Random 8-digit number---770--: $randomNumber');
+                              print('Random 8-digit number---770--: $randomNumber');
 
                               DateTime currentDate = DateTime.now();
-                              todayDate = DateFormat('dd/MMM/yyyy HH:mm')
-                                  .format(currentDate);
-                              print('Formatted Date--672--: $todayDate');
-                              //
+                              todayDate = DateFormat('dd/MMM/yyyy HH:mm').format(currentDate);
+
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
                               iUserTypeCode = prefs.getString('iUserTypeCode');
@@ -783,16 +782,16 @@ class _MyHomePageState extends State<MyHomePage> {
                               // apply condition
                               if (_formKey.currentState!.validate() &&
                                   location != null &&
-                                  description != null &&
                                   _dropDownValueMarkLocation != null &&
-                                  _dropDownValueDistric != null) {
-                                print('---Api Call---');
-                                //  var iCompCode='87635426';
-                                //var photopath = "NA";
+                                  _dropDownValueDistric != null && uplodedImage !=null) {
+                                  print('---787--$location');
+                                  print('---788--$description');
+                                  print('---789--$_dropDownValueMarkLocation');
+                                  print('---790--$_dropDownValueDistric');
+                                  print('---791--$uplodedImage');
 
-                                /// TODO REMOVE COMMENT AND apply proper api below and handle api data
-
-                                var markPointSubmitResponse =
+                                  print('---call Api---');
+                                  var markPointSubmitResponse =
                                     await MarkPointSubmitRepo().markpointsubmit(
                                         context,
                                         randomNumber,
@@ -805,32 +804,36 @@ class _MyHomePageState extends State<MyHomePage> {
                                         uplodedImage,
                                         todayDate,
                                         userId);
-
                                 print('----699---$markPointSubmitResponse');
-                                var result = markPointSubmitResponse['Result'];
-                                var msg = markPointSubmitResponse['Msg'];
+                                  result2 = markPointSubmitResponse['Result'];
+                                  msg2 = markPointSubmitResponse['Msg'];
                                 print('---806--$result');
                                 print('---807--$msg');
-                                if (result == "1") {
-                                  displayToast(msg);
+                                //
+
+                              } else {
+                                if(_dropDownValueMarkLocation==null){
+                                  displayToast('select Point Type');
+                                }else if(_dropDownValueDistric==null){
+                                  displayToast('select sector');
+                                }else if(location==""){
+                                  displayToast('Enter location');
+                                }else if(uplodedImage==null){
+                                  displayToast('Pick image');
+                                }else{
+                                }
+                              }
+                              if(result2=="1"){
+                                  displayToast(msg2);
                                   //Navigator.pop(context);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => const HomePage()),
                                   );
-                                } else {
-                                  displayToast(msg);
-                                }
-                              } else {
-                                print('---Api Not Call---');
-                                // here you should apply again if condition
-                                if (_locationController.text.isEmpty) {
-                                  locationfocus.requestFocus();
-                                } else if (_descriptionController
-                                    .text.isEmpty) {
-                                  descriptionfocus.requestFocus();
-                                }}
+                              }else{
+                                displayToast(msg2);
+                              }
 
                               /// Todo next Apply condition
                             },

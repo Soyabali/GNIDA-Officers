@@ -136,12 +136,13 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
         backgroundColor: Color(0xFF255899),
         leading: GestureDetector(
             onTap: () {
+              Navigator.pop(context);
               //Navigator.pop(context);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                      const HomePage()));
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) =>
+              //         const HomePage()));
             },
             child: const Padding(
               padding: EdgeInsets.all(8.0),

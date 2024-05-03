@@ -4,9 +4,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../Helpers/loader_helper.dart';
 import 'package:http/http.dart' as http;
+import '../screens/generalFunction.dart';
 import 'baseurl.dart';
 
 class PendingSchedulePointRepo {
+  GeneralFunction generalFunction = GeneralFunction();
   Future<List<Map<String, dynamic>>?> pendingschedulepoint(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
@@ -40,9 +42,11 @@ class PendingSchedulePointRepo {
           List<Map<String, dynamic>> pendingSchedulepointList = dataList.cast<Map<String, dynamic>>();
           print("Dist list: $pendingSchedulepointList");
           return pendingSchedulepointList;
-        } else {
-          return null;
+        } else if(response.statusCode==401){
+          generalFunction.logout(context);
         }
+          //return null;
+
       } else {
         hideLoader();
         return null;

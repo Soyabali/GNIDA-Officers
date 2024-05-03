@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../screens/generalFunction.dart';
 import 'base_api.dart';
 
 class PendingList {
   List dataList = [];
+  GeneralFunction generalFunction = GeneralFunction();
   static var endPoint = "api/vistlistpending/";
 
   Future<List?> getCompleApi() async {
@@ -42,7 +44,9 @@ http.StreamedResponse response = await request.send();
           dataList.add(element);
         });
         return dataList;
-      } else {
+      } else if(response.statusCode==401) {
+       // generalFunction.logout(context);
+      }else{
         var status = response.statusCode;
         debugPrint(response.reasonPhrase);
         return dataList;
