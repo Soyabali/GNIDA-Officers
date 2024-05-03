@@ -13,6 +13,7 @@ import '../Controllers/markLocationRepo.dart';
 import 'actionOnSchedulePoint.dart';
 import 'drywetsegregation.dart';
 import 'flull_screen_image.dart';
+import 'generalFunction.dart';
 import 'homeScreen.dart';
 import 'navigateScreen.dart';
 
@@ -41,6 +42,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
   TextEditingController _searchController = TextEditingController();
   double? lat;
   double? long;
+  GeneralFunction generalfunction = GeneralFunction();
 
   @override
   void initState() {
@@ -413,8 +415,8 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                               var sBeforePhoto = "${item['sBeforePhoto']}";
                                               var iTaskCode = "${item['iTaskCode']}";
                                               print('----357---$sBeforePhoto');
+                                               // create an instance of the class
 
-                                              //
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
@@ -466,15 +468,10 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                               print('-----463---${fLongitude}');
 
                                              if(fLatitude !=null && fLongitude!=null){
-
-                                                Navigator.push(
-                                                   context,
-                                                   MaterialPageRoute(
-                                                       builder: (context) =>
-                                                           NavigateScreen(
-                                                               lat: fLatitude,
-                                                               long: fLongitude)),
-                                                 );
+                                               //launchGoogleMaps()
+                                               print('---472----$fLatitude');
+                                               print('---473----$fLongitude');
+                                               generalfunction.launchGoogleMaps(fLatitude,fLongitude);
                                               }else{
                                                 displayToast("Please check the location.");
                                               }

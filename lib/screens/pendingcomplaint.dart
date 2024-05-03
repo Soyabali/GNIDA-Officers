@@ -11,6 +11,7 @@ import 'package:noidaone/screens/viewimage.dart';
 import '../Controllers/bindAjencyRepo.dart';
 import '../Controllers/pendingInternalComplaintRepo.dart';
 import 'actionOnSchedulePoint.dart';
+import 'generalFunction.dart';
 import 'homeScreen.dart';
 import 'navigateScreen.dart';
 
@@ -64,7 +65,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
 
   var result1;
   var msg1;
-
+  GeneralFunction generalfunction = GeneralFunction();
   // Function to toggle between border radii
 
   // Get a api response
@@ -333,15 +334,8 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                               print('-----463---${fLongitude}');
                                               if (fLatitude != null &&
                                                   fLongitude != null) {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          NavigateScreen(
-                                                              lat: fLatitude,
-                                                              long:
-                                                              fLongitude)),
-                                                );
+                                                generalfunction.launchGoogleMaps(fLatitude,fLongitude);
+
                                               } else {
                                                 displayToast(
                                                     "Please check the location.");

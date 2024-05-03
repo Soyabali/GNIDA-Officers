@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:noidaone/resources/routes_managements.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'changePassword.dart';
 import 'homeScreen.dart';
@@ -368,4 +369,21 @@ class GeneralFunction {
         fontSize: 16.0
     );
   }
+
+   Future<void> launchGoogleMaps(double laititude,double longitude) async {
+     double destinationLatitude= laititude;
+     double destinationLongitude = longitude;
+    final uri = Uri(
+        scheme: "google.navigation",
+        // host: '"0,0"',  {here we can put host}
+        queryParameters: {
+          'q': '$destinationLatitude, $destinationLongitude'
+        });
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      debugPrint('An error occurred');
+    }
+  }
+
 }
