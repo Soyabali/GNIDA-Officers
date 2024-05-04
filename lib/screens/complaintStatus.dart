@@ -9,6 +9,7 @@ import 'package:noidaone/Controllers/ajencyUserRepo.dart';
 import '../Controllers/bindAjencyRepo.dart';
 import '../Controllers/internalComplaintStatusRepo.dart';
 import '../Controllers/pendingInternalComplaintRepo.dart';
+import 'generalFunction.dart';
 import 'homeScreen.dart';
 import 'navigateScreen.dart';
 
@@ -50,6 +51,7 @@ class _SchedulePointScreenState extends State<ComplaintScreen> {
   TextEditingController _searchController = TextEditingController();
   double? lat;
   double? long;
+  GeneralFunction generalfunction = GeneralFunction();
 
   final distDropdownFocus = GlobalKey();
 
@@ -298,22 +300,13 @@ class _SchedulePointScreenState extends State<ComplaintScreen> {
                                                   item['fLongitude'] ?? '';
                                               print('----462----${fLatitude}');
                                               print('-----463---${fLongitude}');
-
                                               // getLocation();
                                               if (fLatitude != null &&
                                                   fLongitude != null) {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          NavigateScreen(
-                                                              lat: fLatitude,
-                                                              long:
-                                                              fLongitude)),
-                                                );
+                                                generalfunction.launchGoogleMaps(fLatitude,fLongitude);
+
                                               } else {
-                                                displayToast(
-                                                    "Please check the location.");
+                                                displayToast("Please check the location.");
                                               }
                                             },
                                             child: Container(

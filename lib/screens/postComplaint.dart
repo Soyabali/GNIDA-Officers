@@ -128,61 +128,64 @@ class _MyHomePageState extends State<MyHomePage> {
         width: MediaQuery.of(context).size.width - 50,
         height: 42,
         color: Color(0xFFf2f3f5),
-        child: DropdownButtonHideUnderline(
-          child: ButtonTheme(
-            alignedDropdown: true,
-            child: DropdownButton(
-              onTap: () {
-                FocusScope.of(context).unfocus();
-              },
-              hint: RichText(
-                text: const TextSpan(
-                  text: "Please choose a Sector",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal),
-                  children: <TextSpan>[
-                    TextSpan(
-                        text: '',
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ), // Not necessary for Option 1
-              value: _dropDownValueDistric,
-              key: distDropdownFocus,
-              onChanged: (newValue) {
-                setState(() {
-                  _dropDownValueDistric = newValue;
-                  print('---187---$_dropDownValueDistric');
-                  //  _isShowChosenDistError = false;
-                  // Iterate the List
-                  distList.forEach((element) {
-                    if (element["sSectorName"] == _dropDownValueDistric) {
-                      setState(() {
-                        // _selectedDisticId = element['id'];
-                      });
-                      // if (_selectedDisticId != null) {
-                      //   updatedBlock();
-                      // } else {
-                      //   print('Please Select Distic name');
-                      // }
-                      // print("Distic Id value xxxxx.... $_selectedDisticId");
-                      print("Distic Name xxxxxxx.... $_dropDownValueDistric");
-                      print("Block list Ali xxxxxxxxx.... $blockList");
-                    }
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: DropdownButtonHideUnderline(
+            child: ButtonTheme(
+              alignedDropdown: true,
+              child: DropdownButton(
+                onTap: () {
+                  FocusScope.of(context).unfocus();
+                },
+                hint: RichText(
+                  text: const TextSpan(
+                    text: "Please choose a Sector",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: '',
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ), // Not necessary for Option 1
+                value: _dropDownValueDistric,
+                key: distDropdownFocus,
+                onChanged: (newValue) {
+                  setState(() {
+                    _dropDownValueDistric = newValue;
+                    print('---187---$_dropDownValueDistric');
+                    //  _isShowChosenDistError = false;
+                    // Iterate the List
+                    distList.forEach((element) {
+                      if (element["sSectorName"] == _dropDownValueDistric) {
+                        setState(() {
+                          // _selectedDisticId = element['id'];
+                        });
+                        // if (_selectedDisticId != null) {
+                        //   updatedBlock();
+                        // } else {
+                        //   print('Please Select Distic name');
+                        // }
+                        // print("Distic Id value xxxxx.... $_selectedDisticId");
+                        print("Distic Name xxxxxxx.... $_dropDownValueDistric");
+                        print("Block list Ali xxxxxxxxx.... $blockList");
+                      }
+                    });
                   });
-                });
-              },
-              items: distList.map((dynamic item) {
-                return DropdownMenuItem(
-                  child: Text(item['sSectorName'].toString()),
-                  value: item["sSectorName"].toString(),
-                );
-              }).toList(),
+                },
+                items: distList.map((dynamic item) {
+                  return DropdownMenuItem(
+                    child: Text(item['sSectorName'].toString()),
+                    value: item["sSectorName"].toString(),
+                  );
+                }).toList(),
+              ),
             ),
           ),
         ),
@@ -199,61 +202,58 @@ class _MyHomePageState extends State<MyHomePage> {
         height: 42,
         color: Color(0xFFf2f3f5),
 
-        child: DropdownButtonHideUnderline(
-          child: ButtonTheme(
-            alignedDropdown: true,
-            child: DropdownButton(
-              onTap: () {
-                FocusScope.of(context).unfocus();
-              },
-              hint: RichText(
-                text: const TextSpan(
-                  text: "Please choose a Sector",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal),
-                  children: <TextSpan>[
-                    TextSpan(
-                        text: '',
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ), // Not necessary for Option 1
-              value: _dropDownValueMarkLocation,
-              // key: distDropdownFocus,
-              onChanged: (newValue) {
-                setState(() {
-                  _dropDownValueMarkLocation = newValue;
-                  print('---233---$_dropDownValueMarkLocation');
-                  //  _isShowChosenDistError = false;
-                  // Iterate the List
-                  marklocationList.forEach((element) {
-                    if (element["sPointTypeName"] == _dropDownValueDistric) {
-                      setState(() {
-                        // _selectedDisticId = element['id'];
-                      });
-                      // if (_selectedDisticId != null) {
-                      //   updatedBlock();
-                      // } else {
-                      //   print('Please Select Distic name');
-                      // }
-                      // print("Distic Id value xxxxx.... $_selectedDisticId");
-                      print("Distic Name xxxxxxx.... $_dropDownValueDistric");
-                      print("Block list Ali xxxxxxxxx.... $blockList");
-                    }
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: DropdownButtonHideUnderline(
+            child: ButtonTheme(
+              alignedDropdown: true,
+              child: DropdownButton(
+                onTap: () {
+                  FocusScope.of(context).unfocus();
+                },
+                hint: RichText(
+                  text: const TextSpan(
+                    text: "Please choose a Location",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: '',
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ), // Not necessary for Option 1
+                value: _dropDownValueMarkLocation,
+                // key: distDropdownFocus,
+                onChanged: (newValue) {
+                  setState(() {
+                    _dropDownValueMarkLocation = newValue;
+                    print('---233---$_dropDownValueMarkLocation');
+                    //  _isShowChosenDistError = false;
+                    // Iterate the List
+                    marklocationList.forEach((element) {
+                      if (element["sPointTypeName"] == _dropDownValueDistric) {
+                        setState(() {
+                          // _selectedDisticId = element['id'];
+                        });
+                        print("Distic Name xxxxxxx.... $_dropDownValueDistric");
+                        print("Block list Ali xxxxxxxxx.... $blockList");
+                      }
+                    });
                   });
-                });
-              },
-              items: marklocationList.map((dynamic item) {
-                return DropdownMenuItem(
-                  child: Text(item['sPointTypeName'].toString()),
-                  value: item["sPointTypeName"].toString(),
-                );
-              }).toList(),
+                },
+                items: marklocationList.map((dynamic item) {
+                  return DropdownMenuItem(
+                    child: Text(item['sPointTypeName'].toString()),
+                    value: item["sPointTypeName"].toString(),
+                  );
+                }).toList(),
+              ),
             ),
           ),
         ),
@@ -372,26 +372,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ],
                           ),
                         ),
-                        // _casteDropDownWithValidation(),
                         _bindMarkLocation(),
-                        //  Card(
-                        //      margin: const EdgeInsets.all(10),
-                        //      color: Colors.white,
-                        //      elevation: 10,
-                        //      shape: RoundedRectangleBorder(
-                        //          borderRadius: BorderRadius.circular(8.0)),
-                        //      shadowColor: ColorManager.primary,
-                        //      child: Expanded(
-                        //        child: Column(
-                        //          crossAxisAlignment: CrossAxisAlignment.start,
-                        //          children: [
-                        //            _bindMarkLocation(),
-                        //            // _isShowChosenDistError
-                        //            //     ? _dropDownErrorText("District")
-                        //            //     : Container()
-                        //          ],
-                        //        ),
-                        //      )),
                         const SizedBox(height: 10),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 5),
@@ -416,24 +397,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ],
                           ),
                         ),
-                        // _casteDropDownWithValidation(),
                         _bindSector(),
-                        //  Card(
-                        //      margin: const EdgeInsets.all(10),
-                        //      color: Colors.white,
-                        //      elevation: 10,
-                        //      shape: RoundedRectangleBorder(
-                        //          borderRadius: BorderRadius.circular(8.0)),
-                        //      shadowColor: ColorManager.primary,
-                        //      child: Column(
-                        //        crossAxisAlignment: CrossAxisAlignment.start,
-                        //        children: [
-                        //          _bindSector()
-                        //          // _isShowChosenDistError
-                        //          //     ? _dropDownErrorText("District")
-                        //          //     : Container()
-                        //        ],
-                        //      )),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 5,top: 5),
                           child: Row(
@@ -626,11 +590,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                   },
                                   child: Padding(
                                     padding: EdgeInsets.only(right: 10,top: 5),
-                                    child: Icon(
-                                      Icons.camera,
-                                      size: 24.0,
-                                      color: Color(0xFF255899),
+                                    child: Image(image: AssetImage('assets/images/ic_camera.PNG'),
+                                      width: 35,
+                                      height: 35,
+                                      fit: BoxFit.fill,
                                     ),
+                                    // child: Icon(
+                                    //   Icons.camera,
+                                    //   size: 24.0,
+                                    //   color: Color(0xFF255899),
+                                    // ),
                                   ),
                                 ),
                               ],
@@ -742,58 +711,4 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-  // Container code with two widget one is Colume and another is icon
-
-  // dropdown widget
-  // caste dropdown with a validation
-  Widget _casteDropDownWithValidation() {
-    return Container(
-      height: 45,
-      //color: Color(0xFFD3D3D3),
-      color: Color(0xFFf2f3f5),
-
-      child: DropdownButtonFormField<String>(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        value: _chosenValue,
-        //  key: casteDropdownFocus,
-        hint: Padding(
-          padding: const EdgeInsets.only(left: 10),
-          child: RichText(
-            text: const TextSpan(
-              text: 'Select Point Type',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal),
-              children: <TextSpan>[
-                TextSpan(
-                    text: '',
-                    style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold)),
-              ],
-            ),
-          ),
-        ),
-        onChanged: (salutation) {
-          setState(() {
-            _chosenValue = salutation;
-            //  _isShowChosenValueError = false;
-            print('CAST GENERATE XXXXXX $_chosenValue');
-          });
-        },
-        items: ['General', 'OBC', 'SC', 'ST']
-            .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-      ),
-    );
-  }
-
 }

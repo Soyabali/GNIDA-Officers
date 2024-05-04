@@ -53,8 +53,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
-  void sendData(String data) {
-  }
+  // void sendData(String data) {
+  // }
 
   String? sName, sContactNo;
   List userModuleRightList = [];
@@ -64,6 +64,14 @@ class _MyHomePageState extends State<MyHomePage>
   TabController? tabController;
   GeneralFunction generalFunction = GeneralFunction();
   var nameFirst, pointFirst, nameSecond, pointSecond, nameThird, pointThird;
+  // call back function
+  String dataFromScreenB = '';
+  // Callback function to receive data from ScreenB
+  // void onDataFromScreenB(String data) {
+  //   setState(() {
+  //     dataFromScreenB = data;
+  //   });
+  // }
   // tabcontroller logic
   void _handleTabSelection() {
     setState(() {
@@ -77,6 +85,9 @@ class _MyHomePageState extends State<MyHomePage>
   Future<void> fetchDataBasedOnTab(int tabIndex) async {
     // Implement your data fetching logic based on the tab index
     // For example:
+     print('-----80----$tabIndex');
+     setState(() {
+     });
     if (tabIndex == 0) {
       // Today
       userContributionTodayList =
@@ -133,9 +144,7 @@ class _MyHomePageState extends State<MyHomePage>
     pointSecond = userContributionList?[1]['iEarnedPoints'].toString();
     nameThird = userContributionList?[2]['sName'].toString();
     pointThird = userContributionList?[2]['iEarnedPoints'].toString();
-    print('----88----xxx-$nameFirst');
-    print('----89-----xxx-$pointFirst');
-    print('--30---xxxx------$userContributionList');
+
     setState(() {});
   }
 
@@ -156,6 +165,7 @@ class _MyHomePageState extends State<MyHomePage>
     userContributionResponse();
     getlocalvalue();
     tabController?.addListener(_handleTabSelection);
+    print('------------159--------xxx--------');
   }
 
   @override
@@ -173,8 +183,8 @@ class _MyHomePageState extends State<MyHomePage>
       sContactNo = prefs.getString('sContactNo') ?? "";
       print("------146---$nameFirst");
       print("------1147---$pointFirst");
-      print("------148---$sName");
-      print("------1149---$sContactNo");
+      print("------177---$sName");
+      print("------178---$sContactNo");
     });
   }
 
@@ -320,7 +330,7 @@ class _MyHomePageState extends State<MyHomePage>
                                         Flexible(
                                           child: Text(
                                             '$nameFirst',
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontFamily: 'Montserrat',
                                               color: Colors.white,
                                               fontSize: 12.0,
@@ -503,9 +513,31 @@ class _MyHomePageState extends State<MyHomePage>
                     children: <Widget>[
                       //new FoodList(),
                       // new TabBarHomeToday(),
-                      new TabBarHomeToday(sendData: sendData),
-                      new TabBarHomeMonth(),
-                      new TabBarHome(),
+                      TabTodayPage(onDataReceived: (nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird) {
+                        // Handle data received from AllTab here
+                        print('---518--TodayNameFirst---$nameFirst');
+                        print('---519--TodayPointFirst---$pointFirst');
+                        print('---520--TodayNameSecond---$nameSecond');
+                        print('---521--TodayPointSecond---$pointSecond');
+                        print('---522--TodayNameThird---$nameThird');
+                        print('---523--TodayPointThird---$pointThird');
+                      }),
+                  TabPageMonth(onDataReceived: (nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird){
+                    print('---526--MonthNameFirst---$nameFirst');
+                    print('---527--MonthPointFirst---$pointFirst');
+                    print('---528--MonthNameSecond---$nameSecond');
+                    print('---529--MonthPointSecond---$pointSecond');
+                    print('---530--MonthNameThird---$nameThird');
+                    print('---531--MonthPointThird---$pointThird');
+                   }),
+                      TabPage(onDataReceived: (nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird){
+                        print('---534--AllFirst---$nameFirst');
+                        print('---535--AllPointFirst---$pointFirst');
+                        print('---536--AllNameSecond---$nameSecond');
+                        print('---537--AllPointSecond---$pointSecond');
+                        print('---538--AllNameThird---$nameThird');
+                        print('---539--AllPointThird---$pointThird');
+                     }),
                     ],
                   ),
                 ),
@@ -633,8 +665,6 @@ class _MyHomePageState extends State<MyHomePage>
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 0),
       decoration: const BoxDecoration(
-        // color: Theme.of(context).primaryColor,
-        //color: Colors.green,
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(10),
             topRight: Radius.circular(10),

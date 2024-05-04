@@ -56,9 +56,6 @@ class _LoginPageState extends State<LoginPage> {
   var result;
   var loginMap;
   double? lat, long;
-  String _latitude = 'Unknown';
-  String _longitude = 'Unknown';
-  // get latitude and logitude
   GeneralFunction generalFunction = GeneralFunction();
 
   void getLocation() async {
@@ -124,8 +121,6 @@ class _LoginPageState extends State<LoginPage> {
  @override
   void initState() {
     // TODO: implement initState
-  // _getLocation();
-   print('-----------106----');
     super.initState();
  // getLocation();
    Future.delayed(const Duration(milliseconds: 100), () {
@@ -464,6 +459,10 @@ class _LoginPageState extends State<LoginPage> {
                                     prefs.setString('dLastLoginAt',dLastLoginAt);
                                    // prefs.setDouble('lat',lat!);
                                     //prefs.setDouble('long',long!);
+                                    String? stringName = prefs.getString('sName');
+                                    String? stringContact = prefs.getString('sContactNo');
+                                    print('---464-----stringContact--$stringName');
+                                    print('---465----stringContact----$stringContact');
 
 
                                     Navigator.pushReplacement(

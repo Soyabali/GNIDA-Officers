@@ -3,29 +3,38 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Controllers/userContributionRepo.dart';
 import '../Controllers/usercontributionTodayRepo.dart';
 
-class TabBarHomeToday extends StatelessWidget {
-
-  final Function(String) sendData;
-  const TabBarHomeToday({super.key, required this.sendData});
-
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: TabTodayPage(),
-    );
-  }
-}
+// class TabBarHomeToday extends StatelessWidget {
+//
+//   final Function(String) onDataReceived;
+//   const TabBarHomeToday({super.key, required this.onDataReceived});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return const MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       home: TabTodayPage(),
+//     );
+//   }
+// }
 
 class TabTodayPage extends StatefulWidget {
-  const TabTodayPage({Key? key}) : super(key: key);
+  final Function(String,int,String,int,String,int) onDataReceived;
+  const TabTodayPage({Key? key, required this.onDataReceived}) : super(key: key);
 
   @override
   State<TabTodayPage> createState() => _TabPageState();
 }
 
  class _TabPageState extends State<TabTodayPage> {
+    //
+   // Example function where you might get some data
+   void fetchDataAndSendDataToParent(String nameFirst,int pointFirst,String nameSecond,int pointSecond,
+       String nameThird,int pointThird)
+   {
+     String data = 'Some data from TabTodayPage';
+     // Access the callback function through widget.onDataReceived
+     widget.onDataReceived(nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird);
+   }
 
   var nameFirst;
      List<Map<String, dynamic>>? userContributionTodayList;
@@ -37,7 +46,17 @@ class TabTodayPage extends StatefulWidget {
        //  print('--41---xxxx------$userContributionTodayList[0]['']');
        var nameFirst = userContributionTodayList?[0]['sName'].toString();
        var pointFirst = userContributionTodayList?[0]['iEarnedPoints'];
+       var nameSecond = userContributionTodayList?[1]['sName'].toString();
+       var pointSecond = userContributionTodayList?[1]['iEarnedPoints'];
+       var nameThird = userContributionTodayList?[2]['sName'].toString();
+       var pointThird = userContributionTodayList?[2]['iEarnedPoints'];
+       print('---48----NameFirst----$nameFirst');
        // to store value in a SharedPreference
+       if(nameFirst!='' && pointFirst!=null && nameSecond!='' && pointSecond!=null && nameThird!=''&& pointThird!=null){
+         print('---51----callback fuction call');
+         fetchDataAndSendDataToParent(nameFirst!,pointFirst,nameSecond!,pointSecond,nameThird!,pointThird);
+       }
+
 
        SharedPreferences prefs = await SharedPreferences.getInstance();
        prefs.setString('nameFirst',nameFirst!);
@@ -59,6 +78,7 @@ class TabTodayPage extends StatefulWidget {
        // TODO: implement initState
        userContributionResponse();
        super.initState();
+       //fetchDataAndSendDataToParent();
       // sendData("Suaib Ali");
      }
 

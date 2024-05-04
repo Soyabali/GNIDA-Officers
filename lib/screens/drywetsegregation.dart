@@ -82,61 +82,64 @@ class _MyHomePageState extends State<MyHomePage> {
         width: MediaQuery.of(context).size.width - 50,
         height: 42,
         color: Color(0xFFf2f3f5),
-        child: DropdownButtonHideUnderline(
-          child: ButtonTheme(
-            alignedDropdown: true,
-            child: DropdownButton(
-              onTap: () {
-                FocusScope.of(context).unfocus();
-              },
-              hint: RichText(
-                text: const TextSpan(
-                  text: "Please choose a Sector",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal),
-                  children: <TextSpan>[
-                    TextSpan(
-                        text: '',
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ), // Not necessary for Option 1
-              value: _dropDownValueDistric,
-              key: distDropdownFocus,
-              onChanged: (newValue) {
-                setState(() {
-                  _dropDownValueDistric = newValue;
-                  print('---187---$_dropDownValueDistric');
-                  //  _isShowChosenDistError = false;
-                  // Iterate the List
-                  distList.forEach((element) {
-                    if (element["sSectorName"] == _dropDownValueDistric) {
-                      setState(() {
-                        // _selectedDisticId = element['id'];
-                      });
-                      // if (_selectedDisticId != null) {
-                      //   updatedBlock();
-                      // } else {
-                      //   print('Please Select Distic name');
-                      // }
-                      // print("Distic Id value xxxxx.... $_selectedDisticId");
-                      print("Distic Name xxxxxxx.... $_dropDownValueDistric");
-                      //print("Block list Ali xxxxxxxxx.... $blockList");
-                    }
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: DropdownButtonHideUnderline(
+            child: ButtonTheme(
+              alignedDropdown: true,
+              child: DropdownButton(
+                onTap: () {
+                  FocusScope.of(context).unfocus();
+                },
+                hint: RichText(
+                  text: const TextSpan(
+                    text: "Please choose a Sector",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: '',
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ), // Not necessary for Option 1
+                value: _dropDownValueDistric,
+                key: distDropdownFocus,
+                onChanged: (newValue) {
+                  setState(() {
+                    _dropDownValueDistric = newValue;
+                    print('---187---$_dropDownValueDistric');
+                    //  _isShowChosenDistError = false;
+                    // Iterate the List
+                    distList.forEach((element) {
+                      if (element["sSectorName"] == _dropDownValueDistric) {
+                        setState(() {
+                          // _selectedDisticId = element['id'];
+                        });
+                        // if (_selectedDisticId != null) {
+                        //   updatedBlock();
+                        // } else {
+                        //   print('Please Select Distic name');
+                        // }
+                        // print("Distic Id value xxxxx.... $_selectedDisticId");
+                        print("Distic Name xxxxxxx.... $_dropDownValueDistric");
+                        //print("Block list Ali xxxxxxxxx.... $blockList");
+                      }
+                    });
                   });
-                });
-              },
-              items: distList.map((dynamic item) {
-                return DropdownMenuItem(
-                  child: Text(item['sSectorName'].toString()),
-                  value: item["sSectorName"].toString(),
-                );
-              }).toList(),
+                },
+                items: distList.map((dynamic item) {
+                  return DropdownMenuItem(
+                    child: Text(item['sSectorName'].toString()),
+                    value: item["sSectorName"].toString(),
+                  );
+                }).toList(),
+              ),
             ),
           ),
         ),
@@ -389,11 +392,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                 },
                                 child: const Padding(
                                   padding: EdgeInsets.only(right: 10,top: 5),
-                                  child: Icon(
-                                    Icons.camera,
-                                    size: 24.0,
-                                    color: Color(0xFF255899),
+                                  child: Image(image: AssetImage('assets/images/ic_camera.PNG'),
+                                    width: 35,
+                                    height: 35,
+                                    fit: BoxFit.fill,
                                   ),
+                                  // child: Icon(
+                                  //   Icons.camera,
+                                  //   size: 24.0,
+                                  //   color: Color(0xFF255899),
+                                  // ),
                                 ),
                               ),
                             ],

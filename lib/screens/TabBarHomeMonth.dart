@@ -3,19 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:noidaone/Controllers/usercontributionMonthRepo.dart';
 import '../Controllers/userContributionRepo.dart';
 
-class TabBarHomeMonth extends StatelessWidget {
-  const TabBarHomeMonth({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: TabPageMonth(),
-    );
-  }
-}
+// class TabBarHomeMonth extends StatelessWidget {
+//   const TabBarHomeMonth({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return const MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       home: TabPageMonth(),
+//     );
+//   }
+// }
 class TabPageMonth extends StatefulWidget {
-  const TabPageMonth({Key? key}) : super(key: key);
+  final Function(String,int,String,int,String,int) onDataReceived;
+  const TabPageMonth({Key? key, required this.onDataReceived}) : super(key: key);
 
   @override
   State<TabPageMonth> createState() => _TabPageState();
@@ -23,11 +24,31 @@ class TabPageMonth extends StatefulWidget {
 
 class _TabPageState extends State<TabPageMonth> {
 
+  // Example function where you might get some data
+  void fetchDataAndSendDataToParent(String nameFirst,int pointFirst,String nameSecond,int pointSecond,
+      String nameThird,int pointThird)
+  {
+    String data = 'Some data from TabTodayPage';
+    // Access the callback function through widget.onDataReceived
+    widget.onDataReceived(nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird);
+  }
+
+
   List<Map<String, dynamic>>? userContributionMonthList;
 
   userContributionResponse() async {
     userContributionMonthList = await UserContributionMontRepo().userContributionMonth(context);
     print('--29---xxxx------$userContributionMonthList');
+    var nameFirst = userContributionMonthList?[0]['sName'].toString();
+    var pointFirst = userContributionMonthList?[0]['iEarnedPoints'];
+    var nameSecond = userContributionMonthList?[1]['sName'].toString();
+    var pointSecond = userContributionMonthList?[1]['iEarnedPoints'];
+    var nameThird = userContributionMonthList?[2]['sName'].toString();
+    var pointThird = userContributionMonthList?[2]['iEarnedPoints'];
+    if(nameFirst!='' && pointFirst!=null && nameSecond!='' && pointSecond!=null && nameThird!=''&& pointThird!=null){
+      print('---51----callback fuction call');
+      fetchDataAndSendDataToParent(nameFirst!,pointFirst,nameSecond!,pointSecond,nameThird!,pointThird);
+    }
 
     setState(() {});
   }

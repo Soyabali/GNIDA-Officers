@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import '../Controllers/userContributionRepo.dart';
 
-class TabBarHome extends StatelessWidget {
-  const TabBarHome({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: TabPage(),
-    );
-  }
-}
+// class TabBarHome extends StatelessWidget {
+//   const TabBarHome({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return const MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       home: TabPage(),
+//     );
+//   }
+// }
 class TabPage extends StatefulWidget {
-  const TabPage({Key? key}) : super(key: key);
+  final Function(String,int,String,int,String,int) onDataReceived;
+  const TabPage({Key? key, required this.onDataReceived}) : super(key: key);
 
   @override
   State<TabPage> createState() => _TabPageState();
@@ -21,10 +22,30 @@ class TabPage extends StatefulWidget {
 
 class _TabPageState extends State<TabPage> {
   List<Map<String, dynamic>>? userContributionList;
+  // callback function
+  void fetchDataAndSendDataToParent(String nameFirst,int pointFirst,String nameSecond,int pointSecond,
+      String nameThird,int pointThird)
+  {
+    String data = 'Some data from TabTodayPage';
+    // Access the callback function through widget.onDataReceived
+    widget.onDataReceived(nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird);
+  }
 
   userContributionResponse() async {
     userContributionList = await UserContributionRepo().userContribution(context);
     print('--30---xxxx------$userContributionList');
+    var nameFirst = userContributionList?[0]['sName'].toString();
+    var pointFirst = userContributionList?[0]['iEarnedPoints'];
+    var nameSecond = userContributionList?[1]['sName'].toString();
+    var pointSecond = userContributionList?[1]['iEarnedPoints'];
+    var nameThird = userContributionList?[2]['sName'].toString();
+    var pointThird = userContributionList?[2]['iEarnedPoints'];
+    print('---48----NameFirst----$nameFirst');
+    // to store value in a SharedPreference
+    if(nameFirst!='' && pointFirst!=null && nameSecond!='' && pointSecond!=null && nameThird!=''&& pointThird!=null){
+      print('---51----callback fuction call');
+      fetchDataAndSendDataToParent(nameFirst!,pointFirst,nameSecond!,pointSecond,nameThird!,pointThird);
+    }
     setState(() {});
   }
 
