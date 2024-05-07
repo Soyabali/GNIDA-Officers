@@ -29,6 +29,7 @@ class GeneralFunction {
     goNext(context);
   }
   goNext(BuildContext context){
+
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(

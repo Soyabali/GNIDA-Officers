@@ -90,15 +90,13 @@ class _SplaceState extends State<Splace> {
   versionAliCall() async{
     /// TODO HERE YOU SHOULD CHANGE APP VERSION FLUTTER VERSION MIN 3 DIGIT SUCH AS 1.0.0
     /// HERE YOU PASS variable _appVersion
-
-    var loginMap = await AppVersionRepo().appversion(context,'4');
-   var result = "${loginMap['Result']}";
+    var loginMap = await AppVersionRepo().appversion(context,'6');
+    var result = "${loginMap['Result']}";
     var msg = "${loginMap['Msg']}";
     print('---73--$result');
     print('---74--$msg');
 
     if(result=="1"){
-
       // Navigator.push(
       //                 context,
       //                 MaterialPageRoute(

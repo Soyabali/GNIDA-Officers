@@ -456,18 +456,32 @@ class _MyHomePageState extends State<MyHomePage> {
                                             var oldpassword = _oldPasswordController.text;
                                             var newpassword = _newPasswordController.text;
                                             var confirmpassword = _confirmPasswordController.text;
+
                                             print('----495--$oldpassword');
                                             print('----496--$newpassword');
                                             print('----497--$confirmpassword');
-                                    
+                                            // if(newpassword!=confirmpassword){
+                                            //   displayToast("");
+                                            //   displayToast("");
+                                            //   displayToast("Password does not match.");
+                                            // }else{
+                                            //
+                                            // }
+
                                             if(_formKey.currentState!.validate() && oldpassword != null && newpassword != null && confirmpassword!=null){
+
                                               print('-----497--Call Api-');
-                                              changePasswordRepo = await ChangePasswordRepo().changePassword(context, oldpassword!, newpassword!);
+                                              if(newpassword!=confirmpassword){
+                                                displayToast("Password does not match");
+                                              }
+                                              else{
+                                                changePasswordRepo = await ChangePasswordRepo().changePassword(context, oldpassword!, newpassword!);
+                                                  print('----479-----$changePasswordRepo');
+                                                result = "${changePasswordRepo['Result']}";
+                                                msg = "${changePasswordRepo['Msg']}";
+                                                print('----482-----$msg');
 
-                                              //print('-----546---$changePasswordRepo');
-
-                                              result = "${changePasswordRepo['Result']}";
-                                              msg = "${changePasswordRepo['Msg']}";
+                                              }
 
                                             }else {
                                               if(_oldPasswordController.text.isEmpty){

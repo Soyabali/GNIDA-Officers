@@ -63,7 +63,13 @@ class _MyHomePageState extends State<MyHomePage>
   List<Map<String, dynamic>>? userContributionMonthList; // Month
   TabController? tabController;
   GeneralFunction generalFunction = GeneralFunction();
-  var nameFirst, pointFirst, nameSecond, pointSecond, nameThird, pointThird;
+  //var nameFirst, pointFirst, nameSecond, pointSecond, nameThird, pointThird;
+  String nameFirst = ""; // Variables to hold data from tabs
+  int pointFirst = 0;
+  String nameSecond = "";
+  int pointSecond = 0;
+  String nameThird = "";
+  int pointThird = 0;
   // call back function
   String dataFromScreenB = '';
   // Callback function to receive data from ScreenB
@@ -73,80 +79,80 @@ class _MyHomePageState extends State<MyHomePage>
   //   });
   // }
   // tabcontroller logic
-  void _handleTabSelection() {
-    setState(() {
-      // You can fetch data based on the selected tab index here
-      int tabIndex = tabController!.index;
-      // print('Selected tab index:----95-- $tabIndex');
-      fetchDataBasedOnTab(tabIndex);
-    });
-  }
+  // void _handleTabSelection() {
+  //   setState(() {
+  //     // You can fetch data based on the selected tab index here
+  //     int tabIndex = tabController!.index;
+  //     // print('Selected tab index:----95-- $tabIndex');
+  //     fetchDataBasedOnTab(tabIndex);
+  //   });
+  // }
 
-  Future<void> fetchDataBasedOnTab(int tabIndex) async {
-    // Implement your data fetching logic based on the tab index
-    // For example:
-     print('-----80----$tabIndex');
-     setState(() {
-     });
-    if (tabIndex == 0) {
-      // Today
-      userContributionTodayList =
-          await UserContributionTodayRepo().userContributionTodat(context);
-      nameFirst = userContributionList?[0]['sName'].toString();
-      pointFirst = userContributionList?[0]['iEarnedPoints'].toString();
-      nameSecond = userContributionList?[1]['sName'].toString();
-      pointSecond = userContributionList?[1]['iEarnedPoints'].toString();
-      nameThird = userContributionList?[2]['sName'].toString();
-      pointThird = userContributionList?[2]['iEarnedPoints'].toString();
-      print('-----116--$nameFirst');
+  // Future<void> fetchDataBasedOnTab(int tabIndex) async {
+  //   // Implement your data fetching logic based on the tab index
+  //   // For example:
+  //    print('-----80----$tabIndex');
+  //    setState(() {
+  //    });
+  //   if (tabIndex == 0) {
+  //     // Today
+  //     userContributionTodayList =
+  //         await UserContributionTodayRepo().userContributionTodat(context);
+  //     nameFirst = userContributionList?[0]['sName'].toString();
+  //     pointFirst = userContributionList?[0]['iEarnedPoints'].toString();
+  //     nameSecond = userContributionList?[1]['sName'].toString();
+  //     pointSecond = userContributionList?[1]['iEarnedPoints'].toString();
+  //     nameThird = userContributionList?[2]['sName'].toString();
+  //     pointThird = userContributionList?[2]['iEarnedPoints'].toString();
+  //     print('-----116--$nameFirst');
+  //
+  //     setState(() {});
+  //
+  //     // Fetch data for tab 1
+  //     //print('----111--tabIndex--$userContributionTodayList');
+  //   } else if (tabIndex == 1) {
+  //     userContributionMonthList =
+  //         await UserContributionMontRepo().userContributionMonth(context);
+  //     nameFirst = userContributionMonthList?[0]['sName'].toString();
+  //     pointFirst = userContributionMonthList?[0]['iEarnedPoints'].toString();
+  //     nameSecond = userContributionMonthList?[1]['sName'].toString();
+  //     pointSecond = userContributionMonthList?[1]['iEarnedPoints'].toString();
+  //     nameThird = userContributionMonthList?[2]['sName'].toString();
+  //     pointThird = userContributionMonthList?[2]['iEarnedPoints'].toString();
+  //     print('-----131--$nameFirst');
+  //
+  //     setState(() {});
+  //     // print('----114--tabIndex--$userContributionMonthList');
+  //     // Fetch data for tab 2
+  //   } else if (tabIndex == 2) {
+  //     userContributionList =
+  //         await UserContributionRepo().userContribution(context);
+  //     nameFirst = userContributionList?[0]['sName'].toString();
+  //     pointFirst = userContributionList?[0]['iEarnedPoints'].toString();
+  //     nameSecond = userContributionList?[1]['sName'].toString();
+  //     pointSecond = userContributionList?[1]['iEarnedPoints'].toString();
+  //     nameThird = userContributionList?[2]['sName'].toString();
+  //     pointThird = userContributionList?[2]['iEarnedPoints'].toString();
+  //     print('-----145--$nameFirst');
+  //     setState(() {});
+  //
+  //     // Fetch data for tab 3
+  //   }
+  // }
 
-      setState(() {});
-
-      // Fetch data for tab 1
-      //print('----111--tabIndex--$userContributionTodayList');
-    } else if (tabIndex == 1) {
-      userContributionMonthList =
-          await UserContributionMontRepo().userContributionMonth(context);
-      nameFirst = userContributionMonthList?[0]['sName'].toString();
-      pointFirst = userContributionMonthList?[0]['iEarnedPoints'].toString();
-      nameSecond = userContributionMonthList?[1]['sName'].toString();
-      pointSecond = userContributionMonthList?[1]['iEarnedPoints'].toString();
-      nameThird = userContributionMonthList?[2]['sName'].toString();
-      pointThird = userContributionMonthList?[2]['iEarnedPoints'].toString();
-      print('-----131--$nameFirst');
-
-      setState(() {});
-      // print('----114--tabIndex--$userContributionMonthList');
-      // Fetch data for tab 2
-    } else if (tabIndex == 2) {
-      userContributionList =
-          await UserContributionRepo().userContribution(context);
-      nameFirst = userContributionList?[0]['sName'].toString();
-      pointFirst = userContributionList?[0]['iEarnedPoints'].toString();
-      nameSecond = userContributionList?[1]['sName'].toString();
-      pointSecond = userContributionList?[1]['iEarnedPoints'].toString();
-      nameThird = userContributionList?[2]['sName'].toString();
-      pointThird = userContributionList?[2]['iEarnedPoints'].toString();
-      print('-----145--$nameFirst');
-      setState(() {});
-
-      // Fetch data for tab 3
-    }
-  }
-
-  userContributionResponse() async {
-    userContributionList =
-        await UserContributionTodayRepo().userContributionTodat(context);
-    // userContributionList?[index]['sName'].toString() ?? '',userContributionList?[index]['sName'].toString() ?? '',
-    nameFirst = userContributionList?[0]['sName'].toString();
-    pointFirst = userContributionList?[0]['iEarnedPoints'].toString();
-    nameSecond = userContributionList?[1]['sName'].toString();
-    pointSecond = userContributionList?[1]['iEarnedPoints'].toString();
-    nameThird = userContributionList?[2]['sName'].toString();
-    pointThird = userContributionList?[2]['iEarnedPoints'].toString();
-
-    setState(() {});
-  }
+  // userContributionResponse() async {
+  //   userContributionList =
+  //       await UserContributionTodayRepo().userContributionTodat(context);
+  //   // userContributionList?[index]['sName'].toString() ?? '',userContributionList?[index]['sName'].toString() ?? '',
+  //   nameFirst = userContributionList?[0]['sName'].toString();
+  //   pointFirst = userContributionList?[0]['iEarnedPoints'].toString();
+  //   nameSecond = userContributionList?[1]['sName'].toString();
+  //   pointSecond = userContributionList?[1]['iEarnedPoints'].toString();
+  //   nameThird = userContributionList?[2]['sName'].toString();
+  //   pointThird = userContributionList?[2]['iEarnedPoints'].toString();
+  //
+  //   setState(() {});
+  // }
 
   usermoduleright() async {
     userModuleRightList = await UserModuleRightRepo().usermoduleright();
@@ -155,6 +161,18 @@ class _MyHomePageState extends State<MyHomePage>
     // print(" ----85--> $userModuleRightList['sActivityName']");
     setState(() {});
   }
+   TofetchvalueFromTab(String nameFirst,int pointFirst,String nameSecond,int pointSecond,
+      String nameThird,int pointThird)
+  {
+    setState(() {
+      this.nameFirst = nameFirst;
+      this.pointFirst = pointFirst;
+      this.nameSecond = nameSecond;
+      this.pointSecond = pointSecond;
+      this.nameThird = nameThird;
+      this.pointThird = pointThird;
+    });
+  }
 
   @override
   void initState() {
@@ -162,9 +180,12 @@ class _MyHomePageState extends State<MyHomePage>
     super.initState();
     tabController = TabController(vsync: this, length: 3);
     usermoduleright();
-    userContributionResponse();
+   // TofetchvalueFromTab();
+    //userContributionResponse();
+    // TofetchvalueFromTab(nameFirst,pointFirst,nameSecond,pointSecond,
+    //     nameThird,pointThird);
     getlocalvalue();
-    tabController?.addListener(_handleTabSelection);
+   // tabController?.addListener(_handleTabSelection);
     print('------------159--------xxx--------');
   }
 
@@ -310,8 +331,8 @@ class _MyHomePageState extends State<MyHomePage>
                                   children: [
                                     Image.asset(
                                       'assets/images/firsttrophy.png',
-                                      width: 80, // Adjust the width of the image
-                                      height: 80, // Adjust the height of the image
+                                      width: 70, // Adjust the width of the image
+                                      height: 70, // Adjust the height of the image
                                       fit: BoxFit.fill,
                                     ), // Asset image for column 1
                                     Row(
@@ -322,7 +343,7 @@ class _MyHomePageState extends State<MyHomePage>
                                           style: TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Colors.white,
-                                            fontSize: 12.0,
+                                            fontSize: 10.0,
                                             fontWeight: FontWeight.normal,
                                           ),
                                         ),
@@ -333,7 +354,7 @@ class _MyHomePageState extends State<MyHomePage>
                                             style: const TextStyle(
                                               fontFamily: 'Montserrat',
                                               color: Colors.white,
-                                              fontSize: 12.0,
+                                              fontSize: 10.0,
                                               fontWeight: FontWeight.normal,
                                             ),
                                           ),
@@ -348,17 +369,17 @@ class _MyHomePageState extends State<MyHomePage>
                                           style: const TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Colors.white,
-                                            fontSize: 12.0,
+                                            fontSize: 10.0,
                                             fontWeight: FontWeight.normal,
                                           ),
                                         ),
-                                        SizedBox(width: 2), // Text widget 1
+                                        SizedBox(width: 0), // Text widget 1
                                         const Text(
                                           'Point',
                                           style: TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Colors.white,
-                                            fontSize: 12.0,
+                                            fontSize: 10.0,
                                             fontWeight: FontWeight.normal,
                                           ),
                                         ), // Text widget 2
@@ -374,8 +395,8 @@ class _MyHomePageState extends State<MyHomePage>
                                   children: [
                                     Image.asset(
                                       'assets/images/firsttrophy.png',
-                                      width: 65, // Adjust the width of the image
-                                      height: 65, // Adjust the height of the image
+                                      width: 55, // Adjust the width of the image
+                                      height: 55, // Adjust the height of the image
                                       fit: BoxFit.fill,
                                     ), // Asset image for column 1
                                     Row(
@@ -386,7 +407,7 @@ class _MyHomePageState extends State<MyHomePage>
                                           style: TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Colors.white,
-                                            fontSize: 12.0,
+                                            fontSize: 10.0,
                                             fontWeight: FontWeight.normal,
                                           ),
                                         ),
@@ -397,7 +418,7 @@ class _MyHomePageState extends State<MyHomePage>
                                             style: const TextStyle(
                                               fontFamily: 'Montserrat',
                                               color: Colors.white,
-                                              fontSize: 12.0,
+                                              fontSize: 10.0,
                                               fontWeight: FontWeight.normal,
                                             ),
                                           ),
@@ -412,7 +433,7 @@ class _MyHomePageState extends State<MyHomePage>
                                           style: const TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Colors.white,
-                                            fontSize: 12.0,
+                                            fontSize: 10.0,
                                             fontWeight: FontWeight.normal,
                                           ),
                                         ),
@@ -422,7 +443,7 @@ class _MyHomePageState extends State<MyHomePage>
                                           style: TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Colors.white,
-                                            fontSize: 12.0,
+                                            fontSize: 10.0,
                                             fontWeight: FontWeight.normal,
                                           ),
                                         ), // Text widget 2
@@ -438,8 +459,8 @@ class _MyHomePageState extends State<MyHomePage>
                                   children: [
                                     Image.asset(
                                       'assets/images/firsttrophy.png',
-                                      width: 50, // Adjust the width of the image
-                                      height: 50, // Adjust the height of the image
+                                      width: 40, // Adjust the width of the image
+                                      height: 40, // Adjust the height of the image
                                       fit: BoxFit.fill,
                                     ), // Asset image for column 1
                                     Row(
@@ -461,7 +482,7 @@ class _MyHomePageState extends State<MyHomePage>
                                             style: const TextStyle(
                                               fontFamily: 'Montserrat',
                                               color: Colors.white,
-                                              fontSize: 12.0,
+                                              fontSize: 10.0,
                                               fontWeight: FontWeight.normal,
                                             ),
                                           ),
@@ -476,7 +497,7 @@ class _MyHomePageState extends State<MyHomePage>
                                           style: const TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Colors.white,
-                                            fontSize: 12.0,
+                                            fontSize: 10.0,
                                             fontWeight: FontWeight.normal,
                                           ),
                                         ),
@@ -486,7 +507,7 @@ class _MyHomePageState extends State<MyHomePage>
                                           style: TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Colors.white,
-                                            fontSize: 12.0,
+                                            fontSize: 10.0,
                                             fontWeight: FontWeight.normal,
                                           ),
                                         ), // Text widget 2
@@ -515,6 +536,17 @@ class _MyHomePageState extends State<MyHomePage>
                       // new TabBarHomeToday(),
                       TabTodayPage(onDataReceived: (nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird) {
                         // Handle data received from AllTab here
+                        TofetchvalueFromTab(nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird);
+                       //
+                       // setState(() {
+                       //   nameFirst = nameFirst ?? "";
+                       //   pointFirst = pointFirst ;
+                       //   nameSecond = nameSecond ?? '';
+                       //   pointSecond =pointSecond;
+                       //   nameThird = nameThird ?? '';
+                       //   pointThird = pointThird ;
+                       // });
+
                         print('---518--TodayNameFirst---$nameFirst');
                         print('---519--TodayPointFirst---$pointFirst');
                         print('---520--TodayNameSecond---$nameSecond');
@@ -523,6 +555,14 @@ class _MyHomePageState extends State<MyHomePage>
                         print('---523--TodayPointThird---$pointThird');
                       }),
                   TabPageMonth(onDataReceived: (nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird){
+                    TofetchvalueFromTab(nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird);
+                    // nameFirst = nameFirst ?? "";
+                    // pointFirst = pointFirst ;
+                    // nameSecond = nameSecond ?? '';
+                    // pointSecond =pointSecond;
+                    // nameThird = nameThird ?? '';
+                    // pointThird = pointThird ;
+
                     print('---526--MonthNameFirst---$nameFirst');
                     print('---527--MonthPointFirst---$pointFirst');
                     print('---528--MonthNameSecond---$nameSecond');
@@ -531,6 +571,14 @@ class _MyHomePageState extends State<MyHomePage>
                     print('---531--MonthPointThird---$pointThird');
                    }),
                       TabPage(onDataReceived: (nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird){
+                        TofetchvalueFromTab(nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird);
+                        // nameFirst = nameFirst ?? "";
+                        // pointFirst = pointFirst ;
+                        // nameSecond = nameSecond ?? '';
+                        // pointSecond =pointSecond;
+                        // nameThird = nameThird ?? '';
+                        // pointThird = pointThird ;
+
                         print('---534--AllFirst---$nameFirst');
                         print('---535--AllPointFirst---$pointFirst');
                         print('---536--AllNameSecond---$nameSecond');

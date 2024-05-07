@@ -2,20 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Controllers/userContributionRepo.dart';
 import '../Controllers/usercontributionTodayRepo.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-// class TabBarHomeToday extends StatelessWidget {
-//
-//   final Function(String) onDataReceived;
-//   const TabBarHomeToday({super.key, required this.onDataReceived});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: TabTodayPage(),
-//     );
-//   }
-// }
 
 class TabTodayPage extends StatefulWidget {
   final Function(String,int,String,int,String,int) onDataReceived;
@@ -26,17 +14,24 @@ class TabTodayPage extends StatefulWidget {
 }
 
  class _TabPageState extends State<TabTodayPage> {
-    //
+
+    var nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird;
    // Example function where you might get some data
-   void fetchDataAndSendDataToParent(String nameFirst,int pointFirst,String nameSecond,int pointSecond,
-       String nameThird,int pointThird)
-   {
-     String data = 'Some data from TabTodayPage';
-     // Access the callback function through widget.onDataReceived
-     widget.onDataReceived(nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird);
+   // void fetchDataAndSendDataToParent(String nameFirst,int pointFirst,String nameSecond,int pointSecond,
+   //     String nameThird,int pointThird)
+   // {
+   //   String data = 'Some data from TabTodayPage';
+   //   // Access the callback function through widget.onDataReceived
+   //   widget.onDataReceived(nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird);
+   // }
+   // fetch and call back function
+   void fetchDataAndSendDataToParent() async {
+     // Your data fetching code here
+     // Once data is fetched, call the callback function
+     widget.onDataReceived(nameFirst, pointFirst, nameSecond, pointSecond, nameThird, pointThird);
    }
 
-  var nameFirst;
+ // var nameFirst;
      List<Map<String, dynamic>>? userContributionTodayList;
 
      userContributionResponse() async {
@@ -44,17 +39,18 @@ class TabTodayPage extends StatefulWidget {
        await UserContributionTodayRepo().userContributionTodat(context);
        print('--36---xxxx------$userContributionTodayList'); //sName
        //  print('--41---xxxx------$userContributionTodayList[0]['']');
-       var nameFirst = userContributionTodayList?[0]['sName'].toString();
-       var pointFirst = userContributionTodayList?[0]['iEarnedPoints'];
-       var nameSecond = userContributionTodayList?[1]['sName'].toString();
-       var pointSecond = userContributionTodayList?[1]['iEarnedPoints'];
-       var nameThird = userContributionTodayList?[2]['sName'].toString();
-       var pointThird = userContributionTodayList?[2]['iEarnedPoints'];
+        nameFirst = userContributionTodayList?[0]['sName'].toString();
+        pointFirst = userContributionTodayList?[0]['iEarnedPoints'];
+        nameSecond = userContributionTodayList?[1]['sName'].toString();
+        pointSecond = userContributionTodayList?[1]['iEarnedPoints'];
+        nameThird = userContributionTodayList?[2]['sName'].toString();
+        pointThird = userContributionTodayList?[2]['iEarnedPoints'];
        print('---48----NameFirst----$nameFirst');
        // to store value in a SharedPreference
        if(nameFirst!='' && pointFirst!=null && nameSecond!='' && pointSecond!=null && nameThird!=''&& pointThird!=null){
          print('---51----callback fuction call');
-         fetchDataAndSendDataToParent(nameFirst!,pointFirst,nameSecond!,pointSecond,nameThird!,pointThird);
+       //  fetchDataAndSendDataToParent(nameFirst,pointFirst,nameSecond!,pointSecond,nameThird!,pointThird);
+         fetchDataAndSendDataToParent();
        }
 
 
@@ -78,8 +74,7 @@ class TabTodayPage extends StatefulWidget {
        // TODO: implement initState
        userContributionResponse();
        super.initState();
-       //fetchDataAndSendDataToParent();
-      // sendData("Suaib Ali");
+       fetchDataAndSendDataToParent();
      }
 
      @override
@@ -90,6 +85,7 @@ class TabTodayPage extends StatefulWidget {
            child: Container(
              child: ListView(
                children: <Widget>[
+
                  Padding(
                      padding: const EdgeInsets.only(left: 15, right: 5,bottom: 15),
                      child: Container(
@@ -97,7 +93,7 @@ class TabTodayPage extends StatefulWidget {
                        height: 330,
                        width: double.infinity,
                        decoration: BoxDecoration(
-                         color: Color(0xFFf2f3f5), // Container background color
+                        // color: Color(0xFFf2f3f5), // Container background color
                          borderRadius: BorderRadius.circular(20),
                        ),
                        child: ListView.builder(
@@ -120,12 +116,23 @@ class TabTodayPage extends StatefulWidget {
                                                    mainAxisAlignment: MainAxisAlignment.start,
                                                    children: [
                                                      Text(
-                                                       '${index + 4}', style: const TextStyle(
-                                                         fontFamily: 'Montserrat',
-                                                         // color: Colors.white,
-                                                         color: Color(0xFF707d83),
-                                                         fontSize: 16.0,
-                                                         fontWeight: FontWeight.bold),),
+                                                       '${index + 4}',
+                                                       style: GoogleFonts.lato(
+                                                         textStyle: const TextStyle(
+                                                             color:Color(0xFF707d83),
+                                                             fontSize: 14.0,
+                                                             letterSpacing: .5,
+                                                             fontWeight: FontWeight.normal
+                                                         ),
+                                                       ),
+                                                       // style: const TextStyle(
+                                                       //   fontFamily: 'Montserrat',
+                                                       //   // color: Colors.white,
+                                                       //   color: Color(0xFF707d83),
+                                                       //   fontSize: 16.0,
+                                                       //   fontWeight: FontWeight.bold),
+
+                                                     ),
                                                      // First TextView
                                                      const SizedBox(width: 8),
                                                      // icon
@@ -145,11 +152,21 @@ class TabTodayPage extends StatefulWidget {
                                                        child:  Text(userContributionTodayList?[index + 3]['sName'].toString() ?? '',
                                                          overflow: TextOverflow.clip,
                                                          textAlign: TextAlign.start,
-                                                         style: const TextStyle(
-                                                             fontFamily: 'Montserrat',
-                                                             color: Color(0xFF707d83),
-                                                             fontSize: 14.0,
-                                                             fontWeight: FontWeight.bold),),
+                                                         style: GoogleFonts.lato(
+                                                           textStyle: const TextStyle(
+                                                               color:Color(0xFF707d83),
+                                                               fontSize: 14.0,
+                                                               letterSpacing: .5,
+                                                               fontWeight: FontWeight.normal
+                                                           ),
+                                                         ),
+                                                         // style: const TextStyle(
+                                                         //     fontFamily: 'Montserrat',
+                                                         //     color: Color(0xFF707d83),
+                                                         //     fontSize: 14.0,
+                                                         //     fontWeight: FontWeight.bold),
+
+                                                       ),
                                                      ),
                                                    ],
                                                  ),
@@ -161,12 +178,22 @@ class TabTodayPage extends StatefulWidget {
                                                  child: Text(userContributionTodayList?[index +
                                                      3]['iEarnedPoints'].toString() ??
                                                      '',
-                                                     style: const TextStyle(
-                                                         fontFamily: 'Montserrat',
-                                                         color: Color(0xFFad964a),
-                                                         //color: Colors.white,
-                                                         fontSize: 16.0,
-                                                         fontWeight: FontWeight.bold)),
+                                                   style: GoogleFonts.lato(
+                                                     textStyle: const TextStyle(
+                                                         color:Color(0xFFad964a),
+                                                         fontSize: 14.0,
+                                                         letterSpacing: .5,
+                                                         fontWeight: FontWeight.normal
+                                                     ),
+                                                   ),
+                                                     // style: const TextStyle(
+                                                     //     fontFamily: 'Montserrat',
+                                                     //     color: Color(0xFFad964a),
+                                                     //     //color: Colors.white,
+                                                     //     fontSize: 16.0,
+                                                     //     fontWeight: FontWeight.bold)
+
+                                                 ),
                                                ),
                                                // Last TextView
                                              ],
@@ -176,11 +203,10 @@ class TabTodayPage extends StatefulWidget {
                                      ),
                                    ),
                                  ));
-
-
-                           }
+                          }
                        ),
                      ))
+
                ],
              ),
            ),

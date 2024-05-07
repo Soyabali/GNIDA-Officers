@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../Controllers/userContributionRepo.dart';
 
 // class TabBarHome extends StatelessWidget {
@@ -71,7 +72,7 @@ class _TabPageState extends State<TabPage> {
                     height: 330,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Color(0xFFf2f3f5), // Container background color
+                     // color: Color(0xFFf2f3f5), // Container background color
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: ListView.builder(
@@ -94,12 +95,17 @@ class _TabPageState extends State<TabPage> {
                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    '${index + 4}', style: const TextStyle(
-                                                      fontFamily: 'Montserrat',
-                                                      // color: Colors.white,
-                                                      color: Color(0xFF707d83),
-                                                      fontSize: 16.0,
-                                                      fontWeight: FontWeight.bold),),
+                                                    '${index + 4}',
+                                                    style:
+                                                    GoogleFonts.lato(
+                                                      textStyle: const TextStyle(
+                                                          color:Color(0xFF707d83),
+                                                          fontSize: 14.0,
+                                                          letterSpacing: .5,
+                                                          fontWeight: FontWeight.normal
+                                                      ),
+                                                    ),
+                                                  ),
                                                   // First TextView
                                                   const SizedBox(width: 8),
                                                   // icon
@@ -119,11 +125,21 @@ class _TabPageState extends State<TabPage> {
                                                     child:  Text(userContributionList?[index + 3]['sName'].toString() ?? '',
                                                       overflow: TextOverflow.clip,
                                                       textAlign: TextAlign.start,
-                                                      style: const TextStyle(
-                                                          fontFamily: 'Montserrat',
-                                                          color: Color(0xFF707d83),
-                                                          fontSize: 14.0,
-                                                          fontWeight: FontWeight.bold),),
+                                                      style:
+                                                      GoogleFonts.lato(
+                                                        textStyle: const TextStyle(
+                                                            color:Color(0xFF707d83),
+                                                            fontSize: 14.0,
+                                                            letterSpacing: .5,
+                                                            fontWeight: FontWeight.normal
+                                                        ),),
+                                                    ),
+                                                      // const TextStyle(
+                                                      //     fontFamily: 'Montserrat',
+                                                      //     color: Color(0xFF707d83),
+                                                      //     fontSize: 14.0,
+                                                      //     fontWeight: FontWeight.bold),),
+
                                                   ),
                                                 ],
                                               ),
@@ -135,12 +151,17 @@ class _TabPageState extends State<TabPage> {
                                               child: Text(userContributionList?[index +
                                                   3]['iEarnedPoints'].toString() ??
                                                   '',
-                                                  style: const TextStyle(
-                                                      fontFamily: 'Montserrat',
-                                                      color: Color(0xFFad964a),
-                                                      //color: Colors.white,
-                                                      fontSize: 16.0,
-                                                      fontWeight: FontWeight.bold)),
+                                                  style:
+                                                  GoogleFonts.lato(
+                                                    textStyle: const TextStyle(
+                                                        color:Color(0xFFad964a),
+                                                        fontSize: 14.0,
+                                                        letterSpacing: .5,
+                                                        fontWeight: FontWeight.normal
+                                                    ),
+                                                  ),
+                                              ),
+
                                             ),
                                             // Last TextView
                                           ],
