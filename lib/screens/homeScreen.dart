@@ -664,8 +664,7 @@ class _MyHomePageState extends State<MyHomePage>
                             child: Container(
                               width: 91,
                               height: 80,
-                              margin: const EdgeInsets.only(
-                                  left: 8, right: 8, bottom: 8, top: 8),
+                              margin: const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 8),
                               decoration: BoxDecoration(
                                 color: Color(0xff81afea),
                                 borderRadius: BorderRadius.circular(
@@ -676,11 +675,11 @@ class _MyHomePageState extends State<MyHomePage>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
-                                    Image.asset(
-                                      'assets/images/ic_mark_point.PNG', // Replace with your asset image path
-                                      width: 30, // Adjust image width as needed
-                                      height:
-                                          30, // Adjust image height as needed
+                                    Center(
+                                      child: Image.network('${userModuleRightList[index]['iImgIcon']}', // Replace with your asset image path
+                                        width: 30, // Adjust image width as needed
+                                        height: 30, // Adjust image height as needed
+                                      ),
                                     ),
                                     SizedBox(height: 2),
                                     Center(

@@ -28,12 +28,19 @@ class GeneralFunction {
     //displayToastlogout();
     goNext(context);
   }
-  goNext(BuildContext context){
-
-    Navigator.pushReplacement(
+  // goNext(BuildContext context){
+  //
+  //   Navigator.pushReplacement(
+  //     context,
+  //     MaterialPageRoute(
+  //         builder: (context) => LoginScreen_2()),
+  //   );
+  // }
+  goNext(BuildContext context) {
+    Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(
-          builder: (context) => LoginScreen_2()),
+      MaterialPageRoute(builder: (context) => LoginScreen_2()),
+          (route) => false, // Pop all routes until this page
     );
   }
   // drawerFunction

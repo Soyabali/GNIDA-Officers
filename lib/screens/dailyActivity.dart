@@ -3,16 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:noidaone/screens/homeScreen.dart';
-import '../Controllers/block_repo.dart';
 import '../Controllers/district_repo.dart';
 import '../Controllers/markLocationRepo.dart';
-import '../Controllers/markpointSubmit.dart';
-import '../resources/color_manager.dart';
 import '../resources/values_manager.dart';
 import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
 import 'flull_screen_image.dart';
 
 class DailyActivitytScreen extends StatelessWidget {
@@ -343,7 +337,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Icon(Icons.arrow_back_ios),
             )),
         title: const Text(
-          'Daily Activity',
+          'Field Inspection',
           style: TextStyle(
               fontFamily: 'Montserrat',
               color: Colors.white,
@@ -409,7 +403,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                     fontWeight: FontWeight.bold)),
                           ],
                         ),
-
                         const SizedBox(height: 10),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 5),
@@ -486,7 +479,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ),
                         ),
-
                         Padding(
                           padding: const EdgeInsets.only(bottom: 5, top: 5),
                           child: Row(
@@ -645,11 +637,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                   _dropDownValueDistric != null &&
                                   _imageFile != null) {
                                 print('---Api Call---');
-
                                 /// TODO REMOVE COMMENT AND apply proper api below and handle api data
-
+                                /// FieldInspectionRepo.
                                 // var markPointSubmitResponse = await MarkPointSubmitRepo()
                                 //        .markpointsubmit(context, phone!, password!);
+
                               } else {
                                 print('---Api Not Call---');
                                 // here you should apply again if condition
