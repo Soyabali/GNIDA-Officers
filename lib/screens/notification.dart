@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:noidaone/Controllers/notificationRepo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'changePassword.dart';
 import 'generalFunction.dart';
-import 'homeScreen.dart';
 import 'loginScreen_2.dart';
-import 'mypoint.dart';
 
 class NotificationPage extends StatelessWidget {
   const NotificationPage({super.key});
@@ -40,140 +37,10 @@ class _MyHomePageState extends State<MyHomePage> {
   String? sName, sContactNo;
   GeneralFunction generalFunction = GeneralFunction();
   getnotificationResponse() async {
-    // notificationList = NotificationRepo().
     notificationList = await NotificationRepo().notification(context);
     print('------39----$notificationList');
     setState(() {
     });
-  }
-  void _showBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          height: 150,
-          color: Colors.white,
-          child: GestureDetector(
-            onTap: () {
-              print('---------');
-            },
-            child: Container(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  const Text(
-                    "Logout",
-                    style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      color: Color(0xff3f617d),
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  const Text(
-                    "Do you want to logout?",
-                    style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      color: Color(0xff3f617d),
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          height: 30,
-                          width: 90,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              // Fetch info from a local database and remove that info
-                              SharedPreferences prefs =
-                              await SharedPreferences.getInstance();
-                              prefs.remove("iUserId");
-                              prefs.remove("sName");
-                              prefs.remove("sContactNo");
-                              prefs.remove("sDesgName");
-                              prefs.remove("iDesgCode");
-                              prefs.remove("iDeptCode");
-                              prefs.remove("iUserTypeCode");
-                              prefs.remove("sToken");
-                              prefs.remove("dLastLoginAt");
-                              //Return String
-                              // String? sName = prefs.getString('sName');
-                              //print('---745--$sName');
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) =>
-                              //         const LoginScreen_2()));
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginScreen_2()),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              backgroundColor: Color(0xFF255899),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    20), // Adjust as needed
-                              ), // Text color
-                            ),
-                            child: const Text(
-                              'Yes',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        Container(
-                          height: 30,
-                          width: 90,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              backgroundColor: Colors.red,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    20), // Adjust as needed
-                              ), // Text color
-                            ),
-                            child: const Text(
-                              'No',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
   }
 
   @override
@@ -230,7 +97,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       scrollDirection: Axis.horizontal,
                       child: Column(
                         children: [
-
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -238,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: Container(
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.notification_important, size: 30, color: Color(
                                       0xFF255899),),
                                 ),
@@ -270,13 +136,21 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                   ),
                                   SizedBox(height: 2),
-                                  Text(notificationList?[index]['dRecivedAt'].toString() ?? '',
-                                    style: const TextStyle(
-                                                          fontFamily: 'Montserrat',
-                                                          color: Color(0xff3f617d),
-                                                          fontSize: 14.0,
-                                                          fontWeight: FontWeight.bold),
-                                                    )
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(Icons.calendar_month,size:18,
+                                      color: Color(0xff3f617d),),
+                                      SizedBox(width: 5),
+                                      Text(notificationList?[index]['dRecivedAt'].toString() ?? '',
+                                        style: const TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Color(0xff3f617d),
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    ],
+                                  )
                                 ],
                               )
                             ],

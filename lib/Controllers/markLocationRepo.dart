@@ -37,7 +37,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Helpers/loader_helper.dart';
 import 'baseurl.dart';
 
-
 class MarkLocationRepo
 {
   List marklocationList = [];

@@ -25,14 +25,13 @@ class PostDailyActiviyRepo {
       print('----lat---$lat');
       print('----long---$long');
       var baseURL = BaseRepo().baseurl;
-
       /// TODO CHANGE HERE
       var endPoint = "PostDailyActivity/PostDailyActivity";
       var postDailyActiviyApi = "$baseURL$endPoint";
       print('------------39---postDailyActiviyApi---$postDailyActiviyApi');
 
       String jsonResponse =
-          '{"sArray":[{"iTranNo":$randomNumber,"iSectorCode":$selectedStateId,"sRemarks":$activityDetaile,"sActivityPhoto":"$imageFile","iPostedBy":$iUserId,"fLatitude":$lat,"fLongitude":"$long"}]}';
+          '{"sArray":[{"iTranNo":$randomNumber,"iSectorCode":$selectedStateId,"sRemarks":"","sActivityPhoto":"$imageFile","iPostedBy":$iUserId,"fLatitude":$lat,"fLongitude":"$long"}]}';
 // Parse the JSON response
       Map<String, dynamic> parsedResponse = jsonDecode(jsonResponse);
 
@@ -58,8 +57,7 @@ class PostDailyActiviyRepo {
       var request = http.Request(
           'POST',
           Uri.parse('$postDailyActiviyApi'));
-      request.body =
-          updatedJsonResponse; // Assign the JSON string to the request body
+      request.body = updatedJsonResponse; // Assign the JSON string to the request body
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
 

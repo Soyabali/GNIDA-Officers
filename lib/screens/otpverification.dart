@@ -4,34 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:noidaone/screens/loginScreen_2.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../Controllers/forgotpasswordrepo.dart';
 import '../Controllers/otpverificationrepo.dart';
-import '../resources/app_strings.dart';
 import '../resources/values_manager.dart';
 
-
-// class OtpVerification extends StatelessWidget {
-//
-//   var phone2;
-//   OtpVerification({required this.phone2});
-//
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       theme: ThemeData(
-//         appBarTheme: const AppBarTheme(
-//           iconTheme: IconThemeData(
-//             color: Colors.white, // Change the color of the drawer icon here
-//           ),
-//         ),
-//       ),
-//       debugShowCheckedModeBanner: false,
-//       home: OtpPage(),
-//     );
-//   }
-// }
 
 class OtpPage extends StatefulWidget {
   final phone;
@@ -100,7 +75,6 @@ class _MyHomePageState extends State<OtpPage> {
         fontSize: 16.0
     );
   }
-//
 
   final TextEditingController _phoneNumberController = TextEditingController();
 
@@ -149,7 +123,7 @@ class _MyHomePageState extends State<OtpPage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
+                        const Text(
                           'Security Check',
                           style: TextStyle(
                             fontFamily: 'Montserrat',
@@ -204,7 +178,7 @@ class _MyHomePageState extends State<OtpPage> {
                                             ),
                                           ],
                                         ),
-                                        child: Icon(
+                                        child: const Icon(
                                           Icons.phone,
                                           size: 35,
                                           color: Color(0xFF255899),
@@ -250,39 +224,6 @@ class _MyHomePageState extends State<OtpPage> {
                                                  // maxLength: 1,
                                                   textAlign: TextAlign.center,
                                                   keyboardType: TextInputType.number,
-                                                  // decoration: const InputDecoration(
-                                                  //  // counterText: '*',
-                                                  //   border: OutlineInputBorder(),
-                                                  // ),
-                                                  // decoration: InputDecoration(
-                                                  //   labelText: "*",
-                                                  //   labelStyle: const TextStyle(
-                                                  //       color: Color(0xFFd97c51)),
-                                                  //   border:
-                                                  //   const OutlineInputBorder(),
-                                                  //   contentPadding:
-                                                  //   const EdgeInsets.symmetric(
-                                                  //       vertical:
-                                                  //       AppPadding.p10),
-                                                  //   prefixIcon: const Icon(
-                                                  //       Icons.lock,
-                                                  //       color: Color(0xFF255899)),
-                                                  //   suffixIcon: IconButton(
-                                                  //     icon: Icon(_isObscured
-                                                  //         ? Icons.visibility
-                                                  //         : Icons.visibility_off),
-                                                  //     onPressed: () {
-                                                  //       setState(() {
-                                                  //         _isObscured =
-                                                  //         !_isObscured;
-                                                  //       });
-                                                  //     },
-                                                  //   ),
-                                                  // ),
-                                                  // decoration: const InputDecoration(
-                                                  //   counterText: '*',
-                                                  //   border: OutlineInputBorder(),
-                                                  // ),
                                                 ),
                                               ),
                                             ),
@@ -313,7 +254,7 @@ class _MyHomePageState extends State<OtpPage> {
                                                         .nextFocus(),
                                                 decoration: InputDecoration(
                                                   labelText: "New Password",
-                                                  labelStyle: TextStyle(
+                                                  labelStyle: const TextStyle(
                                                       color: Color(0xFFd97c51)),
                                                   border:
                                                       const OutlineInputBorder(),
@@ -419,18 +360,20 @@ class _MyHomePageState extends State<OtpPage> {
                                                     newpassword != null &&
                                                     confirmpassword != null)
                                                 {
-                                                  // call Api
-                                                   otpverificationResponse = await OtpVerificationRepo().otpverification(
-                                                              context,
-                                                              '${widget.phone}',
-                                                              otp!,
-                                                              confirmpassword);
-                                                  print('---428----$otpverificationResponse');
+                                                  if(newpassword!=confirmpassword){
+                                                    displayToast("Password does not match");
+                                                  }else{
+                                                    otpverificationResponse = await OtpVerificationRepo().otpverification(
+                                                        context,
+                                                        '${widget.phone}',
+                                                        otp!,
+                                                        confirmpassword);
+                                                    print('---428----$otpverificationResponse');
                                                     result = "${otpverificationResponse['Result']}";
                                                     msg = "${otpverificationResponse['Msg']}";
-                                                   print('---431----$result');
-                                                   print('---432----$msg');
-
+                                                    print('---431----$result');
+                                                    print('---432----$msg');
+                                                  }
                                                  }else{
                                                   if(_newPasswordController.text.isEmpty){
                                                     _newPasswordfocus.requestFocus();

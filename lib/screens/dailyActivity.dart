@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:noidaone/screens/homeScreen.dart';
@@ -45,6 +46,8 @@ class _MyHomePageState extends State<MyHomePage> {
   List marklocationList = [];
   double? lat, long;
   String? iUserId;
+  var msg;
+  var result;
   //File? image;
   //
   // Distic List
@@ -59,10 +62,6 @@ class _MyHomePageState extends State<MyHomePage> {
     print(" -----xxxxx-  marklocationList--- Data--62---> $marklocationList");
     setState(() {});
   }
-
-  String? _chosenValue;
-  var msg;
-  var result;
   var SectorData;
   var stateblank;
   final stateDropdownFocus = GlobalKey();
@@ -73,11 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
   FocusNode descriptionfocus = FocusNode();
 
   List? data;
-  //List distList = [];
   var _selectedStateId;
   var _dropDownValueDistric;
-  var _dropDownValueMarkLocation;
-  var _dropDownValue;
   var sectorresponse;
   String? sec;
   final distDropdownFocus = GlobalKey();
@@ -545,7 +541,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                                 print('---Api Call---');
 
-                                var markPointSubmitResponse =
+                                var  postDailyActivityResponse =
                                 await PostDailyActiviyRepo().postDailyActivity(
                                     context,
                                     randomNumber,
@@ -555,10 +551,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                     iUserId,
                                     lat,
                                     long);
-                               print('----558---$markPointSubmitResponse');
-                              // result2 = markPointSubmitResponse['Result'];
-
-
+                               print('----558---$postDailyActivityResponse');
+                               result = postDailyActivityResponse['Result'];
+                               msg = postDailyActivityResponse['Msg'];
                               } else {
                                 print('---Api Not Call---');
                                 // here you should apply again if condition
@@ -566,8 +561,23 @@ class _MyHomePageState extends State<MyHomePage> {
                                   activityDetailfocus.requestFocus();
                                 }
                               }
-
                               /// Todo next Apply condition
+                              if(result=="1"){
+                                // success
+                                print("----556----"+result);
+                                print("----569---Success-");
+                                displayToast(msg);
+                               // Navigator.pop(context);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const HomePage()),
+                                );
+                              }else{
+                                // failed
+                                print("----573----"+result);
+                                displayToast(msg);
+                                print("----574---Faild-");
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color(
@@ -591,5 +601,16 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+  // dialog toast code
+  void displayToast(String msg){
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 }

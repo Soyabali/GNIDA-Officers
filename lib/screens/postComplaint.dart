@@ -1,14 +1,20 @@
 
 import 'dart:io';
+import 'dart:math';
 
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:noidaone/screens/homeScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../Controllers/block_repo.dart';
 import '../Controllers/district_repo.dart';
 import '../Controllers/markLocationRepo.dart';
 import '../Controllers/markpointSubmit.dart';
+import '../Controllers/postComplaintRepo.dart';
 import '../resources/color_manager.dart';
 import '../resources/values_manager.dart';
 import 'dart:async';
@@ -16,7 +22,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'flull_screen_image.dart';
-
 
 class PostComplaintScreen extends StatelessWidget {
   const PostComplaintScreen({super.key});
@@ -78,11 +83,12 @@ class _MyHomePageState extends State<MyHomePage> {
   FocusNode descriptionfocus = FocusNode();
 
   List? data;
-  //List distList = [];
+  double? lat, long;
   var _selectedStateId;
   var _dropDownValueDistric;
   var _dropDownValueMarkLocation;
-  var _dropDownValue;
+  var _iPointTypeCode;
+  var _iSectorCode;
   var sectorresponse;
   String? sec;
   final distDropdownFocus = GlobalKey();
@@ -108,6 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO: implement initState
     updatedSector();
     marklocationData();
+    getLocation();
     super.initState();
     locationfocus = FocusNode();
     descriptionfocus = FocusNode();
@@ -165,7 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     distList.forEach((element) {
                       if (element["sSectorName"] == _dropDownValueDistric) {
                         setState(() {
-                          // _selectedDisticId = element['id'];
+                          _iSectorCode = element['iSectorCode'];
                         });
                         // if (_selectedDisticId != null) {
                         //   updatedBlock();
@@ -201,7 +208,6 @@ class _MyHomePageState extends State<MyHomePage> {
         width: MediaQuery.of(context).size.width - 50,
         height: 42,
         color: Color(0xFFf2f3f5),
-
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: DropdownButtonHideUnderline(
@@ -237,12 +243,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     //  _isShowChosenDistError = false;
                     // Iterate the List
                     marklocationList.forEach((element) {
-                      if (element["sPointTypeName"] == _dropDownValueDistric) {
+                      if (element["sPointTypeName"] == _dropDownValueMarkLocation) {
                         setState(() {
-                          // _selectedDisticId = element['id'];
+                          _iPointTypeCode = element['iPointTypeCode'];
                         });
-                        print("Distic Name xxxxxxx.... $_dropDownValueDistric");
-                        print("Block list Ali xxxxxxxxx.... $blockList");
+                        print("_iPointTypeCode  248.... $_iPointTypeCode");
                       }
                     });
                   });
@@ -586,9 +591,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                     // pickImage();
                                     _getImageFromCamera();
                                     print('---------530-----');
-
-                                  },
-                                  child: Padding(
+                                    },
+                                  child: const Padding(
                                     padding: EdgeInsets.only(right: 10,top: 5),
                                     child: Image(image: AssetImage('assets/images/ic_camera.PNG'),
                                       width: 35,
@@ -642,7 +646,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           _imageFile = null;
                                           setState(() {});
                                         },
-                                        icon: Icon(
+                                        icon: const Icon(
                                           Icons.close,
                                           color: Colors.red,
                                           size: 30,
@@ -658,25 +662,55 @@ class _MyHomePageState extends State<MyHomePage> {
                             ]),
                         ElevatedButton(
                             onPressed: () async {
-                              print('-------615---');
+                              // Fetch Currect date.
+                              DateTime currentDate = DateTime.now();
+                            var  todayDate = DateFormat('dd/MMM/yyyy HH:mm').format(currentDate);
+                              // Get userID
+                              SharedPreferences prefs = await SharedPreferences.getInstance();
+                              String? iUserId = prefs.getString('iUserId');
+
+                              // Get a Location.
+                              getLocation();
+                              // ---
+                              var random = Random();
+                              int randomNumber = random.nextInt(99999999 - 10000000) + 10000000;
                               var location = _locationController.text;
                               var description = _descriptionController.text;
-                              print('--Location --$location');
-                              print('--description --$description');
-                              print('--pointType --$_chosenValue');
-                              print('--sectorType --$_dropDownValueDistric');
-                              print('--ImagePath --$_imageFile');
+                              print('--iCompCode --$randomNumber');
+                              print('--iPointTypeCode --$_iPointTypeCode');
+                              print('--iSectorCode --$_iSectorCode;');
+                              print('--sLocation --$location');
+                              print('--fLatitude --$lat');
+                              print('--fLongitude --$long');
+                              print('--sDescription --$description');
+                              print('--sBeforePhoto --$_imageFile');
+                              print('--dPostedOn --$todayDate');
+                              print('--iPostedBy --$iUserId');
+
                               // apply condition
-                              if(_formKey.currentState!.validate() && location != null
-                                  && description != null && _chosenValue !=null && _dropDownValueDistric !=null
+                              if(_formKey.currentState!.validate() && _iPointTypeCode != null
+                                  && _iSectorCode != null && location !=null
                                   && _imageFile!=null
                               ){
                                 print('---Api Call---');
+                                var  postComplaintResponse =
+                                await PostComplaintRepo().postComplaint(
+                                    context,
+                                    randomNumber,
+                                    _iPointTypeCode,
+                                    _iSectorCode,
+                                    location,
+                                    lat,
+                                    long,
+                                    description,
+                                    _imageFile,
+                                    todayDate,
+                                    iUserId);
 
-                                /// TODO REMOVE COMMENT AND apply proper api below and handle api data
+                                print('----709---$postComplaintResponse');
 
-                                // var markPointSubmitResponse = await MarkPointSubmitRepo()
-                                //        .markpointsubmit(context, phone!, password!);
+                                result = postComplaintResponse['Result'];
+                                msg = postComplaintResponse['Msg'];
 
                               }else{
                                 print('---Api Not Call---');
@@ -687,9 +721,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                   descriptionfocus.requestFocus();
                                 }
                               }
-                              /// Todo next Apply condition
-
-
+                              if(result=="1"){
+                                displayToast(msg);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const HomePage()),
+                                );
+                              }else{
+                                displayToast(msg);
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFF255899), // Hex color code (FF for alpha, followed by RGB)
@@ -710,5 +750,50 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+  // tost
+  void displayToast(String msg){
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
+  // location
+  void getLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    debugPrint("-------------Position-----------------");
+    debugPrint(position.latitude.toString());
+
+    lat = position.latitude;
+    long = position.longitude;
+    print('-----------141----$lat');
+    print('-----------142----$long');
+    // setState(() {
+    // });
+    debugPrint("Latitude: ----145--- $lat and Longitude: $long");
+    debugPrint(position.toString());
   }
 }
