@@ -1,10 +1,13 @@
 import 'dart:io';
-
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:noidaone/screens/homeScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../Controllers/district_repo.dart';
 import '../Controllers/markLocationRepo.dart';
+import '../Controllers/postDailyActivityRepo.dart';
 import '../resources/values_manager.dart';
 import 'dart:async';
 import 'flull_screen_image.dart';
@@ -40,8 +43,9 @@ class _MyHomePageState extends State<MyHomePage> {
   List distList = [];
   List blockList = [];
   List marklocationList = [];
+  double? lat, long;
+  String? iUserId;
   //File? image;
-
   //
   // Distic List
   updatedSector() async {
@@ -63,9 +67,9 @@ class _MyHomePageState extends State<MyHomePage> {
   var stateblank;
   final stateDropdownFocus = GlobalKey();
   TextEditingController _locationController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _activityDetails = TextEditingController();
   // focus
-  FocusNode locationfocus = FocusNode();
+  FocusNode activityDetailfocus = FocusNode();
   FocusNode descriptionfocus = FocusNode();
 
   List? data;
@@ -92,6 +96,10 @@ class _MyHomePageState extends State<MyHomePage> {
       print('----129---$_imageFile');
     }
   }
+   getUserIdFromSharedPreference() async{
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+     iUserId = prefs.getString('iUserId');
+   }
 
   // InitState
   @override
@@ -99,17 +107,48 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO: implement initState
     updatedSector();
     marklocationData();
+    getUserIdFromSharedPreference();
     super.initState();
-    locationfocus = FocusNode();
     descriptionfocus = FocusNode();
   }
-
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    locationfocus.dispose();
     descriptionfocus.dispose();
+  }
+  void getLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    debugPrint("-------------Position-----------------");
+    debugPrint(position.latitude.toString());
+
+    lat = position.latitude;
+    long = position.longitude;
+    print('-----------141----$lat');
+    print('-----------142----$long');
+    // setState(() {
+    // });
+    debugPrint("Latitude: ----145--- $lat and Longitude: $long");
+    debugPrint(position.toString());
   }
 
   // Todo bind sector code
@@ -161,7 +200,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       distList.forEach((element) {
                         if (element["sSectorName"] == _dropDownValueDistric) {
                           setState(() {
-                            // _selectedDisticId = element['id'];
+                            _selectedStateId = element['iSectorCode'];
                           });
                           print("Distic Name xxxxxxx.... $_dropDownValueDistric");
                           print("Block list Ali xxxxxxxxx.... $distList");
@@ -181,144 +220,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         )
         ),
-
-
-      // child: Container(
-      //   width: MediaQuery.of(context).size.width - 50,
-      //   height: 42,
-      //   color: Color(0xFFf2f3f5),
-      //   child: Row(
-      //     children: [
-      //       DropdownButtonHideUnderline(
-      //         child: ButtonTheme(
-      //           alignedDropdown: true,
-      //           child: DropdownButton(
-      //             onTap: () {
-      //               FocusScope.of(context).unfocus();
-      //             },
-      //             hint: RichText(
-      //               text: const TextSpan(
-      //                 text: "Please choose a Sector",
-      //                 style: TextStyle(
-      //                   color: Colors.black,
-      //                   fontSize: 16,
-      //                   fontWeight: FontWeight.normal,
-      //                 ),
-      //                 children: <TextSpan>[
-      //                   TextSpan(
-      //                     text: '',
-      //                     style: TextStyle(
-      //                       color: Colors.red,
-      //                       fontSize: 16,
-      //                       fontWeight: FontWeight.bold,
-      //                     ),
-      //                   ),
-      //                 ],
-      //               ),
-      //             ), // Not necessary for Option 1
-      //             value: _dropDownValueDistric,
-      //             key: distDropdownFocus,
-      //             onChanged: (newValue) {
-      //               setState(() {
-      //                 _dropDownValueDistric = newValue;
-      //                 print('---187---$_dropDownValueDistric');
-      //                 distList.forEach((element) {
-      //                   if (element["sSectorName"] == _dropDownValueDistric) {
-      //                     setState(() {
-      //                       // _selectedDisticId = element['id'];
-      //                     });
-      //                     print(
-      //                         "Distic Name xxxxxxx.... $_dropDownValueDistric");
-      //                     print("Block list Ali xxxxxxxxx.... $blockList");
-      //                   }
-      //                 });
-      //               });
-      //             },
-      //             items: distList.map((dynamic item) {
-      //               return DropdownMenuItem(
-      //                 child: Text(item['sSectorName'].toString()),
-      //                 value: item["sSectorName"].toString(),
-      //               );
-      //             }).toList(),
-      //           ),
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // ),
-
-      // child: Container(
-      //   width: MediaQuery.of(context).size.width - 50,
-      //   height: 42,
-      //   color: Color(0xFFf2f3f5),
-      //   child: SingleChildScrollView(
-      //     scrollDirection: Axis.horizontal,
-      //     child: DropdownButtonHideUnderline(
-      //       child: ButtonTheme(
-      //         alignedDropdown: true,
-      //         child: DropdownButton(
-      //           onTap: () {
-      //             FocusScope.of(context).unfocus();
-      //           },
-      //           hint: RichText(
-      //             text: const TextSpan(
-      //               text: "Please choose a Sector",
-      //               style: TextStyle(
-      //                   color: Colors.black,
-      //                   fontSize: 16,
-      //                   fontWeight: FontWeight.normal),
-      //               children: <TextSpan>[
-      //                 TextSpan(
-      //                     text: '',
-      //                     style: TextStyle(
-      //                         color: Colors.red,
-      //                         fontSize: 16,
-      //                         fontWeight: FontWeight.bold)),
-      //               ],
-      //             ),
-      //           ), // Not necessary for Option 1
-      //           value: _dropDownValueDistric,
-      //           key: distDropdownFocus,
-      //           onChanged: (newValue) {
-      //             setState(() {
-      //               _dropDownValueDistric = newValue;
-      //               print('---187---$_dropDownValueDistric');
-      //               //  _isShowChosenDistError = false;
-      //               // Iterate the List
-      //               distList.forEach((element) {
-      //                 if (element["sSectorName"] == _dropDownValueDistric) {
-      //                   setState(() {
-      //                     // _selectedDisticId = element['id'];
-      //                   });
-      //                   // if (_selectedDisticId != null) {
-      //                   //   updatedBlock();
-      //                   // } else {
-      //                   //   print('Please Select Distic name');
-      //                   // }
-      //                   // print("Distic Id value xxxxx.... $_selectedDisticId");
-      //                   print("Distic Name xxxxxxx.... $_dropDownValueDistric");
-      //                   print("Block list Ali xxxxxxxxx.... $blockList");
-      //                 }
-      //               });
-      //             });
-      //           },
-      //           items: distList.map((dynamic item) {
-      //             return DropdownMenuItem(
-      //               child: Text(item['sSectorName'].toString()),
-      //               value: item["sSectorName"].toString(),
-      //             );
-      //           }).toList(),
-      //         ),
-      //       ),
-      //     ),
-      //   ),
-      // ),
     );
   }
-
-  /// Todo same way you should bind point Type data.
-
-  /// Algo.  First of all create repo, secodn get repo data in the main page after that apply list data on  dropdown.
 
   @override
   Widget build(BuildContext context) {
@@ -456,8 +359,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: Padding(
                               padding: const EdgeInsets.only(left: 10),
                               child: TextFormField(
-                                focusNode: locationfocus,
-                                controller: _locationController,
+                               // focusNode: locationfocus,
+                                controller: _activityDetails,
                                 textInputAction: TextInputAction.next,
                                 onEditingComplete: () =>
                                     FocusScope.of(context).nextFocus(),
@@ -557,7 +460,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     _getImageFromCamera();
                                     print('---------530-----');
                                   },
-                                  child: Padding(
+                                  child: const Padding(
                                     padding: EdgeInsets.only(right: 10, top: 5),
                                     child: Image(image: AssetImage('assets/images/ic_camera.PNG'),
                                       width: 35,
@@ -621,35 +524,46 @@ class _MyHomePageState extends State<MyHomePage> {
                             ]),
                         ElevatedButton(
                             onPressed: () async {
+                              getLocation();
+                              var random = Random();
+                              int randomNumber = random.nextInt(99999999 - 10000000) + 10000000;
+                             //print('Random 8-digit number---770--: $randomNumber');
                               print('-------615---');
-                              var location = _locationController.text;
-                              var description = _descriptionController.text;
-                              print('--Location --$location');
-                              print('--description --$description');
-                              print('--pointType --$_chosenValue');
-                              print('--sectorType --$_dropDownValueDistric');
-                              print('--ImagePath --$_imageFile');
-                              // apply condition
+                              String activityDetaile = _activityDetails.text;
+                              // print('--iTranNo --$randomNumber');
+                              // print('--iSectorCode --$_selectedStateId');
+                              // print("-sRemarks--"+activityDetaile);
+                              // print('--sActivityPhoto --$_imageFile');
+                              // print('--iPostedBy --$iUserId');
+                              // print('--fLatitude --$lat');
+                              // print('--fLongitude --$long');
+
                               if (_formKey.currentState!.validate() &&
-                                  location != null &&
-                                  description != null &&
-                                  _chosenValue != null &&
-                                  _dropDownValueDistric != null &&
+                                  activityDetaile != null &&
+                                  _selectedStateId != null &&
                                   _imageFile != null) {
+
                                 print('---Api Call---');
-                                /// TODO REMOVE COMMENT AND apply proper api below and handle api data
-                                /// FieldInspectionRepo.
-                                // var markPointSubmitResponse = await MarkPointSubmitRepo()
-                                //        .markpointsubmit(context, phone!, password!);
+
+                                var markPointSubmitResponse =
+                                await PostDailyActiviyRepo().postDailyActivity(
+                                    context,
+                                    randomNumber,
+                                    _selectedStateId,
+                                    activityDetaile,
+                                    _imageFile,
+                                    iUserId,
+                                    lat,
+                                    long);
+                               print('----558---$markPointSubmitResponse');
+                              // result2 = markPointSubmitResponse['Result'];
+
 
                               } else {
                                 print('---Api Not Call---');
                                 // here you should apply again if condition
-                                if (_locationController.text.isEmpty) {
-                                  locationfocus.requestFocus();
-                                } else if (_descriptionController
-                                    .text.isEmpty) {
-                                  descriptionfocus.requestFocus();
+                                if (_activityDetails.text.isEmpty) {
+                                  activityDetailfocus.requestFocus();
                                 }
                               }
 
@@ -675,59 +589,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
-      ),
-    );
-  }
-  // Container code with two widget one is Colume and another is icon
-
-  // dropdown widget
-  // caste dropdown with a validation
-  Widget _casteDropDownWithValidation() {
-    return Container(
-      height: 45,
-      //color: Color(0xFFD3D3D3),
-      color: Color(0xFFf2f3f5),
-
-      child: DropdownButtonFormField<String>(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        value: _chosenValue,
-        //  key: casteDropdownFocus,
-        hint: Padding(
-          padding: const EdgeInsets.only(left: 10),
-          child: RichText(
-            text: const TextSpan(
-              text: 'Select Point Type',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal),
-              children: <TextSpan>[
-                TextSpan(
-                    text: '',
-                    style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold)),
-              ],
-            ),
-          ),
-        ),
-        onChanged: (salutation) {
-          setState(() {
-            _chosenValue = salutation;
-            //  _isShowChosenValueError = false;
-            print('CAST GENERATE XXXXXX $_chosenValue');
-          });
-        },
-        items: ['General', 'OBC', 'SC', 'ST']
-            .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
       ),
     );
   }

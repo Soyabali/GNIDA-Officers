@@ -760,9 +760,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               // random number
                               var random = Random();
                               // Generate an 8-digit random number
-                              int randomNumber =
-                                  random.nextInt(99999999 - 10000000) +
-                                      10000000;
+                              int randomNumber = random.nextInt(99999999 - 10000000) + 10000000;
                               print('Random 8-digit number---770--: $randomNumber');
 
                               DateTime currentDate = DateTime.now();

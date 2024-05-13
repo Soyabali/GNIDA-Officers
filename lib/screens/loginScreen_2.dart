@@ -153,7 +153,6 @@ class _LoginPageState extends State<LoginPage> {
     passwordController.dispose();
     super.dispose();
   }
-
   void clearText() {
     _phoneNumberController.clear();
     passwordController.clear();
