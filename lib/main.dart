@@ -25,7 +25,6 @@ configLoading() {
     ..userInteractions = true
     ..dismissOnTap = false;
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:noidaone/resources/routes_managements.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../resources/assets_manager.dart';
+import '../resources/values_manager.dart';
 import 'changePassword.dart';
 import 'homeScreen.dart';
 import 'loginScreen_2.dart';
@@ -28,14 +31,7 @@ class GeneralFunction {
     //displayToastlogout();
     goNext(context);
   }
-  // goNext(BuildContext context){
-  //
-  //   Navigator.pushReplacement(
-  //     context,
-  //     MaterialPageRoute(
-  //         builder: (context) => LoginScreen_2()),
-  //   );
-  // }
+
   goNext(BuildContext context) {
     Navigator.pushAndRemoveUntil(
       context,
@@ -44,61 +40,76 @@ class GeneralFunction {
     );
   }
   // drawerFunction
-   drawerFunction(BuildContext context,String sName,String sContactNo){
-   return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
+  drawerFunction(BuildContext context, String sName, String sContactNo) {
+    return Drawer(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           DrawerHeader(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(
-                      'assets/images/citysimpe.png'), // Replace with your asset image path
-                  fit: BoxFit.cover,
-                ),
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/citysimpe.png'), // Replace with your asset image path
+                fit: BoxFit.cover,
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Icon(
-                    Icons.person,
-                    size: 50,
-                    color: Color(0xff3f617d),
-                  ),
-                  Text(
-                    '${sName}',
-                    style: TextStyle(
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Version - 06',
+                      style: TextStyle(
                         fontFamily: 'Montserrat',
                         color: Color(0xff3f617d),
                         fontSize: 16.0,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                Icon(
+                  Icons.person,
+                  size: 50,
+                  color: Color(0xff3f617d),
+                ),
+                Text(
+                  '${sName}',
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    color: Color(0xff3f617d),
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Icon(
-                        Icons.call,
-                        size: 18,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Icon(
+                      Icons.call,
+                      size: 18,
+                      color: Color(0xff3f617d),
+                    ),
+                    SizedBox(width: 5),
+                    Text(
+                      '${sContactNo}',
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
                         color: Color(0xff3f617d),
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
                       ),
-                      SizedBox(width: 5),
-                      Text(
-                        '${sContactNo}',
-                        style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            color: Color(0xff3f617d),
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  )
-                ],
-              )),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
             child: SingleChildScrollView(
-              // Wrap with SingleChildScrollView to make it scrollable
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -107,19 +118,19 @@ class GeneralFunction {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const HomePage()),
+                          builder: (context) => const HomePage(),
+                        ),
                       );
-                      // Add your navigation or action logic here
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Image.asset(
-                          'assets/images/home_nw.png', // Replace with your asset image path
-                          width: 25, // Adjust image width as needed
-                          height: 25, // Adjust image height as needed
+                          'assets/images/home_nw.png',
+                          width: 25,
+                          height: 25,
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         const Text(
                           'Home',
                           style: TextStyle(
@@ -132,25 +143,25 @@ class GeneralFunction {
                       ],
                     ),
                   ),
-
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Mypoint()),
+                          builder: (context) => const Mypoint(),
+                        ),
                       );
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Image.asset(
-                          'assets/images/my_wallet.png', // Replace with your asset image path
-                          width: 25, // Adjust image width as needed
-                          height: 25, // Adjust image height as needed
+                          'assets/images/my_wallet.png',
+                          width: 25,
+                          height: 25,
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         const Text(
                           'My Points',
                           style: TextStyle(
@@ -163,24 +174,25 @@ class GeneralFunction {
                       ],
                     ),
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ChangePassWord()),
+                          builder: (context) => const ChangePassWord(),
+                        ),
                       );
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Image.asset(
-                          'assets/images/change_password_nw.png', // Replace with your asset image path
-                          width: 25, // Adjust image width as needed
-                          height: 25, // Adjust image height as needed
+                          'assets/images/change_password_nw.png',
+                          width: 25,
+                          height: 25,
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         const Text(
                           'Change Password',
                           style: TextStyle(
@@ -193,24 +205,25 @@ class GeneralFunction {
                       ],
                     ),
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NotificationPage()),
+                          builder: (context) => const NotificationPage(),
+                        ),
                       );
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Image.asset(
-                          'assets/images/notification.png', // Replace with your asset image path
-                          width: 25, // Adjust image width as needed
-                          height: 25, // Adjust image height as needed
+                          'assets/images/notification.png',
+                          width: 25,
+                          height: 25,
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         const Text(
                           'Notification',
                           style: TextStyle(
@@ -223,7 +236,7 @@ class GeneralFunction {
                       ],
                     ),
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   GestureDetector(
                     onTap: () {
                       _showBottomSheet(context);
@@ -232,11 +245,11 @@ class GeneralFunction {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Image.asset(
-                          'assets/images/logout_new.png', // Replace with your asset image path
-                          width: 25, // Adjust image width as needed
-                          height: 25, // Adjust image height as needed
+                          'assets/images/logout_new.png',
+                          width: 25,
+                          height: 25,
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         const Text(
                           'Logout',
                           style: TextStyle(
@@ -249,8 +262,40 @@ class GeneralFunction {
                       ],
                     ),
                   ),
-                  // SizedBox(height: 280),
                 ],
+              ),
+            ),
+          ),
+          Expanded(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 5.0,left: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    const Text('Synergy Telmatics Pvt.Ltd.',style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: Color(0xffF37339),//#F37339
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.bold,
+                    ),),
+                    const SizedBox(width: 0),
+                    Padding(
+                      padding: EdgeInsets.only(right: AppSize.s10),
+                      child: Container(
+                        margin: EdgeInsets.all(AppSize.s10),
+                        child: Image.asset(
+                          ImageAssets.favicon,
+                          //width: AppSize.s50,
+                          width: 20,
+                          height: 20,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

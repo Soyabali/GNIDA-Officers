@@ -95,7 +95,6 @@ class _SplaceState extends State<Splace> {
     var msg = "${loginMap['Msg']}";
     print('---73--$result');
     print('---74--$msg');
-
     if(result=="1"){
       // Navigator.push(
       //                 context,
