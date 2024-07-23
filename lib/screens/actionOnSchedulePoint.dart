@@ -468,7 +468,7 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
 
                                 var iTaskCode = '${widget.iTaskCode}';
 
-                              print('---ita---$iTaskCode');
+                               print('---ita---$iTaskCode');
                                print('---_imageFile--$_imageFile');
                                print('---lat--$lat');
                                print('---long--$long');
@@ -481,8 +481,7 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
                                     .actionOnSchedulePoint(context, remarks!,
                                 _imageFile,lat,long,todayDate,iTaskCode);
                               /// TODO REMOVE THIS API
-
-                              print('---475--------$actiononSchedulepointresponse');
+                                print('---475--------$actiononSchedulepointresponse');
                             var  result = "${actiononSchedulepointresponse['Result']}";
                             var  mag = "${actiononSchedulepointresponse['Msg']}";
                             if(result=="1"){

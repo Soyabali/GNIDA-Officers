@@ -16,7 +16,7 @@ class PendingInternalComplaintRepo {
 
     try {
       var baseURL = BaseRepo().baseurl;
-      var endPoint = "PendingInternalComplaint/PendingInternalComplaint";
+      var endPoint = "PendingInternalComplaint_V2/PendingInternalComplaint_V2";
       var pendingInternalComplaintApi = "$baseURL$endPoint";
 
       showLoader();
@@ -27,6 +27,8 @@ class PendingInternalComplaintRepo {
       var request = http.Request('POST', Uri.parse('$pendingInternalComplaintApi'));
       request.body = json.encode({
         "iUserId": iUserId,
+        "iPage":"",
+        "iPageSize":""
       });
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
@@ -35,6 +37,7 @@ class PendingInternalComplaintRepo {
         hideLoader();
         var data = await response.stream.bytesToString();
         Map<String, dynamic> parsedJson = jsonDecode(data);
+        print('------40----$parsedJson');
         List<dynamic>? dataList = parsedJson['Data'];
 
         if (dataList != null) {

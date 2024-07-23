@@ -194,7 +194,6 @@ class _MyHomePageState extends State<MyHomePage>
     tabController?.dispose(); // Dispose of the tab controller when done
     super.dispose();
   }
-
   getlocalvalue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -215,7 +214,6 @@ class _MyHomePageState extends State<MyHomePage>
     //userContributionResponse();
     super.didChangeDependencies();
   }
-
   @override
   void didUpdateWidget(covariant MyHomePage oldWidget) {
     // TODO: implement didUpdateWidget

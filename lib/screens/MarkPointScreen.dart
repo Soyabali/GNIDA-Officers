@@ -71,8 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
   // postImage
   postimage() async {
     print('----ImageFile----$_imageFile');
-    var postimageResponse =
-        await PostImageRepo().postImage(context, _imageFile);
+    var postimageResponse = await PostImageRepo().postImage(context, _imageFile);
     print(" -----xxxxx-  --72---> $postimageResponse");
     setState(() {});
   }
@@ -159,8 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       // Add the image file as a part of the request
       request.files.add(await http.MultipartFile.fromPath(
-        'file',
-        imageFile.path,
+        'file', imageFile.path,
       ));
 
       // Send the request
@@ -199,7 +197,6 @@ class _MyHomePageState extends State<MyHomePage> {
       "sImagePath": "$image"
     });
     request.headers.addAll(headers);
-
     http.StreamedResponse response = await request.send();
 
       var responsed = await http.Response.fromStream(response);
@@ -209,7 +206,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   // datepicker
   // InitState
-
   @override
   void initState() {
     // TODO: implement initState
@@ -456,6 +452,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ],
                         ),
+
                         Padding(
                           padding: const EdgeInsets.only(bottom: 5,top: 10),
                           child: Row(
@@ -782,6 +779,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   location != null &&
                                   _dropDownValueMarkLocation != null &&
                                   _dropDownValueDistric != null && uplodedImage !=null) {
+
                                   print('---787--$location');
                                   print('---788--$description');
                                   print('---789--$_dropDownValueMarkLocation');
@@ -805,7 +803,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 print('----699---$markPointSubmitResponse');
                                   result2 = markPointSubmitResponse['Result'];
                                   msg2 = markPointSubmitResponse['Msg'];
-                                print('---806--$result');
+                                print('---806---xxxxx----$result');
                                 print('---807--$msg');
                                 //
 
@@ -822,6 +820,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 }
                               }
                               if(result2=="1"){
+                                print('------823----xxxxxxxxxxxxxxx----');
+                                print('------823---result2  -xxxxxxxxxxxxxxx--$result2');
                                   displayToast(msg2);
                                   //Navigator.pop(context);
                                   Navigator.push(

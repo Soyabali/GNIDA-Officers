@@ -17,6 +17,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'forgotpassword.dart';
 import 'generalFunction.dart';
 import 'homeScreen.dart';
+import 'homepagesecod.dart';
 
 class LoginScreen_2 extends StatelessWidget {
   const LoginScreen_2({super.key});
@@ -442,6 +443,8 @@ class _LoginPageState extends State<LoginPage> {
                                         "${loginMap['Data'][0]['sToken']}";
                                     var dLastLoginAt =
                                         "${loginMap['Data'][0]['dLastLoginAt']}";
+                                    var iAgencyCode =
+                                        "${loginMap['Data'][0]['iAgencyCode']}";
 
                                     // To store value in  a SharedPreference
 
@@ -455,18 +458,34 @@ class _LoginPageState extends State<LoginPage> {
                                     prefs.setString('iUserTypeCode',iUserTypeCode);
                                     prefs.setString('sToken',sToken);
                                     prefs.setString('dLastLoginAt',dLastLoginAt);
+                                    prefs.setString('iAgencyCode',iAgencyCode);
                                    // prefs.setDouble('lat',lat!);
                                     //prefs.setDouble('long',long!);
                                     String? stringName = prefs.getString('sName');
                                     String? stringContact = prefs.getString('sContactNo');
+                                     iAgencyCode = prefs.getString('iAgencyCode').toString();
                                     print('---464-----stringContact--$stringName');
                                     print('---465----stringContact----$stringContact');
+                                    print('---468----iAgencyCode----$iAgencyCode');
+                                    if(iAgencyCode =="1"){
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => HomePage()),
+                                      );
+                                     // print('----570---To go with $iAgencyCode---');
+                                    }else{
+                                      // HomeScreen_2
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => HomeScreen_2()),
+                                      );
+                                    //  print('----572---To go with $iAgencyCode---');
 
-
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => HomePage()),
-                                    );
+                                    }
+                                    // Navigator.pushReplacement(
+                                    //   context,
+                                    //   MaterialPageRoute(builder: (context) => HomePage()),
+                                    // );
 
                                 }else{
                                   print('----373---To display error msg---');
@@ -483,8 +502,7 @@ class _LoginPageState extends State<LoginPage> {
                                   height: AppSize.s45,
                                   padding: EdgeInsets.all(AppPadding.p5),
                                   decoration: BoxDecoration(
-                                    color: Color(
-                                        0xFF255899), // Background color using HEX value
+                                    color: Color(0xFF255899), // Background color using HEX value
                                     borderRadius: BorderRadius.circular(
                                         AppMargin.m10), // Rounded corners
                                   ),
@@ -525,10 +543,8 @@ class _LoginPageState extends State<LoginPage> {
                                 height: 168, // Set height as needed
                                 decoration: BoxDecoration(
                                   image: const DecorationImage(
-                                    image: AssetImage(ImageAssets
-                                        .loginBottomnw), // Replace with your asset image path
-                                    fit: BoxFit
-                                        .cover, // You can adjust the fit as needed
+                                    image: AssetImage(ImageAssets.loginBottomnw), // Replace with your asset image path
+                                    fit: BoxFit.cover, // You can adjust the fit as needed
                                   ),
                                   borderRadius: BorderRadius.circular(
                                       AppPadding.p10), // Optional: border radius
