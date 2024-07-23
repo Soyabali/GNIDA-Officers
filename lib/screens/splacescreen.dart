@@ -6,12 +6,8 @@ import 'package:noidaone/resources/assets_manager.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../Controllers/appversionrepo.dart';
-import '../Helpers/customdialog.dart';
 import '../resources/values_manager.dart';
 import 'loginScreen_2.dart';
-import 'loginscreen.dart';
-
-
 
 class Splace extends StatefulWidget {
   const Splace({super.key});
@@ -22,14 +18,14 @@ class Splace extends StatefulWidget {
 
 class _SplaceState extends State<Splace> {
 
-  bool ActiveConnection = false;
+  bool activeConnection = false;
   String T = "";
-  Future CheckUserConnection() async {
+  Future checkUserConnection() async {
     try {
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         setState(() {
-          ActiveConnection = true;
+          activeConnection = true;
           T = "Turn off the data and repress again";
           versionAliCall();
           //displayToast(T);
@@ -37,7 +33,7 @@ class _SplaceState extends State<Splace> {
       }
     } on SocketException catch (_) {
       setState(() {
-        ActiveConnection = false;
+        activeConnection = false;
         T = "Turn On the data and repress again";
         displayToast(T);
       });
@@ -51,9 +47,8 @@ class _SplaceState extends State<Splace> {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     setState(() {
       _appVersion = packageInfo.version;
-      print('----31-----$_appVersion');
+      //print('----31-----$_appVersion');
     });
-   // print('----32--$_appVersion');
   }
   //url
   void _launchGooglePlayStore() async {
@@ -81,7 +76,7 @@ class _SplaceState extends State<Splace> {
   @override
   void initState() {
     // TODO: implement initState
-    CheckUserConnection();
+    checkUserConnection();
     _getAppVersion();
    // versionAliCall();
 
@@ -93,32 +88,26 @@ class _SplaceState extends State<Splace> {
     var loginMap = await AppVersionRepo().appversion(context,'6');
     var result = "${loginMap['Result']}";
     var msg = "${loginMap['Msg']}";
-    print('---73--$result');
-    print('---74--$msg');
+    //print('---73--$result');
+    //print('---74--$msg');
     if(result=="1"){
-      // Navigator.push(
-      //                 context,
-      //                 MaterialPageRoute(
-      //                     builder: (context) =>
-      //                     const LoginScreen_2()));
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => LoginScreen_2()),
+        MaterialPageRoute(builder: (context) =>  const LoginScreen_2()),
       );
      // displayToast(msg);
     }else{
-      showDialog(
-        context: context,
+     showDialog(context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('New Version Available'),
-            content: Text('Download the latest version of the app from the Play Store.'),
+            title: const Text('New Version Available'),
+            content: const Text('Download the latest version of the app from the Play Store.'),
             actions: <Widget>[
                   TextButton(
                     onPressed: () {
                       _launchGooglePlayStore(); // Close the dialog
                     },
-                    child: Text('Downlode'),
+                    child: const Text('Downlode'),
                   ),
 
             ],
@@ -126,14 +115,12 @@ class _SplaceState extends State<Splace> {
         },
       );
       displayToast(msg);
-      print('----F---');
+      //print('----F---');
     }
-
-    //print('----42---$result');
   }
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: SplaceScreen(),
     );
@@ -141,6 +128,9 @@ class _SplaceState extends State<Splace> {
 }
 
 class SplaceScreen extends StatelessWidget {
+  const SplaceScreen({super.key});
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +164,7 @@ class SplaceScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: AppSize.s10),
                     child: Container(
-                       margin: EdgeInsets.all(AppSize.s10),
+                       margin: const EdgeInsets.all(AppSize.s10),
                        child: Image.asset(
                          ImageAssets.favicon,
                          width: AppSize.s50,
@@ -192,7 +182,7 @@ class SplaceScreen extends StatelessWidget {
                 child: Container(
                   height: AppSize.s160,
                   width: AppSize.s160,
-                  margin: EdgeInsets.all(AppMargin.m20),//20
+                  margin: const EdgeInsets.all(AppMargin.m20),//20
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(ImageAssets.roundcircle,

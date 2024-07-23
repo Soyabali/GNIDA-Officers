@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:noidaone/resources/app_strings.dart';
 import 'package:noidaone/resources/theme_manager.dart';
 import 'package:noidaone/screens/splacescreen.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
