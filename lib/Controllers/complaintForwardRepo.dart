@@ -44,7 +44,7 @@ class ComplaintForwardRepo
 {
   GeneralFunction generalFunction = GeneralFunction();
  // List complaitForwardList = [];
-  Future complaintForward(BuildContext context, iAgencyCode, agencyUserId) async
+  Future complaintForward(BuildContext context, selectedHoldValue, iCompCode) async
   {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
@@ -52,15 +52,16 @@ class ComplaintForwardRepo
 
     print('-----22---$sToken');
     print('-----23---$iUserId');
-    print('----52---$iAgencyCode');
-    print('----53---$agencyUserId');
+    print('----52---$selectedHoldValue');
+    print('----53---$iCompCode');
     try
     {
       showLoader();
       var baseURL = BaseRepo().baseurl;
-      var endPoint = "ComplaintForward/ComplaintForward";
+      var endPoint = "ComplaintTransferJETOJE/ComplaintTransferJETOJE";
       var complaintForwardApi = "$baseURL$endPoint";
       print('------------17---complaintForwardApi---$complaintForwardApi');
+
 
       var headers = {
         'token': '$sToken',
@@ -68,12 +69,12 @@ class ComplaintForwardRepo
       };
       var request = http.Request('POST', Uri.parse('$complaintForwardApi'));
       request.body = json.encode({
-        "iCompCode": "",
-        "iUserId": "$iUserId",
-        "iForwardTo": "$agencyUserId",
-        "iAgencyCode": "$iAgencyCode"
+        "iCompCode": "$iCompCode",
+        "sUserid": "$iUserId",
+        "iNewUser": "$selectedHoldValue"
       });
       request.headers.addAll(headers);
+
       http.StreamedResponse response = await request.send();
 
       var map;

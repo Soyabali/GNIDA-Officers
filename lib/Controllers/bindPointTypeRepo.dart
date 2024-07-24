@@ -38,10 +38,10 @@ import '../Helpers/loader_helper.dart';
 import 'baseurl.dart';
 
 
-class BindAjencyRepo
+class BindPointTypeDropDownRepo
 {
-  List bindajencyList = [];
-  Future<List> bindajency() async
+  List bindpointTypeList = [];
+  Future<List> bindPointType() async
   {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
@@ -53,14 +53,14 @@ class BindAjencyRepo
     {
       showLoader();
       var baseURL = BaseRepo().baseurl;
-      var endPoint = "BindJE/BindJE";
-      var bindajencyApi = "$baseURL$endPoint";
-      print('------------17---bindajencyApi---$bindajencyApi');
+      var endPoint = "BindPointType/BindPointType";
+      var bindPointTypeApi = "$baseURL$endPoint";
+      print('------------17---bindPointTypeApi---$bindPointTypeApi');
 
       var headers = {
         'token': '$sToken'
       };
-      var request = http.Request('GET', Uri.parse('$bindajencyApi'));
+      var request = http.Request('GET', Uri.parse('$bindPointTypeApi'));
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
 
@@ -69,13 +69,13 @@ class BindAjencyRepo
         hideLoader();
         var data = await response.stream.bytesToString();
         Map<String, dynamic> parsedJson = jsonDecode(data);
-        bindajencyList = parsedJson['Data'];
-      //  print("Dist list bindajencyList Api ----81------>:$bindajencyList");
-        return bindajencyList;
+        bindpointTypeList = parsedJson['Data'];
+        //  print("Dist list bindajencyList Api ----81------>:$bindajencyList");
+        return bindpointTypeList;
       } else
       {
         hideLoader();
-        return bindajencyList;
+        return bindpointTypeList;
       }
     } catch (e)
     {

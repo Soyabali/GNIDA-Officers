@@ -13,6 +13,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Controllers/baseurl.dart';
 import '../Controllers/bindAjencyRepo.dart';
 import '../Controllers/bindHoldRepo.dart';
+import '../Controllers/bindPointTypeRepo.dart';
+import '../Controllers/changePointTypeRepo.dart';
 import '../Controllers/holoComplaintRepo.dart';
 import '../Controllers/pendingInternalComplaintRepo.dart';
 import '../Controllers/postimage_2_Repo.dart';
@@ -58,6 +60,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   List<Map<String, dynamic>>? pendingInternalComplaintList;
   List<Map<String, dynamic>> _filteredData = [];
   List bindAjencyList = [];
+  List bindPointTypeDropDown = [];
   List bindHoldList = [];
   List userAjencyList = [];
   var iAgencyCode;
@@ -70,6 +73,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   double? long;
   var _dropDownAgency;
   var _dropDownAgency2;
+  var _dropDownComplaintType;
   var _dropDownHold;
   var _dropDownValueUserAgency;
   final distDropdownFocus = GlobalKey();
@@ -82,6 +86,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   var result1;
   var msg1;
   var selectedHoldValue;
+  var selectedComplaintValue;
   var iTotalComp,iResolved;
   GeneralFunction generalfunction = GeneralFunction();
   // Function to toggle between border radii
@@ -104,6 +109,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     bindAjency();
     bindHold();
     getComplaintStatus();
+    bindPointTypeDropDown_2();
     super.initState();
   }
    getComplaintStatus() async {
@@ -161,6 +167,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
          throw e;
        }
    }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -217,7 +224,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
     debugPrint(position.toString());
   }
-
   void displayToast(String msg) {
     Fluttertoast.showToast(
         msg: msg,
@@ -297,16 +303,23 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     }
   }
 
-
-
   bindAjency() async {
+    bindAjencyList = [];
     bindAjencyList = await BindAjencyRepo().bindajency();
-    print(" -----157---bindAjencyList---> $bindAjencyList");
+    print(" -----302---bindAjencyList---> $bindAjencyList");
     setState(() {});
   }
-  // bind Hold
+  // complaintType dropdown value
+  bindPointTypeDropDown_2() async {
+   // bindPointTypeDropDown = [];
+    bindPointTypeDropDown = await BindPointTypeDropDownRepo().bindPointType();
+    print(" -----310---bindPointType---> $bindPointTypeDropDown");
+    setState(() {});
+  }
 
+  // bind Hold
   bindHold() async {
+    bindHoldList = [];
     bindHoldList = await BindHoldRepo().bindHold();
     print(" -----252---bindHoldList---> $bindHoldList");
     setState(() {});
@@ -358,13 +371,13 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                  child: Row(
                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                    children: [
-                     Text('Total', style: TextStyle(
+                     const Text('Total', style: TextStyle(
                          fontFamily: 'Montserrat',
                          color: Color(0xff3f617d),
                          fontSize: 14.0,
                          fontWeight: FontWeight.bold)),
-                     SizedBox(width: 10),
-                     Text(':', style: TextStyle(
+                     const SizedBox(width: 10),
+                     const Text(':', style: TextStyle(
                          fontFamily: 'Montserrat',
                          color: Color(0xff3f617d),
                          fontSize: 14.0,
@@ -384,13 +397,13 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Resolved', style: TextStyle(
+                    const Text('Resolved', style: TextStyle(
                         fontFamily: 'Montserrat',
                         color: Color(0xff3f617d),
                         fontSize: 14.0,
                         fontWeight: FontWeight.bold)),
-                    SizedBox(width: 10),
-                    Text(':', style: TextStyle(
+                    const SizedBox(width: 10),
+                    const Text(':', style: TextStyle(
                         fontFamily: 'Montserrat',
                         color: Color(0xff3f617d),
                         fontSize: 14.0,
@@ -868,6 +881,10 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                                     child: GestureDetector(
                                                       onTap: () {
                                                         print('---Complaint Transfer ---');
+                                                        iCompCode =   item['iCompCode'].toString() ?? '';
+                                                        print('---506--$iCompCode');
+                                                        _showBottomSheetComplaintType(context,iCompCode);
+
                                                       },
                                                       child: const Row(
                                                         mainAxisAlignment: MainAxisAlignment.start,
@@ -895,7 +912,10 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                                     child: GestureDetector(
                                                       onTap: () {
                                                         print('---Forward---');
-                                                        _showBottomSheet(context);
+                                                        iCompCode =   item['iCompCode'].toString() ?? '';
+                                                        print('---506--$iCompCode');
+                                                       // _showBottomSheetHold(context,iCompCode);
+                                                        _showBottomSheet(context,iCompCode);
                                                       },
                                                       child: const Row(
                                                         mainAxisAlignment: MainAxisAlignment.start,
@@ -1269,10 +1289,8 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       },
     );
   }
-
-
-// bottom screen
-  void _showBottomSheet(BuildContext context) {
+  // bottomSeet ComplaintType
+  void _showBottomSheetComplaintType(BuildContext context,String iCompCode) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.grey,
@@ -1290,25 +1308,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
             ),
             child: Column(
               children: <Widget>[
-                // Container(
-                //   height: 110, // Height of the container
-                //   width: MediaQuery.of(context).size.width-30, // Width of the container
-                // decoration: const BoxDecoration(
-                // borderRadius: BorderRadius.only(
-                //   topLeft: Radius.circular(20.0),
-                //   topRight: Radius.circular(20.0),
-                // )),
-                //   child: Opacity(
-                //     opacity: 0.9,
-                //     //step3.jpg
-                //     child: Image.asset(
-                //       'assets/images/forward.jpeg',
-                //       fit: BoxFit
-                //           .cover, // Adjust the image fit to cover the container
-                //     ),
-                //   ),
-                // ),
-
                 Padding(
                   padding: const EdgeInsets.only(left: 15, right: 15),
                   child: Container(
@@ -1375,7 +1374,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                         size: 12,
                                         color: Colors.black54,
                                       )),
-                                  const Text('Agency',
+                                  const Text('Complaints Type',
                                       style: TextStyle(
                                           fontFamily: 'Montserrat',
                                           color: Color(0xFF707d83),
@@ -1401,7 +1400,218 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                       },
                                       hint: RichText(
                                         text: const TextSpan(
-                                          text: 'Please choose a Agency ',
+                                          text: 'Select JE ',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                              text: '*',
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      value: _dropDownComplaintType,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          _dropDownComplaintType = newValue;
+                                          print('---187---$_dropDownComplaintType');
+                                          //  _isShowChosenDistError = false;
+                                          // Iterate the List
+                                          bindPointTypeDropDown.forEach((element) {
+                                            if (element["sPointTypeName"] == _dropDownComplaintType) {
+                                              setState(() {
+                                                selectedComplaintValue = element['iPointTypeCode'];
+                                              });
+                                              print('-----1021----$selectedComplaintValue');
+                                            }
+                                          });
+                                        });
+                                      },
+                                      items: bindPointTypeDropDown.map((dynamic item) {
+                                        return DropdownMenuItem(
+                                          child: Text(item['sPointTypeName'].toString()),
+                                          value: item["sPointTypeName"].toString(),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            ElevatedButton(
+                                onPressed: () async {
+                                  /// TODO REMOVE COMMENT AND apply proper api below and handle api data
+                                  // print('----clicked--xxxxxxxx--');
+                                  if (selectedComplaintValue != null) {
+
+                                    var complaintForwardResponse = await ChangePointTypeRepo()
+                                        .changePointType(context, selectedComplaintValue, iCompCode);
+
+                                       print('-----1453----$complaintForwardResponse');
+
+                                     result1 = "${complaintForwardResponse['Result']}";
+                                     msg1 = "${complaintForwardResponse['Msg']}";
+                                    print('---1468---xxx-----$result1');
+                                    print('---1469---xxx-----$msg1');
+                                    if(result1=="1"){
+                                      print('----1----xxx----');
+                                      displayToast(msg1);
+                                      Navigator.pop(context);
+                                    }else{
+                                      displayToast(msg1);
+                                      print('----0---');
+                                    }
+
+                                  } else {
+                                    print('----Not call a Api--');
+                                  }
+                                  /// Todo next Apply condition
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(
+                                      0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+                                ),
+                                child: const Text("Submit",
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Colors.white,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold),
+                                ))
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
+        );
+      },
+    );
+  }
+
+// bottom screen
+  void _showBottomSheet(BuildContext context,String iCompCode) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.grey,
+      builder: (BuildContext context) {
+        return AnimatedContainer(
+            duration: Duration(seconds: 1),
+            curve: Curves.easeInOut,
+            height: 280,
+            // Adjust height as needed
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20.0), // Adjust the radius as needed
+                topRight: Radius.circular(20.0), // Adjust the radius as needed
+              ),
+            ),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: Container(
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width - 30,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        // Background color of the container
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            // Color of the shadow
+                            spreadRadius: 5,
+                            // Spread radius
+                            blurRadius: 7,
+                            // Blur radius
+                            offset: Offset(0, 3), // Offset of the shadow
+                          ),
+                        ]),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15,top: 0),
+                      child: Form(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  margin:
+                                  EdgeInsets.only(left: 0, right: 10, top: 10),
+                                  child: Image.asset(
+                                    'assets/images/ic_expense.png',
+                                    // Replace with your image asset path
+                                    width: 24,
+                                    height: 24,
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 10),
+                                  child: Text('Fill the below details',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xFF707d83),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  bottom: 5, top: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                      margin: const EdgeInsets.only(
+                                          left: 0, right: 2, bottom: 2),
+                                      child: const Icon(
+                                        Icons.forward_sharp,
+                                        size: 12,
+                                        color: Colors.black54,
+                                      )),
+                                  const Text('JE',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xFF707d83),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width - 50,
+                              height: 50,
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: DropdownButtonHideUnderline(
+                                  child: ButtonTheme(
+                                    alignedDropdown: true,
+                                    child: DropdownButton(
+                                      onTap: () {
+                                        FocusScope.of(context).unfocus();
+                                      },
+                                      hint: RichText(
+                                        text: const TextSpan(
+                                          text: 'Select JE ',
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 16,
@@ -1423,29 +1633,24 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                       onChanged: (newValue) {
                                         setState(() {
                                           _dropDownAgency2 = newValue;
-                                          userAjencyList = [];
-                                          _dropDownValueUserAgency = null;
-                                          bindAjencyList.forEach((element) async {
-                                            if (element["sAgencyName"] == _dropDownAgency2) {
-                                              iAgencyCode = element['iAgencyCode'];
-                                              setState(() {});
-                                              if (iAgencyCode != null) {
-                                                // TODO: update next api
-                                                userAjency(iAgencyCode);
-
-                                              } else {
-                                                print('Please Select State name');
-                                              }
+                                         // bindAjencyList = [];
+                                          print('---187---$_dropDownAgency2');
+                                          //  _isShowChosenDistError = false;
+                                          // Iterate the List
+                                          bindAjencyList.forEach((element) {
+                                            if (element["sName"] == _dropDownAgency2) {
+                                              setState(() {
+                                                selectedHoldValue = element['iUserId'];
+                                              });
+                                              print('-----1021----$selectedHoldValue');
                                             }
                                           });
-                                          print("iAgencyCode value----xxx $iAgencyCode");
-                                          print("_dropDownAgency Name----xxx$_dropDownAgency2");
                                         });
                                       },
                                       items: bindAjencyList.map((dynamic item) {
                                         return DropdownMenuItem(
-                                          child: Text(item['sAgencyName'].toString()),
-                                          value: item["sAgencyName"].toString(),
+                                          child: Text(item['sName'].toString()),
+                                          value: item["sName"].toString(),
                                         );
                                       }).toList(),
                                     ),
@@ -1453,120 +1658,24 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 10),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 5),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 0, right: 2),
-                                      child: const Icon(
-                                        Icons.forward_sharp,
-                                        size: 12,
-                                        color: Colors.black54,
-                                      )),
-                                  const Text('User',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xFF707d83),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                            ),
-                            Container(
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width - 50,
-                                height: 50,
-                                child:
-                                SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: DropdownButtonHideUnderline(
-                                      child: ButtonTheme(
-                                        alignedDropdown: true,
-                                        child: DropdownButton(
-                                          onTap: () {
-                                            FocusScope.of(context).unfocus();
-                                          },
-                                          hint: RichText(
-                                            text: const TextSpan(
-                                              text: 'Please choose a State ',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.normal,
-                                              ),
-                                              children: <TextSpan>[
-                                                TextSpan(
-                                                  text: '*',
-                                                  style: TextStyle(
-                                                    color: Colors.red,
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          value: _dropDownValueUserAgency,
-                                          onChanged: (newValue) {
-                                            setState(() {
-                                              _dropDownValueUserAgency = newValue;
-                                              // userAjencyData = [];
-                                              //_dropDownValueUserAgency = null;
-                                              userAjencyList.forEach((element) async {
-                                                if (element["sName"] == _dropDownValueUserAgency) {
-                                                  agencyUserId = element['iUserId'];
-                                                  setState(() {});
-                                                  //   if (agencyUserId != null) {
-                                                  //     // TODO: update next api
-                                                  //     userAjency(iAgencyCode);
-                                                  //
-                                                  //   } else {
-                                                  //     print('Please Select State name');
-                                                  //   }
-                                                }
-                                              });
-                                              print("agencyUserId value----xxx $agencyUserId");
-                                              print("_dropDownValueUserAgency Name----xxx$_dropDownValueUserAgency");
-                                            });
-                                          },
-                                          items: userAjencyList.map((dynamic item) {
-                                            return DropdownMenuItem(
-                                              child: Text(item['sName'].toString()),
-                                              value: item["sName"].toString(),
-                                            );
-                                          }).toList(),
-                                        ),
-                                      ),
-                                    )
-
-                                )
-                            ),
-
                             SizedBox(height: 10),
                             ElevatedButton(
                                 onPressed: () async {
                                   /// TODO REMOVE COMMENT AND apply proper api below and handle api data
                                   // print('----clicked--xxxxxxxx--');
-                                  if (iAgencyCode != null &&
-                                      agencyUserId != null) {
+                                  if (selectedHoldValue != null) {
                                     var complaintForwardResponse = await ComplaintForwardRepo()
                                         .complaintForward(context,
-                                        iAgencyCode, agencyUserId);
-                                    result1 = "${complaintForwardResponse['Result']}";
-                                    msg1 = "${complaintForwardResponse['Msg']}";
-                                    print('---1126---$result1');
-                                    if(result1=="1"){
+                                        selectedHoldValue, iCompCode);
 
+                                    result1 = "${complaintForwardResponse['Result']}";
+                                     msg1 = "${complaintForwardResponse['Msg']}";
+                                     print('---1468---xxx-----$result1');
+                                    print('---1469---xxx-----$msg1');
+                                     if(result1=="1"){
                                       print('----1----xxx----');
                                       displayToast(msg1);
                                       Navigator.pop(context);
-
                                     }else{
                                       displayToast(msg1);
                                       print('----0---');

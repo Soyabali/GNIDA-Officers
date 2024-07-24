@@ -31,17 +31,20 @@
 //   }
 // }
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Helpers/loader_helper.dart';
+import '../screens/generalFunction.dart';
 import 'baseurl.dart';
 
 
-class BindAjencyRepo
+class ChangePointTypeRepo
 {
-  List bindajencyList = [];
-  Future<List> bindajency() async
+  GeneralFunction generalFunction = GeneralFunction();
+  // List complaitForwardList = [];
+  Future changePointType(BuildContext context, selectedHoldValue, iCompCode) async
   {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
@@ -49,33 +52,47 @@ class BindAjencyRepo
 
     print('-----22---$sToken');
     print('-----23---$iUserId');
+    print('----52---$selectedHoldValue');
+    print('----53---$iCompCode');
+
     try
     {
       showLoader();
       var baseURL = BaseRepo().baseurl;
-      var endPoint = "BindJE/BindJE";
-      var bindajencyApi = "$baseURL$endPoint";
-      print('------------17---bindajencyApi---$bindajencyApi');
+      var endPoint = "ChangePointType/ChangePointType";
+      var changePointtypeApi = "$baseURL$endPoint";
+      print('------------17---changePointtypeApi---$changePointtypeApi');
 
       var headers = {
-        'token': '$sToken'
+        'token': '$sToken',
+        'Content-Type': 'application/json'
       };
-      var request = http.Request('GET', Uri.parse('$bindajencyApi'));
+      var request = http.Request('POST', Uri.parse('$changePointtypeApi'));
+      request.body = json.encode({
+        "iCompCode": iCompCode,
+        "iUserid": iUserId,
+        "iPointTypeCode": selectedHoldValue
+      });
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
 
+      var map;
+      var data = await response.stream.bytesToString();
+      map = json.decode(data);
+      print('----------93--- Response----$map');
       if (response.statusCode == 200)
       {
         hideLoader();
-        var data = await response.stream.bytesToString();
-        Map<String, dynamic> parsedJson = jsonDecode(data);
-        bindajencyList = parsedJson['Data'];
-      //  print("Dist list bindajencyList Api ----81------>:$bindajencyList");
-        return bindajencyList;
-      } else
-      {
+        print('----------83-----$map');
+        return map;
+
+      } else if(response.statusCode ==200){
+        generalFunction.logout(context);
+      }
+      else{
+        print('---95---Not call--');
         hideLoader();
-        return bindajencyList;
+        return map;
       }
     } catch (e)
     {
