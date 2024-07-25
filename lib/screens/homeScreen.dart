@@ -11,6 +11,7 @@ import 'package:noidaone/screens/generalFunction.dart';
 import 'package:noidaone/screens/pendingcomplaint.dart';
 import 'package:noidaone/screens/postComplaint.dart';
 import 'package:noidaone/screens/scheduledpoint.dart';
+import 'package:noidaone/screens/shopSurvey.dart';
 import 'package:noidaone/screens/tabbarHome.dart';
 import 'package:noidaone/screens/tabbarHomeToday.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -72,87 +73,6 @@ class _MyHomePageState extends State<MyHomePage>
   int pointThird = 0;
   // call back function
   String dataFromScreenB = '';
-  // Callback function to receive data from ScreenB
-  // void onDataFromScreenB(String data) {
-  //   setState(() {
-  //     dataFromScreenB = data;
-  //   });
-  // }
-  // tabcontroller logic
-  // void _handleTabSelection() {
-  //   setState(() {
-  //     // You can fetch data based on the selected tab index here
-  //     int tabIndex = tabController!.index;
-  //     // print('Selected tab index:----95-- $tabIndex');
-  //     fetchDataBasedOnTab(tabIndex);
-  //   });
-  // }
-
-  // Future<void> fetchDataBasedOnTab(int tabIndex) async {
-  //   // Implement your data fetching logic based on the tab index
-  //   // For example:
-  //    print('-----80----$tabIndex');
-  //    setState(() {
-  //    });
-  //   if (tabIndex == 0) {
-  //     // Today
-  //     userContributionTodayList =
-  //         await UserContributionTodayRepo().userContributionTodat(context);
-  //     nameFirst = userContributionList?[0]['sName'].toString();
-  //     pointFirst = userContributionList?[0]['iEarnedPoints'].toString();
-  //     nameSecond = userContributionList?[1]['sName'].toString();
-  //     pointSecond = userContributionList?[1]['iEarnedPoints'].toString();
-  //     nameThird = userContributionList?[2]['sName'].toString();
-  //     pointThird = userContributionList?[2]['iEarnedPoints'].toString();
-  //     print('-----116--$nameFirst');
-  //
-  //     setState(() {});
-  //
-  //     // Fetch data for tab 1
-  //     //print('----111--tabIndex--$userContributionTodayList');
-  //   } else if (tabIndex == 1) {
-  //     userContributionMonthList =
-  //         await UserContributionMontRepo().userContributionMonth(context);
-  //     nameFirst = userContributionMonthList?[0]['sName'].toString();
-  //     pointFirst = userContributionMonthList?[0]['iEarnedPoints'].toString();
-  //     nameSecond = userContributionMonthList?[1]['sName'].toString();
-  //     pointSecond = userContributionMonthList?[1]['iEarnedPoints'].toString();
-  //     nameThird = userContributionMonthList?[2]['sName'].toString();
-  //     pointThird = userContributionMonthList?[2]['iEarnedPoints'].toString();
-  //     print('-----131--$nameFirst');
-  //
-  //     setState(() {});
-  //     // print('----114--tabIndex--$userContributionMonthList');
-  //     // Fetch data for tab 2
-  //   } else if (tabIndex == 2) {
-  //     userContributionList =
-  //         await UserContributionRepo().userContribution(context);
-  //     nameFirst = userContributionList?[0]['sName'].toString();
-  //     pointFirst = userContributionList?[0]['iEarnedPoints'].toString();
-  //     nameSecond = userContributionList?[1]['sName'].toString();
-  //     pointSecond = userContributionList?[1]['iEarnedPoints'].toString();
-  //     nameThird = userContributionList?[2]['sName'].toString();
-  //     pointThird = userContributionList?[2]['iEarnedPoints'].toString();
-  //     print('-----145--$nameFirst');
-  //     setState(() {});
-  //
-  //     // Fetch data for tab 3
-  //   }
-  // }
-
-  // userContributionResponse() async {
-  //   userContributionList =
-  //       await UserContributionTodayRepo().userContributionTodat(context);
-  //   // userContributionList?[index]['sName'].toString() ?? '',userContributionList?[index]['sName'].toString() ?? '',
-  //   nameFirst = userContributionList?[0]['sName'].toString();
-  //   pointFirst = userContributionList?[0]['iEarnedPoints'].toString();
-  //   nameSecond = userContributionList?[1]['sName'].toString();
-  //   pointSecond = userContributionList?[1]['iEarnedPoints'].toString();
-  //   nameThird = userContributionList?[2]['sName'].toString();
-  //   pointThird = userContributionList?[2]['iEarnedPoints'].toString();
-  //
-  //   setState(() {});
-  // }
 
   usermoduleright() async {
     userModuleRightList = await UserModuleRightRepo().usermoduleright();
@@ -180,10 +100,6 @@ class _MyHomePageState extends State<MyHomePage>
     super.initState();
     tabController = TabController(vsync: this, length: 3);
     usermoduleright();
-   // TofetchvalueFromTab();
-    //userContributionResponse();
-    // TofetchvalueFromTab(nameFirst,pointFirst,nameSecond,pointSecond,
-    //     nameThird,pointThird);
     getlocalvalue();
    // tabController?.addListener(_handleTabSelection);
     print('------------159--------xxx--------');
@@ -535,15 +451,6 @@ class _MyHomePageState extends State<MyHomePage>
                       TabTodayPage(onDataReceived: (nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird) {
                         // Handle data received from AllTab here
                         TofetchvalueFromTab(nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird);
-                       //
-                       // setState(() {
-                       //   nameFirst = nameFirst ?? "";
-                       //   pointFirst = pointFirst ;
-                       //   nameSecond = nameSecond ?? '';
-                       //   pointSecond =pointSecond;
-                       //   nameThird = nameThird ?? '';
-                       //   pointThird = pointThird ;
-                       // });
 
                         print('---518--TodayNameFirst---$nameFirst');
                         print('---519--TodayPointFirst---$pointFirst');
@@ -554,12 +461,6 @@ class _MyHomePageState extends State<MyHomePage>
                       }),
                   TabPageMonth(onDataReceived: (nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird){
                     TofetchvalueFromTab(nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird);
-                    // nameFirst = nameFirst ?? "";
-                    // pointFirst = pointFirst ;
-                    // nameSecond = nameSecond ?? '';
-                    // pointSecond =pointSecond;
-                    // nameThird = nameThird ?? '';
-                    // pointThird = pointThird ;
 
                     print('---526--MonthNameFirst---$nameFirst');
                     print('---527--MonthPointFirst---$pointFirst');
@@ -570,12 +471,6 @@ class _MyHomePageState extends State<MyHomePage>
                    }),
                       TabPage(onDataReceived: (nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird){
                         TofetchvalueFromTab(nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird);
-                        // nameFirst = nameFirst ?? "";
-                        // pointFirst = pointFirst ;
-                        // nameSecond = nameSecond ?? '';
-                        // pointSecond =pointSecond;
-                        // nameThird = nameThird ?? '';
-                        // pointThird = pointThird ;
 
                         print('---534--AllFirst---$nameFirst');
                         print('---535--AllPointFirst---$pointFirst');
@@ -657,6 +552,14 @@ class _MyHomePageState extends State<MyHomePage>
                                     MaterialPageRoute(
                                         builder: (context) =>
                                         const ComplaintStatusScreen()));
+                              }
+                              else if(activatecode =="8"){
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                        const ShopSurvey()));
+
                               }
                             },
                             child: Container(

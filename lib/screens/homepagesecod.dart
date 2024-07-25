@@ -142,9 +142,10 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
            var data = await response.stream.bytesToString();
            Map<String, dynamic> parsedJson = jsonDecode(data);
            print('------40----$parsedJson');
-           iTotalComp = parsedJson['iTotalComp'];
-           iResolved = parsedJson['iResolved'];
-
+           setState(() {
+             iTotalComp = parsedJson['iTotalComp'];
+             iResolved = parsedJson['iResolved'];
+           });
            print('------140---$iTotalComp');
            print('------141---$iResolved');
 
@@ -174,7 +175,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     _searchController.dispose();
     super.dispose();
   }
-
   void _search() {
     String query = _searchController.text.toLowerCase();
     setState(() {
@@ -189,7 +189,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
           [];
     });
   }
-
   // location
   void getLocation() async {
     bool serviceEnabled;
@@ -234,25 +233,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
         textColor: Colors.white,
         fontSize: 16.0);
   }
-  // pick a images
-  // pick images
-  // Future<void> _getImageFromCamera() async {
-  //   final ImagePicker _picker = ImagePicker();
-  //   final XFile? image = await _picker.pickImage(source: ImageSource.camera);
-  //
-  //   if (image != null) {
-  //     setState(() {
-  //       _imageFile = File(image.path);
-  //     });
-  //     if(_imageFile!=null){
-  //       var imagePath = PostImageRepo_2().postImage(context, _imageFile);
-  //       print('----179----$imagePath');
-  //
-  //     }
-  //     print('----129---$_imageFile');
-  //   }
-  // }
-
   Future pickImage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
@@ -272,7 +252,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       }
     } catch (e) {}
   }
-
   // upload images
   Future<void> uploadImage(String token, File imageFile) async {
     try {
@@ -302,7 +281,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       print('Error uploading image: $error');
     }
   }
-
   bindAjency() async {
     bindAjencyList = [];
     bindAjencyList = await BindAjencyRepo().bindajency();
@@ -316,7 +294,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     print(" -----310---bindPointType---> $bindPointTypeDropDown");
     setState(() {});
   }
-
   // bind Hold
   bindHold() async {
     bindHoldList = [];
@@ -324,7 +301,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     print(" -----252---bindHoldList---> $bindHoldList");
     setState(() {});
   }
-
   userAjency(int ajencyCode) async {
     print('-----170--$ajencyCode');
     // setState(() {
@@ -342,6 +318,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       print('${userAjencyList.length}');
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -533,23 +510,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                         const SizedBox(width: 0),
                                         Expanded(
                                           child: GestureDetector(
-                                            // onTap: () {
-                                            //   var fLatitude =
-                                            //       item['fLatitude'] ?? '';
-                                            //   var fLongitude =
-                                            //       item['fLongitude'] ?? '';
-                                            //   print('----462----${fLatitude}');
-                                            //   print('-----463---${fLongitude}');
-                                            //   if (fLatitude != null &&
-                                            //       fLongitude != null) {
-                                            //     generalfunction.launchGoogleMaps(fLatitude,fLongitude);
-                                            //
-                                            //   } else {
-                                            //     displayToast(
-                                            //         "Please check the location.");
-                                            //   }
-                                            // },
-                                            child: Container(
+                                              child: Container(
                                               alignment: Alignment.centerRight,
                                               height: 40,
                                               // width: 40,
@@ -825,7 +786,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                     ),
                                   ),
                                   SizedBox(height: 10),
-
                                   Padding(
                                     padding: const EdgeInsets.only(right: 10),
                                     child: Container(
@@ -962,7 +922,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   void _showBottomSheetHold(BuildContext context, String iCompCode) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.white,
       builder: (BuildContext context) {
         return AnimatedContainer(
             duration: Duration(seconds: 1),
@@ -975,15 +935,16 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                 topRight: Radius.circular(20.0), // Adjust the radius as needed
               ),
             ),
+
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  padding: const EdgeInsets.only(left: 0, right: 0),
                   child: Container(
                     width: MediaQuery
                         .of(context)
                         .size
-                        .width - 30,
+                        .width - 10,
                     decoration: BoxDecoration(
                         color: Colors.white,
                         // Background color of the container
@@ -1000,7 +961,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                           ),
                         ]),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15,top: 0),
+                      padding: const EdgeInsets.only(left: 5, right: 0,top: 0),
                       child: Form(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -1293,7 +1254,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   void _showBottomSheetComplaintType(BuildContext context,String iCompCode) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.white,
       builder: (BuildContext context) {
         return AnimatedContainer(
             duration: Duration(seconds: 1),
@@ -1309,12 +1270,12 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  padding: const EdgeInsets.only(left: 0, right: 0),
                   child: Container(
                     width: MediaQuery
                         .of(context)
                         .size
-                        .width - 30,
+                        .width - 10,
                     decoration: BoxDecoration(
                         color: Colors.white,
                         // Background color of the container
@@ -1504,7 +1465,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   void _showBottomSheet(BuildContext context,String iCompCode) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.white,
       builder: (BuildContext context) {
         return AnimatedContainer(
             duration: Duration(seconds: 1),
@@ -1520,12 +1481,12 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  padding: const EdgeInsets.only(left: 5, right: 5),
                   child: Container(
                     width: MediaQuery
                         .of(context)
                         .size
-                        .width - 30,
+                        .width - 10,
                     decoration: BoxDecoration(
                         color: Colors.white,
                         // Background color of the container
@@ -1542,7 +1503,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                           ),
                         ]),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15,top: 0),
+                      padding: const EdgeInsets.only(left: 0, right: 0,top: 0),
                       child: Form(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,

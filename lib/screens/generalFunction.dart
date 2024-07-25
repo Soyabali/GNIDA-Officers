@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../resources/assets_manager.dart';
 import '../resources/values_manager.dart';
 import 'changePassword.dart';
+import 'holdComplaints.dart';
 import 'homeScreen.dart';
 import 'loginScreen_2.dart';
 import 'mypoint.dart';
@@ -164,6 +165,37 @@ class GeneralFunction {
                         const SizedBox(width: 10),
                         const Text(
                           'My Points',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            color: Color(0xff3f617d),
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HoldComplaintScreen(),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Image.asset(
+                          'assets/images/my_wallet.png',
+                          width: 25,
+                          height: 25,
+                        ),
+                        const SizedBox(width: 10),
+                        const Text(
+                          'Hold Complaints',
                           style: TextStyle(
                             fontFamily: 'Montserrat',
                             color: Color(0xff3f617d),

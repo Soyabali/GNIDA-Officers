@@ -27,7 +27,11 @@ class LoginRepo1 {
       var request = http.Request(
           'POST',
           Uri.parse('$loginApi'));
-      request.body = json.encode({"sContactNo": number, "sPassword": pass,"sAppVersion":1});
+      request.body = json.encode({
+             "sContactNo": number,
+             "sPassword": pass,
+             "sAppVersion":1
+      });
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();

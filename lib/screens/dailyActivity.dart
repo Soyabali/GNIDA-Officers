@@ -338,7 +338,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     size: 12,
                                     color: Colors.black54,
                                   )),
-                              const Text('Activity Details',
+                              const Text('Description',
                                   style: TextStyle(
                                       fontFamily: 'Montserrat',
                                       color: Color(0xFF707d83),
