@@ -11,6 +11,7 @@ import '../resources/values_manager.dart';
 import 'changePassword.dart';
 import 'holdComplaints.dart';
 import 'homeScreen.dart';
+import 'homepagesecod.dart';
 import 'loginScreen_2.dart';
 import 'mypoint.dart';
 import 'notification.dart';
@@ -115,13 +116,34 @@ class GeneralFunction {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   GestureDetector(
-                    onTap: () {
+                    onTap: () async {
+                      // here you get a user id from a sharedPreferece
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                    var  iAgencyCode = prefs.getString('iAgencyCode').toString();
+
+                    if(iAgencyCode=="1"){
+                      print('-----ALi---home-------');
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const HomePage(),
                         ),
                       );
+                    }else{
+                      print('-----Yadav ---home-------');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HomeScreen_2(),
+                        ),
+                      );
+                    }
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => const HomePage(),
+                      //   ),
+                      // );
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,

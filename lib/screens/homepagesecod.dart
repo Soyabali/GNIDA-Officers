@@ -71,11 +71,9 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   TextEditingController _searchController = TextEditingController();
   double? lat;
   double? long;
-  var _dropDownAgency;
   var _dropDownAgency2;
   var _dropDownComplaintType;
   var _dropDownHold;
-  var _dropDownValueUserAgency;
   final distDropdownFocus = GlobalKey();
   final _formKey = GlobalKey<FormState>();
   double _borderRadius = 0.0; // Initial border radius
@@ -87,18 +85,683 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   var msg1;
   var selectedHoldValue;
   var selectedComplaintValue;
-  var iTotalComp,iResolved;
+  var iTotalComp, iResolved;
   GeneralFunction generalfunction = GeneralFunction();
+
   // Function to toggle between border radii
 
   // Get a api response
   pendingInternalComplaintResponse() async {
-    pendingInternalComplaintList = await PendingInternalComplaintRepo().pendingInternalComplaint(context);
-    _filteredData = List<Map<String, dynamic>>.from(pendingInternalComplaintList ?? []);
+    pendingInternalComplaintList =
+    await PendingInternalComplaintRepo().pendingInternalComplaint(context);
+    _filteredData =
+    List<Map<String, dynamic>>.from(pendingInternalComplaintList ?? []);
 
     print('--77-----$pendingInternalComplaintList');
     print('--45--$_filteredData');
     setState(() {});
+  }
+
+  // bottomSheetForward
+  bottomSheetForward(BuildContext context, String iCompCode) {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(12.0),
+          ),
+        ),
+        context: context,
+        builder: (context) {
+          return Padding(
+            padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      margin:
+                      EdgeInsets.only(left: 0, right: 10, top: 10),
+                      child: Image.asset(
+                        'assets/images/ic_expense.png',
+                        // Replace with your image asset path
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Text('Fill the below details',
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              color: Color(0xFF707d83),
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      bottom: 5, top: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                          margin: const EdgeInsets.only(
+                              left: 0, right: 2, bottom: 2),
+                          child: const Icon(
+                            Icons.forward_sharp,
+                            size: 12,
+                            color: Colors.black54,
+                          )),
+                      const Text('JE',
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              color: Color(0xFF707d83),
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+                Stack(
+                  alignment: AlignmentDirectional.centerStart,
+                  children: [
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: DropdownButtonHideUnderline(
+                        child: ButtonTheme(
+                          alignedDropdown: true,
+                          child: DropdownButton(
+                            onTap: () {
+                              FocusScope.of(context).unfocus();
+                            },
+                            hint: RichText(
+                              text: const TextSpan(
+                                text: 'Select JE ',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: '*',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            value: _dropDownAgency2,
+                            onChanged: (newValue) {
+                              setState(() {
+                                _dropDownAgency2 = newValue;
+                                // bindAjencyList = [];
+                                print('---187---$_dropDownAgency2');
+                                //  _isShowChosenDistError = false;
+                                // Iterate the List
+                                bindAjencyList.forEach((element) {
+                                  if (element["sName"] == _dropDownAgency2) {
+                                    setState(() {
+                                      selectedHoldValue = element['iUserId'];
+                                    });
+                                    print('-----1021----$selectedHoldValue');
+                                  }
+                                });
+                              });
+                            },
+                            items: bindAjencyList.map((dynamic item) {
+                              return DropdownMenuItem(
+                                child: Text(item['sName'].toString()),
+                                value: item["sName"].toString(),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      bottom: 0,
+                      child: Container(
+                        color: Colors.white,
+                        child: Icon(Icons.arrow_drop_down),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                ElevatedButton(
+                    onPressed: () async {
+                      /// TODO REMOVE COMMENT AND apply proper api below and handle api data
+                      // print('----clicked--xxxxxxxx--');
+                      if (selectedHoldValue != null) {
+                        var complaintForwardResponse = await ComplaintForwardRepo()
+                            .complaintForward(context,
+                            selectedHoldValue, iCompCode);
+
+                        result1 = "${complaintForwardResponse['Result']}";
+                        msg1 = "${complaintForwardResponse['Msg']}";
+                        print('---1468---xxx-----$result1');
+                        print('---1469---xxx-----$msg1');
+                        if (result1 == "1") {
+                          print('----1----xxx----');
+                          displayToast(msg1);
+                          Navigator.pop(context);
+                        } else {
+                          displayToast(msg1);
+                          print('----0---');
+                        }
+                      } else {
+                        print('----Not call a Api--');
+                      }
+
+                      /// Todo next Apply condition
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(
+                          0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+                    ),
+                    child: const Text("Submit",
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          color: Colors.white,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold),
+                    ))
+              ],
+            ),
+          );
+        });
+  }
+
+  // bottomSheetComplaintTransfer
+  bottomSheetComplaintTransfer() {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(12.0),
+          ),
+        ),
+        context: context,
+        builder: (context) {
+          return Padding(
+            padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      margin:
+                      EdgeInsets.only(left: 0, right: 10, top: 10),
+                      child: Image.asset(
+                        'assets/images/ic_expense.png',
+                        // Replace with your image asset path
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Text('Fill the below details',
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              color: Color(0xFF707d83),
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      bottom: 5, top: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                          margin: const EdgeInsets.only(
+                              left: 0, right: 2, bottom: 2),
+                          child: const Icon(
+                            Icons.forward_sharp,
+                            size: 12,
+                            color: Colors.black54,
+                          )),
+                      const Text('Complaints Type',
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              color: Color(0xFF707d83),
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+              Stack(
+                alignment: AlignmentDirectional.centerStart,
+              children: [
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DropdownButtonHideUnderline(
+                    child: ButtonTheme(
+                      alignedDropdown: true,
+                      child: DropdownButton(
+                        onTap: () {
+                          FocusScope.of(context).unfocus();
+                        },
+                        hint: RichText(
+                          text: const TextSpan(
+                            text: 'Select Complaints Type ',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                            ),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: '*',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        value: _dropDownComplaintType,
+                        onChanged: (newValue) {
+                          setState(() {
+                            _dropDownComplaintType = newValue;
+                            print('---187---$_dropDownComplaintType');
+
+                            bindPointTypeDropDown.forEach((element) {
+                              if (element["sPointTypeName"] ==
+                                  _dropDownComplaintType) {
+                                setState(() {
+                                  selectedComplaintValue =
+                                  element['iPointTypeCode'];
+                                });
+                                print('-----1021----$selectedComplaintValue');
+                              }
+                            });
+                          });
+                        },
+                        items: bindPointTypeDropDown.map((dynamic item) {
+                          return DropdownMenuItem(
+                            child: Text(item['sPointTypeName'].toString()),
+                            value: item["sPointTypeName"].toString(),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  child: Container(
+                    color: Colors.white,
+                    child: Icon(Icons.arrow_drop_down),
+                  ),
+                ),
+              ],
+            ),
+                SizedBox(height: 10),
+                ElevatedButton(
+                    onPressed: () async {
+                      /// TODO REMOVE COMMENT AND apply proper api below and handle api data
+                      // print('----clicked--xxxxxxxx--');
+                      if (selectedComplaintValue != null) {
+                        var complaintForwardResponse = await ChangePointTypeRepo()
+                            .changePointType(
+                            context, selectedComplaintValue, iCompCode);
+
+                        print('-----1453----$complaintForwardResponse');
+
+                        result1 = "${complaintForwardResponse['Result']}";
+                        msg1 = "${complaintForwardResponse['Msg']}";
+                        print('---1468---xxx-----$result1');
+                        print('---1469---xxx-----$msg1');
+                        if (result1 == "1") {
+                          print('----1----xxx----');
+                          displayToast(msg1);
+                          Navigator.pop(context);
+                        } else {
+                          displayToast(msg1);
+                          print('----0---');
+                        }
+                      } else {
+                        print('----Not call a Api--');
+                      }
+
+                      /// Todo next Apply condition
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(
+                          0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+                    ),
+                    child: const Text("Submit",
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          color: Colors.white,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold),
+                    ))
+              ],
+            ),
+          );
+        });
+  }
+
+  // bottomSheetHold
+  bottomSheetHold() {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(12.0),
+          ),
+        ),
+        context: context,
+        builder: (context) {
+          return Padding(
+            padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      margin:
+                      EdgeInsets.only(left: 0, right: 10, top: 10),
+                      child: Image.asset(
+                        'assets/images/ic_expense.png',
+                        // Replace with your image asset path
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Text('Fill the below details',
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              color: Color(0xFF707d83),
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      bottom: 5, top: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                          margin: const EdgeInsets.only(
+                              left: 0, right: 2, bottom: 2),
+                          child: const Icon(
+                            Icons.forward_sharp,
+                            size: 12,
+                            color: Colors.black54,
+                          )),
+                      const Text('Hold Time',
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              color: Color(0xFF707d83),
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+                Stack(
+                  alignment: AlignmentDirectional.centerStart,
+                  children: [
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: DropdownButtonHideUnderline(
+                        child: ButtonTheme(
+                          alignedDropdown: true,
+                          child: DropdownButton(
+                            onTap: () {
+                              FocusScope.of(context).unfocus();
+                            },
+                            hint: RichText(
+                              text: const TextSpan(
+                                text: 'Select Hold Time',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: '*',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            value: _dropDownHold,
+                            onChanged: (newValue) {
+                              setState(() {
+                                _dropDownHold = newValue;
+                                print('---187---$_dropDownHold');
+                                //  _isShowChosenDistError = false;
+                                // Iterate the List
+                                bindHoldList.forEach((element) {
+                                  if (element["sHoldDesc"] == _dropDownHold) {
+                                    setState(() {
+                                      selectedHoldValue = element['iHold'];
+                                    });
+                                    print('-----1021----$selectedHoldValue');
+                                  }
+                                });
+                              });
+                            },
+                            items: bindHoldList.map((dynamic item) {
+                              return DropdownMenuItem(
+                                child: Text(item['sHoldDesc'].toString()),
+                                value: item["sHoldDesc"].toString(),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      bottom: 0,
+                      child: Container(
+                        color: Colors.white,
+                        child: Icon(Icons.arrow_drop_down),
+                      ),
+                    ),
+
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFf2f3f5),
+                    borderRadius: BorderRadius.circular(10.0), // Border radius
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 10),
+                    child: Row(
+                      children: [
+                        const Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(left: 10),
+                                child: Text(
+                                  'Click Photo',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Colors.black54,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      'Please clock here to take a photo',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Colors.redAccent,
+                                          fontSize: 10.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Icon(Icons.forward_sharp, size: 10,
+                                        color: Colors.redAccent),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            // pickImage();
+                            pickImage();
+                            print('---------530-----');
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.only(right: 10, top: 5),
+                            child: Image(image: AssetImage(
+                                'assets/images/ic_camera.PNG'),
+                              width: 40,
+                              height: 40,
+                              fit: BoxFit.fill,
+                            ),
+                            // child: Icon(
+                            //   Icons.camera,
+                            //   size: 24.0,
+                            //   color: Color(0xFF255899),
+                            // ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      image != null
+                          ? Stack(
+                        children: [
+                          GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          FullScreenPage(
+                                            child: image!,
+                                            dark: true,
+                                          )));
+                            },
+                            child: Container(
+                                color: Colors.lightGreenAccent,
+                                height: 100,
+                                width: 70,
+                                child: Image.file(
+                                  image!,
+                                  fit: BoxFit.fill,
+                                )),
+                          ),
+                          Positioned(
+                              bottom: 65,
+                              left: 35,
+                              child: IconButton(
+                                onPressed: () {
+                                  image = null;
+                                  setState(() {});
+                                },
+                                icon: const Icon(
+                                  Icons.close,
+                                  color: Colors.red,
+                                  size: 30,
+                                ),
+                              ))
+                        ],
+                      ) :
+                      Text(
+                        "Photo is required.",
+                        style:
+                        TextStyle(color: Colors.red[700]),
+                      )
+                    ]),
+                ElevatedButton(
+                    onPressed: () async {
+                      /// TODO REMOVE COMMENT AND apply proper api below and handle api data
+                      // print('----clicked--xxxxxxxx--
+                      //  var complaintCode =   item['iCompCode'].toString() ?? '';
+                      if (selectedHoldValue != null) {
+                        var complaintForwardResponse = await HoloComplaintRepo()
+                            .holoComplaint(context,
+                            selectedHoldValue, uplodedImage!, iCompCode);
+                        print('-----1174--xx--$complaintForwardResponse');
+
+                        result1 = "${complaintForwardResponse['Result']}";
+                        msg1 = "${complaintForwardResponse['Msg']}";
+                        print('---1126---$result1');
+
+                        if (result1 == "1") {
+                          // Navigator.pop(context);
+
+                          print('----1----xxx----');
+                          displayToast(msg1);
+                          Navigator.pop(context);
+                        } else {
+                          displayToast(msg1);
+                          print('----0---');
+                        }
+                      } else {
+                        print('----Not call a Api--');
+                      }
+
+                      /// Todo next Apply condition
+                    },
+
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(
+                          0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+                    ),
+                    child: const Text("Complaint Hold",
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          color: Colors.white,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold),
+                    ))
+              ],
+            ),
+          );
+        });
   }
 
   @override
@@ -112,62 +775,64 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     bindPointTypeDropDown_2();
     super.initState();
   }
-   getComplaintStatus() async {
-     //Future<List<Map<String, dynamic>>?> pendingInternalComplaint(BuildContext context) async {
-       SharedPreferences prefs = await SharedPreferences.getInstance();
-       String? sToken = prefs.getString('sToken');
-       String? iUserId = prefs.getString('iUserId');
 
-       try {
-         var baseURL = BaseRepo().baseurl;
-         var endPoint = "PendingInternalComplaint_V2/PendingInternalComplaint_V2";
-         var pendingInternalComplaintApi = "$baseURL$endPoint";
+  getComplaintStatus() async {
+    //Future<List<Map<String, dynamic>>?> pendingInternalComplaint(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? sToken = prefs.getString('sToken');
+    String? iUserId = prefs.getString('iUserId');
 
-         showLoader();
-         var headers = {
-           'token': '$sToken',
-           'Content-Type': 'application/json'
-         };
-         var request = http.Request('POST', Uri.parse('$pendingInternalComplaintApi'));
-         request.body = json.encode({
-           "iUserId": iUserId,
-           "iPage":"",
-           "iPageSize":""
-         });
-         request.headers.addAll(headers);
-         http.StreamedResponse response = await request.send();
+    try {
+      var baseURL = BaseRepo().baseurl;
+      var endPoint = "PendingInternalComplaint_V2/PendingInternalComplaint_V2";
+      var pendingInternalComplaintApi = "$baseURL$endPoint";
 
-         if (response.statusCode == 200) {
-           hideLoader();
-           var data = await response.stream.bytesToString();
-           Map<String, dynamic> parsedJson = jsonDecode(data);
-           print('------40----$parsedJson');
-           setState(() {
-             iTotalComp = parsedJson['iTotalComp'];
-             iResolved = parsedJson['iResolved'];
-           });
-           print('------140---$iTotalComp');
-           print('------141---$iResolved');
+      showLoader();
+      var headers = {
+        'token': '$sToken',
+        'Content-Type': 'application/json'
+      };
+      var request = http.Request(
+          'POST', Uri.parse('$pendingInternalComplaintApi'));
+      request.body = json.encode({
+        "iUserId": iUserId,
+        "iPage": "",
+        "iPageSize": ""
+      });
+      request.headers.addAll(headers);
+      http.StreamedResponse response = await request.send();
 
-       // List<dynamic>? dataList = parsedJson['Data'];
-           //
-           // if (dataList != null) {
-           //   List<Map<String, dynamic>> pendingInternalComplaintList = dataList.cast<Map<String, dynamic>>();
-           //   print("Dist list: $pendingInternalComplaintList");
-           //   return pendingInternalComplaintList;
-           // } else if(response.statusCode==401) {
-           //   generalFunction.logout(context);
-           // }
-         } else {
-           hideLoader();
-           return null;
-         }
-       } catch (e) {
-         hideLoader();
-         debugPrint("Exception: $e");
-         throw e;
-       }
-   }
+      if (response.statusCode == 200) {
+        hideLoader();
+        var data = await response.stream.bytesToString();
+        Map<String, dynamic> parsedJson = jsonDecode(data);
+        print('------40----$parsedJson');
+        setState(() {
+          iTotalComp = parsedJson['iTotalComp'];
+          iResolved = parsedJson['iResolved'];
+        });
+        print('------140---$iTotalComp');
+        print('------141---$iResolved');
+
+        // List<dynamic>? dataList = parsedJson['Data'];
+        //
+        // if (dataList != null) {
+        //   List<Map<String, dynamic>> pendingInternalComplaintList = dataList.cast<Map<String, dynamic>>();
+        //   print("Dist list: $pendingInternalComplaintList");
+        //   return pendingInternalComplaintList;
+        // } else if(response.statusCode==401) {
+        //   generalFunction.logout(context);
+        // }
+      } else {
+        hideLoader();
+        return null;
+      }
+    } catch (e) {
+      hideLoader();
+      debugPrint("Exception: $e");
+      throw e;
+    }
+  }
 
   @override
   void dispose() {
@@ -175,6 +840,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     _searchController.dispose();
     super.dispose();
   }
+
   void _search() {
     String query = _searchController.text.toLowerCase();
     setState(() {
@@ -189,6 +855,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
           [];
     });
   }
+
   // location
   void getLocation() async {
     bool serviceEnabled;
@@ -223,6 +890,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
     debugPrint(position.toString());
   }
+
   void displayToast(String msg) {
     Fluttertoast.showToast(
         msg: msg,
@@ -233,6 +901,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
         textColor: Colors.white,
         fontSize: 16.0);
   }
+
   Future pickImage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
@@ -252,6 +921,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       }
     } catch (e) {}
   }
+
   // upload images
   Future<void> uploadImage(String token, File imageFile) async {
     try {
@@ -263,7 +933,8 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       // Add headers
       request.headers['token'] = token;
       // Add the image file as a part of the request
-      request.files.add(await http.MultipartFile.fromPath('sFolder', imageFile.path));
+      request.files.add(
+          await http.MultipartFile.fromPath('sFolder', imageFile.path));
       // Send the request
       var streamedResponse = await request.send();
       // Get the response
@@ -281,19 +952,22 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       print('Error uploading image: $error');
     }
   }
+
   bindAjency() async {
     bindAjencyList = [];
     bindAjencyList = await BindAjencyRepo().bindajency();
     print(" -----302---bindAjencyList---> $bindAjencyList");
     setState(() {});
   }
+
   // complaintType dropdown value
   bindPointTypeDropDown_2() async {
-   // bindPointTypeDropDown = [];
+    // bindPointTypeDropDown = [];
     bindPointTypeDropDown = await BindPointTypeDropDownRepo().bindPointType();
     print(" -----310---bindPointType---> $bindPointTypeDropDown");
     setState(() {});
   }
+
   // bind Hold
   bindHold() async {
     bindHoldList = [];
@@ -301,18 +975,18 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     print(" -----252---bindHoldList---> $bindHoldList");
     setState(() {});
   }
+
   userAjency(int ajencyCode) async {
     print('-----170--$ajencyCode');
     // setState(() {
     // });
     // List ajencyUserList = [];
     userAjencyList = await AjencyUserRepo().ajencyuser(ajencyCode);
-    setState(() {
-    });
+    setState(() {});
     print('----165--$userAjencyList');
-    if(userAjencyList ==null || userAjencyList.isEmpty){
+    if (userAjencyList == null || userAjencyList.isEmpty) {
       displayToast("No Record Found");
-    }else{
+    } else {
       displayToast("Record Found");
       print('---172--$userAjencyList');
       print('${userAjencyList.length}');
@@ -336,41 +1010,41 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
         ),
       ),
       // drawer
-      drawer: generalFunction.drawerFunction(context,'',''),
+      drawer: generalFunction.drawerFunction(context, '', ''),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-           Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-               Padding(
-                 padding: EdgeInsets.only(left: 18,top: 10),
-                 child: Row(
-                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                   children: [
-                     const Text('Total', style: TextStyle(
-                         fontFamily: 'Montserrat',
-                         color: Color(0xff3f617d),
-                         fontSize: 14.0,
-                         fontWeight: FontWeight.bold)),
-                     const SizedBox(width: 10),
-                     const Text(':', style: TextStyle(
-                         fontFamily: 'Montserrat',
-                         color: Color(0xff3f617d),
-                         fontSize: 14.0,
-                         fontWeight: FontWeight.bold)),
-                     SizedBox(width: 10),
-                     Text('$iTotalComp',style: const TextStyle(
-                         fontFamily: 'Montserrat',
-                         color: Color(0xff3f617d),
-                         fontSize: 14.0,
-                         fontWeight: FontWeight.bold),
-                     ),
-                   ],
-                 ),
-               ),
               Padding(
-                padding: EdgeInsets.only(right: 20,top: 10),
+                padding: EdgeInsets.only(left: 18, top: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Total', style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        color: Color(0xff3f617d),
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.bold)),
+                    const SizedBox(width: 10),
+                    const Text(':', style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        color: Color(0xff3f617d),
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.bold)),
+                    SizedBox(width: 10),
+                    Text('$iTotalComp', style: const TextStyle(
+                        fontFamily: 'Montserrat',
+                        color: Color(0xff3f617d),
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 20, top: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -386,7 +1060,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                         fontSize: 14.0,
                         fontWeight: FontWeight.bold)),
                     SizedBox(width: 10),
-                    Text('$iResolved',style: const TextStyle(
+                    Text('$iResolved', style: const TextStyle(
                         fontFamily: 'Montserrat',
                         color: Color(0xff3f617d),
                         fontSize: 14.0,
@@ -396,7 +1070,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
               ),
             ],
           ),
-           Center(
+          Center(
             child: Padding(
               padding: EdgeInsets.only(left: 15, right: 15, top: 10),
               child: Container(
@@ -471,7 +1145,8 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                           decoration: BoxDecoration(
                                             borderRadius:
                                             BorderRadius.circular(15.0),
-                                            border: Border.all(color: Color(0xFF255899),
+                                            border: Border.all(
+                                              color: Color(0xFF255899),
                                               // Outline border color
                                               width: 0.5, // Outline border width
                                             ),
@@ -511,43 +1186,66 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                         Expanded(
                                           child: GestureDetector(
                                               child: Container(
-                                              alignment: Alignment.centerRight,
-                                              height: 40,
-                                              // width: 40,
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.end, // Aligns the row to the right
-                                                children: [
-                                                  GestureDetector(
+                                                alignment: Alignment
+                                                    .centerRight,
+                                                height: 40,
+                                                // width: 40,
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment
+                                                      .end,
+                                                  // Aligns the row to the right
+                                                  children: [
+                                                    GestureDetector(
+                                                        onTap: () {
+                                                          var fLatitude = item['fLatitude'] ??
+                                                              '';
+                                                          var fLongitude = item['fLongitude'] ??
+                                                              '';
+                                                          print(
+                                                              '----462----${fLatitude}');
+                                                          print(
+                                                              '-----463---${fLongitude}');
+                                                          if (fLatitude !=
+                                                              null &&
+                                                              fLongitude !=
+                                                                  null) {
+                                                            generalfunction
+                                                                .launchGoogleMaps(
+                                                                fLatitude,
+                                                                fLongitude);
+                                                          } else {
+                                                            displayToast(
+                                                                "Please check the location.");
+                                                          }
+                                                        },
+                                                        child: const Image(
+                                                            image: AssetImage(
+                                                                'assets/images/ic_google_maps.PNG'))),
+                                                    SizedBox(width: 2),
+                                                    GestureDetector(
                                                       onTap: () {
-                                                        var fLatitude = item['fLatitude'] ?? '';
-                                                        var fLongitude = item['fLongitude'] ?? '';
-                                                        print('----462----${fLatitude}');
-                                                        print('-----463---${fLongitude}');
-                                                        if (fLatitude != null &&
-                                                            fLongitude != null) {
-                                                          generalfunction.launchGoogleMaps(fLatitude,fLongitude);
-                                                        } else {
-                                                          displayToast(
-                                                              "Please check the location.");
-                                                        }
+                                                        print(
+                                                            '---Helo ----jpeg---');
+                                                        iCompCode =
+                                                            item['iCompCode']
+                                                                .toString() ??
+                                                                '';
+                                                        print(
+                                                            '---506--$iCompCode');
+                                                        bottomSheetHold();
+                                                        //_showBottomSheetHold(context,iCompCode);
                                                       },
-                                                      child: const Image(image: AssetImage('assets/images/ic_google_maps.PNG'))),
-                                                  SizedBox(width: 2),
-                                                  GestureDetector(
-                                                      onTap: (){
-                                                        print('---Helo ----jpeg---');
-                                                        iCompCode =   item['iCompCode'].toString() ?? '';
-                                                        print('---506--$iCompCode');
-                                                        _showBottomSheetHold(context,iCompCode);
-                                                      },
-                                                    child: const Padding(
-                                                      padding: EdgeInsets.only(top: 5),
-                                                      child: Image(image: AssetImage('assets/images/holo.jpeg')),
+                                                      child: const Padding(
+                                                        padding: EdgeInsets
+                                                            .only(top: 5),
+                                                        child: Image(
+                                                            image: AssetImage(
+                                                                'assets/images/holo.jpeg')),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            )
+                                                  ],
+                                                ),
+                                              )
                                           ),
                                         ),
                                       ],
@@ -708,10 +1406,12 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                     ),
                                   ),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween,
                                     children: [
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start,
                                         children: <Widget>[
                                           const Icon(
                                             Icons.calendar_month,
@@ -741,7 +1441,8 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                     ],
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 15,top: 8),
+                                    padding: const EdgeInsets.only(
+                                        left: 15, top: 8),
                                     child: GestureDetector(
                                       onTap: () {
                                         var sBeforePhoto =
@@ -752,8 +1453,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (
-                                                      context) =>
+                                                  builder: (context) =>
                                                       ImageScreen(
                                                           sBeforePhoto:
                                                           sBeforePhoto)));
@@ -787,114 +1487,158 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                   ),
                                   SizedBox(height: 10),
                                   Padding(
-                                    padding: const EdgeInsets.only(right: 10,bottom: 10),
+                                    padding: const EdgeInsets.only(
+                                        right: 10, bottom: 10),
                                     child: Container(
                                       //color: Color(0xffe4e4e4),
                                       height: 40,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10), // Border radius
+                                        borderRadius: BorderRadius.circular(10),
+                                        // Border radius
                                         border: Border.all(
-                                          color: Color(0xFF255899), // Border color
+                                          color: Color(0xFF255899),
+                                          // Border color
                                           width: 1, // Border width
                                         ),
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.only(left: 0, right: 10),
+                                        padding: const EdgeInsets.only(
+                                            left: 0, right: 10),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment
+                                              .spaceBetween,
                                           children: <Widget>[
                                             Expanded(
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                mainAxisAlignment: MainAxisAlignment
+                                                    .spaceBetween,
                                                 children: <Widget>[
                                                   Padding(
-                                                    padding: const EdgeInsets.all(8.0),
+                                                    padding: const EdgeInsets
+                                                        .all(8.0),
                                                     child: GestureDetector(
                                                       onTap: () {
                                                         print('----341---');
                                                         var sBeforePhoto = "${item['sBeforePhoto']}";
-                                                        var iTaskCode =  item['iCompCode'].toString() ?? '';
-                                                        print('----357---$sBeforePhoto');
+                                                        var iTaskCode = item['iCompCode']
+                                                            .toString() ?? '';
+                                                        print(
+                                                            '----357---$sBeforePhoto');
                                                         Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                            builder: (context) => ActionOnSchedultPointScreen(sBeforePhoto: sBeforePhoto,iTaskCode:iTaskCode),
+                                                            builder: (
+                                                                context) =>
+                                                                ActionOnSchedultPointScreen(
+                                                                    sBeforePhoto: sBeforePhoto,
+                                                                    iTaskCode: iTaskCode),
                                                           ),
                                                         );
                                                       },
                                                       child: const Row(
-                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        mainAxisAlignment: MainAxisAlignment
+                                                            .start,
                                                         children: [
                                                           Text(
                                                             'Action',
                                                             style: TextStyle(
                                                                 fontFamily: 'Montserrat',
-                                                                color: Color(0xFF255899),
+                                                                color: Color(
+                                                                    0xFF255899),
                                                                 fontSize: 12.0,
-                                                                fontWeight: FontWeight.normal
+                                                                fontWeight: FontWeight
+                                                                    .normal
                                                             ),
                                                           ),
                                                           SizedBox(width: 2),
-                                                          Icon(Icons.forward_sharp,
+                                                          Icon(Icons
+                                                              .forward_sharp,
                                                               size: 15,
-                                                              color: Color(0xFF255899)),
+                                                              color: Color(
+                                                                  0xFF255899)),
                                                         ],
                                                       ),
                                                     ),
                                                   ),
-                                                  Container(height: 10, width: 1, color: Colors.grey),
+                                                  Container(height: 10,
+                                                      width: 1,
+                                                      color: Colors.grey),
                                                   Padding(
-                                                    padding: const EdgeInsets.all(8.0),
+                                                    padding: const EdgeInsets
+                                                        .all(8.0),
                                                     child: GestureDetector(
                                                       onTap: () {
-                                                        print('---Complaint Transfer ---');
-                                                        iCompCode =   item['iCompCode'].toString() ?? '';
-                                                        print('---506--$iCompCode');
-                                                        _showBottomSheetComplaintType(context,iCompCode);
+                                                        print(
+                                                            '---Complaint Transfer ---');
+                                                        iCompCode =
+                                                            item['iCompCode']
+                                                                .toString() ??
+                                                                '';
+                                                        print(
+                                                            '---506--$iCompCode');
+                                                        bottomSheetComplaintTransfer();
+                                                        //  _showBottomSheetComplaintType(context,iCompCode);
 
                                                       },
                                                       child: const Row(
-                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        mainAxisAlignment: MainAxisAlignment
+                                                            .start,
                                                         children: [
                                                           Text(
                                                             'Complaint Transfer',
                                                             style: TextStyle(
                                                                 fontFamily: 'Montserrat',
-                                                                color: Color(0xFF255899),
+                                                                color: Color(
+                                                                    0xFF255899),
                                                                 fontSize: 12.0,
-                                                                fontWeight: FontWeight.normal
+                                                                fontWeight: FontWeight
+                                                                    .normal
                                                             ),
                                                           ),
                                                           SizedBox(width: 2),
-                                                          Icon(Icons.forward_sharp,
+                                                          Icon(Icons
+                                                              .forward_sharp,
                                                               size: 15,
-                                                              color: Color(0xFF255899)),
+                                                              color: Color(
+                                                                  0xFF255899)),
                                                         ],
                                                       ),
                                                     ),
                                                   ),
-                                                  Container(height: 10, width: 1, color: Colors.grey),
+                                                  Container(height: 10,
+                                                      width: 1,
+                                                      color: Colors.grey),
                                                   Padding(
-                                                    padding: const EdgeInsets.all(4.0),
+                                                    padding: const EdgeInsets
+                                                        .all(4.0),
                                                     child: GestureDetector(
                                                       onTap: () {
                                                         print('---Forward---');
-                                                        iCompCode =   item['iCompCode'].toString() ?? '';
-                                                        print('---506--$iCompCode');
-                                                       // _showBottomSheetHold(context,iCompCode);
-                                                        _showBottomSheet(context,iCompCode);
+                                                        iCompCode =
+                                                            item['iCompCode']
+                                                                .toString() ??
+                                                                '';
+                                                        print(
+                                                            '---506--$iCompCode');
+                                                        // _showBottomSheetHold(context,iCompCode);
+                                                        //_showBottomSheet(context,iCompCode);
+                                                        bottomSheetForward(
+                                                            context, iCompCode);
                                                       },
                                                       child: const Row(
-                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        mainAxisAlignment: MainAxisAlignment
+                                                            .start,
                                                         children: [
                                                           Text(
                                                             'Forward',
                                                             style: TextStyle(
                                                                 fontFamily: 'Montserrat',
-                                                                color: Color(0xFF255899),
+                                                                color: Color(
+                                                                    0xFF255899),
                                                                 fontSize: 12.0,
-                                                                fontWeight: FontWeight.normal
+                                                                fontWeight: FontWeight
+                                                                    .normal
                                                             ),
                                                           ),
                                                         ],
@@ -925,803 +1669,4 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       ),
     );
   }
-  // show hold bottomSeet
-
-  void _showBottomSheetHold(BuildContext context, String iCompCode) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      builder: (BuildContext context) {
-        return AnimatedContainer(
-            duration: Duration(seconds: 1),
-            curve: Curves.easeInOut,
-            height: 342,
-            // Adjust height as needed
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0), // Adjust the radius as needed
-                topRight: Radius.circular(20.0), // Adjust the radius as needed
-              ),
-            ),
-
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 0, right: 0),
-                  child: Container(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width - 10,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        // Background color of the container
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            // Color of the shadow
-                            spreadRadius: 5,
-                            // Spread radius
-                            blurRadius: 7,
-                            // Blur radius
-                            offset: Offset(0, 3), // Offset of the shadow
-                          ),
-                        ]),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 5, right: 0,top: 0),
-                      child: Form(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  margin:
-                                  EdgeInsets.only(left: 0, right: 10, top: 10),
-                                  child: Image.asset(
-                                    'assets/images/ic_expense.png',
-                                    // Replace with your image asset path
-                                    width: 24,
-                                    height: 24,
-                                  ),
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.only(top: 10),
-                                  child: Text('Fill the below details',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xFF707d83),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  bottom: 5, top: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 0, right: 2, bottom: 2),
-                                      child: const Icon(
-                                        Icons.forward_sharp,
-                                        size: 12,
-                                        color: Colors.black54,
-                                      )),
-                                  const Text('Hold Time',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xFF707d83),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width - 50,
-                              height: 50,
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: DropdownButtonHideUnderline(
-                                  child: ButtonTheme(
-                                    alignedDropdown: true,
-                                    child: DropdownButton(
-                                      onTap: () {
-                                        FocusScope.of(context).unfocus();
-                                      },
-                                      hint: RichText(
-                                        text: const TextSpan(
-                                          text: 'Select Hold Time',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                              text: '*',
-                                              style: TextStyle(
-                                                color: Colors.red,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      value: _dropDownHold,
-                                      onChanged: (newValue) {
-                                        setState(() {
-                                          _dropDownHold = newValue;
-                                          print('---187---$_dropDownHold');
-                                          //  _isShowChosenDistError = false;
-                                          // Iterate the List
-                                          bindHoldList.forEach((element) {
-                                            if (element["sHoldDesc"] == _dropDownHold) {
-                                              setState(() {
-                                                selectedHoldValue = element['iHold'];
-                                              });
-                                              print('-----1021----$selectedHoldValue');
-                                            }
-                                          });
-                                        });
-                                      },
-                                      items: bindHoldList.map((dynamic item) {
-                                        return DropdownMenuItem(
-                                          child: Text(item['sHoldDesc'].toString()),
-                                          value: item["sHoldDesc"].toString(),
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFf2f3f5),
-                                borderRadius: BorderRadius.circular(10.0), // Border radius
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.only(bottom: 10),
-                                child: Row(
-                                  children: [
-                                    const Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.only(left: 10),
-                                            child: Text(
-                                              'Click Photo',
-                                              style: TextStyle(
-                                                  fontFamily: 'Montserrat',
-                                                  color: Colors.black54,
-                                                  fontSize: 14.0,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: 10),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text(
-                                                  'Please clock here to take a photo',
-                                                  style: TextStyle(
-                                                      fontFamily: 'Montserrat',
-                                                      color: Colors.redAccent,
-                                                      fontSize: 10.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                                SizedBox(width: 10),
-                                                Icon(Icons.forward_sharp,size: 10,color: Colors.redAccent),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    InkWell(
-                                      onTap: (){
-                                        // pickImage();
-                                        pickImage();
-                                        print('---------530-----');
-                                        },
-                                      child: const Padding(
-                                        padding: EdgeInsets.only(right: 10,top: 5),
-                                        child: Image(image: AssetImage('assets/images/ic_camera.PNG'),
-                                          width: 40,
-                                          height: 40,
-                                          fit: BoxFit.fill,
-                                        ),
-                                        // child: Icon(
-                                        //   Icons.camera,
-                                        //   size: 24.0,
-                                        //   color: Color(0xFF255899),
-                                        // ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  image != null
-                                      ? Stack(
-                                    children: [
-                                      GestureDetector(
-                                        behavior: HitTestBehavior.translucent,
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      FullScreenPage(
-                                                        child: image!,
-                                                        dark: true,
-                                                      )));
-                                        },
-                                        child: Container(
-                                            color: Colors.lightGreenAccent,
-                                            height: 100,
-                                            width: 70,
-                                            child: Image.file(
-                                              image!,
-                                              fit: BoxFit.fill,
-                                            )),
-                                      ),
-                                      Positioned(
-                                          bottom: 65,
-                                          left: 35,
-                                          child: IconButton(
-                                            onPressed: () {
-                                              image = null;
-                                              setState(() {});
-                                            },
-                                            icon: const Icon(
-                                              Icons.close,
-                                              color: Colors.red,
-                                              size: 30,
-                                            ),
-                                          ))
-                                    ],
-                                  ) :
-                                  Text(
-                                    "Photo is required.",
-                                    style:
-                                    TextStyle(color: Colors.red[700]),
-                                  )
-                                ]),
-
-                            ElevatedButton(
-                                onPressed: () async {
-                                  /// TODO REMOVE COMMENT AND apply proper api below and handle api data
-                                  // print('----clicked--xxxxxxxx--
-                                //  var complaintCode =   item['iCompCode'].toString() ?? '';
-                                  if (selectedHoldValue != null) {
-
-                                    var complaintForwardResponse = await HoloComplaintRepo().holoComplaint(context,
-                                        selectedHoldValue, uplodedImage!,iCompCode);
-                                    print('-----1174--xx--$complaintForwardResponse');
-
-                                      result1 = "${complaintForwardResponse['Result']}";
-                                      msg1 = "${complaintForwardResponse['Msg']}";
-                                     print('---1126---$result1');
-
-                                     if(result1=="1"){
-                                      // Navigator.pop(context);
-
-                                       print('----1----xxx----');
-                                      displayToast(msg1);
-                                      Navigator.pop(context);
-
-                                    }else{
-                                      displayToast(msg1);
-                                      print('----0---');
-                                    }
-
-                                  } else {
-                                    print('----Not call a Api--');
-                                   }
-                                  /// Todo next Apply condition
-                                },
-
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(
-                                      0xFF255899), // Hex color code (FF for alpha, followed by RGB)
-                                ),
-                                child: const Text("Complaint Hold",
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Colors.white,
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold),
-                                ))
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            )
-        );
-      },
-    );
-  }
-  // bottomSeet ComplaintType
-  void _showBottomSheetComplaintType(BuildContext context,String iCompCode) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      builder: (BuildContext context) {
-        return AnimatedContainer(
-            duration: Duration(seconds: 1),
-            curve: Curves.easeInOut,
-            height: 280,
-            // Adjust height as needed
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0), // Adjust the radius as needed
-                topRight: Radius.circular(20.0), // Adjust the radius as needed
-              ),
-            ),
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 0, right: 0),
-                  child: Container(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width - 10,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        // Background color of the container
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            // Color of the shadow
-                            spreadRadius: 5,
-                            // Spread radius
-                            blurRadius: 7,
-                            // Blur radius
-                            offset: Offset(0, 3), // Offset of the shadow
-                          ),
-                        ]),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15,top: 0),
-                      child: Form(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  margin:
-                                  EdgeInsets.only(left: 0, right: 10, top: 10),
-                                  child: Image.asset(
-                                    'assets/images/ic_expense.png',
-                                    // Replace with your image asset path
-                                    width: 24,
-                                    height: 24,
-                                  ),
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.only(top: 10),
-                                  child: Text('Fill the below details',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xFF707d83),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  bottom: 5, top: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 0, right: 2, bottom: 2),
-                                      child: const Icon(
-                                        Icons.forward_sharp,
-                                        size: 12,
-                                        color: Colors.black54,
-                                      )),
-                                  const Text('Complaints Type',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xFF707d83),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width - 50,
-                              height: 50,
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: DropdownButtonHideUnderline(
-                                  child: ButtonTheme(
-                                    alignedDropdown: true,
-                                    child: DropdownButton(
-                                      onTap: () {
-                                        FocusScope.of(context).unfocus();
-                                      },
-                                      hint: RichText(
-                                        text: const TextSpan(
-                                          text: 'Select Complaints Type ',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                              text: '*',
-                                              style: TextStyle(
-                                                color: Colors.red,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      value: _dropDownComplaintType,
-                                      onChanged: (newValue) {
-                                        setState(() {
-                                          _dropDownComplaintType = newValue;
-                                          print('---187---$_dropDownComplaintType');
-                                          //  _isShowChosenDistError = false;
-                                          // Iterate the List
-                                          bindPointTypeDropDown.forEach((element) {
-                                            if (element["sPointTypeName"] == _dropDownComplaintType) {
-                                              setState(() {
-                                                selectedComplaintValue = element['iPointTypeCode'];
-                                              });
-                                              print('-----1021----$selectedComplaintValue');
-                                            }
-                                          });
-                                        });
-                                      },
-                                      items: bindPointTypeDropDown.map((dynamic item) {
-                                        return DropdownMenuItem(
-                                          child: Text(item['sPointTypeName'].toString()),
-                                          value: item["sPointTypeName"].toString(),
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            ElevatedButton(
-                                onPressed: () async {
-                                  /// TODO REMOVE COMMENT AND apply proper api below and handle api data
-                                  // print('----clicked--xxxxxxxx--');
-                                  if (selectedComplaintValue != null) {
-
-                                    var complaintForwardResponse = await ChangePointTypeRepo()
-                                        .changePointType(context, selectedComplaintValue, iCompCode);
-
-                                       print('-----1453----$complaintForwardResponse');
-
-                                     result1 = "${complaintForwardResponse['Result']}";
-                                     msg1 = "${complaintForwardResponse['Msg']}";
-                                    print('---1468---xxx-----$result1');
-                                    print('---1469---xxx-----$msg1');
-                                    if(result1=="1"){
-                                      print('----1----xxx----');
-                                      displayToast(msg1);
-                                      Navigator.pop(context);
-                                    }else{
-                                      displayToast(msg1);
-                                      print('----0---');
-                                    }
-
-                                  } else {
-                                    print('----Not call a Api--');
-                                  }
-                                  /// Todo next Apply condition
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(
-                                      0xFF255899), // Hex color code (FF for alpha, followed by RGB)
-                                ),
-                                child: const Text("Submit",
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Colors.white,
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold),
-                                ))
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            )
-        );
-      },
-    );
-  }
-
-// bottom screen
-  void _showBottomSheet(BuildContext context,String iCompCode) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      builder: (BuildContext context) {
-        return AnimatedContainer(
-            duration: Duration(seconds: 1),
-            curve: Curves.easeInOut,
-            height: 280,
-            // Adjust height as needed
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0), // Adjust the radius as needed
-                topRight: Radius.circular(20.0), // Adjust the radius as needed
-              ),
-            ),
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 5, right: 5),
-                  child: Container(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width - 10,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        // Background color of the container
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            // Color of the shadow
-                            spreadRadius: 5,
-                            // Spread radius
-                            blurRadius: 7,
-                            // Blur radius
-                            offset: Offset(0, 3), // Offset of the shadow
-                          ),
-                        ]),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 0, right: 0,top: 0),
-                      child: Form(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  margin:
-                                  EdgeInsets.only(left: 0, right: 10, top: 10),
-                                  child: Image.asset(
-                                    'assets/images/ic_expense.png',
-                                    // Replace with your image asset path
-                                    width: 24,
-                                    height: 24,
-                                  ),
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.only(top: 10),
-                                  child: Text('Fill the below details',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xFF707d83),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  bottom: 5, top: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 0, right: 2, bottom: 2),
-                                      child: const Icon(
-                                        Icons.forward_sharp,
-                                        size: 12,
-                                        color: Colors.black54,
-                                      )),
-                                  const Text('JE',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xFF707d83),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width - 50,
-                              height: 50,
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: DropdownButtonHideUnderline(
-                                  child: ButtonTheme(
-                                    alignedDropdown: true,
-                                    child: DropdownButton(
-                                      onTap: () {
-                                        FocusScope.of(context).unfocus();
-                                      },
-                                      hint: RichText(
-                                        text: const TextSpan(
-                                          text: 'Select JE ',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                              text: '*',
-                                              style: TextStyle(
-                                                color: Colors.red,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      value: _dropDownAgency2,
-                                      onChanged: (newValue) {
-                                        setState(() {
-                                          _dropDownAgency2 = newValue;
-                                         // bindAjencyList = [];
-                                          print('---187---$_dropDownAgency2');
-                                          //  _isShowChosenDistError = false;
-                                          // Iterate the List
-                                          bindAjencyList.forEach((element) {
-                                            if (element["sName"] == _dropDownAgency2) {
-                                              setState(() {
-                                                selectedHoldValue = element['iUserId'];
-                                              });
-                                              print('-----1021----$selectedHoldValue');
-                                            }
-                                          });
-                                        });
-                                      },
-                                      items: bindAjencyList.map((dynamic item) {
-                                        return DropdownMenuItem(
-                                          child: Text(item['sName'].toString()),
-                                          value: item["sName"].toString(),
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            ElevatedButton(
-                                onPressed: () async {
-                                  /// TODO REMOVE COMMENT AND apply proper api below and handle api data
-                                  // print('----clicked--xxxxxxxx--');
-                                  if (selectedHoldValue != null) {
-                                    var complaintForwardResponse = await ComplaintForwardRepo()
-                                        .complaintForward(context,
-                                        selectedHoldValue, iCompCode);
-
-                                    result1 = "${complaintForwardResponse['Result']}";
-                                     msg1 = "${complaintForwardResponse['Msg']}";
-                                     print('---1468---xxx-----$result1');
-                                    print('---1469---xxx-----$msg1');
-                                     if(result1=="1"){
-                                      print('----1----xxx----');
-                                      displayToast(msg1);
-                                      Navigator.pop(context);
-                                    }else{
-                                      displayToast(msg1);
-                                      print('----0---');
-                                    }
-
-                                  } else {
-                                    print('----Not call a Api--');
-                                  }
-                                  /// Todo next Apply condition
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(
-                                      0xFF255899), // Hex color code (FF for alpha, followed by RGB)
-                                ),
-                                child: const Text("Submit",
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Colors.white,
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold),
-                                ))
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            )
-        );
-      },
-    );
-  }
 }
-
-
-class MyListTile extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Container(
-          width: 50.0,
-          height: 50.0,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25.0),
-            border: Border.all(
-              color: Colors.grey, // Outline border color
-              width: 0.5, // Outline border width
-            ),
-            color: Colors.white,
-          ),
-          child: const Center(
-            child: Text(
-              "1.",
-              style: TextStyle(color: Colors.black, fontSize: 20),
-            ),
-          )),
-      title: const Text(
-        'C&D Waste',
-        style: TextStyle(
-            fontFamily: 'Montserrat',
-            color: Colors.black,
-            fontSize: 16.0,
-            fontWeight: FontWeight.bold),
-      ),
-      subtitle: const Text(
-        'Point Name',
-        style: TextStyle(
-            fontFamily: 'Montserrat',
-            color: Colors.black54,
-            fontSize: 14.0,
-            fontWeight: FontWeight.bold),
-      ),
-      onTap: () {
-        // Handle onTap
-      },
-    );
-  }
-}
-
