@@ -11,19 +11,19 @@ class PostDailyActiviyRepo {
   // this is a loginApi call functin
   GeneralFunction generalFunction = GeneralFunction();
 
-  Future postDailyActivity(BuildContext context, int randomNumber, selectedStateId, String activityDetaile, File? imageFile, String? iUserId, double? lat, double? long,) async {
+  Future postDailyActivity(BuildContext context, int randomNumber, selectedStateId, String activityDetaile, String? uplodedImage, String? iUserId, double? lat, double? long,) async {
     // sharedP
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('sToken');
 
     try {
-      print('----randomNumber---$randomNumber');
-      print('----selectedStateId---$selectedStateId');
+      print('----iTranNo---$randomNumber');
+      print('----iSectorCode---$selectedStateId');
       print('----activityDetaile---$activityDetaile');
-      print('----imageFile---$imageFile');
-      print('----iUserId---$iUserId');
-      print('----lat---$lat');
-      print('----long---$long');
+      print('----sActivityPhoto---$uplodedImage');
+      print('----iPostedBy-----$iUserId');
+      print('----fLatitude---$lat');
+      print('----fLongitude---$long');
       var baseURL = BaseRepo().baseurl;
       /// TODO CHANGE HERE
       var endPoint = "PostDailyActivity/PostDailyActivity";
@@ -31,7 +31,7 @@ class PostDailyActiviyRepo {
       print('------------39---postDailyActiviyApi---$postDailyActiviyApi');
 
       String jsonResponse =
-          '{"sArray":[{"iTranNo":$randomNumber,"iSectorCode":$selectedStateId,"sRemarks":"","sActivityPhoto":"$imageFile","iPostedBy":$iUserId,"fLatitude":$lat,"fLongitude":"$long"}]}';
+          '{"sArray":[{"iTranNo":$randomNumber,"iSectorCode":$selectedStateId,"sRemarks":"","sActivityPhoto":"$uplodedImage","iPostedBy":$iUserId,"fLatitude":$lat,"fLongitude":"$long"}]}';
 // Parse the JSON response
       Map<String, dynamic> parsedResponse = jsonDecode(jsonResponse);
 

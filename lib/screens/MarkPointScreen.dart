@@ -17,7 +17,6 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'flull_screen_image.dart';
 import 'dart:math';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
 
 class MarkPointScreen extends StatelessWidget {
@@ -206,6 +205,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   // datepicker
   // InitState
+
   @override
   void initState() {
     // TODO: implement initState
@@ -287,7 +287,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-
   /// Todo same way you should bind point Type data.
   Widget _bindMarkLocation() {
     return Material(
@@ -362,7 +361,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-
   /// Algo.  First of all create repo, secodn get repo data in the main page after that apply list data on  dropdown.
 
   @override

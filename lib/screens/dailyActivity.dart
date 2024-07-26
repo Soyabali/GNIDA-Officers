@@ -9,9 +9,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Controllers/district_repo.dart';
 import '../Controllers/markLocationRepo.dart';
 import '../Controllers/postDailyActivityRepo.dart';
+import '../Helpers/loader_helper.dart';
 import '../resources/values_manager.dart';
 import 'dart:async';
 import 'flull_screen_image.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class DailyActivitytScreen extends StatelessWidget {
   const DailyActivitytScreen({super.key});
@@ -78,20 +82,78 @@ class _MyHomePageState extends State<MyHomePage> {
   String? sec;
   final distDropdownFocus = GlobalKey();
   File? _imageFile;
+  var uplodedImage;
   final _formKey = GlobalKey<FormState>();
 
   // pick Image Codew
-  Future<void> _getImageFromCamera() async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+  Future pickImage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? sToken = prefs.getString('sToken');
+    print('---Token----113--$sToken');
 
-    if (image != null) {
-      setState(() {
-        _imageFile = File(image.path);
-      });
-      print('----129---$_imageFile');
+    try {
+      final pickFileid = await ImagePicker()
+          .pickImage(source: ImageSource.camera, imageQuality: 65);
+      if (pickFileid != null) {
+        _imageFile = File(pickFileid.path);
+        setState(() {});
+        print('Image File path Id Proof-------135----->$_imageFile');
+        // multipartProdecudre();
+        uploadImage(sToken!, _imageFile!);
+      } else {
+        print('no image selected');
+      }
+    } catch (e) {}
+  }
+  // uplode image code
+  Future<void> uploadImage(String token, File imageFile) async {
+    try {
+      showLoader();
+      // Create a multipart request
+      var request = http.MultipartRequest(
+          'POST',
+          Uri.parse(
+              'https://upegov.in/noidaoneapi/Api/PostImage/PostImage'));
+
+      // Add headers
+      request.headers['token'] = token;
+
+      // Add the image file as a part of the request
+      request.files.add(await http.MultipartFile.fromPath(
+        'file', imageFile.path,
+      ));
+
+      // Send the request
+      var streamedResponse = await request.send();
+
+      // Get the response
+      var response = await http.Response.fromStream(streamedResponse);
+
+      // Parse the response JSON
+      var responseData = json.decode(response.body);
+
+      // Print the response data
+      print(responseData);
+      hideLoader();
+      print('---------172---$responseData');
+      uplodedImage = "${responseData['Data'][0]['sImagePath']}";
+      print('----140---$uplodedImage');
+    } catch (error) {
+      showLoader();
+      print('Error uploading image: $error');
     }
   }
+  // Future<void> _getImageFromCamera() async {
+  //   final ImagePicker _picker = ImagePicker();
+  //   final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+  //
+  //   if (image != null) {
+  //     setState(() {
+  //       _imageFile = File(image.path);
+  //     });
+  //     print('----129---$_imageFile');
+  //   }
+  // }
    getUserIdFromSharedPreference() async{
      SharedPreferences prefs = await SharedPreferences.getInstance();
      iUserId = prefs.getString('iUserId');
@@ -104,6 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
     updatedSector();
     marklocationData();
     getUserIdFromSharedPreference();
+    getLocation();
     super.initState();
     descriptionfocus = FocusNode();
   }
@@ -137,8 +200,11 @@ class _MyHomePageState extends State<MyHomePage> {
     debugPrint("-------------Position-----------------");
     debugPrint(position.latitude.toString());
 
-    lat = position.latitude;
-    long = position.longitude;
+    setState(() {
+       lat = position.latitude;
+       long = position.longitude;
+
+    });
     print('-----------141----$lat');
     print('-----------142----$long');
     // setState(() {
@@ -453,7 +519,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 InkWell(
                                   onTap: () {
                                     // pickImage();
-                                    _getImageFromCamera();
+                                    pickImage();
                                     print('---------530-----');
                                   },
                                   child: const Padding(
@@ -505,7 +571,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 _imageFile = null;
                                                 setState(() {});
                                               },
-                                              icon: Icon(
+                                              icon: const Icon(
                                                 Icons.close,
                                                 color: Colors.red,
                                                 size: 30,
@@ -520,20 +586,24 @@ class _MyHomePageState extends State<MyHomePage> {
                             ]),
                         ElevatedButton(
                             onPressed: () async {
-                              getLocation();
+                             // getLocation();
                               var random = Random();
                               int randomNumber = random.nextInt(99999999 - 10000000) + 10000000;
                              //print('Random 8-digit number---770--: $randomNumber');
                               print('-------615---');
                               String activityDetaile = _activityDetails.text;
-                              // print('--iTranNo --$randomNumber');
-                              // print('--iSectorCode --$_selectedStateId');
-                              // print("-sRemarks--"+activityDetaile);
-                              // print('--sActivityPhoto --$_imageFile');
-                              // print('--iPostedBy --$iUserId');
-                              // print('--fLatitude --$lat');
-                              // print('--fLongitude --$long');
-
+                              print('--iTranNo --$randomNumber');
+                              print('--iSectorCode --$_selectedStateId');
+                              print("-sRemarks--"+activityDetaile);
+                              print('--sActivityPhoto --$uplodedImage');
+                              print('--iPostedBy --$iUserId');
+                              print('--fLatitude --$lat');
+                              print('--fLongitude --$long');
+                              double latitude = lat??0.0;
+                              double longitude = long??0.0;
+                               print('--fLatitude--604 --$latitude');
+                               print('--fLongitude ---605---$longitude');
+                               
                               if (_formKey.currentState!.validate() &&
                                   activityDetaile != null &&
                                   _selectedStateId != null &&
@@ -547,13 +617,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                     randomNumber,
                                     _selectedStateId,
                                     activityDetaile,
-                                    _imageFile,
+                                    uplodedImage,
                                     iUserId,
-                                    lat,
-                                    long);
-                               print('----558---$postDailyActivityResponse');
+                                    latitude,
+                                    longitude);
+
+                               print('-------625---$postDailyActivityResponse');
                                result = postDailyActivityResponse['Result'];
                                msg = postDailyActivityResponse['Msg'];
+
                               } else {
                                 print('---Api Not Call---');
                                 // here you should apply again if condition

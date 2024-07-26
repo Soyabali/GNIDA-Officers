@@ -5,22 +5,22 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:noidaone/screens/scheduledpoint.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../Controllers/DrywetSegregationSubmitRepo.dart';
 import '../Controllers/actionOnSchedulePointRepo.dart';
 import '../Controllers/district_repo.dart';
+import '../Helpers/loader_helper.dart';
 import '../resources/values_manager.dart';
 import 'flull_screen_image.dart';
 import 'homeScreen.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class ActionOnSchedultPointScreen extends StatefulWidget {
-  final sBeforePhoto;
-  final iTaskCode;
-  double? lat;
-  double? long;
-  ActionOnSchedultPointScreen({super.key,this.sBeforePhoto, this.iTaskCode, this.lat, this.long});
+
+  final sBeforePhoto,iTaskCode;
+  ActionOnSchedultPointScreen({super.key,this.sBeforePhoto, this.iTaskCode, double? lat, double? long});
+
 
   @override
   State<ActionOnSchedultPointScreen> createState() => _ActionOnSchedultPointScreenState();
@@ -34,10 +34,9 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
   String? sec;
   List distList = [];
   double? lat, long;
-  var _dropDownValueDistric;
   final distDropdownFocus = GlobalKey();
-  //--
-  TextEditingController _locationController = TextEditingController();
+  File? image;
+  var uplodedImage;
   TextEditingController _remarkController = TextEditingController();
   // focus
   FocusNode locationfocus = FocusNode();
@@ -51,8 +50,6 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
     setState(() {});
   }
 
-
-  // //location
   void getLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -77,27 +74,110 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
     debugPrint("-------------Position-----------------");
     debugPrint(position.latitude.toString());
 
-    lat = position.latitude;
-    long = position.longitude;
-    print('-----------79----$lat');
-    print('-----------80----$long');
+    setState(() {
+      lat = position.latitude;
+      long = position.longitude;
+    });
+
+    print('-----------105----$lat');
+    print('-----------106----$long');
     // setState(() {
     // });
     debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
     debugPrint(position.toString());
   }
+  // // //location
+  // void getLocation() async {
+  //   bool serviceEnabled;
+  //   LocationPermission permission;
+  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  //   if (!serviceEnabled) {
+  //     return Future.error('Location services are disabled.');
+  //   }
+  //   permission = await Geolocator.checkPermission();
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+  //     if (permission == LocationPermission.denied) {
+  //       return Future.error('Location permissions are denied');
+  //     }
+  //   }
+  //   if (permission == LocationPermission.deniedForever) {
+  //     // Permissions are denied forever, handle appropriately.
+  //     return Future.error(
+  //         'Location permissions are permanently denied, we cannot request permissions.');
+  //   }
+  //   Position position = await Geolocator.getCurrentPosition(
+  //       desiredAccuracy: LocationAccuracy.high);
+  //   debugPrint("-------------Position-----------------");
+  //   debugPrint(position.latitude.toString());
+  //
+  //   lat = position.latitude;
+  //   long = position.longitude;
+  //   print('-----------79----$lat');
+  //   print('-----------80----$long');
+  //   // setState(() {
+  //   // });
+  //   debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
+  //   debugPrint(position.toString());
+  // }
 
   // pick images
-  Future<void> _getImageFromCamera() async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+  Future pickImage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? sToken = prefs.getString('sToken');
+    print('---Token----113--$sToken');
 
-    if (image != null) {
-      setState(() {
-        _imageFile = File(image.path);
+    try {
+      final pickFileid = await ImagePicker()
+          .pickImage(source: ImageSource.camera, imageQuality: 65);
+      if (pickFileid != null) {
+        image = File(pickFileid.path);
+        setState(() {});
+        print('Image File path Id Proof-------135----->$image');
+        // multipartProdecudre();
+        uploadImage(sToken!, image!);
+      } else {
+        print('no image selected');
+      }
+    } catch (e) {}
+  }
+  // uplode images
+  // image code
+  Future<void> uploadImage(String token, File imageFile) async {
+    try {
+      showLoader();
+      // Create a multipart request
+      var request = http.MultipartRequest(
+          'POST',
+          Uri.parse(
+              'https://upegov.in/noidaoneapi/Api/PostImage/PostImage'));
 
-      });
-      print('----129---$_imageFile');
+      // Add headers
+      request.headers['token'] = token;
+
+      // Add the image file as a part of the request
+      request.files.add(await http.MultipartFile.fromPath(
+        'file', imageFile.path,
+      ));
+
+      // Send the request
+      var streamedResponse = await request.send();
+
+      // Get the response
+      var response = await http.Response.fromStream(streamedResponse);
+
+      // Parse the response JSON
+      var responseData = json.decode(response.body);
+
+      // Print the response data
+      print(responseData);
+      hideLoader();
+      print('---------172---$responseData');
+      uplodedImage = "${responseData['Data'][0]['sImagePath']}";
+      print('----145---$uplodedImage');
+    } catch (error) {
+      showLoader();
+      print('Error uploading image: $error');
     }
   }
 
@@ -107,11 +187,8 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
     super.initState();
    // updatedSector();
     getLocation();
-    print('------106----${widget.sBeforePhoto}');
-    print('------107----${widget.iTaskCode}');
-    print('------111----${widget.lat}');
-    print('------112----${widget.long}');
-
+    print('------190----${widget.sBeforePhoto}');
+    print('------191----${widget.iTaskCode}');
 
   }
   // toast
@@ -126,7 +203,6 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
         fontSize: 16.0
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -198,8 +274,7 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
                         children: <Widget>[
                           Container(
                             margin: EdgeInsets.only(left: 0,right: 10,top: 10),
-                            child: Image.asset(
-                              'assets/images/ic_expense.png', // Replace with your image asset path
+                            child: Image.asset('assets/images/ic_expense.png', // Replace with your image asset path
                               width: 24,
                               height: 24,
                             ),
@@ -373,8 +448,8 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
                               ),
                               InkWell(
                                 onTap: (){
-                                  // pickImage();
-                                  _getImageFromCamera();
+                                   pickImage();
+                                 // _getImageFromCamera();
                                   print('---------530-----');
 
                                 },
@@ -400,7 +475,7 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            _imageFile != null
+                            image != null
                                 ? Stack(
                               children: [
                                 GestureDetector(
@@ -420,7 +495,7 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
                                       height: 100,
                                       width: 70,
                                       child: Image.file(
-                                        _imageFile!,
+                                        image!,
                                         fit: BoxFit.fill,
                                       )),
                                 ),
@@ -429,7 +504,7 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
                                     left: 35,
                                     child: IconButton(
                                       onPressed: () {
-                                        _imageFile = null;
+                                        image = null;
                                         setState(() {});
                                       },
                                       icon: const Icon(
@@ -449,41 +524,37 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
 
                       ElevatedButton(
                           onPressed: () async {
-                              // get a location
-                           getLocation();
+
                             // current date
                             DateTime currentDate = DateTime.now();
-                         var  todayDate = DateFormat('dd/MMM/yyyy HH:mm')
-                                .format(currentDate);
+                            var  todayDate = DateFormat('dd/MMM/yyyy HH:mm').format(currentDate);
                             print('Formatted Date--672--: $todayDate');
-
-
                             var remarks = _remarkController.text;
-                            //print('-505---$location');
                             print('--506--$remarks');
                             print('--508---Image-$_imageFile');
 
                             if(_formKey.currentState!.validate()
-                                && remarks!=null && _imageFile!=null && lat!=null && long!=null){
+                                && remarks!=null && uplodedImage!=null && lat!=null && long!=null){
 
-                                var iTaskCode = '${widget.iTaskCode}';
-
-                               print('---ita---$iTaskCode');
-                               print('---_imageFile--$_imageFile');
+                              print('---_imageFile--$uplodedImage');
                                print('---lat--$lat');
                                print('---long--$long');
-                               print('---iTaskCode--${widget.iTaskCode}');
                                print('---todayDate--${todayDate}');
                               //  Todo call Api
                               // print('----Call Api----');
                               /// TODO REMOVE COMMENT AND APPLY right api
+
                               var  actiononSchedulepointresponse = await ActionOnScheduleRepo()
                                     .actionOnSchedulePoint(context, remarks!,
-                                _imageFile,lat,long,todayDate,iTaskCode);
+                                  uplodedImage,lat,long,todayDate,"${widget.iTaskCode}");
+
+
                               /// TODO REMOVE THIS API
                                 print('---475--------$actiononSchedulepointresponse');
                             var  result = "${actiononSchedulepointresponse['Result']}";
                             var  mag = "${actiononSchedulepointresponse['Msg']}";
+
+
                             if(result=="1"){
                               displayToast(mag);
                               Navigator.push(
@@ -492,7 +563,7 @@ class _ActionOnSchedultPointScreenState extends State<ActionOnSchedultPointScree
                             }else{
                               displayToast(mag);
                             }
-                            print('---484----$result');
+                              print('---484----$result');
                               print('---485-----$mag');
                             }else{
                               displayToast("Please pick image");

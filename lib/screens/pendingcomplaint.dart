@@ -10,6 +10,7 @@ import 'package:noidaone/Controllers/complaintForwardRepo.dart';
 import 'package:noidaone/screens/viewimage.dart';
 import '../Controllers/bindAjencyRepo.dart';
 import '../Controllers/pendingInternalComplaintRepo.dart';
+import '../Helpers/loader_helper.dart';
 import 'actionOnSchedulePoint.dart';
 import 'generalFunction.dart';
 import 'homeScreen.dart';
@@ -86,6 +87,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
     pendingInternalComplaintResponse();
     _searchController.addListener(_search);
     bindAjency();
+    getLocation();
     super.initState();
   }
 
@@ -112,21 +114,28 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
   }
 
   // location
+  // location
   void getLocation() async {
+    showLoader();
     bool serviceEnabled;
     LocationPermission permission;
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
+      hideLoader();
       return Future.error('Location services are disabled.');
+
     }
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
+      hideLoader();
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
+        hideLoader();
         return Future.error('Location permissions are denied');
       }
     }
     if (permission == LocationPermission.deniedForever) {
+      hideLoader();
       // Permissions are denied forever, handle appropriately.
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
@@ -136,8 +145,12 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
     debugPrint("-------------Position-----------------");
     debugPrint(position.latitude.toString());
 
-    lat = position.latitude;
-    long = position.longitude;
+    setState(() {
+      lat = position.latitude;
+      long = position.longitude;
+      hideLoader();
+    });
+
     print('-----------105----$lat');
     print('-----------106----$long');
     // setState(() {
@@ -356,8 +369,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                   ),
                                   const SizedBox(height: 10),
                                   Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 15, right: 15),
+                                    padding: const EdgeInsets.only(left: 15, right: 15),
                                     child: Container(
                                       height: 0.5,
                                       color: const Color(0xff3f617d),
@@ -544,18 +556,17 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                       height: 40,
                                       child: Padding(
                                         padding: const EdgeInsets.only(
-                                            left: 0, right: 10),
+                                            left: 0,
+                                            right: 10),
                                         child: Row(
                                           mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             Padding(
-                                              padding: const EdgeInsets.all(
-                                                  8.0),
+                                              padding: const EdgeInsets.all(8.0),
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  var sBeforePhoto =
-                                                      "${item['sBeforePhoto']}";
+                                                  var sBeforePhoto = "${item['sBeforePhoto']}";
                                                   print('---$sBeforePhoto');
 
                                                   if (sBeforePhoto != null) {
@@ -605,18 +616,20 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                               child: GestureDetector(
                                                 onTap: () {
                                                   print('----341---');
-                                                  var sBeforePhoto =
-                                                      "${item['sBeforePhoto']}";
-                                                  print(
-                                                      '----357---$sBeforePhoto');
-                                                  //
+                                                  var sBeforePhoto = "${item['sBeforePhoto']}";
+                                                  var iTaskCode =  item['iCompCode'].toString() ?? '';
+                                                  print('----357---$sBeforePhoto');
+                                                  print('----658--$iTaskCode');
+
+
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             ActionOnSchedultPointScreen(
                                                                 sBeforePhoto:
-                                                                sBeforePhoto)),
+                                                                sBeforePhoto,
+                                                                iTaskCode:iTaskCode)),
                                                   );
                                                 },
                                                 child: const Row(

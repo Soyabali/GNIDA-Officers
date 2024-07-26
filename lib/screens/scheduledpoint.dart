@@ -1,21 +1,15 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:noidaone/screens/loginScreen_2.dart';
-import 'package:noidaone/screens/otpverification.dart';
 import 'package:noidaone/screens/viewimage.dart';
 import '../Controllers/PendingScheduledPointRepo.dart';
-import '../Controllers/markLocationRepo.dart';
+import '../Helpers/loader_helper.dart';
 import 'actionOnSchedulePoint.dart';
-import 'drywetsegregation.dart';
-import 'flull_screen_image.dart';
 import 'generalFunction.dart';
 import 'homeScreen.dart';
-import 'navigateScreen.dart';
 
 class ScheduledPointScreen extends StatelessWidget {
   const ScheduledPointScreen({Key? key}) : super(key: key);
@@ -48,6 +42,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
   void initState() {
     super.initState();
     schedulePointresponse();
+    getLocation();
     _searchController.addListener(_search);
     //getLocation();
   }
@@ -59,21 +54,28 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
   }
 
   // get location
+
   void getLocation() async {
+    showLoader();
     bool serviceEnabled;
     LocationPermission permission;
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
+      hideLoader();
       return Future.error('Location services are disabled.');
+
     }
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
+      hideLoader();
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
+        hideLoader();
         return Future.error('Location permissions are denied');
       }
     }
     if (permission == LocationPermission.deniedForever) {
+      hideLoader();
       // Permissions are denied forever, handle appropriately.
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
@@ -83,10 +85,14 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
     debugPrint("-------------Position-----------------");
     debugPrint(position.latitude.toString());
 
-    lat = position.latitude;
-    long = position.longitude;
-    print('-----------86----$lat');
-    print('-----------87----$long');
+    setState(() {
+      lat = position.latitude;
+      long = position.longitude;
+      hideLoader();
+    });
+
+    print('-----------105----$lat');
+    print('-----------106----$long');
     // setState(() {
     // });
     debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
@@ -408,14 +414,14 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                               color: Colors.grey),
                                           GestureDetector(
                                             onTap: () {
-                                              print('----341---');
-                                              getLocation();
-                                              print('---411--$lat');
-                                              print('---412--$long');
+                                              print('---406--$lat');
+                                              print('---407--$long');
                                               var sBeforePhoto = "${item['sBeforePhoto']}";
                                               var iTaskCode = "${item['iTaskCode']}";
-                                              print('----357---$sBeforePhoto');
-                                               // create an instance of the class
+                                              print('---410----$sBeforePhoto');
+                                              print('---411----$iTaskCode');
+
+                                              // create an instance of the class
 
                                               Navigator.push(
                                                 context,

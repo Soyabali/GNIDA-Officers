@@ -807,11 +807,12 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                                       onTap: () {
                                                         print('----341---');
                                                         var sBeforePhoto = "${item['sBeforePhoto']}";
+                                                        var iTaskCode =  item['iCompCode'].toString() ?? '';
                                                         print('----357---$sBeforePhoto');
                                                         Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                            builder: (context) => ActionOnSchedultPointScreen(sBeforePhoto: sBeforePhoto),
+                                                            builder: (context) => ActionOnSchedultPointScreen(sBeforePhoto: sBeforePhoto,iTaskCode:iTaskCode),
                                                           ),
                                                         );
                                                       },

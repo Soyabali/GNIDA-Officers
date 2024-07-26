@@ -307,7 +307,7 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
                                           ),
                                         ),
                                         SizedBox(width: 5),
-                                        Column(
+                                        const Column(
                                           mainAxisAlignment:
                                           MainAxisAlignment.start,
                                           crossAxisAlignment:
@@ -316,13 +316,13 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
                                             Text(
                                               'Floating Garbage Point',
                                              // item['sPointTypeName'] ?? '',
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                   fontFamily: 'Montserrat',
                                                   color: Color(0xff3f617d),
                                                   fontSize: 14.0,
                                                   fontWeight: FontWeight.bold),
                                             ),
-                                            const Text(
+                                            Text(
                                               'Point Name',
                                               style: TextStyle(
                                                   fontFamily: 'Montserrat',
@@ -518,35 +518,8 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
-                                  // Row(
-                                  //   mainAxisAlignment: MainAxisAlignment.start,
-                                  //   children: <Widget>[
-                                  //     const Icon(
-                                  //       Icons.calendar_month,
-                                  //       size: 10,
-                                  //       color: Color(0xff3f617d),
-                                  //     ),
-                                  //     SizedBox(width: 5),
-                                  //     const Text(
-                                  //       'Pending Since :-',
-                                  //       style: TextStyle(
-                                  //           fontFamily: 'Montserrat',
-                                  //           color: Color(0xFF255899),
-                                  //           fontSize: 14.0,
-                                  //           fontWeight: FontWeight.bold),
-                                  //     ),
-                                  //     const SizedBox(width: 5),
-                                  //     Text(
-                                  //       item['sPendingFrom'] ?? '',
-                                  //       style: const TextStyle(
-                                  //           fontFamily: 'Montserrat',
-                                  //           color: Color(0xff3f617d),
-                                  //           fontSize: 14.0,
-                                  //           fontWeight: FontWeight.bold),
-                                  //     ),
-                                  //   ],
-                                  // ),
                                   SizedBox(height: 10),
+
                                   Padding(
                                     padding: const EdgeInsets.only(right: 10),
                                     child: Container(
@@ -560,21 +533,20 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
                                           MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             Padding(
-                                              padding: const EdgeInsets.all(
-                                                  4.0),
+                                              padding: const EdgeInsets.only(top:4.0,bottom: 4.0),
                                               child: GestureDetector(
                                                 onTap: () {
                                                   print('---Forward---');
                                                   //bindAjency();
                                                   _showBottomSheet(context);
                                                 },
-                                                child: const Row(
+                                                child:Row(
                                                   mainAxisAlignment:
                                                   MainAxisAlignment.spaceBetween,
                                                   children: [
-                                                    Icon(Icons.edit,size: 18,color: Color(0xFF255899)),
-                                                    SizedBox(width: 5),
-                                                    Text('Scheduled At :',
+                                                    Icon(Icons.edit,size: 14,color: Color(0xFF255899)),
+                                                    SizedBox(width: 2),
+                                                    const Text('Scheduled At :',
                                                         style: TextStyle(
                                                             fontFamily:
                                                             'Montserrat',
@@ -583,9 +555,9 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
                                                             fontSize: 12.0,
                                                             fontWeight:
                                                             FontWeight.bold)),
-                                                    SizedBox(width: 5),
-                                                    Text('2.5 Months',
-                                                        style: TextStyle(
+                                                    SizedBox(width: 2),
+                                                    Text(item['sPendingFrom'] ?? '',
+                                                        style: const TextStyle(
                                                             fontFamily:
                                                             'Montserrat',
                                                             color:
@@ -631,13 +603,14 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
                                                           'Montserrat',
                                                           color:
                                                           Color(0xFF255899),
-                                                          fontSize: 14.0,
+                                                          fontSize: 12.0,
                                                           fontWeight:
                                                           FontWeight.bold),
                                                     ),
-                                                    SizedBox(width: 5),
+                                                    SizedBox(width: 2),
                                                     Icon(
                                                       Icons.arrow_forward_ios,
+                                                      size: 12,
                                                       color: Color(0xFF255899),
                                                     )
                                                   ],

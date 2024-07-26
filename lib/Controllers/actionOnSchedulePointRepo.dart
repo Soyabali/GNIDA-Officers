@@ -10,7 +10,7 @@ import 'baseurl.dart';
 class ActionOnScheduleRepo {
 
   Future actionOnSchedulePoint(
-      BuildContext context, String remarks, File? imageFile, double? lat, double? long, String todayDate, String iTaskCode) async {
+      BuildContext context, String remarks, String? uplodedImage, double? lat, double? long, String todayDate, String iTaskCode) async {
     // sharedP
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('sToken');
@@ -21,13 +21,13 @@ class ActionOnScheduleRepo {
     print('--21--longitude--$userId');
 
     try {
-      print('----remarks---$remarks');
-      print('----token---$token');
-      print('----imageFile---$imageFile');
+      print('----remarks---24--$remarks');
+      print('----token-----$token');
+      print('----imageFile---$uplodedImage');
       print('----lat---$lat');
       print('----long---$long');
       print('----todayDate---$todayDate');
-      print('-----iTaskCode---$iTaskCode');
+      print('-----iTaskCode---30--$iTaskCode');
 
       var baseURL = BaseRepo().baseurl;
 
@@ -37,7 +37,7 @@ class ActionOnScheduleRepo {
       print('------------39---actionOnSchedulePointApi---$actionOnSchedulePointApi');
 
       String jsonResponse =
-          '{"sArray":[{"iTaskCode":"$iTaskCode","iResolveBy":"$userId","dResolveAt":"$todayDate","sAfterPhoto":"$imageFile","sResolveRemarks":"$remarks","fResolveLatitude":"$lat","fResolveLongitude":"$long"}]}';
+          '{"sArray":[{"iTaskCode":"$iTaskCode","iResolveBy":"$userId","dResolveAt":"$todayDate","sAfterPhoto":"$uplodedImage","sResolveRemarks":"$remarks","fResolveLatitude":"$lat","fResolveLongitude":"$long"}]}';
 // Parse the JSON response
       Map<String, dynamic> parsedResponse = jsonDecode(jsonResponse);
 
