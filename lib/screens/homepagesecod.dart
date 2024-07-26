@@ -396,7 +396,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
               ),
             ],
           ),
-          Center(
+           Center(
             child: Padding(
               padding: EdgeInsets.only(left: 15, right: 15, top: 10),
               child: Container(
@@ -787,10 +787,18 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                   ),
                                   SizedBox(height: 10),
                                   Padding(
-                                    padding: const EdgeInsets.only(right: 10),
+                                    padding: const EdgeInsets.only(right: 10,bottom: 10),
                                     child: Container(
-                                      color: Color(0xffe4e4e4),
+                                      //color: Color(0xffe4e4e4),
                                       height: 40,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10), // Border radius
+                                        border: Border.all(
+                                          color: Color(0xFF255899), // Border color
+                                          width: 1, // Border width
+                                        ),
+                                      ),
                                       child: Padding(
                                         padding: const EdgeInsets.only(left: 0, right: 10),
                                         child: Row(
@@ -800,7 +808,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                               child: Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: <Widget>[
-                                                  Container(height: 10, width: 1, color: Colors.grey),
                                                   Padding(
                                                     padding: const EdgeInsets.all(8.0),
                                                     child: GestureDetector(
@@ -1028,7 +1035,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                       },
                                       hint: RichText(
                                         text: const TextSpan(
-                                          text: 'Please choose a Hold',
+                                          text: 'Select Hold Time',
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 16,
@@ -1362,7 +1369,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                       },
                                       hint: RichText(
                                         text: const TextSpan(
-                                          text: 'Select JE ',
+                                          text: 'Select Complaints Type ',
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 16,

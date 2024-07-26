@@ -297,21 +297,23 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(AppMargin.m16),
-                        child: Image.asset(
-                          ImageAssets
-                              .loginIcon, // Replace with your image asset path
-                          width: AppSize.s145,
-                          height: AppSize.s145,
-                          fit: BoxFit.contain, // Adjust as needed
+                        child: Center(
+                          child: Image.asset(
+                            ImageAssets
+                                .loginIcon, // Replace with your image asset path
+                            width: AppSize.s145,
+                            height: AppSize.s145,
+                            fit: BoxFit.contain, // Adjust as needed
+                          ),
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: AppPadding.p15),
-                      child: Text(AppStrings.txtLogin,
-                          style:
-                              AppTextStyle.font18OpenSansboldAppBasicTextStyle),
-                    ),
+                    Center(
+                        child: Text(AppStrings.txtLogin,
+                            style:
+                                AppTextStyle.font18OpenSansboldAppBasicTextStyle),
+                      ),
+
                     /// Todo here we mention main code for a login ui.
                     GestureDetector(
                       onTap: () {
