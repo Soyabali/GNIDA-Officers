@@ -99,6 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
   var _dropDownValueDistric;
   var _dropDownValueShopeType;
   var _dropDownSector;
+  var _dropDownSector2gi;
 
   var _dropDownValue;
   var sectorresponse;
