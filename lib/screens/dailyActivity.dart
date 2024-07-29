@@ -429,6 +429,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 decoration: const InputDecoration(
                                   // labelText: AppStrings.txtMobile,
                                   // border: OutlineInputBorder(),
+                                  border: InputBorder.none,
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: AppPadding.p10),
                                 ),

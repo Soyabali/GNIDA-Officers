@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:noidaone/screens/otpverification.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Controllers/login_repo.dart';
@@ -42,6 +41,7 @@ class _LoginPageState extends State<LoginPage> {
 
   TextEditingController _phoneNumberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
   bool _isObscured = true;
   var loginProvider;
@@ -92,7 +92,6 @@ class _LoginPageState extends State<LoginPage> {
     debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
     debugPrint(position.toString());
   }
-
   Future<bool> _onWillPop() async {
     return (await showDialog(
       context: context,
@@ -124,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
- // getLocation();
+   // getLocation();
    Future.delayed(const Duration(milliseconds: 100), () {
      requestLocationPermission();
      setState(() {
@@ -147,6 +146,7 @@ class _LoginPageState extends State<LoginPage> {
       await openAppSettings();
     }
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -256,8 +256,7 @@ class _LoginPageState extends State<LoginPage> {
                           margin: const EdgeInsets.all(AppMargin.m10),
                           decoration: const BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage(ImageAssets
-                                  .roundcircle), // Replace with your image asset path
+                              image: AssetImage(ImageAssets.roundcircle), // Replace with your image asset path
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -411,6 +410,7 @@ class _LoginPageState extends State<LoginPage> {
                                 getLocation();
                                  var phone = _phoneNumberController.text;
                                  var password = passwordController.text;
+
                                  if(_formKey.currentState!.validate() && phone != null && password != null){
                                    // Call Api
                                            loginMap = await LoginRepo1()

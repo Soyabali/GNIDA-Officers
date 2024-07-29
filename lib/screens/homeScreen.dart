@@ -287,9 +287,9 @@ class _MyHomePageState extends State<MyHomePage>
                                             fontWeight: FontWeight.normal,
                                           ),
                                         ),
-                                        SizedBox(width: 0), // Text widget 1
+                                        SizedBox(width: 2), // Text widget 1
                                         const Text(
-                                          'Point',
+                                          'Points',
                                           style: TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Colors.white,
@@ -353,7 +353,7 @@ class _MyHomePageState extends State<MyHomePage>
                                         ),
                                         SizedBox(width: 2), // Text widget 1
                                         const Text(
-                                          'Point',
+                                          'Points',
                                           style: TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Colors.white,
@@ -417,7 +417,7 @@ class _MyHomePageState extends State<MyHomePage>
                                         ),
                                         SizedBox(width: 2), // Text widget 1
                                         const Text(
-                                          'Point',
+                                          'Points',
                                           style: TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Colors.white,
@@ -561,6 +561,7 @@ class _MyHomePageState extends State<MyHomePage>
 
                               }
                             },
+
                             child: Container(
                               width: 91,
                               height: 80,

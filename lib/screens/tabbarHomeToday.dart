@@ -149,23 +149,26 @@ class TabTodayPage extends StatefulWidget {
                                                    children: [
                                                      Container(
                                                         width: MediaQuery.of(context).size.width - 125,
-                                                       child:  Text(userContributionTodayList?[index + 3]['sName'].toString() ?? '',
-                                                         overflow: TextOverflow.clip,
-                                                         textAlign: TextAlign.start,
-                                                         style: GoogleFonts.lato(
-                                                           textStyle: const TextStyle(
-                                                               color:Color(0xFF707d83),
-                                                               fontSize: 14.0,
-                                                               letterSpacing: .5,
-                                                               fontWeight: FontWeight.normal
+                                                       child:  Padding(
+                                                         padding: const EdgeInsets.only(top: 5),
+                                                         child: Text(userContributionTodayList?[index + 3]['sName'].toString() ?? '',
+                                                           overflow: TextOverflow.clip,
+                                                           textAlign: TextAlign.start,
+                                                           style: GoogleFonts.lato(
+                                                             textStyle: const TextStyle(
+                                                                 color:Color(0xFF707d83),
+                                                                 fontSize: 14.0,
+                                                                 letterSpacing: .5,
+                                                                 fontWeight: FontWeight.normal
+                                                             ),
                                                            ),
-                                                         ),
-                                                         // style: const TextStyle(
-                                                         //     fontFamily: 'Montserrat',
-                                                         //     color: Color(0xFF707d83),
-                                                         //     fontSize: 14.0,
-                                                         //     fontWeight: FontWeight.bold),
+                                                           // style: const TextStyle(
+                                                           //     fontFamily: 'Montserrat',
+                                                           //     color: Color(0xFF707d83),
+                                                           //     fontSize: 14.0,
+                                                           //     fontWeight: FontWeight.bold),
 
+                                                         ),
                                                        ),
                                                      ),
                                                    ],

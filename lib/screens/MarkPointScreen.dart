@@ -363,6 +363,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   /// Algo.  First of all create repo, secodn get repo data in the main page after that apply list data on  dropdown.
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -530,16 +531,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                 focusNode: locationfocus,
                                 controller: _locationController,
                                 textInputAction: TextInputAction.next,
-                                onEditingComplete: () =>
-                                    FocusScope.of(context).nextFocus(),
+                                onEditingComplete: () => FocusScope.of(context).nextFocus(),
                                 decoration: const InputDecoration(
                                   // labelText: AppStrings.txtMobile,
                                   // border: OutlineInputBorder(),
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: AppPadding.p10),
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(vertical: AppPadding.p10),
                                 ),
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 // validator: (value) {
                                 //   if (value!.isEmpty) {
                                 //     return 'Enter location';
@@ -588,6 +587,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 decoration: const InputDecoration(
                                   // labelText: AppStrings.txtMobile,
                                   //  border: OutlineInputBorder(),
+                                  border: InputBorder.none,
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: AppPadding.p10),
                                   //prefixIcon: Icon(Icons.phone,color:Color(0xFF255899),),

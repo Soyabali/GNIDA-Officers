@@ -14,6 +14,7 @@ import 'mypoint.dart';
 import 'notification.dart';
 
 class ForgotPassword extends StatelessWidget {
+
   const ForgotPassword({super.key});
 
   @override
@@ -73,8 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
               fontWeight: FontWeight.bold),
         ),
       ),
-
       // drawer
+
       body: ListView(
         children: <Widget>[
           Padding(
@@ -137,8 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               .withOpacity(0.5), // Set shadow color
                                           spreadRadius: 5,
                                           blurRadius: 7,
-                                          offset: Offset(
-                                              0, 3), // changes position of shadow
+                                          offset: Offset(0, 3), // changes position of shadow
                                         ),
                                       ],
                                     ),
@@ -175,8 +175,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           autovalidateMode:
                                           AutovalidateMode.onUserInteraction,
                                           inputFormatters: [
-                                            LengthLimitingTextInputFormatter(
-                                                10), // Limit to 10 digits
+                                            LengthLimitingTextInputFormatter(10), // Limit to 10 digits
                                             //FilteringTextInputFormatter.allow(RegExp(r'[0-9]')), // Only allow digits
                                           ],
                                           validator: (value) {

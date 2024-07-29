@@ -79,7 +79,6 @@ class _SplaceState extends State<Splace> {
     checkUserConnection();
     _getAppVersion();
    // versionAliCall();
-
     super.initState();
   }
   versionAliCall() async{

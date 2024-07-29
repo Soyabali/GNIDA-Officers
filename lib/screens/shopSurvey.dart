@@ -9,8 +9,6 @@ import 'package:noidaone/Controllers/shopSubmitRepo.dart';
 import 'package:noidaone/screens/homeScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Controllers/district_repo.dart';
-import '../Controllers/markLocationRepo.dart';
-import '../Controllers/markpointSubmit.dart';
 import '../Controllers/postimagerepo.dart';
 import '../Controllers/shopTypeRepo.dart';
 import '../Helpers/loader_helper.dart';
@@ -18,9 +16,7 @@ import '../resources/values_manager.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'flull_screen_image.dart';
-import 'dart:math';
 
 
 class ShopSurvey extends StatelessWidget {
@@ -595,6 +591,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 decoration: const InputDecoration(
                                   // labelText: AppStrings.txtMobile,
                                   // border: OutlineInputBorder(),
+                                  border: InputBorder.none,
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: AppPadding.p10),
                                 ),
@@ -648,6 +645,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 decoration: const InputDecoration(
                                   // labelText: AppStrings.txtMobile,
                                   // border: OutlineInputBorder(),
+                                  border: InputBorder.none,
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: AppPadding.p10),
                                 ),
@@ -706,6 +704,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 decoration: const InputDecoration(
                                   // labelText: AppStrings.txtMobile,
                                   // border: OutlineInputBorder(),
+                                  border: InputBorder.none,
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: AppPadding.p10),
                                 ),
@@ -759,6 +758,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 decoration: const InputDecoration(
                                   // labelText: AppStrings.txtMobile,
                                   //  border: OutlineInputBorder(),
+                                  border: InputBorder.none,
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: AppPadding.p10),
                                   //prefixIcon: Icon(Icons.phone,color:Color(0xFF255899),),
@@ -814,6 +814,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 decoration: const InputDecoration(
                                   // labelText: AppStrings.txtMobile,
                                   //  border: OutlineInputBorder(),
+                                  border: InputBorder.none,
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: AppPadding.p10),
                                   //prefixIcon: Icon(Icons.phone,color:Color(0xFF255899),),
