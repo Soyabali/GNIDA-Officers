@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
@@ -297,7 +298,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               hint: RichText(
                 text: const TextSpan(
-                  text: "Please choose a Shop Type",
+                  text: "Select a Sector",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 16,
@@ -361,7 +362,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               hint: RichText(
                 text: const TextSpan(
-                  text: "Please choose a Sector",
+                  text: "Select a Shop Type",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 16,
@@ -697,14 +698,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                 textInputAction: TextInputAction.next,
                                 onEditingComplete: () =>
                                     FocusScope.of(context).nextFocus(),
+                                keyboardType: TextInputType.phone,
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(10), // Limit to 10 digits
+                                  //FilteringTextInputFormatter.allow(RegExp(r'[0-9]')), // Only allow digits
+                                ],
                                 decoration: const InputDecoration(
                                   // labelText: AppStrings.txtMobile,
                                   // border: OutlineInputBorder(),
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: AppPadding.p10),
                                 ),
-                                autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 // validator: (value) {
                                 //   if (value!.isEmpty) {
                                 //     return 'Enter location';

@@ -119,6 +119,7 @@ class _LoginPageState extends State<LoginPage> {
     )) ??
         false;
   }
+
  @override
   void initState() {
     // TODO: implement initState
@@ -129,7 +130,6 @@ class _LoginPageState extends State<LoginPage> {
      setState(() {
        // Here you can write your code for open new view
      });
-
    });
   }
   // request location permission

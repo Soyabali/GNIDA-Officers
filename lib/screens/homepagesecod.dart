@@ -57,6 +57,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
 
   var variableName;
   var variableName2;
+  String? sName, sContactNo;
   List<Map<String, dynamic>>? pendingInternalComplaintList;
   List<Map<String, dynamic>> _filteredData = [];
   List bindAjencyList = [];
@@ -773,6 +774,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     bindHold();
     getComplaintStatus();
     bindPointTypeDropDown_2();
+    getlocalvalue();
     super.initState();
   }
 
@@ -975,6 +977,19 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     print(" -----252---bindHoldList---> $bindHoldList");
     setState(() {});
   }
+  getlocalvalue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      String? nameFirst = prefs.getString('nameFirst') ?? "";
+      int? pointFirst = prefs.getInt('pointFirst');
+      sName = prefs.getString('sName') ?? "";
+      sContactNo = prefs.getString('sContactNo') ?? "";
+      print("------146---$nameFirst");
+      print("------1147---$pointFirst");
+      print("------177---$sName");
+      print("------178---$sContactNo");
+    });
+  }
 
   userAjency(int ajencyCode) async {
     print('-----170--$ajencyCode');
@@ -1010,7 +1025,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
         ),
       ),
       // drawer
-      drawer: generalFunction.drawerFunction(context, '', ''),
+      drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[

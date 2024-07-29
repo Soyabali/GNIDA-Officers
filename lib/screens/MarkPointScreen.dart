@@ -242,7 +242,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               hint: RichText(
                 text: const TextSpan(
-                  text: "Please choose a Sector",
+                  text: "Select a Sector",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 16,
@@ -305,7 +305,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               hint: RichText(
                 text: const TextSpan(
-                  text: "Please choose a Sector",
+                  text: "Select a Point Type",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 16,
@@ -450,13 +450,11 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ],
                         ),
-
                         Padding(
                           padding: const EdgeInsets.only(bottom: 5,top: 10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-
                               Container(
                                   margin: const EdgeInsets.only(
                                       left: 0, right: 2, bottom: 2),

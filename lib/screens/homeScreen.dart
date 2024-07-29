@@ -485,8 +485,7 @@ class _MyHomePageState extends State<MyHomePage>
               ),
             const SizedBox(height: 0),
             Padding(
-              padding:
-                  const EdgeInsets.only(left: 15, right: 15, bottom: 0, top: 0),
+              padding: const EdgeInsets.only(left: 15, right: 15, bottom: 0, top: 0),
               child: Container(
                 height: 100,
                 child: Container(
