@@ -733,7 +733,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     size: 12,
                                     color: Colors.black54,
                                   )),
-                              const Text('LandMark',
+                              const Text('Landmark',
                                   style: TextStyle(
                                       fontFamily: 'Montserrat',
                                       color: Color(0xFF707d83),
@@ -1020,7 +1020,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                   shopName != null &&
                                   ownerName !=null &&
                                   contactNo !=null &&
-                                  landMark !=null &&
                                   address!=null &&
                                   uplodedImage!=null) {
                                 print('---call Api---');
@@ -1055,11 +1054,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                   displayToast('Enter Owner Name');
                                 }else if(contactNo==""){
                                   displayToast('Enter Contact No');
-                                }else if(landMark==""){
-                                  displayToast('Enter LandMark');
                                 }else if(address==""){
                                   displayToast('Enter Address');
-                                }else if(uplodedImage==""){
+                                }else if(uplodedImage==null){
                                   displayToast('Please pick a Photo');
                                 }
                               }

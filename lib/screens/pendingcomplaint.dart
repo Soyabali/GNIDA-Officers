@@ -86,6 +86,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   var selectedHoldValue;
   var selectedComplaintValue;
   var iTotalComp, iResolved;
+  var sName,sContactNo;
   GeneralFunction generalfunction = GeneralFunction();
 
   // Function to toggle between border radii
@@ -462,7 +463,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   // bottomSheetHold
   bottomSheetHold() {
     showModalBottomSheet(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(12.0),
           ),
@@ -720,7 +721,10 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                       /// TODO REMOVE COMMENT AND apply proper api below and handle api data
                       // print('----clicked--xxxxxxxx--
                       //  var complaintCode =   item['iCompCode'].toString() ?? '';
-                      if (selectedHoldValue != null) {
+                      if (selectedHoldValue != null && uplodedImage !=null) {
+
+                        print('---Api call---');
+
                         var complaintForwardResponse = await HoloComplaintRepo()
                             .holoComplaint(context,
                             selectedHoldValue, uplodedImage!, iCompCode);
@@ -730,17 +734,23 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                         msg1 = "${complaintForwardResponse['Msg']}";
                         print('---1126---$result1');
 
-                        if (result1 == "1") {
-                          // Navigator.pop(context);
 
-                          print('----1----xxx----');
-                          displayToast(msg1);
-                          Navigator.pop(context);
-                        } else {
-                          displayToast(msg1);
-                          print('----0---');
-                        }
+                        // if (result1 == "1") {
+                        //   // Navigator.pop(context);
+                        //
+                        //   print('----1----xxx----');
+                        //   displayToast(msg1);
+                        //   Navigator.pop(context);
+                        // } else {
+                        //   displayToast(msg1);
+                        //   print('----0---');
+                        // }
                       } else {
+                         if(selectedHoldValue==null){
+                           displayToast('Select Hold Time');
+                         }else if(uplodedImage==null){
+                           displayToast('Click Photo');
+                         }
                         print('----Not call a Api--');
                       }
 
@@ -775,6 +785,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     bindHold();
     getComplaintStatus();
     bindPointTypeDropDown_2();
+    getlocalvalue();
     super.initState();
   }
 
@@ -994,7 +1005,21 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       print('${userAjencyList.length}');
     }
   }
-
+  getlocalvalue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      String? nameFirst = prefs.getString('nameFirst') ?? "";
+      int? pointFirst = prefs.getInt('pointFirst');
+      sName = prefs.getString('sName') ?? "";
+      sContactNo = prefs.getString('sContactNo') ?? "";
+      print("------146---$nameFirst");
+      print("------1147---$pointFirst");
+      print("------177---$sName");
+      print("------178---$sContactNo");
+    });
+    setState(() {
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -1012,66 +1037,11 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
         ),
       ),
       // drawer
-      drawer: generalFunction.drawerFunction(context, '', ''),
+      drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     Padding(
-          //       padding: EdgeInsets.only(left: 18, top: 10),
-          //       child: Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //         children: [
-          //           const Text('Total', style: TextStyle(
-          //               fontFamily: 'Montserrat',
-          //               color: Color(0xff3f617d),
-          //               fontSize: 14.0,
-          //               fontWeight: FontWeight.bold)),
-          //           const SizedBox(width: 10),
-          //           const Text(':', style: TextStyle(
-          //               fontFamily: 'Montserrat',
-          //               color: Color(0xff3f617d),
-          //               fontSize: 14.0,
-          //               fontWeight: FontWeight.bold)),
-          //           SizedBox(width: 10),
-          //           Text('$iTotalComp', style: const TextStyle(
-          //               fontFamily: 'Montserrat',
-          //               color: Color(0xff3f617d),
-          //               fontSize: 14.0,
-          //               fontWeight: FontWeight.bold),
-          //           ),
-          //         ],
-          //       ),
-          //     ),
-          //     Padding(
-          //       padding: EdgeInsets.only(right: 20, top: 10),
-          //       child: Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //         children: [
-          //           const Text('Resolved', style: TextStyle(
-          //               fontFamily: 'Montserrat',
-          //               color: Color(0xff3f617d),
-          //               fontSize: 14.0,
-          //               fontWeight: FontWeight.bold)),
-          //           const SizedBox(width: 10),
-          //           const Text(':', style: TextStyle(
-          //               fontFamily: 'Montserrat',
-          //               color: Color(0xff3f617d),
-          //               fontSize: 14.0,
-          //               fontWeight: FontWeight.bold)),
-          //           SizedBox(width: 10),
-          //           Text('$iResolved', style: const TextStyle(
-          //               fontFamily: 'Montserrat',
-          //               color: Color(0xff3f617d),
-          //               fontSize: 14.0,
-          //               fontWeight: FontWeight.bold),),
-          //         ],
-          //       ),
-          //     ),
-          //   ],
-          // ),
+
           Center(
             child: Padding(
               padding: EdgeInsets.only(left: 15, right: 15, top: 10),
@@ -1188,13 +1158,11 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                         Expanded(
                                           child: GestureDetector(
                                               child: Container(
-                                                alignment: Alignment
-                                                    .centerRight,
+                                                alignment: Alignment.centerRight,
                                                 height: 40,
                                                 // width: 40,
                                                 child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment
-                                                      .end,
+                                                  mainAxisAlignment: MainAxisAlignment.end,
                                                   // Aligns the row to the right
                                                   children: [
                                                     GestureDetector(
@@ -1221,19 +1189,13 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                                           }
                                                         },
                                                         child: const Image(
-                                                            image: AssetImage(
-                                                                'assets/images/ic_google_maps.PNG'))),
+                                                            image: AssetImage('assets/images/ic_google_maps.PNG'))),
                                                     SizedBox(width: 2),
                                                     GestureDetector(
                                                       onTap: () {
-                                                        print(
-                                                            '---Helo ----jpeg---');
-                                                        iCompCode =
-                                                            item['iCompCode']
-                                                                .toString() ??
-                                                                '';
-                                                        print(
-                                                            '---506--$iCompCode');
+                                                        print('---Helo ----jpeg---');
+                                                        iCompCode = item['iCompCode'].toString() ?? '';
+                                                        print('---506--$iCompCode');
                                                         bottomSheetHold();
                                                         //_showBottomSheetHold(context,iCompCode);
                                                       },
@@ -1643,6 +1605,12 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                                                     .normal
                                                             ),
                                                           ),
+                                                          SizedBox(width: 2),
+                                                          Icon(Icons
+                                                              .forward_sharp,
+                                                              size: 15,
+                                                              color: Color(
+                                                                  0xFF255899)),
                                                         ],
                                                       ),
                                                     ),

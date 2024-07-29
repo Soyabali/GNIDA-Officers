@@ -45,43 +45,89 @@ class GeneralFunction {
   drawerFunction(BuildContext context, String sName, String sContactNo) {
     return Drawer(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           DrawerHeader(
             decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/citysimpe.png'), // Replace with your asset image path
-                fit: BoxFit.cover,
+              image: DecorationImage(image: AssetImage('assets/images/drawerimage.jpeg'), // Replace with your asset image path
+                fit: BoxFit.fill,
               ),
+              // image: DecorationImage(image: AssetImage('assets/images/citysimpe.png'), // Replace with your asset image path
+              //   fit: BoxFit.cover,
+              // ),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      'Version - 06',
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        color: Color(0xff3f617d),
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                Icon(
-                  Icons.person,
-                  size: 50,
-                  color: Color(0xff3f617d),
-                ),
+                // Align(
+                //   alignment: Alignment.centerRight,
+                //   child: Text(
+                //     'Version - 06',
+                //     style: TextStyle(
+                //       fontFamily: 'Montserrat',
+                //       color: Colors.black,
+                //       fontSize: 16.0,
+                //       fontWeight: FontWeight.bold,
+                //     ),
+                //   ),
+                // ),
+                // Text(
+                //   'Version - 06',
+                //   style: TextStyle(
+                //     fontFamily: 'Montserrat',
+                //     color: Colors.black,
+                //     fontSize: 16.0,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                // ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.end,
+                //   children: [
+                //     // Text(
+                //     //   'Version - 06',
+                //     //   style: TextStyle(
+                //     //     fontFamily: 'Montserrat',
+                //     //     color: Color(0xff3f617d),
+                //     //     fontSize: 16.0,
+                //     //     fontWeight: FontWeight.bold,
+                //     //   ),
+                //     // ),
+                //     Text(
+                //       'Version - 06',
+                //       style: TextStyle(
+                //         fontFamily: 'Montserrat',
+                //         color: Colors.black,
+                //         fontSize: 16.0,
+                //         fontWeight: FontWeight.bold,
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // Icon(
+                //   Icons.person,
+                //   size: 50,
+                //   color: Color(0xff3f617d),
+                // ),
+                // Icon(
+                //   Icons.person,
+                //   size: 50,
+                //   color: Colors.black,
+                // ),
+                // Text(
+                //   '${sName}',
+                //   style: TextStyle(
+                //     fontFamily: 'Montserrat',
+                //     color: Color(0xff3f617d),
+                //     fontSize: 16.0,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                // ),
                 Text(
                   '${sName}',
                   style: TextStyle(
                     fontFamily: 'Montserrat',
-                    color: Color(0xff3f617d),
+                    color: Colors.black,
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
                   ),
@@ -92,14 +138,28 @@ class GeneralFunction {
                     Icon(
                       Icons.call,
                       size: 18,
-                      color: Color(0xff3f617d),
+                      color: Colors.black,
                     ),
+                    // Icon(
+                    //   Icons.call,
+                    //   size: 18,
+                    //   color: Color(0xff3f617d),
+                    // ),
                     SizedBox(width: 5),
+                    // Text(
+                    //   '${sContactNo}',
+                    //   style: TextStyle(
+                    //     fontFamily: 'Montserrat',
+                    //     color: Color(0xff3f617d),
+                    //     fontSize: 16.0,
+                    //     fontWeight: FontWeight.bold,
+                    //   ),
+                    // ),
                     Text(
                       '${sContactNo}',
                       style: TextStyle(
                         fontFamily: 'Montserrat',
-                        color: Color(0xff3f617d),
+                        color: Colors.black,
                         fontSize: 16.0,
                         fontWeight: FontWeight.bold,
                       ),

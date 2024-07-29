@@ -122,6 +122,9 @@ class _MyHomePageState extends State<MyHomePage>
       print("------177---$sName");
       print("------178---$sContactNo");
     });
+    setState(() {
+
+    });
   }
 
   @override

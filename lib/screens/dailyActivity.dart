@@ -236,7 +236,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                   hint: RichText(
                     text: const TextSpan(
-                      text: "Please choose a Location",
+                      text: "Select a Sector",
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 16,
@@ -310,11 +310,12 @@ class _MyHomePageState extends State<MyHomePage> {
               fontWeight: FontWeight.bold),
         ),
       ),
+
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             SizedBox(
-              height: 130, // Height of the container
+              height: 150, // Height of the container
               width: 200, // Width of the container
               child: Opacity(
                 opacity: 0.9,
@@ -355,9 +356,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               margin:
                                   EdgeInsets.only(left: 0, right: 10, top: 10),
                               child: Image.asset(
-                                'assets/images/favicon.png', // Replace with your image asset path
-                                width: 14,
-                                height: 14,
+                                'assets/images/ic_expense.png', // Replace with your image asset path
+                                width: 24,
+                                height: 24,
                               ),
                             ),
                             const Text('Fill the below details',
@@ -479,8 +480,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               children: [
                                 const Expanded(
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Padding(
                                         padding: EdgeInsets.only(left: 10),
@@ -628,10 +628,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                msg = postDailyActivityResponse['Msg'];
 
                               } else {
+
                                 print('---Api Not Call---');
                                 // here you should apply again if condition
-                                if (_activityDetails.text.isEmpty) {
-                                  activityDetailfocus.requestFocus();
+                                if (_selectedStateId==null || _selectedStateId=='') {
+                                  //activityDetailfocus.requestFocus();
+                                  displayToast('Please Select Sector');
+                                }else if(activityDetaile==null || activityDetaile==''){
+                                  displayToast('Please Enter Description');
+                                }else if(_imageFile==null){
+                                  displayToast('Please Click Photo');
                                 }
                               }
                               /// Todo next Apply condition
@@ -640,7 +646,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 print("----556----"+result);
                                 print("----569---Success-");
                                 displayToast(msg);
-                               // Navigator.pop(context);
+                               Navigator.pop(context);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => const HomePage()),

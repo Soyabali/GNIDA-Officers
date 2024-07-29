@@ -4,17 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:noidaone/Controllers/usercontributionMonthRepo.dart';
 import '../Controllers/userContributionRepo.dart';
 
-// class TabBarHomeMonth extends StatelessWidget {
-//   const TabBarHomeMonth({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: TabPageMonth(),
-//     );
-//   }
-// }
 class TabPageMonth extends StatefulWidget {
   final Function(String,int,String,int,String,int) onDataReceived;
   const TabPageMonth({Key? key, required this.onDataReceived}) : super(key: key);
@@ -69,118 +58,309 @@ class _TabPageState extends State<TabPageMonth> {
         child: Container(
           child: ListView(
             children: <Widget>[
-              SingleChildScrollView(
-                child: Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 5,bottom: 15),
-                    child: Container(
-                      //height: MediaQuery.of(context).size.height,
-                      height: 330,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        //color: Color(0xFFf2f3f5), // Container background color
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: ListView.builder(
-                          itemCount: userContributionMonthList != null ? userContributionMonthList!.length-3 : 0,
-                          itemBuilder: (context, index) {
-                            return Container(
-                                height: 66,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 8, bottom: 0),
-                                  child: Card(
-                                    child:  Column(
-                                      children: [
-                                        Center(
+              Padding(
+                  padding:
+                  const EdgeInsets.only(left: 15, right: 5, bottom: 15),
+                  child: Container(
+                    //height: MediaQuery.of(context).size.height,
+                    height: 430,
+                    // height: MediaQuery.of(context).size.height-140,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      // color: Color(0xFFf2f3f5), // Container background color
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: ListView.builder(
+                        itemCount: userContributionMonthList != null
+                            ? userContributionMonthList!.length - 3
+                            : 0,
+                        itemBuilder: (context, index) {
+                          return Container(
+                              height: 66,
+                              child: Padding(
+                                padding:
+                                const EdgeInsets.only(top: 8, bottom: 0),
+                                child: Card(
+                                  child: Column(
+                                    children: [
+                                      Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 5, top: 15),
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: <Widget>[
-                                              Padding(
-                                                padding: const EdgeInsets.only(left: 5,top: 15),
-                                                child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      '${index + 4}',
-                                                      style:GoogleFonts.lato(
-                                                        textStyle: const TextStyle(
-                                                            color:Color(0xFF707d83),
-                                                            fontSize: 14.0,
-                                                            letterSpacing: .5,
-                                                            fontWeight: FontWeight.normal
-                                                        ),
-                                                      )
-                                                      // style: const TextStyle(
-                                                      //   fontFamily: 'Montserrat',
-                                                      //   // color: Colors.white,
-                                                      //   color: Color(0xFF707d83),
-                                                      //   fontSize: 16.0,
-                                                      //   fontWeight: FontWeight.bold),
-                                                    ),
-                                                    // First TextView
-                                                    const SizedBox(width: 8),
-                                                    // icon
-                                                    const Icon(Icons.person, size: 20,
-                                                      color: Color(0xFF3375af),),
-                                                  ],
+                                              Text(
+                                                '${index + 4}',
+                                                style: GoogleFonts.lato(
+                                                  textStyle: const TextStyle(
+                                                    color: Color(0xFF707d83),
+                                                    fontSize: 14.0,
+                                                    letterSpacing: .5,
+                                                    fontWeight: FontWeight.normal,
+                                                  ),
                                                 ),
                                               ),
-                                              const SizedBox(width: 8),
-                                              Padding(
-                                                padding: const EdgeInsets.only(top: 10),
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      width: MediaQuery.of(context).size.width - 125,
-                                                      child:  Text(userContributionMonthList?[index + 3]['sName'].toString() ?? '',
-                                                        overflow: TextOverflow.clip,
-                                                        textAlign: TextAlign.start,
-                                                        style: GoogleFonts.lato(
-                                                          textStyle: const TextStyle(
-                                                              color:Color(0xFF707d83),
-                                                              fontSize: 14.0,
-                                                              letterSpacing: .5,
-                                                              fontWeight: FontWeight.normal
-                                                          ),
-                                                        ),
-                                                      ),
+                                              SizedBox(width: 8),
+                                              const Icon(
+                                                Icons.person,
+                                                size: 20,
+                                                color: Color(0xFF3375af),
+                                              ),
+                                              SizedBox(width: 8),
+                                              // Flexible or Expanded widget for the name text
+                                              Expanded(
+                                                child: Text(
+                                                  userContributionMonthList?[index + 3]['sName'].toString() ?? '',
+                                                  overflow: TextOverflow.ellipsis,
+                                                  textAlign: TextAlign.start,
+                                                  style: GoogleFonts.lato(
+                                                    textStyle: const TextStyle(
+                                                      color: Color(0xFF707d83),
+                                                      fontSize: 14.0,
+                                                      letterSpacing: .5,
+                                                      fontWeight: FontWeight.normal,
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
                                               ),
-                                              //Spacer(),
-                                              // To push the last Text to the rightmost
-                                              Padding(
-                                                padding: const EdgeInsets.only(right: 0,top: 10),
-                                                child: Text(userContributionMonthList?[index +
-                                                    3]['iEarnedPoints'].toString() ??
-                                                    '',
-                                                    style:  GoogleFonts.lato(
+                                              Spacer(),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                    userContributionMonthList?[index + 3]['iEarnedPoints'].toString() ?? '',
+                                                    style: GoogleFonts.lato(
                                                       textStyle: const TextStyle(
-                                                          color:Color(0xFFad964a),
-                                                          fontSize: 14.0,
-                                                          letterSpacing: .5,
-                                                          fontWeight: FontWeight.normal
+                                                        color: Color(0xFFad964a),
+                                                        fontSize: 14.0,
+                                                        letterSpacing: .5,
+                                                        fontWeight: FontWeight.normal,
                                                       ),
-                                                    ),),)
-                                              // Last TextView
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 8),
+                                                  Text(
+                                                    'Points',
+                                                    style: GoogleFonts.lato(
+                                                      textStyle: const TextStyle(
+                                                        color: Color(0xFFad964a),
+                                                        fontSize: 14.0,
+                                                        letterSpacing: .5,
+                                                        fontWeight: FontWeight.normal,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ],
-                                          ),
+                                          )
+                                          ,
+                                          // child: Row(
+                                          //   mainAxisAlignment:
+                                          //       MainAxisAlignment.start,
+                                          //   children: <Widget>[
+                                          //     Text(
+                                          //       '${index + 4}',
+                                          //       style: GoogleFonts.lato(
+                                          //         textStyle: const TextStyle(
+                                          //             color: Color(0xFF707d83),
+                                          //             fontSize: 14.0,
+                                          //             letterSpacing: .5,
+                                          //             fontWeight:
+                                          //                 FontWeight.normal),
+                                          //       ),
+                                          //     ),
+                                          //     SizedBox(width: 8),
+                                          //     const Icon(
+                                          //       Icons.person,
+                                          //       size: 20,
+                                          //       color: Color(0xFF3375af),
+                                          //     ),
+                                          //     SizedBox(width: 8),
+                                          //     // textName
+                                          //     Text(
+                                          //       userContributionTodayList?[
+                                          //                   index + 3]['sName']
+                                          //               .toString() ??
+                                          //           '',
+                                          //       overflow: TextOverflow.clip,
+                                          //       textAlign: TextAlign.start,
+                                          //       style: GoogleFonts.lato(
+                                          //         textStyle: const TextStyle(
+                                          //             color: Color(0xFF707d83),
+                                          //             fontSize: 14.0,
+                                          //             letterSpacing: .5,
+                                          //             fontWeight:
+                                          //                 FontWeight.normal),
+                                          //       ),
+                                          //     ),
+                                          //     Spacer(),
+                                          //     Row(
+                                          //       mainAxisAlignment:
+                                          //           MainAxisAlignment.end,
+                                          //       children: [
+                                          //         Text(
+                                          //           userContributionTodayList?[
+                                          //                           index + 3][
+                                          //                       'iEarnedPoints']
+                                          //                   .toString() ??
+                                          //               '',
+                                          //           style: GoogleFonts.lato(
+                                          //             textStyle:
+                                          //                 const TextStyle(
+                                          //                     color: Color(
+                                          //                         0xFFad964a),
+                                          //                     fontSize: 14.0,
+                                          //                     letterSpacing: .5,
+                                          //                     fontWeight:
+                                          //                         FontWeight
+                                          //                             .normal),
+                                          //           ),
+                                          //         ),
+                                          //         SizedBox(width: 8),
+                                          //         Text(
+                                          //           'Points',
+                                          //           style: GoogleFonts.lato(
+                                          //             textStyle:
+                                          //                 const TextStyle(
+                                          //                     color: Color(
+                                          //                         0xFFad964a),
+                                          //                     fontSize: 14.0,
+                                          //                     letterSpacing: .5,
+                                          //                     fontWeight:
+                                          //                         FontWeight
+                                          //                             .normal),
+                                          //           ),
+                                          //         ),
+                                          //       ],
+                                          //     ),
+                                          //   ],
+                                          // ),
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                ));
-                
-                
-                          }
-                      ),
-                    )),
-              )
+                                ),
+                              ));
+                        }),
+                  ))
             ],
           ),
+          // child: ListView(
+          //   children: <Widget>[
+          //     SingleChildScrollView(
+          //       child: Padding(
+          //           padding: const EdgeInsets.only(left: 15, right: 5,bottom: 15),
+          //           child: Container(
+          //             //height: MediaQuery.of(context).size.height,
+          //             height: 330,
+          //             width: double.infinity,
+          //             decoration: BoxDecoration(
+          //               //color: Color(0xFFf2f3f5), // Container background color
+          //               borderRadius: BorderRadius.circular(20),
+          //             ),
+          //             child: ListView.builder(
+          //                 itemCount: userContributionMonthList != null ? userContributionMonthList!.length-3 : 0,
+          //                 itemBuilder: (context, index) {
+          //                   return Container(
+          //                       height: 66,
+          //                       child: Padding(
+          //                         padding: const EdgeInsets.only(top: 8, bottom: 0),
+          //                         child: Card(
+          //                           child:  Column(
+          //                             children: [
+          //                               Center(
+          //                                 child: Row(
+          //                                   mainAxisAlignment: MainAxisAlignment.start,
+          //                                   crossAxisAlignment: CrossAxisAlignment.start,
+          //                                   children: <Widget>[
+          //                                     Padding(
+          //                                       padding: const EdgeInsets.only(left: 5,top: 15),
+          //                                       child: Row(
+          //                                         mainAxisAlignment: MainAxisAlignment.start,
+          //                                         crossAxisAlignment: CrossAxisAlignment.start,
+          //                                         children: [
+          //                                           Text(
+          //                                             '${index + 4}',
+          //                                             style:GoogleFonts.lato(
+          //                                               textStyle: const TextStyle(
+          //                                                   color:Color(0xFF707d83),
+          //                                                   fontSize: 14.0,
+          //                                                   letterSpacing: .5,
+          //                                                   fontWeight: FontWeight.normal
+          //                                               ),
+          //                                             )
+          //                                             // style: const TextStyle(
+          //                                             //   fontFamily: 'Montserrat',
+          //                                             //   // color: Colors.white,
+          //                                             //   color: Color(0xFF707d83),
+          //                                             //   fontSize: 16.0,
+          //                                             //   fontWeight: FontWeight.bold),
+          //                                           ),
+          //                                           // First TextView
+          //                                           const SizedBox(width: 8),
+          //                                           // icon
+          //                                           const Icon(Icons.person, size: 20,
+          //                                             color: Color(0xFF3375af),),
+          //                                         ],
+          //                                       ),
+          //                                     ),
+          //                                     const SizedBox(width: 8),
+          //                                     Padding(
+          //                                       padding: const EdgeInsets.only(top: 10),
+          //                                       child: Column(
+          //                                         crossAxisAlignment: CrossAxisAlignment.start,
+          //                                         children: [
+          //                                           Container(
+          //                                             width: MediaQuery.of(context).size.width - 125,
+          //                                             child:  Text(userContributionMonthList?[index + 3]['sName'].toString() ?? '',
+          //                                               overflow: TextOverflow.clip,
+          //                                               textAlign: TextAlign.start,
+          //                                               style: GoogleFonts.lato(
+          //                                                 textStyle: const TextStyle(
+          //                                                     color:Color(0xFF707d83),
+          //                                                     fontSize: 14.0,
+          //                                                     letterSpacing: .5,
+          //                                                     fontWeight: FontWeight.normal
+          //                                                 ),
+          //                                               ),
+          //                                             ),
+          //                                           ),
+          //                                         ],
+          //                                       ),
+          //                                     ),
+          //                                     //Spacer(),
+          //                                     // To push the last Text to the rightmost
+          //                                     Padding(
+          //                                       padding: const EdgeInsets.only(right: 0,top: 10),
+          //                                       child: Text(userContributionMonthList?[index +
+          //                                           3]['iEarnedPoints'].toString() ??
+          //                                           '',
+          //                                           style:  GoogleFonts.lato(
+          //                                             textStyle: const TextStyle(
+          //                                                 color:Color(0xFFad964a),
+          //                                                 fontSize: 14.0,
+          //                                                 letterSpacing: .5,
+          //                                                 fontWeight: FontWeight.normal
+          //                                             ),
+          //                                           ),),)
+          //                                     // Last TextView
+          //                                   ],
+          //                                 ),
+          //                               ),
+          //                             ],
+          //                           ),
+          //                         ),
+          //                       ));
+          //
+          //
+          //                 }
+          //             ),
+          //           )),
+          //     )
+          //   ],
+          // ),
         ),
       ),
       // body: ListView(

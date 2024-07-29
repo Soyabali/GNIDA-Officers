@@ -989,6 +989,9 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       print("------177---$sName");
       print("------178---$sContactNo");
     });
+    setState(() {
+
+    });
   }
 
   userAjency(int ajencyCode) async {
@@ -1007,7 +1010,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       print('${userAjencyList.length}');
     }
   }
-
 
   @override
   Widget build(BuildContext context) {

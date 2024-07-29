@@ -98,7 +98,6 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
     debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
     debugPrint(position.toString());
   }
-
   schedulePointresponse() async {
     pendingSchedulepointList =
         await PendingSchedulePointRepo().pendingschedulepoint(context);
@@ -323,7 +322,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                     padding: EdgeInsets.only(left: 15),
                                     child: Text(
                                       item['sSectorName'] ?? '',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontFamily: 'Montserrat',
                                           color: Color(0xff3f617d),
                                           fontSize: 14.0,
@@ -350,7 +349,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                     padding: EdgeInsets.only(left: 15),
                                     child: Text(
                                       item['sLocation'] ?? '',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontFamily: 'Montserrat',
                                           color: Color(0xff3f617d),
                                           fontSize: 14.0,
@@ -482,24 +481,41 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                                 displayToast("Please check the location.");
                                               }
                                             },
-                                            child: const Padding(
+                                            child: Padding(
                                               padding: EdgeInsets.all(6.0),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Text('Navigate',
-                                                      style: TextStyle(
-                                                          fontFamily:
-                                                              'Montserrat',
-                                                          color:
-                                                              Color(0xFF255899),
-                                                          fontSize: 14.0,
-                                                          fontWeight:
-                                                              FontWeight.bold)),
-                                                  // SizedBox(width: 5),
-                                                  //Icon(Icons.forward_sharp,color: Color(0xFF255899))
-                                                ],
+                                              child: InkWell(
+                                                onTap: (){
+                                                  var fLatitude =  item['fLatitude'] ?? '';
+                                                  var fLongitude =  item['fLongitude'] ?? '';
+                                                  print('----462----${fLatitude}');
+                                                  print('-----463---${fLongitude}');
+
+                                                  if(fLatitude !=null && fLongitude!=null){
+                                                    //launchGoogleMaps()
+                                                    print('---472----$fLatitude');
+                                                    print('---473----$fLongitude');
+                                                    generalfunction.launchGoogleMaps(fLatitude,fLongitude);
+                                                  }else{
+                                                    displayToast("Please check the location.");
+                                                  }
+                                                },
+                                                child: const Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Text('Navigate',
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'Montserrat',
+                                                            color:
+                                                                Color(0xFF255899),
+                                                            fontSize: 14.0,
+                                                            fontWeight:
+                                                                FontWeight.bold)),
+                                                    // SizedBox(width: 5),
+                                                    //Icon(Icons.forward_sharp,color: Color(0xFF255899))
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
