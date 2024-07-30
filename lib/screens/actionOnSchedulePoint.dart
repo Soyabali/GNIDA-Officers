@@ -57,7 +57,6 @@ class _ActionOnSchedultPointScreenState
     print(" -----xxxxx-  list Data--53---> $distList");
     setState(() {});
   }
-
   void getLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -441,7 +440,6 @@ class _ActionOnSchedultPointScreenState
                   ),
                 ),
                 SizedBox(height: 10),
-
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[

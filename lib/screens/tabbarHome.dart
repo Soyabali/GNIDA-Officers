@@ -118,33 +118,36 @@ class _TabPageState extends State<TabPage> {
                                       ),
                                     ),
                                     Spacer(),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          userContributionList?[index + 3]['iEarnedPoints'].toString() ?? '',
-                                          style: GoogleFonts.lato(
-                                            textStyle: const TextStyle(
-                                              color: Color(0xFFad964a),
-                                              fontSize: 14.0,
-                                              letterSpacing: .5,
-                                              fontWeight: FontWeight.normal,
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 10),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            userContributionList?[index + 3]['iEarnedPoints'].toString() ?? '',
+                                            style: GoogleFonts.lato(
+                                              textStyle: const TextStyle(
+                                                color: Color(0xFFad964a),
+                                                fontSize: 14.0,
+                                                letterSpacing: .5,
+                                                fontWeight: FontWeight.normal,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(width: 8),
-                                        Text(
-                                          'Points',
-                                          style: GoogleFonts.lato(
-                                            textStyle: const TextStyle(
-                                              color: Color(0xFFad964a),
-                                              fontSize: 14.0,
-                                              letterSpacing: .5,
-                                              fontWeight: FontWeight.normal,
+                                          SizedBox(width: 8),
+                                          Text(
+                                            'Points',
+                                            style: GoogleFonts.lato(
+                                              textStyle: const TextStyle(
+                                                color: Color(0xFFad964a),
+                                                fontSize: 14.0,
+                                                letterSpacing: .5,
+                                                fontWeight: FontWeight.normal,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 )

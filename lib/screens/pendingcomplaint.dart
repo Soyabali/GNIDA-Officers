@@ -26,6 +26,7 @@ import 'homeScreen.dart';
 import 'navigateScreen.dart';
 
 class PendingComplaintScreen extends StatelessWidget {
+
   const PendingComplaintScreen({Key? key}) : super(key: key);
 
   @override
@@ -45,6 +46,7 @@ class PendingComplaintScreen extends StatelessWidget {
 }
 
 class HomeScreenPage_2 extends StatefulWidget {
+
   const HomeScreenPage_2({Key? key}) : super(key: key);
 
   @override
@@ -87,6 +89,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   var selectedComplaintValue;
   var iTotalComp, iResolved;
   var sName,sContactNo;
+
   GeneralFunction generalfunction = GeneralFunction();
 
   // Function to toggle between border radii
@@ -1038,10 +1041,10 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       ),
       // drawer
       drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
+
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-
           Center(
             child: Padding(
               padding: EdgeInsets.only(left: 15, right: 15, top: 10),
@@ -1084,10 +1087,10 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
               itemCount: _filteredData.length ?? 0,
               itemBuilder: (context, index) {
                 Map<String, dynamic> item = _filteredData[index];
+
                 return Padding(
                   padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
-                  child: Container(
-                    child: Column(
+                  child: Column(
                       children: [
                         Card(
                           elevation: 1,
@@ -1105,117 +1108,128 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 5),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Container(
-                                          width: 30.0,
-                                          height: 30.0,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(15.0),
-                                            border: Border.all(
-                                              color: Color(0xFF255899),
-                                              // Outline border color
-                                              width: 0.5, // Outline border width
-                                            ),
-                                            color: Colors.white,
-                                          ),
-                                          child: const Center(
-                                              child: Icon(Icons.ac_unit_rounded,
-                                                  color: Color(0xFF255899),
-                                                  size: 20)),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Column(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(
-                                              item['sPointTypeName'] ?? '',
-                                              style: const TextStyle(
-                                                  fontFamily: 'Montserrat',
-                                                  color: Color(0xff3f617d),
-                                                  fontSize: 14.0,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            const Text(
-                                              'Point Name',
-                                              style: TextStyle(
-                                                  fontFamily: 'Montserrat',
-                                                  color: Color(0xff3f617d),
-                                                  fontSize: 12.0,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(width: 0),
-                                        Expanded(
-                                          child: GestureDetector(
-                                              child: Container(
-                                                alignment: Alignment.centerRight,
-                                                height: 40,
-                                                // width: 40,
-                                                child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.end,
-                                                  // Aligns the row to the right
-                                                  children: [
-                                                    GestureDetector(
-                                                        onTap: () {
-                                                          var fLatitude = item['fLatitude'] ??
-                                                              '';
-                                                          var fLongitude = item['fLongitude'] ??
-                                                              '';
-                                                          print(
-                                                              '----462----${fLatitude}');
-                                                          print(
-                                                              '-----463---${fLongitude}');
-                                                          if (fLatitude !=
-                                                              null &&
-                                                              fLongitude !=
-                                                                  null) {
-                                                            generalfunction
-                                                                .launchGoogleMaps(
-                                                                fLatitude,
-                                                                fLongitude);
-                                                          } else {
-                                                            displayToast(
-                                                                "Please check the location.");
-                                                          }
-                                                        },
-                                                        child: const Image(
-                                                            image: AssetImage('assets/images/ic_google_maps.PNG'))),
-                                                    SizedBox(width: 2),
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        print('---Helo ----jpeg---');
-                                                        iCompCode = item['iCompCode'].toString() ?? '';
-                                                        print('---506--$iCompCode');
-                                                        bottomSheetHold();
-                                                        //_showBottomSheetHold(context,iCompCode);
-                                                      },
-                                                      child: const Padding(
-                                                        padding: EdgeInsets
-                                                            .only(top: 5),
-                                                        child: Image(
-                                                            image: AssetImage(
-                                                                'assets/images/holo.jpeg')),
-                                                      ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                   // crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Column(
+                                        children: <Widget>[
+                                          Container(
+                                            height: 50,
+                                            width: MediaQuery.of(context).size.width - MediaQuery.of(context).size.width / 3,
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: <Widget>[
+                                                Container(
+                                                  width: 30.0,
+                                                  height: 30.0,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(15.0),
+                                                    border: Border.all(
+                                                      color: Color(0xFF255899),
+                                                      width: 0.5,
                                                     ),
-                                                  ],
+                                                    color: Colors.white,
+                                                  ),
+                                                  child: const Center(
+                                                      child: Icon(Icons.ac_unit_rounded, color: Color(0xFF255899), size: 20)),
                                                 ),
-                                              )
+                                                SizedBox(width: 5),
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        item['sPointTypeName'] ?? '',
+                                                        style: const TextStyle(
+                                                          fontFamily: 'Montserrat',
+                                                          color: Color(0xff3f617d),
+                                                          fontSize: 14.0,
+                                                          fontWeight: FontWeight.bold,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
+                                                      ),
+                                                      const Text(
+                                                        'Point Name',
+                                                        style: TextStyle(
+                                                          fontFamily: 'Montserrat',
+                                                          color: Color(0xff3f617d),
+                                                          fontSize: 12.0,
+                                                          fontWeight: FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
+                                        ],
+                                      ),
+                                      Column(
+                                        children: <Widget>[
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: <Widget>
+                                            [
+                                                                GestureDetector(
+                                                                    onTap: () {
+                                                                      var fLatitude = item['fLatitude'] ??
+                                                                          '';
+                                                                      var fLongitude = item['fLongitude'] ??
+                                                                          '';
+                                                                      print(
+                                                                          '----462----${fLatitude}');
+                                                                      print(
+                                                                          '-----463---${fLongitude}');
+                                                                      if (fLatitude !=
+                                                                          null &&
+                                                                          fLongitude !=
+                                                                              null) {
+                                                                        generalfunction
+                                                                            .launchGoogleMaps(
+                                                                            fLatitude,
+                                                                            fLongitude);
+                                                                      } else {
+                                                                        displayToast(
+                                                                            "Please check the location.");
+                                                                      }
+                                                                    },
+                                                                    child: const Image(
+                                                                        image: AssetImage('assets/images/ic_google_maps.PNG'),
+                                                                       height: 42,
+                                                                       width: 42,
+                                                                       fit: BoxFit.fill,
+                                                                    )),
+                                                                SizedBox(width: 0),
+
+                                              GestureDetector(
+                                                                  onTap: () {
+                                                                    print('---Helo ----jpeg---');
+                                                                    iCompCode = item['iCompCode'].toString() ?? '';
+                                                                    print('---506--$iCompCode');
+                                                                    bottomSheetHold();
+                                                                    //_showBottomSheetHold(context,iCompCode);
+                                                                  },
+                                                                  child: const Padding(
+                                                                    padding: EdgeInsets
+                                                                        .only(top: 5),
+                                                                    child: Image(
+                                                                        image: AssetImage('assets/images/holo.jpeg'),
+                                                                       height: 42,
+                                                                       width: 42,
+                                                                       fit: BoxFit.fill,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                            ],
+                                          )
+                                        ],
+                                      )
+                                    ],
                                   ),
-                                  const SizedBox(height: 10),
+                                  // SizedBox(height: 10),
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         left: 15, right: 15),
@@ -1224,6 +1238,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                       color: const Color(0xff3f617d),
                                     ),
                                   ),
+
                                   const SizedBox(height: 5),
                                   const Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -1630,8 +1645,8 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                         ),
                       ],
                     ),
-                  ),
-                );
+                  );
+
               },
             ),
           )

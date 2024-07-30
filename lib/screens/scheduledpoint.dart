@@ -254,7 +254,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                           child: Center(
                                             child: Text(
                                               "${index + 1}",
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontFamily: 'Montserrat',
                                                   color: Color(0xFF255899),
                                                   fontSize: 14.0,
@@ -400,8 +400,8 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                                           FontWeight.bold),
                                                 ),
                                               ),
-                                              SizedBox(width: 5),
-                                              Icon(
+                                              const SizedBox(width: 5),
+                                              const Icon(
                                                 Icons.forward_sharp,
                                                 color: Color(0xFF255899),
                                               )
