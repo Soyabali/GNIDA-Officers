@@ -25,17 +25,16 @@ import 'generalFunction.dart';
 import 'homeScreen.dart';
 import 'navigateScreen.dart';
 
+
 class PendingComplaintScreen extends StatelessWidget {
 
   const PendingComplaintScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
-          iconTheme: IconThemeData(
-            color: Colors.white, // Change the color of the drawer icon here
+          iconTheme: IconThemeData(color: Colors.white, // Change the color of the drawer icon here
           ),
         ),
       ),
@@ -252,7 +251,14 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                         msg1 = "${complaintForwardResponse['Msg']}";
                         print('---1468---xxx-----$result1');
                         print('---1469---xxx-----$msg1');
-                        if (result1 == "1") {
+                      } else{
+                          if(selectedHoldValue==null){
+                            displayToast('Select JE');
+                          }
+
+                      }
+
+                      if (result1 == "1") {
                           print('----1----xxx----');
                           displayToast(msg1);
                           Navigator.pop(context);
@@ -260,10 +266,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                           displayToast(msg1);
                           print('----0---');
                         }
-                      } else {
-                        print('----Not call a Api--');
-                      }
-
                       /// Todo next Apply condition
                     },
                     style: ElevatedButton.styleFrom(
@@ -323,8 +325,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(
-                      bottom: 5, top: 10),
+                  padding: const EdgeInsets.only(bottom: 5, top: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
@@ -417,12 +418,12 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                   ],
                 ),
                 SizedBox(height: 10),
+
                 ElevatedButton(
                     onPressed: () async {
                       /// TODO REMOVE COMMENT AND apply proper api below and handle api data
                       // print('----clicked--xxxxxxxx--');
                       if (selectedComplaintValue != null) {
-
                         var complaintForwardResponse = await ChangePointTypeRepo()
                             .changePointType(
                             context, selectedComplaintValue, iCompCode);
@@ -434,22 +435,23 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                         print('---1468---xxx-----$result1');
                         print('---1469---xxx-----$msg1');
 
-                        if (result1 == "1") {
+                      } else{
+                          if(selectedComplaintValue==null){
+                            displayToast('Select Complaints Type');
+                          }
+                      }
+                      if (result1 == "1") {
                           print('----1----xxx----');
                           displayToast(msg1);
                           Navigator.pop(context);
-                        } else {
+                        }
+                      else {
                           displayToast(msg1);
                           print('----0---');
                         }
-                      } else {
-                        print('----Not call a Api--');
-                      }
+                      },
                       /// Todo next Apply condition
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(
-                          0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+                    style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF255899), // Hex color code (FF for alpha, followed by RGB)
                     ),
                     child: const Text("Submit",
                       style: TextStyle(
@@ -460,6 +462,8 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                     ))
               ],
             ),
+
+
           );
         });
   }
@@ -467,15 +471,15 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   // bottomSheetHold
   bottomSheetHold() {
     showModalBottomSheet(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(12.0),
-          ),
-        ),
-        context: context,
-        builder: (context) {
-          return Padding(
-            padding: const EdgeInsets.only(left: 10, right: 5, bottom: 5),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12.0),),
+      ),
+      context: context,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.only(left: 10, right: 5, bottom: 5),
+          child: Container(
+            color: Colors.white, // Set the background color here
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -486,8 +490,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
-                      margin:
-                      EdgeInsets.only(left: 0, right: 10, top: 10),
+                      margin: EdgeInsets.only(left: 0, right: 10, top: 10),
                       child: Image.asset(
                         'assets/images/ic_expense.png',
                         // Replace with your image asset path
@@ -511,11 +514,9 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
-
                     children: <Widget>[
                       Container(
-                          margin: const EdgeInsets.only(
-                              left: 0, right: 2, bottom: 2),
+                          margin: const EdgeInsets.only(left: 0, right: 2, bottom: 2),
                           child: const Icon(
                             Icons.forward_sharp,
                             size: 12,
@@ -530,7 +531,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                     ],
                   ),
                 ),
-
                 Container(
                   height: 42,
                   color: Color(0xFFf2f3f5),
@@ -539,7 +539,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                     children: [
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-
                         child: DropdownButtonHideUnderline(
                           child: ButtonTheme(
                             alignedDropdown: true,
@@ -603,11 +602,10 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                           child: Icon(Icons.arrow_drop_down),
                         ),
                       ),
-
                     ],
                   ),
                 ),
-                 SizedBox(height: 10),
+                SizedBox(height: 10),
                 Container(
                   decoration: BoxDecoration(
                     color: const Color(0xFFf2f3f5),
@@ -668,11 +666,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                               height: 40,
                               fit: BoxFit.fill,
                             ),
-                            // child: Icon(
-                            //   Icons.camera,
-                            //   size: 24.0,
-                            //   color: Color(0xFF255899),
-                            // ),
                           ),
                         ),
                       ],
@@ -681,108 +674,416 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                 ),
                 SizedBox(height: 10),
                 Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      image != null
-                          ? Stack(
-                        children: [
-                          GestureDetector(
-                            behavior: HitTestBehavior.translucent,
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          FullScreenPage(
-                                            child: image!,
-                                            dark: true,
-                                          )));
-                            },
-                            child: Container(
-                                color: Colors.lightGreenAccent,
-                                height: 100,
-                                width: 70,
-                                child: Image.file(
-                                  image!,
-                                  fit: BoxFit.fill,
-                                )),
-                          ),
-                          Positioned(
-                              bottom: 65,
-                              left: 35,
-                              child: IconButton(
-                                onPressed: () {
-                                  image = null;
-                                  setState(() {});
-                                },
-                                icon: const Icon(
-                                  Icons.close,
-                                  color: Colors.red,
-                                  size: 30,
-                                ),
-                              ))
-                        ],
-                      ) :
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          "Photo is required.",
-                          style:
-                          TextStyle(color: Colors.red[700]),
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    image != null
+                        ? Stack(
+                      children: [
+                        GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => FullScreenPage(
+                                      child: image!,
+                                      dark: true,
+                                    )));
+                          },
+                          child: Container(
+                              color: Colors.lightGreenAccent,
+                              height: 100,
+                              width: 70,
+                              child: Image.file(
+                                image!,
+                                fit: BoxFit.fill,
+                              )),
                         ),
-                      )
-                    ]),
-
+                        Positioned(
+                            bottom: 65,
+                            left: 35,
+                            child: IconButton(
+                              onPressed: () {
+                                image = null;
+                                setState(() {});
+                              },
+                              icon: const Icon(
+                                Icons.close,
+                                color: Colors.red,
+                                size: 30,
+                              ),
+                            ))
+                      ],
+                    )
+                        : Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Text(
+                        "Photo is required.",
+                        style: TextStyle(color: Colors.red[700]),
+                      ),
+                    )
+                  ],
+                ),
                 Center(
                   child: ElevatedButton(
                       onPressed: () async {
                         /// TODO REMOVE COMMENT AND apply proper api below and handle api data
                         // print('----clicked--xxxxxxxx--
                         //  var complaintCode =   item['iCompCode'].toString() ?? '';
-                        if (selectedHoldValue != null && uplodedImage !=null) {
-
+                        if (selectedHoldValue != null && uplodedImage != null) {
                           print('---Api call---');
                           var complaintForwardResponse = await HoloComplaintRepo()
-                              .holoComplaint(context,
-                              selectedHoldValue, uplodedImage!, iCompCode);
+                              .holoComplaint(context, selectedHoldValue, uplodedImage!, iCompCode);
                           print('-----1174--xx--$complaintForwardResponse');
-
 
                           result1 = "${complaintForwardResponse['Result']}";
                           msg1 = "${complaintForwardResponse['Msg']}";
                           print('---1126---$result1');
-
-
                         } else {
-                           if(selectedHoldValue==null){
-                             displayToast('Select Hold Time');
-                           }else if(uplodedImage==null){
-                             displayToast('Click Photo');
-                           }
+                          if (selectedHoldValue == null || selectedHoldValue == "") {
+                            displayToast('Select Hold Time');
+                          } else if (uplodedImage == null) {
+                            displayToast('Click Photo');
+                          }
                           print('----Not call a Api--');
                         }
 
                         /// Todo next Apply condition
                       },
-
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(
-                            0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+                        backgroundColor: const Color(0xFF255899), // Hex color code (FF for alpha, followed by RGB)
                       ),
-                      child: const Text("Complaint Hold",
+                      child: const Text(
+                        "Complaint Hold",
                         style: TextStyle(
                             fontFamily: 'Montserrat',
                             color: Colors.white,
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold),
                       )),
-                )
-
+                ),
               ],
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
+
+
+  // bottomSheetHold() {
+  //   showModalBottomSheet(
+  //       shape: const RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.vertical(
+  //           top: Radius.circular(12.0),
+  //         ),
+  //       ),
+  //       context: context,
+  //       builder: (context) {
+  //         return Padding(
+  //           padding: const EdgeInsets.only(left: 10, right: 5, bottom: 5),
+  //           child: Column(
+  //             mainAxisSize: MainAxisSize.min,
+  //             mainAxisAlignment: MainAxisAlignment.start,
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: <Widget>[
+  //               Row(
+  //                 mainAxisAlignment: MainAxisAlignment.start,
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 children: <Widget>[
+  //                   Container(
+  //                     margin:
+  //                     EdgeInsets.only(left: 0, right: 10, top: 10),
+  //                     child: Image.asset(
+  //                       'assets/images/ic_expense.png',
+  //                       // Replace with your image asset path
+  //                       width: 24,
+  //                       height: 24,
+  //                     ),
+  //                   ),
+  //                   const Padding(
+  //                     padding: EdgeInsets.only(top: 10),
+  //                     child: Text('Fill the below details',
+  //                         style: TextStyle(
+  //                             fontFamily: 'Montserrat',
+  //                             color: Color(0xFF707d83),
+  //                             fontSize: 14.0,
+  //                             fontWeight: FontWeight.bold)),
+  //                   ),
+  //                 ],
+  //               ),
+  //               Padding(
+  //                 padding: const EdgeInsets.only(bottom: 5, top: 10),
+  //                 child: Row(
+  //                   mainAxisAlignment: MainAxisAlignment.start,
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: <Widget>[
+  //                     Container(
+  //                         margin: const EdgeInsets.only(
+  //                             left: 0, right: 2, bottom: 2),
+  //                         child: const Icon(
+  //                           Icons.forward_sharp,
+  //                           size: 12,
+  //                           color: Colors.black54,
+  //                         )),
+  //                     const Text('Hold Time',
+  //                         style: TextStyle(
+  //                             fontFamily: 'Montserrat',
+  //                             color: Color(0xFF707d83),
+  //                             fontSize: 14.0,
+  //                             fontWeight: FontWeight.bold)),
+  //                   ],
+  //                 ),
+  //               ),
+  //               Container(
+  //                 height: 42,
+  //                 color: Color(0xFFf2f3f5),
+  //                 child: Stack(
+  //                   alignment: AlignmentDirectional.centerStart,
+  //                   children: [
+  //                     SingleChildScrollView(
+  //                       scrollDirection: Axis.horizontal,
+  //                       child: DropdownButtonHideUnderline(
+  //                         child: ButtonTheme(
+  //                           alignedDropdown: true,
+  //                           child: DropdownButton(
+  //                             onTap: () {
+  //                               FocusScope.of(context).unfocus();
+  //                             },
+  //                             hint: RichText(
+  //                               text: const TextSpan(
+  //                                 text: 'Select Hold Time',
+  //                                 style: TextStyle(
+  //                                   color: Colors.black,
+  //                                   fontSize: 16,
+  //                                   fontWeight: FontWeight.normal,
+  //                                 ),
+  //                                 children: <TextSpan>[
+  //                                   TextSpan(
+  //                                     text: '*',
+  //                                     style: TextStyle(
+  //                                       color: Colors.red,
+  //                                       fontSize: 16,
+  //                                       fontWeight: FontWeight.bold,
+  //                                     ),
+  //                                   ),
+  //                                 ],
+  //                               ),
+  //                             ),
+  //                             value: _dropDownHold,
+  //                             onChanged: (newValue) {
+  //                               setState(() {
+  //                                 _dropDownHold = newValue;
+  //                                 print('---187---$_dropDownHold');
+  //                                 //  _isShowChosenDistError = false;
+  //                                 // Iterate the List
+  //                                 bindHoldList.forEach((element) {
+  //                                   if (element["sHoldDesc"] == _dropDownHold) {
+  //                                     setState(() {
+  //                                       selectedHoldValue = element['iHold'];
+  //                                     });
+  //                                     print('-----1021----$selectedHoldValue');
+  //                                   }
+  //                                 });
+  //                               });
+  //                             },
+  //                             items: bindHoldList.map((dynamic item) {
+  //                               return DropdownMenuItem(
+  //                                 child: Text(item['sHoldDesc'].toString()),
+  //                                 value: item["sHoldDesc"].toString(),
+  //                               );
+  //                             }).toList(),
+  //                           ),
+  //                         ),
+  //                       ),
+  //                     ),
+  //                     Positioned(
+  //                       right: 0,
+  //                       top: 0,
+  //                       bottom: 0,
+  //                       child: Container(
+  //                         color: Colors.white,
+  //                         child: Icon(Icons.arrow_drop_down),
+  //                       ),
+  //                     ),
+  //
+  //                   ],
+  //                 ),
+  //               ),
+  //                SizedBox(height: 10),
+  //               Container(
+  //                 decoration: BoxDecoration(
+  //                   color: const Color(0xFFf2f3f5),
+  //                   borderRadius: BorderRadius.circular(10.0), // Border radius
+  //                 ),
+  //                 child: Padding(
+  //                   padding: EdgeInsets.only(bottom: 10),
+  //                   child: Row(
+  //                     children: [
+  //                       const Expanded(
+  //                         child: Column(
+  //                           crossAxisAlignment: CrossAxisAlignment.start,
+  //                           children: [
+  //                             Padding(
+  //                               padding: EdgeInsets.only(left: 10),
+  //                               child: Text(
+  //                                 'Click Photo',
+  //                                 style: TextStyle(
+  //                                     fontFamily: 'Montserrat',
+  //                                     color: Colors.black54,
+  //                                     fontSize: 14.0,
+  //                                     fontWeight: FontWeight.bold),
+  //                               ),
+  //                             ),
+  //                             Padding(
+  //                               padding: EdgeInsets.only(left: 10),
+  //                               child: Row(
+  //                                 mainAxisAlignment: MainAxisAlignment.start,
+  //                                 children: <Widget>[
+  //                                   Text(
+  //                                     'Please clock here to take a photo',
+  //                                     style: TextStyle(
+  //                                         fontFamily: 'Montserrat',
+  //                                         color: Colors.redAccent,
+  //                                         fontSize: 10.0,
+  //                                         fontWeight: FontWeight.bold),
+  //                                   ),
+  //                                   SizedBox(width: 10),
+  //                                   Icon(Icons.forward_sharp, size: 10,
+  //                                       color: Colors.redAccent),
+  //                                 ],
+  //                               ),
+  //                             )
+  //                           ],
+  //                         ),
+  //                       ),
+  //                       InkWell(
+  //                         onTap: () {
+  //                           // pickImage();
+  //                           pickImage();
+  //                           print('---------530-----');
+  //                         },
+  //                         child: const Padding(
+  //                           padding: EdgeInsets.only(right: 10, top: 5),
+  //                           child: Image(image: AssetImage(
+  //                               'assets/images/ic_camera.PNG'),
+  //                             width: 40,
+  //                             height: 40,
+  //                             fit: BoxFit.fill,
+  //                           ),
+  //                           // child: Icon(
+  //                           //   Icons.camera,
+  //                           //   size: 24.0,
+  //                           //   color: Color(0xFF255899),
+  //                           // ),
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 ),
+  //               ),
+  //               SizedBox(height: 10),
+  //               Row(
+  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                   children: <Widget>[
+  //                     image != null
+  //                         ? Stack(
+  //                       children: [
+  //                         GestureDetector(
+  //                           behavior: HitTestBehavior.translucent,
+  //                           onTap: () {
+  //                             Navigator.push(
+  //                                 context,
+  //                                 MaterialPageRoute(
+  //                                     builder: (context) =>
+  //                                         FullScreenPage(
+  //                                           child: image!,
+  //                                           dark: true,
+  //                                         )));
+  //                           },
+  //                           child: Container(
+  //                               color: Colors.lightGreenAccent,
+  //                               height: 100,
+  //                               width: 70,
+  //                               child: Image.file(
+  //                                 image!,
+  //                                 fit: BoxFit.fill,
+  //                               )),
+  //                         ),
+  //                         Positioned(
+  //                             bottom: 65,
+  //                             left: 35,
+  //                             child: IconButton(
+  //                               onPressed: () {
+  //                                 image = null;
+  //                                 setState(() {});
+  //                               },
+  //                               icon: const Icon(
+  //                                 Icons.close,
+  //                                 color: Colors.red,
+  //                                 size: 30,
+  //                               ),
+  //                             ))
+  //                       ],
+  //                     ) :
+  //                     Padding(
+  //                       padding: const EdgeInsets.only(left: 10),
+  //                       child: Text(
+  //                         "Photo is required.",
+  //                         style:
+  //                         TextStyle(color: Colors.red[700]),
+  //                       ),
+  //                     )
+  //                   ]),
+  //
+  //               Center(
+  //                 child: ElevatedButton(
+  //                     onPressed: () async {
+  //                       /// TODO REMOVE COMMENT AND apply proper api below and handle api data
+  //                       // print('----clicked--xxxxxxxx--
+  //                       //  var complaintCode =   item['iCompCode'].toString() ?? '';
+  //                       if (selectedHoldValue != null && uplodedImage !=null) {
+  //
+  //                         print('---Api call---');
+  //                         var complaintForwardResponse = await HoloComplaintRepo()
+  //                             .holoComplaint(context,
+  //                             selectedHoldValue, uplodedImage!, iCompCode);
+  //                         print('-----1174--xx--$complaintForwardResponse');
+  //
+  //                         result1 = "${complaintForwardResponse['Result']}";
+  //                         msg1 = "${complaintForwardResponse['Msg']}";
+  //                         print('---1126---$result1');
+  //
+  //
+  //                       } else {
+  //                          if(selectedHoldValue==null || selectedHoldValue==""){
+  //                            displayToast('Select Hold Time');
+  //                          }else if(uplodedImage==null){
+  //                            displayToast('Click Photo');
+  //                          }
+  //                         print('----Not call a Api--');
+  //                       }
+  //
+  //                       /// Todo next Apply condition
+  //                     },
+  //
+  //                     style: ElevatedButton.styleFrom(
+  //                       backgroundColor: const Color(0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+  //                     ),
+  //                     child: const Text("Complaint Hold",
+  //                       style: TextStyle(
+  //                           fontFamily: 'Montserrat',
+  //                           color: Colors.white,
+  //                           fontSize: 16.0,
+  //                           fontWeight: FontWeight.bold),
+  //                     )),
+  //               )
+  //
+  //             ],
+  //           ),
+  //         );
+  //       });
+  // }
 
 
 
@@ -1031,6 +1332,8 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1094,7 +1397,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
               itemCount: _filteredData.length ?? 0,
               itemBuilder: (context, index) {
                 Map<String, dynamic> item = _filteredData[index];
-
                 return Padding(
                   padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
                   child: Column(
@@ -1489,16 +1791,13 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                         ),
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 0, right: 10),
+                                        padding: const EdgeInsets.only(left: 0, right: 10),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment
-                                              .spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             Expanded(
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment
-                                                    .spaceBetween,
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: <Widget>[
                                                   Padding(
                                                     padding: const EdgeInsets
@@ -1551,8 +1850,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                                       width: 1,
                                                       color: Colors.grey),
                                                   Padding(
-                                                    padding: const EdgeInsets
-                                                        .all(8.0),
+                                                    padding: const EdgeInsets.all(8.0),
                                                     child: GestureDetector(
                                                       onTap: () {
                                                         print(
