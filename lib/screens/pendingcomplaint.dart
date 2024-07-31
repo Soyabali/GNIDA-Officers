@@ -116,170 +116,173 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
         builder: (context) {
           return Padding(
             padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      margin:
-                      EdgeInsets.only(left: 0, right: 10, top: 10),
-                      child: Image.asset(
-                        'assets/images/ic_expense.png',
-                        // Replace with your image asset path
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 10),
-                      child: Text('Fill the below details',
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Color(0xFF707d83),
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold)),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      bottom: 5, top: 10),
-                  child: Row(
+            child: Container(
+              color: Colors.white,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                          margin: const EdgeInsets.only(
-                              left: 0, right: 2, bottom: 2),
-                          child: const Icon(
-                            Icons.forward_sharp,
-                            size: 12,
-                            color: Colors.black54,
-                          )),
-                      const Text('JE',
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Color(0xFF707d83),
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold)),
+                        margin:
+                        EdgeInsets.only(left: 0, right: 10, top: 10),
+                        child: Image.asset(
+                          'assets/images/ic_expense.png',
+                          // Replace with your image asset path
+                          width: 24,
+                          height: 24,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Text('Fill the below details',
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                color: Color(0xFF707d83),
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold)),
+                      ),
                     ],
                   ),
-                ),
-                Stack(
-                  alignment: AlignmentDirectional.centerStart,
-                  children: [
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: DropdownButtonHideUnderline(
-                        child: ButtonTheme(
-                          alignedDropdown: true,
-                          child: DropdownButton(
-                            onTap: () {
-                              FocusScope.of(context).unfocus();
-                            },
-                            hint: RichText(
-                              text: const TextSpan(
-                                text: 'Select JE ',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text: '*',
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 5, top: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                            margin: const EdgeInsets.only(
+                                left: 0, right: 2, bottom: 2),
+                            child: const Icon(
+                              Icons.forward_sharp,
+                              size: 12,
+                              color: Colors.black54,
+                            )),
+                        const Text('JE',
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                color: Color(0xFF707d83),
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ),
+                  Stack(
+                    alignment: AlignmentDirectional.centerStart,
+                    children: [
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: DropdownButtonHideUnderline(
+                          child: ButtonTheme(
+                            alignedDropdown: true,
+                            child: DropdownButton(
+                              onTap: () {
+                                FocusScope.of(context).unfocus();
+                              },
+                              hint: RichText(
+                                text: const TextSpan(
+                                  text: 'Select JE ',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
                                   ),
-                                ],
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: '*',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            value: _dropDownAgency2,
-                            onChanged: (newValue) {
-                              setState(() {
-                                _dropDownAgency2 = newValue;
-                                // bindAjencyList = [];
-                                print('---187---$_dropDownAgency2');
-                                //  _isShowChosenDistError = false;
-                                // Iterate the List
-                                bindAjencyList.forEach((element) {
-                                  if (element["sName"] == _dropDownAgency2) {
-                                    setState(() {
-                                      selectedHoldValue = element['iUserId'];
-                                    });
-                                    print('-----1021----$selectedHoldValue');
-                                  }
+                              value: _dropDownAgency2,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  _dropDownAgency2 = newValue;
+                                  // bindAjencyList = [];
+                                  print('---187---$_dropDownAgency2');
+                                  //  _isShowChosenDistError = false;
+                                  // Iterate the List
+                                  bindAjencyList.forEach((element) {
+                                    if (element["sName"] == _dropDownAgency2) {
+                                      setState(() {
+                                        selectedHoldValue = element['iUserId'];
+                                      });
+                                      print('-----1021----$selectedHoldValue');
+                                    }
+                                  });
                                 });
-                              });
-                            },
-                            items: bindAjencyList.map((dynamic item) {
-                              return DropdownMenuItem(
-                                child: Text(item['sName'].toString()),
-                                value: item["sName"].toString(),
-                              );
-                            }).toList(),
+                              },
+                              items: bindAjencyList.map((dynamic item) {
+                                return DropdownMenuItem(
+                                  child: Text(item['sName'].toString()),
+                                  value: item["sName"].toString(),
+                                );
+                              }).toList(),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      right: 0,
-                      top: 0,
-                      bottom: 0,
-                      child: Container(
-                        color: Colors.white,
-                        child: Icon(Icons.arrow_drop_down),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                ElevatedButton(
-                    onPressed: () async {
-                      /// TODO REMOVE COMMENT AND apply proper api below and handle api data
-                      // print('----clicked--xxxxxxxx--');
-                      if (selectedHoldValue != null) {
-                        var complaintForwardResponse = await ComplaintForwardRepo()
-                            .complaintForward(context,
-                            selectedHoldValue, iCompCode);
-
-                        result1 = "${complaintForwardResponse['Result']}";
-                        msg1 = "${complaintForwardResponse['Msg']}";
-                        print('---1468---xxx-----$result1');
-                        print('---1469---xxx-----$msg1');
-                      } else{
-                          if(selectedHoldValue==null){
-                            displayToast('Select JE');
-                          }
-
-                      }
-
-                      if (result1 == "1") {
-                          print('----1----xxx----');
-                          displayToast(msg1);
-                          Navigator.pop(context);
-                        } else {
-                          displayToast(msg1);
-                          print('----0---');
-                        }
-                      /// Todo next Apply condition
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(
-                          0xFF255899), // Hex color code (FF for alpha, followed by RGB)
-                    ),
-                    child: const Text("Submit",
-                      style: TextStyle(
-                          fontFamily: 'Montserrat',
+                      Positioned(
+                        right: 0,
+                        top: 0,
+                        bottom: 0,
+                        child: Container(
                           color: Colors.white,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold),
-                    ))
-              ],
+                          child: Icon(Icons.arrow_drop_down),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  ElevatedButton(
+                      onPressed: () async {
+                        /// TODO REMOVE COMMENT AND apply proper api below and handle api data
+                        // print('----clicked--xxxxxxxx--');
+                        if (selectedHoldValue != null) {
+                          var complaintForwardResponse = await ComplaintForwardRepo()
+                              .complaintForward(context,
+                              selectedHoldValue, iCompCode);
+
+                          result1 = "${complaintForwardResponse['Result']}";
+                          msg1 = "${complaintForwardResponse['Msg']}";
+                          print('---1468---xxx-----$result1');
+                          print('---1469---xxx-----$msg1');
+                        } else{
+                            if(selectedHoldValue==null){
+                              displayToast('Select JE');
+                            }
+
+                        }
+
+                        if (result1 == "1") {
+                            print('----1----xxx----');
+                            displayToast(msg1);
+                            Navigator.pop(context);
+                          } else {
+                            displayToast(msg1);
+                            print('----0---');
+                          }
+                        /// Todo next Apply condition
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(
+                            0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+                      ),
+                      child: const Text("Submit",
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            color: Colors.white,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold),
+                      ))
+                ],
+              ),
             ),
           );
         });
@@ -297,170 +300,173 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
         builder: (context) {
           return Padding(
             padding: const EdgeInsets.only(left: 10, right: 5, bottom: 5),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      margin:
-                      EdgeInsets.only(left: 0, right: 10, top: 10),
-                      child: Image.asset(
-                        'assets/images/ic_expense.png',
-                        // Replace with your image asset path
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 10),
-                      child: Text('Fill the below details',
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Color(0xFF707d83),
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold)),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 5, top: 10),
-                  child: Row(
+            child: Container(
+              color: Colors.white,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                          margin: const EdgeInsets.only(
-                              left: 0, right: 2, bottom: 2),
-                          child: const Icon(
-                            Icons.forward_sharp,
-                            size: 12,
-                            color: Colors.black54,
-                          )),
-                      const Text('Complaints Type',
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Color(0xFF707d83),
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold)),
+                        margin:
+                        EdgeInsets.only(left: 0, right: 10, top: 10),
+                        child: Image.asset(
+                          'assets/images/ic_expense.png',
+                          // Replace with your image asset path
+                          width: 24,
+                          height: 24,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Text('Fill the below details',
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                color: Color(0xFF707d83),
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold)),
+                      ),
                     ],
                   ),
-                ),
-                Stack(
-                  alignment: AlignmentDirectional.centerStart,
-                  children: [
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: DropdownButtonHideUnderline(
-                        child: ButtonTheme(
-                          alignedDropdown: true,
-                          child: DropdownButton(
-                            onTap: () {
-                              FocusScope.of(context).unfocus();
-                            },
-                            hint: RichText(
-                              text: const TextSpan(
-                                text: 'Select Complaints Type ',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text: '*',
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 5, top: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                            margin: const EdgeInsets.only(
+                                left: 0, right: 2, bottom: 2),
+                            child: const Icon(
+                              Icons.forward_sharp,
+                              size: 12,
+                              color: Colors.black54,
+                            )),
+                        const Text('Complaints Type',
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                color: Color(0xFF707d83),
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ),
+                  Stack(
+                    alignment: AlignmentDirectional.centerStart,
+                    children: [
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: DropdownButtonHideUnderline(
+                          child: ButtonTheme(
+                            alignedDropdown: true,
+                            child: DropdownButton(
+                              onTap: () {
+                                FocusScope.of(context).unfocus();
+                              },
+                              hint: RichText(
+                                text: const TextSpan(
+                                  text: 'Select Complaints Type ',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
                                   ),
-                                ],
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: '*',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            value: _dropDownComplaintType,
-                            onChanged: (newValue) {
-                              setState(() {
-                                _dropDownComplaintType = newValue;
-                                print('---187---$_dropDownComplaintType');
+                              value: _dropDownComplaintType,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  _dropDownComplaintType = newValue;
+                                  print('---187---$_dropDownComplaintType');
 
-                                bindPointTypeDropDown.forEach((element) {
-                                  if (element["sPointTypeName"] ==
-                                      _dropDownComplaintType) {
-                                    setState(() {
-                                      selectedComplaintValue =
-                                      element['iPointTypeCode'];
-                                    });
-                                    print('-----1021----$selectedComplaintValue');
-                                  }
+                                  bindPointTypeDropDown.forEach((element) {
+                                    if (element["sPointTypeName"] ==
+                                        _dropDownComplaintType) {
+                                      setState(() {
+                                        selectedComplaintValue =
+                                        element['iPointTypeCode'];
+                                      });
+                                      print('-----1021----$selectedComplaintValue');
+                                    }
+                                  });
                                 });
-                              });
-                            },
-                            items: bindPointTypeDropDown.map((dynamic item) {
-                              return DropdownMenuItem(
-                                child: Text(item['sPointTypeName'].toString()),
-                                value: item["sPointTypeName"].toString(),
-                              );
-                            }).toList(),
+                              },
+                              items: bindPointTypeDropDown.map((dynamic item) {
+                                return DropdownMenuItem(
+                                  child: Text(item['sPointTypeName'].toString()),
+                                  value: item["sPointTypeName"].toString(),
+                                );
+                              }).toList(),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      right: 0,
-                      top: 0,
-                      bottom: 0,
-                      child: Container(
-                        color: Colors.white,
-                        child: Icon(Icons.arrow_drop_down),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-
-                ElevatedButton(
-                    onPressed: () async {
-                      /// TODO REMOVE COMMENT AND apply proper api below and handle api data
-                      // print('----clicked--xxxxxxxx--');
-                      if (selectedComplaintValue != null) {
-                        var complaintForwardResponse = await ChangePointTypeRepo()
-                            .changePointType(
-                            context, selectedComplaintValue, iCompCode);
-
-                        print('-----1453----$complaintForwardResponse');
-
-                        result1 = "${complaintForwardResponse['Result']}";
-                        msg1 = "${complaintForwardResponse['Msg']}";
-                        print('---1468---xxx-----$result1');
-                        print('---1469---xxx-----$msg1');
-
-                      } else{
-                          if(selectedComplaintValue==null){
-                            displayToast('Select Complaints Type');
-                          }
-                      }
-                      if (result1 == "1") {
-                          print('----1----xxx----');
-                          displayToast(msg1);
-                          Navigator.pop(context);
-                        }
-                      else {
-                          displayToast(msg1);
-                          print('----0---');
-                        }
-                      },
-                      /// Todo next Apply condition
-                    style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF255899), // Hex color code (FF for alpha, followed by RGB)
-                    ),
-                    child: const Text("Submit",
-                      style: TextStyle(
-                          fontFamily: 'Montserrat',
+                      Positioned(
+                        right: 0,
+                        top: 0,
+                        bottom: 0,
+                        child: Container(
                           color: Colors.white,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold),
-                    ))
-              ],
+                          child: Icon(Icons.arrow_drop_down),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+
+                  ElevatedButton(
+                      onPressed: () async {
+                        /// TODO REMOVE COMMENT AND apply proper api below and handle api data
+                        // print('----clicked--xxxxxxxx--');
+                        if (selectedComplaintValue != null) {
+                          var complaintForwardResponse = await ChangePointTypeRepo()
+                              .changePointType(
+                              context, selectedComplaintValue, iCompCode);
+
+                          print('-----1453----$complaintForwardResponse');
+
+                          result1 = "${complaintForwardResponse['Result']}";
+                          msg1 = "${complaintForwardResponse['Msg']}";
+                          print('---1468---xxx-----$result1');
+                          print('---1469---xxx-----$msg1');
+
+                        } else{
+                            if(selectedComplaintValue==null){
+                              displayToast('Select Complaints Type');
+                            }
+                        }
+                        if (result1 == "1") {
+                            print('----1----xxx----');
+                            displayToast(msg1);
+                            Navigator.pop(context);
+                          }
+                        else {
+                            displayToast(msg1);
+                            print('----0---');
+                          }
+                        },
+                        /// Todo next Apply condition
+                      style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+                      ),
+                      child: const Text("Submit",
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            color: Colors.white,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold),
+                      ))
+                ],
+              ),
             ),
 
 

@@ -15,17 +15,10 @@ import 'package:noidaone/screens/shopSurvey.dart';
 import 'package:noidaone/screens/tabbarHome.dart';
 import 'package:noidaone/screens/tabbarHomeToday.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../Controllers/userContributionRepo.dart';
 import '../Controllers/userModuleRight.dart';
-import '../Controllers/usercontributionMonthRepo.dart';
-import '../Controllers/usercontributionTodayRepo.dart';
-import '../resources/app_text_style.dart';
-import 'changePassword.dart';
 import 'complaintStatus.dart';
 import 'dailyActivity.dart';
-import 'loginScreen_2.dart';
-import 'mypoint.dart';
-import 'notification.dart';
+
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -568,7 +561,7 @@ class _MyHomePageState extends State<MyHomePage>
                             child: Container(
                               width: 91,
                               height: 80,
-                              margin: const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 8),
+                              margin: const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 0),
                               decoration: BoxDecoration(
                                 color: Color(0xff81afea),
                                 borderRadius: BorderRadius.circular(
