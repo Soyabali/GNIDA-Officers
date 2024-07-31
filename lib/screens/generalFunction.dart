@@ -271,7 +271,7 @@ class GeneralFunction {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Image.asset(
-                          'assets/images/my_wallet.png',
+                          'assets/images/holdicon.jpeg',
                           width: 25,
                           height: 25,
                         ),

@@ -240,7 +240,10 @@ class _MyHomePageState extends State<MyPointPage> {
                               color: Color(0xFF707d83),
                               fontSize: 14.0,
                               fontWeight: FontWeight.bold),), // Second TextView
-                          const Spacer(), // To push the last Text to the rightmost
+                          const Spacer(),
+                          // To push the last Text to the rightmost
+
+
                           Text(myPoinList?[index]['iEarnedPoint'].toString() ?? '',
                              style: const TextStyle(
                               fontFamily: 'Montserrat',
@@ -248,6 +251,17 @@ class _MyHomePageState extends State<MyPointPage> {
                               //color: Colors.white,
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold)),
+                              SizedBox(width: 8),
+
+                             Text('Points',
+                              style: const TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Color(0xFFad964a),
+                                  //color: Colors.white,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold)),
+
+
                           // Last TextView
                         ],
                       ),

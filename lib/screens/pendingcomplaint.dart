@@ -286,7 +286,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   // bottomSheetComplaintTransfer
   bottomSheetComplaintTransfer() {
     showModalBottomSheet(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(12.0),
           ),
@@ -294,7 +294,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
         context: context,
         builder: (context) {
           return Padding(
-            padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+            padding: const EdgeInsets.only(left: 10, right: 5, bottom: 5),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -422,6 +422,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                       /// TODO REMOVE COMMENT AND apply proper api below and handle api data
                       // print('----clicked--xxxxxxxx--');
                       if (selectedComplaintValue != null) {
+
                         var complaintForwardResponse = await ChangePointTypeRepo()
                             .changePointType(
                             context, selectedComplaintValue, iCompCode);
@@ -432,6 +433,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                         msg1 = "${complaintForwardResponse['Msg']}";
                         print('---1468---xxx-----$result1');
                         print('---1469---xxx-----$msg1');
+
                         if (result1 == "1") {
                           print('----1----xxx----');
                           displayToast(msg1);
@@ -443,7 +445,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                       } else {
                         print('----Not call a Api--');
                       }
-
                       /// Todo next Apply condition
                     },
                     style: ElevatedButton.styleFrom(
@@ -474,9 +475,11 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
         context: context,
         builder: (context) {
           return Padding(
-            padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+            padding: const EdgeInsets.only(left: 10, right: 5, bottom: 5),
             child: Column(
               mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -504,10 +507,11 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(
-                      bottom: 5, top: 10),
+                  padding: const EdgeInsets.only(bottom: 5, top: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+
                     children: <Widget>[
                       Container(
                           margin: const EdgeInsets.only(
@@ -526,78 +530,84 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                     ],
                   ),
                 ),
-                Stack(
-                  alignment: AlignmentDirectional.centerStart,
-                  children: [
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: DropdownButtonHideUnderline(
-                        child: ButtonTheme(
-                          alignedDropdown: true,
-                          child: DropdownButton(
-                            onTap: () {
-                              FocusScope.of(context).unfocus();
-                            },
-                            hint: RichText(
-                              text: const TextSpan(
-                                text: 'Select Hold Time',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text: '*',
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+
+                Container(
+                  height: 42,
+                  color: Color(0xFFf2f3f5),
+                  child: Stack(
+                    alignment: AlignmentDirectional.centerStart,
+                    children: [
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+
+                        child: DropdownButtonHideUnderline(
+                          child: ButtonTheme(
+                            alignedDropdown: true,
+                            child: DropdownButton(
+                              onTap: () {
+                                FocusScope.of(context).unfocus();
+                              },
+                              hint: RichText(
+                                text: const TextSpan(
+                                  text: 'Select Hold Time',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
                                   ),
-                                ],
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: '*',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            value: _dropDownHold,
-                            onChanged: (newValue) {
-                              setState(() {
-                                _dropDownHold = newValue;
-                                print('---187---$_dropDownHold');
-                                //  _isShowChosenDistError = false;
-                                // Iterate the List
-                                bindHoldList.forEach((element) {
-                                  if (element["sHoldDesc"] == _dropDownHold) {
-                                    setState(() {
-                                      selectedHoldValue = element['iHold'];
-                                    });
-                                    print('-----1021----$selectedHoldValue');
-                                  }
+                              value: _dropDownHold,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  _dropDownHold = newValue;
+                                  print('---187---$_dropDownHold');
+                                  //  _isShowChosenDistError = false;
+                                  // Iterate the List
+                                  bindHoldList.forEach((element) {
+                                    if (element["sHoldDesc"] == _dropDownHold) {
+                                      setState(() {
+                                        selectedHoldValue = element['iHold'];
+                                      });
+                                      print('-----1021----$selectedHoldValue');
+                                    }
+                                  });
                                 });
-                              });
-                            },
-                            items: bindHoldList.map((dynamic item) {
-                              return DropdownMenuItem(
-                                child: Text(item['sHoldDesc'].toString()),
-                                value: item["sHoldDesc"].toString(),
-                              );
-                            }).toList(),
+                              },
+                              items: bindHoldList.map((dynamic item) {
+                                return DropdownMenuItem(
+                                  child: Text(item['sHoldDesc'].toString()),
+                                  value: item["sHoldDesc"].toString(),
+                                );
+                              }).toList(),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      right: 0,
-                      top: 0,
-                      bottom: 0,
-                      child: Container(
-                        color: Colors.white,
-                        child: Icon(Icons.arrow_drop_down),
+                      Positioned(
+                        right: 0,
+                        top: 0,
+                        bottom: 0,
+                        child: Container(
+                          color: Colors.white,
+                          child: Icon(Icons.arrow_drop_down),
+                        ),
                       ),
-                    ),
 
-                  ],
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 10),
+                 SizedBox(height: 10),
                 Container(
                   decoration: BoxDecoration(
                     color: const Color(0xFFf2f3f5),
@@ -713,64 +723,61 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                               ))
                         ],
                       ) :
-                      Text(
-                        "Photo is required.",
-                        style:
-                        TextStyle(color: Colors.red[700]),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Text(
+                          "Photo is required.",
+                          style:
+                          TextStyle(color: Colors.red[700]),
+                        ),
                       )
                     ]),
-                ElevatedButton(
-                    onPressed: () async {
-                      /// TODO REMOVE COMMENT AND apply proper api below and handle api data
-                      // print('----clicked--xxxxxxxx--
-                      //  var complaintCode =   item['iCompCode'].toString() ?? '';
-                      if (selectedHoldValue != null && uplodedImage !=null) {
 
-                        print('---Api call---');
+                Center(
+                  child: ElevatedButton(
+                      onPressed: () async {
+                        /// TODO REMOVE COMMENT AND apply proper api below and handle api data
+                        // print('----clicked--xxxxxxxx--
+                        //  var complaintCode =   item['iCompCode'].toString() ?? '';
+                        if (selectedHoldValue != null && uplodedImage !=null) {
 
-                        var complaintForwardResponse = await HoloComplaintRepo()
-                            .holoComplaint(context,
-                            selectedHoldValue, uplodedImage!, iCompCode);
-                        print('-----1174--xx--$complaintForwardResponse');
-
-                        result1 = "${complaintForwardResponse['Result']}";
-                        msg1 = "${complaintForwardResponse['Msg']}";
-                        print('---1126---$result1');
+                          print('---Api call---');
+                          var complaintForwardResponse = await HoloComplaintRepo()
+                              .holoComplaint(context,
+                              selectedHoldValue, uplodedImage!, iCompCode);
+                          print('-----1174--xx--$complaintForwardResponse');
 
 
-                        // if (result1 == "1") {
-                        //   // Navigator.pop(context);
-                        //
-                        //   print('----1----xxx----');
-                        //   displayToast(msg1);
-                        //   Navigator.pop(context);
-                        // } else {
-                        //   displayToast(msg1);
-                        //   print('----0---');
-                        // }
-                      } else {
-                         if(selectedHoldValue==null){
-                           displayToast('Select Hold Time');
-                         }else if(uplodedImage==null){
-                           displayToast('Click Photo');
-                         }
-                        print('----Not call a Api--');
-                      }
+                          result1 = "${complaintForwardResponse['Result']}";
+                          msg1 = "${complaintForwardResponse['Msg']}";
+                          print('---1126---$result1');
 
-                      /// Todo next Apply condition
-                    },
 
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(
-                          0xFF255899), // Hex color code (FF for alpha, followed by RGB)
-                    ),
-                    child: const Text("Complaint Hold",
-                      style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          color: Colors.white,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold),
-                    ))
+                        } else {
+                           if(selectedHoldValue==null){
+                             displayToast('Select Hold Time');
+                           }else if(uplodedImage==null){
+                             displayToast('Click Photo');
+                           }
+                          print('----Not call a Api--');
+                        }
+
+                        /// Todo next Apply condition
+                      },
+
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(
+                            0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+                      ),
+                      child: const Text("Complaint Hold",
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            color: Colors.white,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold),
+                      )),
+                )
+
               ],
             ),
           );

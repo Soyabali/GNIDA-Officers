@@ -14,6 +14,7 @@ import '../Controllers/pendingInternalComplaintRepo.dart';
 import 'actionOnSchedulePoint.dart';
 import 'generalFunction.dart';
 import 'homeScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HoldComplaintScreen extends StatelessWidget {
 
@@ -66,6 +67,7 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
 
   var result1;
   var msg1;
+  String? sName, sContactNo;
   GeneralFunction generalFunction = GeneralFunction();
   GeneralFunction generalfunction = GeneralFunction();
   // Function to toggle between border radii
@@ -81,14 +83,34 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
     setState(() {});
   }
 
+  // get a local value
+  getlocalvalue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      String? nameFirst = prefs.getString('nameFirst') ?? "";
+      int? pointFirst = prefs.getInt('pointFirst');
+      sName = prefs.getString('sName') ?? "";
+      sContactNo = prefs.getString('sContactNo') ?? "";
+      print("------146---$nameFirst");
+      print("------1147---$pointFirst");
+      print("------177---$sName");
+      print("------178---$sContactNo");
+    });
+    setState(() {
+
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     holdComplaintResponse();
     _searchController.addListener(_search);
     bindAjency();
+    getlocalvalue();
     super.initState();
   }
+  // get a local value
 
   @override
   void dispose() {
@@ -198,7 +220,7 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
         ),
       ),
       // drawer
-      drawer: generalFunction.drawerFunction(context,'',''),
+      drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
 
       body:
       pendingInternalComplaintList == null
@@ -538,7 +560,7 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
                                                 onTap: () {
                                                   print('---Forward---');
                                                   //bindAjency();
-                                                  _showBottomSheet(context);
+                                                 // _showBottomSheet(context);
                                                 },
                                                 child:Row(
                                                   mainAxisAlignment:
