@@ -221,17 +221,18 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        backgroundColor: Color(0xFF255899),
-        title: const Text(
-          'Change PassWord',
-          style: TextStyle(
-              fontFamily: 'Montserrat',
-              color: Colors.white,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold),
-        ),
-      ),
+      appBar: generalFunction.appbarFunction("Change PassWord"),
+      // appBar: AppBar(
+      //   backgroundColor: Color(0xFF255899),
+      //   title: const Text(
+      //     'Change PassWord',
+      //     style: TextStyle(
+      //         fontFamily: 'Montserrat',
+      //         color: Colors.white,
+      //         fontSize: 18.0,
+      //         fontWeight: FontWeight.bold),
+      //   ),
+      // ),
       // drawer
       drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
 

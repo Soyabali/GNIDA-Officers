@@ -16,6 +16,7 @@ ThemeData getApplicationTheme() {
       splashColor: ColorManager.primaryOpacity70,
       // will be used incase of disabled button for example
       hintColor: ColorManager.grey,
+
       // card view theme
       cardTheme: CardTheme(
           color: ColorManager.white,

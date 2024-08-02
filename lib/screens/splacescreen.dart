@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:noidaone/resources/assets_manager.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../Controllers/appversionrepo.dart';
 import '../resources/values_manager.dart';
+import 'homeScreen.dart';
+import 'homepagesecod.dart';
 import 'loginScreen_2.dart';
 
 class Splace extends StatefulWidget {
+
   const Splace({super.key});
 
   @override
@@ -39,9 +43,7 @@ class _SplaceState extends State<Splace> {
       });
     }
   }
-
   String? _appVersion ;
-
   // get app Version
   Future<void> _getAppVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -59,7 +61,6 @@ class _SplaceState extends State<Splace> {
       throw 'Could not launch $url';
     }
   }
-
   //
   void displayToast(String msg){
     Fluttertoast.showToast(
@@ -72,12 +73,31 @@ class _SplaceState extends State<Splace> {
         fontSize: 16.0
     );
   }
+  // toShareScreenAccordingToUserId
+
+  shareScreenBehafeOfId() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+   var iAgencyCode = prefs.getString('iAgencyCode').toString();
+     if(iAgencyCode=="1"){
+       Navigator.pushReplacement(
+         context,
+         MaterialPageRoute(builder: (context) => HomePage()),
+       );
+     }else if(iAgencyCode=="5"){
+       Navigator.pushReplacement(
+         context,
+         MaterialPageRoute(builder: (context) => HomeScreen_2()),
+       );
+     }else{}
+  }
 
   @override
   void initState() {
     // TODO: implement initState
+   // shareScreenBehafeOfId();
     checkUserConnection();
     _getAppVersion();
+
    // versionAliCall();
     super.initState();
   }
@@ -117,6 +137,7 @@ class _SplaceState extends State<Splace> {
       //print('----F---');
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(

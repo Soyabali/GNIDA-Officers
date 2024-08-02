@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:noidaone/resources/routes_managements.dart';
@@ -552,5 +553,58 @@ class GeneralFunction {
       debugPrint('An error occurred');
     }
   }
+    //
+    appbarFunction(String title){
+    return AppBar(
+      systemOverlayStyle: const SystemUiOverlayStyle(
+      // Status bar color
+      statusBarColor: Colors.blue,
+      // Status bar brightness (optional)
+      statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+      statusBarBrightness: Brightness.light, // For iOS (dark icons)
+      ),
+      backgroundColor: Color(0xFF255899),  //   0xFF255899
+      title: Text(
+      '$title',
+      style: TextStyle(
+      fontFamily: 'Montserrat',
+      color: Colors.white,
+      fontSize: 18.0,
+      fontWeight: FontWeight.bold),
+      ),
+      );
+    }
+    //
+    appbarback(BuildContext context,String title){
+    return AppBar(
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        // Status bar color
+        statusBarColor: Colors.blue,
+        // Status bar brightness (optional)
+        statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+        statusBarBrightness: Brightness.light, // For iOS (dark icons)
+      ),
+      backgroundColor: Color(0xFF255899),
+      leading: GestureDetector(
+          onTap: () {
+            //Navigator.pop(context);
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const HomePage()));
+          },
+          child:Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(Icons.arrow_back_ios),
+          )),
+      title:Text(
+        '$title',
+        style: TextStyle(
+            fontFamily: 'Montserrat',
+            color: Colors.white,
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold),
+      ),
+    );
+
+    }
 
 }

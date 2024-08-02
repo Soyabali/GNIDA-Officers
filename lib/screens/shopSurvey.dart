@@ -17,6 +17,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'flull_screen_image.dart';
+import 'generalFunction.dart';
 
 
 class ShopSurvey extends StatelessWidget {
@@ -118,6 +119,8 @@ class _MyHomePageState extends State<MyHomePage> {
   File? image;
   var uplodedImage;
   double? lat, long;
+
+  GeneralFunction generalfunction = GeneralFunction();
 
   // Uplode Id Proof with gallary
   Future pickImage() async {
@@ -420,27 +423,30 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Color(0xFF255899),
-        leading: GestureDetector(
-            onTap: () {
-              //Navigator.pop(context);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const HomePage()));
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(Icons.arrow_back_ios),
-            )),
-        title: const Text(
-          'Shop Survey',
-          style: TextStyle(
-              fontFamily: 'Montserrat',
-              color: Colors.white,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold),
-        ),
-      ),
+
+      //appBar: generalFunction.appbarback(context,"Field Inspection"),
+      appBar: generalfunction.appbarback(context,"Shop Survey"),
+      // appBar: AppBar(
+      //   backgroundColor: Color(0xFF255899),
+      //   leading: GestureDetector(
+      //       onTap: () {
+      //         //Navigator.pop(context);
+      //         Navigator.push(context,
+      //             MaterialPageRoute(builder: (context) => const HomePage()));
+      //       },
+      //       child: const Padding(
+      //         padding: EdgeInsets.all(8.0),
+      //         child: Icon(Icons.arrow_back_ios),
+      //       )),
+      //   title: const Text(
+      //     'Shop Survey',
+      //     style: TextStyle(
+      //         fontFamily: 'Montserrat',
+      //         color: Colors.white,
+      //         fontSize: 18.0,
+      //         fontWeight: FontWeight.bold),
+      //   ),
+      // ),
 
       body: SingleChildScrollView(
         child: Column(

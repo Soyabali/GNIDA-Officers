@@ -17,6 +17,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import 'generalFunction.dart';
+
 class DailyActivitytScreen extends StatelessWidget {
   const DailyActivitytScreen({super.key});
 
@@ -84,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
   File? _imageFile;
   var uplodedImage;
   final _formKey = GlobalKey<FormState>();
-
+  GeneralFunction generalFunction = GeneralFunction();
   // pick Image Codew
   Future pickImage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -289,27 +291,28 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Color(0xFF255899),
-        leading: GestureDetector(
-            onTap: () {
-              //Navigator.pop(context);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const HomePage()));
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(Icons.arrow_back_ios),
-            )),
-        title: const Text(
-          'Field Inspection',
-          style: TextStyle(
-              fontFamily: 'Montserrat',
-              color: Colors.white,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold),
-        ),
-      ),
+      appBar: generalFunction.appbarback(context,"Field Inspection"),
+      // appBar: AppBar(
+      //   backgroundColor: Color(0xFF255899),
+      //   leading: GestureDetector(
+      //       onTap: () {
+      //         //Navigator.pop(context);
+      //         Navigator.push(context,
+      //             MaterialPageRoute(builder: (context) => const HomePage()));
+      //       },
+      //       child: Padding(
+      //         padding: const EdgeInsets.all(8.0),
+      //         child: Icon(Icons.arrow_back_ios),
+      //       )),
+      //   title: const Text(
+      //     'Field Inspection',
+      //     style: TextStyle(
+      //         fontFamily: 'Montserrat',
+      //         color: Colors.white,
+      //         fontSize: 18.0,
+      //         fontWeight: FontWeight.bold),
+      //   ),
+      // ),
 
       body: SingleChildScrollView(
         child: Column(

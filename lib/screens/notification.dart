@@ -64,17 +64,18 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Color(0xFF255899),
-          title: const Text(
-            'Notification',
-            style: TextStyle(
-                fontFamily: 'Montserrat',
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold),
-          ),
-        ),
+        appBar: generalFunction.appbarFunction("Notification"),
+        // appBar: AppBar(
+        //   backgroundColor: Color(0xFF255899),
+        //   title: const Text(
+        //     'Notification',
+        //     style: TextStyle(
+        //         fontFamily: 'Montserrat',
+        //         color: Colors.white,
+        //         fontSize: 18.0,
+        //         fontWeight: FontWeight.bold),
+        //   ),
+        // ),
         // drawer
         drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
 

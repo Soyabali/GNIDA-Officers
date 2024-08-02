@@ -72,19 +72,22 @@ class _MyHomePageState extends State<MyPointPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Color(0xFF255899),
-          title: const Text(
-            'My Points',
-            style: TextStyle(
-                fontFamily: 'Montserrat',
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold),
-          ),
-        ),
+      //  appBar: generalFunction.appbarback(context,"My Points"),
+          appBar: generalFunction.appbarFunction("My Points"),
+        // appBar: AppBar(
+        //   backgroundColor: Color(0xFF255899),
+        //   title: const Text(
+        //     'My Points',
+        //     style: TextStyle(
+        //         fontFamily: 'Montserrat',
+        //         color: Colors.white,
+        //         fontSize: 18.0,
+        //         fontWeight: FontWeight.bold),
+        //   ),
+        // ),
         // Drawer
         drawer: generalFunction.drawerFunction(context, '$sName', '$sContactNo'),
+
         body: ListView(
           children: <Widget>[
             Padding(
@@ -176,8 +179,7 @@ class _MyHomePageState extends State<MyPointPage> {
                                   fontWeight: FontWeight.bold),
                             ),
                             SizedBox(width: 10),
-                            Text(
-                              '$totalPoint',
+                            Text('${totalPoint ?? 0}',
                               style: const TextStyle(
                                   fontFamily: 'Montserrat',
                                   color: Colors.black,
@@ -210,26 +212,42 @@ class _MyHomePageState extends State<MyPointPage> {
                       child: ListView.builder(
                         itemCount: myPoinList != null ? myPoinList!.length : 0,
                         itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 4.0, horizontal: 8.0),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                                side: BorderSide(
-                                    color: Colors.grey.shade300, width: 1),
-                              ),
-                              elevation: 2,
-                              color: Colors.white,
-                              child: Container(
-                                height: 48,
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8.0, horizontal: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      '${index+1} .',
+                          return Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                              side: BorderSide(color: Colors.grey.shade300, width: 1),
+                            ),
+                            elevation: 2,
+                            color: Colors.white,
+                            child: Container(
+                              height: 48,
+                              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    '${index + 1} .',
+                                    style: GoogleFonts.lato(
+                                      textStyle: const TextStyle(
+                                        color: Color(0xFF707d83),
+                                        fontSize: 14.0,
+                                        letterSpacing: .5,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 8),
+                                  const Icon(
+                                    Icons.calendar_month,
+                                    size: 20,
+                                    color: Color(0xFF3375af),
+                                  ),
+                                  SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      myPoinList?[index]['dMonth'].toString() ?? '',
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.start,
                                       style: GoogleFonts.lato(
                                         textStyle: const TextStyle(
                                           color: Color(0xFF707d83),
@@ -239,67 +257,137 @@ class _MyHomePageState extends State<MyPointPage> {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(width: 8),
-                                    const Icon(
-                                      Icons.calendar_month,
-                                      size: 20,
-                                      color: Color(0xFF3375af),
-                                    ),
-                                    SizedBox(width: 8),
-                                    Expanded(
-                                      child: Text(
-                                        myPoinList?[index]['dMonth'].toString() ?? '',
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.start,
-                                        style: GoogleFonts.lato(
-                                          textStyle: const TextStyle(
-                                            color: Color(0xFF707d83),
-                                            fontSize: 14.0,
-                                            letterSpacing: .5,
-                                            fontWeight: FontWeight.normal,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          myPoinList?[index]['iEarnedPoint'].toString() ?? '',
+                                          style: GoogleFonts.lato(
+                                            textStyle: const TextStyle(
+                                              color: Color(0xFFad964a),
+                                              fontSize: 14.0,
+                                              letterSpacing: .5,
+                                              fontWeight: FontWeight.normal,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            myPoinList?[index]['iEarnedPoint'].toString() ?? '',
-                                            style: GoogleFonts.lato(
-                                              textStyle: const TextStyle(
-                                                color: Color(0xFFad964a),
-                                                fontSize: 14.0,
-                                                letterSpacing: .5,
-                                                fontWeight: FontWeight.normal,
-                                              ),
+                                        SizedBox(width: 8),
+                                        Text(
+                                          'Points',
+                                          style: GoogleFonts.lato(
+                                            textStyle: const TextStyle(
+                                              color: Color(0xFFad964a),
+                                              fontSize: 14.0,
+                                              letterSpacing: .5,
+                                              fontWeight: FontWeight.normal,
                                             ),
                                           ),
-                                          SizedBox(width: 8),
-                                          Text(
-                                            'Points',
-                                            style: GoogleFonts.lato(
-                                              textStyle: const TextStyle(
-                                                color: Color(0xFFad964a),
-                                                fontSize: 14.0,
-                                                letterSpacing: .5,
-                                                fontWeight: FontWeight.normal,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           );
                         },
                       ),
+                      // child: ListView.builder(
+                      //   itemCount: myPoinList != null ? myPoinList!.length : 0,
+                      //   itemBuilder: (context, index) {
+                      //     return Padding(
+                      //       padding: const EdgeInsets.symmetric(
+                      //           vertical: 4.0, horizontal: 8.0),
+                      //       child: Card(
+                      //         shape: RoundedRectangleBorder(
+                      //           borderRadius: BorderRadius.circular(15.0),
+                      //           side: BorderSide(
+                      //               color: Colors.grey.shade300, width: 1),
+                      //         ),
+                      //         elevation: 2,
+                      //         color: Colors.white,
+                      //         child: Container(
+                      //           height: 48,
+                      //           padding: const EdgeInsets.symmetric(
+                      //               vertical: 8.0, horizontal: 10.0),
+                      //           child: Row(
+                      //             mainAxisAlignment: MainAxisAlignment.start,
+                      //             children: <Widget>[
+                      //               Text(
+                      //                 '${index+1} .',
+                      //                 style: GoogleFonts.lato(
+                      //                   textStyle: const TextStyle(
+                      //                     color: Color(0xFF707d83),
+                      //                     fontSize: 14.0,
+                      //                     letterSpacing: .5,
+                      //                     fontWeight: FontWeight.normal,
+                      //                   ),
+                      //                 ),
+                      //               ),
+                      //               SizedBox(width: 8),
+                      //               const Icon(
+                      //                 Icons.calendar_month,
+                      //                 size: 20,
+                      //                 color: Color(0xFF3375af),
+                      //               ),
+                      //               SizedBox(width: 8),
+                      //               Expanded(
+                      //                 child: Text(
+                      //                   myPoinList?[index]['dMonth'].toString() ?? '',
+                      //                   overflow: TextOverflow.ellipsis,
+                      //                   textAlign: TextAlign.start,
+                      //                   style: GoogleFonts.lato(
+                      //                     textStyle: const TextStyle(
+                      //                       color: Color(0xFF707d83),
+                      //                       fontSize: 14.0,
+                      //                       letterSpacing: .5,
+                      //                       fontWeight: FontWeight.normal,
+                      //                     ),
+                      //                   ),
+                      //                 ),
+                      //               ),
+                      //               Padding(
+                      //                 padding: const EdgeInsets.only(right: 10),
+                      //                 child: Row(
+                      //                   mainAxisAlignment:
+                      //                       MainAxisAlignment.end,
+                      //                   children: [
+                      //                     Text(
+                      //                       myPoinList?[index]['iEarnedPoint'].toString() ?? '',
+                      //                       style: GoogleFonts.lato(
+                      //                         textStyle: const TextStyle(
+                      //                           color: Color(0xFFad964a),
+                      //                           fontSize: 14.0,
+                      //                           letterSpacing: .5,
+                      //                           fontWeight: FontWeight.normal,
+                      //                         ),
+                      //                       ),
+                      //                     ),
+                      //                     SizedBox(width: 8),
+                      //                     Text(
+                      //                       'Points',
+                      //                       style: GoogleFonts.lato(
+                      //                         textStyle: const TextStyle(
+                      //                           color: Color(0xFFad964a),
+                      //                           fontSize: 14.0,
+                      //                           letterSpacing: .5,
+                      //                           fontWeight: FontWeight.normal,
+                      //                         ),
+                      //                       ),
+                      //                     ),
+                      //                   ],
+                      //                 ),
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     );
+                      //   },
+                      // ),
                     ),
                   ),
                 ],

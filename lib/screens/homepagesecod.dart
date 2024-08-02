@@ -24,7 +24,6 @@ import 'flull_screen_image.dart';
 import 'generalFunction.dart';
 import 'package:http/http.dart' as http;
 
-
 class HomeScreen_2 extends StatelessWidget {
   const HomeScreen_2({Key? key}) : super(key: key);
 
@@ -1020,21 +1019,23 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Color(0xFF255899),
-        title: const Text(
-          'Noida One',
-          style: TextStyle(
-              fontFamily: 'Montserrat',
-              color: Colors.white,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold),
-        ),
-      ),
+      appBar: generalFunction.appbarFunction("Noida One"),
+      // appBar: AppBar(
+      //   backgroundColor: Color(0xFF255899),
+      //   title: const Text(
+      //     'Noida One',
+      //     style: TextStyle(
+      //         fontFamily: 'Montserrat',
+      //         color: Colors.white,
+      //         fontSize: 18.0,
+      //         fontWeight: FontWeight.bold),
+      //   ),
+      // ),
       // drawer
       drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
 
@@ -1045,10 +1046,11 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
           Padding(
             padding: const EdgeInsets.only(left: 0,right: 0),
             child: Container(
-              height: 90,
+              height: 80,
               width: 200, // You can adjust the width as needed
-              decoration: BoxDecoration(
-                color: Color(0xFF255898),
+              decoration: const BoxDecoration(
+               // color: Color(0xFF255898),
+                color: Colors.blue,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(20), // Set the desired radius for top left corner
                   bottomRight: Radius.circular(20), // Set the desired radius for bottom right corner
@@ -1062,9 +1064,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                       fontFamily: 'Montserrat',
                       color: Colors.white,
                       fontSize: 18.0,
-                      fontWeight: FontWeight.bold),
-
-                  ),
+                      fontWeight: FontWeight.bold),),
                   SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1077,7 +1077,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                             const Text('Total', style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 color: Colors.white,
-                                fontSize: 18.0,
+                                fontSize: 14.0,
                                 fontWeight: FontWeight.bold)
 
                             ),
@@ -1085,15 +1085,15 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                             const Text(':', style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 color: Colors.white,
-                                fontSize: 18.0,
+                                fontSize: 14.0,
                                 fontWeight: FontWeight.bold)
 
                             ),
-                            SizedBox(width: 10),
-                            Text('$iTotalComp', style: TextStyle(
+                            const SizedBox(width: 10),
+                            Text('${iTotalComp ?? 0}', style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 color: Colors.white,
-                                fontSize: 18.0,
+                                fontSize: 14.0,
                                 fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -1107,21 +1107,21 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                             const Text('Resolved', style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 color: Colors.white,
-                                fontSize: 18.0,
+                                fontSize: 14.0,
                                 fontWeight: FontWeight.bold)
                             ),
                             const SizedBox(width: 10),
                             const Text(':', style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 color: Colors.white,
-                                fontSize: 18.0,
+                                fontSize: 14.0,
                                 fontWeight: FontWeight.bold)
                             ),
                             SizedBox(width: 10),
-                            Text('$iResolved', style: TextStyle(
+                            Text('${iResolved ?? 0}', style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 color: Colors.white,
-                                fontSize: 18.0,
+                                fontSize: 14.0,
                                 fontWeight: FontWeight.bold)),
                           ],
                         ),
@@ -1132,7 +1132,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
               )
             ),
           ),
-
 
           Center(
             child: Padding(

@@ -25,6 +25,11 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    //   statusBarColor: Colors.green, // Change this to the desired status bar color
+    // ));
+
     return MaterialApp(
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
@@ -45,8 +50,8 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage>
-    with SingleTickerProviderStateMixin {
+class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
+
   // void sendData(String data) {
   // }
 
@@ -142,17 +147,25 @@ class _MyHomePageState extends State<MyHomePage>
       onWillPop: () async => false,
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Color(0xFF255899),
-          title: const Text(
-            'Noida One',
-            style: TextStyle(
-                fontFamily: 'Montserrat',
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold),
-          ),
-        ),
+        appBar: generalFunction.appbarFunction("Noida One"),
+        // appBar: AppBar(
+        //   systemOverlayStyle: const SystemUiOverlayStyle(
+        //     // Status bar color
+        //     statusBarColor: Colors.blue,
+        //     // Status bar brightness (optional)
+        //     statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+        //     statusBarBrightness: Brightness.light, // For iOS (dark icons)
+        //   ),
+        //   backgroundColor: Color(0xFF255899),  //   0xFF255899
+        //   title: const Text(
+        //     'Noida One',
+        //     style: TextStyle(
+        //         fontFamily: 'Montserrat',
+        //         color: Colors.white,
+        //         fontSize: 18.0,
+        //         fontWeight: FontWeight.bold),
+        //   ),
+        // ),
         // drawer
         drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
         // body

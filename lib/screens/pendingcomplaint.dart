@@ -1344,17 +1344,18 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Color(0xFF255899),
-        title: const Text(
-          'Pending Complaint',
-          style: TextStyle(
-              fontFamily: 'Montserrat',
-              color: Colors.white,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold),
-        ),
-      ),
+      appBar: generalfunction.appbarFunction("Pending Complaint"),
+      // appBar: AppBar(
+      //   backgroundColor: Color(0xFF255899),
+      //   title: const Text(
+      //     'Pending Complaint',
+      //     style: TextStyle(
+      //         fontFamily: 'Montserrat',
+      //         color: Colors.white,
+      //         fontSize: 18.0,
+      //         fontWeight: FontWeight.bold),
+      //   ),
+      // ),
       // drawer
       drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
 

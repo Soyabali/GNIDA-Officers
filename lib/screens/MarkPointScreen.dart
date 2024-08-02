@@ -18,6 +18,8 @@ import 'package:intl/intl.dart';
 import 'flull_screen_image.dart';
 import 'dart:math';
 
+import 'generalFunction.dart';
+
 
 class MarkPointScreen extends StatelessWidget {
   const MarkPointScreen({super.key});
@@ -107,13 +109,13 @@ class _MyHomePageState extends State<MyHomePage> {
   var slong;
   File? image;
   var uplodedImage;
+  GeneralFunction generalFunction = GeneralFunction();
 
   // Uplode Id Proof with gallary
   Future pickImage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
     print('---Token----113--$sToken');
-
     try {
       final pickFileid = await ImagePicker()
           .pickImage(source: ImageSource.camera, imageQuality: 65);
@@ -363,32 +365,32 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   /// Algo.  First of all create repo, secodn get repo data in the main page after that apply list data on  dropdown.
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Color(0xFF255899),
-        leading: GestureDetector(
-            onTap: () {
-              //Navigator.pop(context);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const HomePage()));
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(Icons.arrow_back_ios),
-            )),
-        title: const Text(
-          'Mark Points',
-          style: TextStyle(
-              fontFamily: 'Montserrat',
-              color: Colors.white,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold),
-        ),
-      ),
+      appBar: generalFunction.appbarback(context,"Mark Points"),
+      // appBar: AppBar(
+      //   backgroundColor: Color(0xFF255899),
+      //   leading: GestureDetector(
+      //       onTap: () {
+      //         //Navigator.pop(context);
+      //         Navigator.push(context,
+      //             MaterialPageRoute(builder: (context) => const HomePage()));
+      //       },
+      //       child: const Padding(
+      //         padding: EdgeInsets.all(8.0),
+      //         child: Icon(Icons.arrow_back_ios),
+      //       )),
+      //   title: const Text(
+      //     'Mark Points',
+      //     style: TextStyle(
+      //         fontFamily: 'Montserrat',
+      //         color: Colors.white,
+      //         fontSize: 18.0,
+      //         fontWeight: FontWeight.bold),
+      //   ),
+      // ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[

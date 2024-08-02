@@ -17,6 +17,13 @@ class ScheduledPointScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          iconTheme: IconThemeData(
+            color: Colors.white, // Change the color of the drawer icon here
+          ),
+        ),
+      ),
       debugShowCheckedModeBanner: false,
       home: SchedulePointScreen(),
     );
@@ -139,28 +146,31 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Color(0xFF255899),
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const HomePage()));
-          },
-          child: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.arrow_back_ios,color: Colors.white),
-          ),
-        ),
-        title: const Text(
-          'Scheduled Point',
-          style: TextStyle(
-            fontFamily: 'Montserrat',
-            color: Colors.white,
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      appBar: generalfunction.appbarback(context, "Mark Points"),
+     // appBar: generalFunction.appbarback(context,"Mark Points"),
+    //   appBar: AppBar(
+    //     backgroundColor: Color(0xFF255899),
+    //     leading: GestureDetector(
+    //       onTap: () {
+    //         Navigator.push(context,
+    //             MaterialPageRoute(builder: (context) => const HomePage()));
+    //       },
+    //       child: const Padding(
+    //         padding: EdgeInsets.all(8.0),
+    //         child: Icon(Icons.arrow_back_ios,color: Colors.white),
+    //       ),
+    //     ),
+    //     title: const Text(
+    //       'Scheduled Point',
+    //       style: TextStyle(
+    //         fontFamily: 'Montserrat',
+    //         color: Colors.white,
+    //         fontSize: 18.0,
+    //         fontWeight: FontWeight.bold,
+    //       ),
+    //     ),
+    //   ),
+
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
