@@ -75,29 +75,28 @@ class _SplaceState extends State<Splace> {
   }
   // toShareScreenAccordingToUserId
 
-  shareScreenBehafeOfId() async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-   var iAgencyCode = prefs.getString('iAgencyCode').toString();
-     if(iAgencyCode=="1"){
-       Navigator.pushReplacement(
-         context,
-         MaterialPageRoute(builder: (context) => HomePage()),
-       );
-     }else if(iAgencyCode=="5"){
-       Navigator.pushReplacement(
-         context,
-         MaterialPageRoute(builder: (context) => HomeScreen_2()),
-       );
-     }else{}
-  }
+  // shareScreenBehafeOfId() async{
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   var iAgencyCode = prefs.getString('iAgencyCode').toString();
+  //   if(iAgencyCode=="1"){
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(builder: (context) => HomePage()),
+  //     );
+  //   }else if(iAgencyCode=="5"){
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(builder: (context) => HomeScreen_2()),
+  //     );
+  //   }else{}
+  // }
 
   @override
   void initState() {
     // TODO: implement initState
-   // shareScreenBehafeOfId();
+    // shareScreenBehafeOfId();
     checkUserConnection();
     _getAppVersion();
-
    // versionAliCall();
     super.initState();
   }
@@ -107,6 +106,7 @@ class _SplaceState extends State<Splace> {
     var loginMap = await AppVersionRepo().appversion(context,'15');
     var result = "${loginMap['Result']}";
     var msg = "${loginMap['Msg']}";
+    print('------------110----$result');
     //print('---73--$result');
     //print('---74--$msg');
     if(result=="1"){
@@ -114,20 +114,20 @@ class _SplaceState extends State<Splace> {
         context,
         MaterialPageRoute(builder: (context) =>  const LoginScreen_2()),
       );
-     // displayToast(msg);
+      // displayToast(msg);
     }else{
-     showDialog(context: context,
+      showDialog(context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('New Version Available'),
             content: const Text('Download the latest version of the app from the Play Store.'),
             actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      _launchGooglePlayStore(); // Close the dialog
-                    },
-                    child: const Text('Downlode'),
-                  ),
+              TextButton(
+                onPressed: () {
+                  _launchGooglePlayStore(); // Close the dialog
+                },
+                child: const Text('Downlode'),
+              ),
 
             ],
           );
@@ -167,31 +167,31 @@ class SplaceScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                     margin: const EdgeInsets.all(AppSize.s10),
-                     decoration: const BoxDecoration(
-                       image: DecorationImage(
-                         image: AssetImage(ImageAssets.roundcircle), // Replace with your image asset path
-                         fit: BoxFit.cover,
-                       ),
-                     ),
-                     width: AppSize.s50,
-                     height: AppSize.s50,
-                     child: Image.asset(ImageAssets.noidaauthoritylogo, // Replace with your image asset path
-                       width: AppSize.s50,
-                       height: AppSize.s50,
-                     ),
-                   ),
+                    margin: const EdgeInsets.all(AppSize.s10),
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(ImageAssets.roundcircle), // Replace with your image asset path
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    width: AppSize.s50,
+                    height: AppSize.s50,
+                    child: Image.asset(ImageAssets.noidaauthoritylogo, // Replace with your image asset path
+                      width: AppSize.s50,
+                      height: AppSize.s50,
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(right: AppSize.s10),
                     child: Container(
-                       margin: const EdgeInsets.all(AppSize.s10),
-                       child: Image.asset(
-                         ImageAssets.favicon,
-                         width: AppSize.s50,
-                         height: AppSize.s50,
-                         fit: BoxFit.cover,
-                       ),
-                     ),
+                      margin: const EdgeInsets.all(AppSize.s10),
+                      child: Image.asset(
+                        ImageAssets.favicon,
+                        width: AppSize.s50,
+                        height: AppSize.s50,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -221,7 +221,7 @@ class SplaceScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              ),
+            ),
           ],
         ),
       ),
