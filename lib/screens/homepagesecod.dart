@@ -25,7 +25,6 @@ import 'generalFunction.dart';
 import 'package:http/http.dart' as http;
 
 class HomeScreen_2 extends StatelessWidget {
-
   const HomeScreen_2({Key? key}) : super(key: key);
 
   @override
@@ -45,7 +44,6 @@ class HomeScreen_2 extends StatelessWidget {
 }
 
 class HomeScreenPage_2 extends StatefulWidget {
-
   const HomeScreenPage_2({Key? key}) : super(key: key);
 
   @override
@@ -53,7 +51,6 @@ class HomeScreenPage_2 extends StatefulWidget {
 }
 
 class _SchedulePointScreenState extends State<HomeScreenPage_2> {
-
   GeneralFunction generalFunction = GeneralFunction();
 
   var variableName;
@@ -89,27 +86,30 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   var selectedComplaintValue;
   var iTotalComp, iResolved;
   GeneralFunction generalfunction = GeneralFunction();
+
   // Function to toggle between border radii
 
   // Get a api response
   pendingInternalComplaintResponse() async {
     pendingInternalComplaintList =
-    await PendingInternalComplaintRepo().pendingInternalComplaint(context);
+        await PendingInternalComplaintRepo().pendingInternalComplaint(context);
     _filteredData =
-    List<Map<String, dynamic>>.from(pendingInternalComplaintList ?? []);
+        List<Map<String, dynamic>>.from(pendingInternalComplaintList ?? []);
 
     print('--77-----$pendingInternalComplaintList');
     print('--45--$_filteredData');
     setState(() {});
   }
+
   // bottomSheetForward
   bottomSheetForward(BuildContext context, String iCompCode) {
     showModalBottomSheet(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(12.0),
           ),
         ),
+
         context: context,
         builder: (context) {
           return Padding(
@@ -123,191 +123,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                        margin:
-                        EdgeInsets.only(left: 0, right: 10, top: 10),
-                        child: Image.asset(
-                          'assets/images/ic_expense.png',
-                          // Replace with your image asset path
-                          width: 24,
-                          height: 24,
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Text('Fill the below details',
-                            style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                color: Color(0xFF707d83),
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.bold)),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 5, top: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                            margin: const EdgeInsets.only(
-                                left: 0, right: 2, bottom: 2),
-                            child: const Icon(
-                              Icons.forward_sharp,
-                              size: 12,
-                              color: Colors.black54,
-                            )),
-                        const Text('JE',
-                            style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                color: Color(0xFF707d83),
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    ),
-                  ),
-                  Stack(
-                    alignment: AlignmentDirectional.centerStart,
-                    children: [
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: DropdownButtonHideUnderline(
-                          child: ButtonTheme(
-                            alignedDropdown: true,
-                            child: DropdownButton(
-                              onTap: () {
-                                FocusScope.of(context).unfocus();
-                              },
-                              hint: RichText(
-                                text: const TextSpan(
-                                  text: 'Select JE ',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text: '*',
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              value: _dropDownAgency2,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  _dropDownAgency2 = newValue;
-                                  // bindAjencyList = [];
-                                  print('---187---$_dropDownAgency2');
-                                  //  _isShowChosenDistError = false;
-                                  // Iterate the List
-                                  bindAjencyList.forEach((element) {
-                                    if (element["sName"] == _dropDownAgency2) {
-                                      setState(() {
-                                        selectedHoldValue = element['iUserId'];
-                                      });
-                                      print('-----1021----$selectedHoldValue');
-                                    }
-                                  });
-                                });
-                              },
-                              items: bindAjencyList.map((dynamic item) {
-                                return DropdownMenuItem(
-                                  child: Text(item['sName'].toString()),
-                                  value: item["sName"].toString(),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        right: 0,
-                        top: 0,
-                        bottom: 0,
-                        child: Container(
-                          color: Colors.white,
-                          child: Icon(Icons.arrow_drop_down),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  ElevatedButton(
-                      onPressed: () async {
-                        /// TODO REMOVE COMMENT AND apply proper api below and handle api data
-                        // print('----clicked--xxxxxxxx--');
-                        if (selectedHoldValue != null) {
-                          var complaintForwardResponse = await ComplaintForwardRepo()
-                              .complaintForward(context,
-                              selectedHoldValue, iCompCode);
-
-                          result1 = "${complaintForwardResponse['Result']}";
-                          msg1 = "${complaintForwardResponse['Msg']}";
-                          print('---1468---xxx-----$result1');
-                          print('---1469---xxx-----$msg1');
-                        } else{
-                          if(selectedHoldValue==null){
-                            displayToast('Select JE');
-                          }
-
-                        }
-
-                        if (result1 == "1") {
-                          print('----1----xxx----');
-                          displayToast(msg1);
-                          Navigator.pop(context);
-                        } else {
-                          displayToast(msg1);
-                          print('----0---');
-                        }
-                        /// Todo next Apply condition
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(
-                            0xFF255899), // Hex color code (FF for alpha, followed by RGB)
-                      ),
-                      child: const Text("Submit",
-                        style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            color: Colors.white,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold),
-                      ))
-                ],
-              ),
-            ),
-          );
-        });
-  }
-  // bottomSheetComplaintTransfer
-  bottomSheetComplaintTransfer() {
-    showModalBottomSheet(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(12.0),
-          ),
-        ),
-        context: context,
-        builder: (context) {
-          return Padding(
-            padding: const EdgeInsets.only(left: 10, right: 5, bottom: 5),
-            child: Container(
-              color: Colors.white,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        margin:
-                        EdgeInsets.only(left: 0, right: 10, top: 10),
+                        margin: EdgeInsets.only(left: 0, right: 10, top: 10),
                         child: Image.asset(
                           'assets/images/ic_expense.png',
                           // Replace with your image asset path
@@ -339,7 +155,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                               size: 12,
                               color: Colors.black54,
                             )),
-                        const Text('Complaints Type',
+                        const Text('JE',
                             style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 color: Color(0xFF707d83),
@@ -348,114 +164,196 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                       ],
                     ),
                   ),
-                  Stack(
-                    alignment: AlignmentDirectional.centerStart,
-                    children: [
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: DropdownButtonHideUnderline(
-                          child: ButtonTheme(
-                            alignedDropdown: true,
-                            child: DropdownButton(
-                              onTap: () {
-                                FocusScope.of(context).unfocus();
-                              },
-                              hint: RichText(
-                                text: const TextSpan(
-                                  text: 'Select Complaints Type ',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text: '*',
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10,right: 10),
+                    child: Container(
+                      height: 45,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFf2f3f5), // Light gray background
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Stack(
+                        alignment: AlignmentDirectional.centerStart,
+                        children: [
+                          DropdownButtonHideUnderline(
+                            child: ButtonTheme(
+                              alignedDropdown: true,
+                              child: DropdownButton(
+                                isExpanded: true, // Ensure the dropdown button takes available width
+                                onTap: () {
+                                  FocusScope.of(context).unfocus();
+                                },
+                                hint: RichText(
+                                  text: const TextSpan(
+                                    text: 'Select JE',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.normal,
                                     ),
-                                  ],
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: '*',
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              value: _dropDownComplaintType,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  _dropDownComplaintType = newValue;
-                                  print('---187---$_dropDownComplaintType');
-
-                                  bindPointTypeDropDown.forEach((element) {
-                                    if (element["sPointTypeName"] ==
-                                        _dropDownComplaintType) {
-                                      setState(() {
-                                        selectedComplaintValue =
-                                        element['iPointTypeCode'];
-                                      });
-                                      print('-----1021----$selectedComplaintValue');
-                                    }
+                                value: _dropDownAgency2,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _dropDownAgency2 = newValue;
+                                    bindAjencyList.forEach((element) {
+                                      if (element["sName"] == _dropDownAgency2) {
+                                        setState(() {
+                                          selectedHoldValue = element['iUserId'];
+                                        });
+                                      }
+                                    });
                                   });
-                                });
-                              },
-                              items: bindPointTypeDropDown.map((dynamic item) {
-                                return DropdownMenuItem(
-                                  child: Text(item['sPointTypeName'].toString()),
-                                  value: item["sPointTypeName"].toString(),
-                                );
-                              }).toList(),
+                                },
+                                items: bindAjencyList.map((dynamic item) {
+                                  return DropdownMenuItem(
+                                    child: Text(item['sName'].toString()),
+                                    value: item["sName"].toString(),
+                                  );
+                                }).toList(),
+                              ),
                             ),
                           ),
-                        ),
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFf2f3f5), // Light gray background
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(10.0), // Adjust the radius as needed
+                                  bottomRight: Radius.circular(10.0), // Adjust the radius as needed
+                                ),
+                              ),
+                              child: Icon(Icons.arrow_drop_down),
+                            ),
+                          ),
+                        ],
                       ),
-                      Positioned(
-                        right: 0,
-                        top: 0,
-                        bottom: 0,
-                        child: Container(
-                          color: Colors.white,
-                          child: Icon(Icons.arrow_drop_down),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                  SizedBox(height: 10),
+                  // Stack(
+                  //   alignment: AlignmentDirectional.centerStart,
+                  //   children: [
+                  //     SingleChildScrollView(
+                  //       scrollDirection: Axis.horizontal,
+                  //       child: DropdownButtonHideUnderline(
+                  //         child: ButtonTheme(
+                  //           alignedDropdown: true,
+                  //           child: DropdownButton(
+                  //             onTap: () {
+                  //               FocusScope.of(context).unfocus();
+                  //             },
+                  //             hint: RichText(
+                  //               text: const TextSpan(
+                  //                 text: 'Select JE ',
+                  //                 style: TextStyle(
+                  //                   color: Colors.black,
+                  //                   fontSize: 16,
+                  //                   fontWeight: FontWeight.normal,
+                  //                 ),
+                  //                 children: <TextSpan>[
+                  //                   TextSpan(
+                  //                     text: '*',
+                  //                     style: TextStyle(
+                  //                       color: Colors.red,
+                  //                       fontSize: 16,
+                  //                       fontWeight: FontWeight.bold,
+                  //                     ),
+                  //                   ),
+                  //                 ],
+                  //               ),
+                  //             ),
+                  //             value: _dropDownAgency2,
+                  //             onChanged: (newValue) {
+                  //               setState(() {
+                  //                 _dropDownAgency2 = newValue;
+                  //                 // bindAjencyList = [];
+                  //                 print('---187---$_dropDownAgency2');
+                  //                 //  _isShowChosenDistError = false;
+                  //                 // Iterate the List
+                  //                 bindAjencyList.forEach((element) {
+                  //                   if (element["sName"] == _dropDownAgency2) {
+                  //                     setState(() {
+                  //                       selectedHoldValue = element['iUserId'];
+                  //                     });
+                  //                     print('-----1021----$selectedHoldValue');
+                  //                   }
+                  //                 });
+                  //               });
+                  //             },
+                  //             items: bindAjencyList.map((dynamic item) {
+                  //               return DropdownMenuItem(
+                  //                 child: Text(item['sName'].toString()),
+                  //                 value: item["sName"].toString(),
+                  //               );
+                  //             }).toList(),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     Positioned(
+                  //       right: 0,
+                  //       top: 0,
+                  //       bottom: 0,
+                  //       child: Container(
+                  //         color: Colors.white,
+                  //         child: Icon(Icons.arrow_drop_down),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
 
+
+                  SizedBox(height: 10),
                   ElevatedButton(
                       onPressed: () async {
                         /// TODO REMOVE COMMENT AND apply proper api below and handle api data
                         // print('----clicked--xxxxxxxx--');
-                        if (selectedComplaintValue != null) {
-                          var complaintForwardResponse = await ChangePointTypeRepo()
-                              .changePointType(
-                              context, selectedComplaintValue, iCompCode);
-
-                          print('-----1453----$complaintForwardResponse');
+                        if (selectedHoldValue != null) {
+                          var complaintForwardResponse =
+                              await ComplaintForwardRepo().complaintForward(
+                                  context, selectedHoldValue, iCompCode);
 
                           result1 = "${complaintForwardResponse['Result']}";
                           msg1 = "${complaintForwardResponse['Msg']}";
                           print('---1468---xxx-----$result1');
                           print('---1469---xxx-----$msg1');
-
-                        } else{
-                          if(selectedComplaintValue==null){
-                            displayToast('Select Complaints Type');
+                        } else {
+                          if (selectedHoldValue == null) {
+                            displayToast('Select JE');
                           }
                         }
+
                         if (result1 == "1") {
                           print('----1----xxx----');
                           displayToast(msg1);
                           Navigator.pop(context);
-                        }
-                        else {
+                        } else {
                           displayToast(msg1);
                           print('----0---');
                         }
+
+                        /// Todo next Apply condition
                       },
-                      /// Todo next Apply condition
-                      style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(
+                            0xFF255899), // Hex color code (FF for alpha, followed by RGB)
                       ),
-                      child: const Text("Submit",
+                      child: const Text(
+                        "Submit",
                         style: TextStyle(
                             fontFamily: 'Montserrat',
                             color: Colors.white,
@@ -465,306 +363,658 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                 ],
               ),
             ),
-
-
           );
         });
   }
+
+  // bottomSheetComplaintTransfer
+
+  bottomSheetComplaintTransfer() {
+    showModalBottomSheet(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(12.0),
+          ),
+        ),
+        context: context,
+        builder: (context) {
+          return Padding(
+            padding: const EdgeInsets.only(left: 0, right: 0, bottom: 0),
+            child: Container(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10,right: 10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(left: 0, right: 10, top: 10),
+                          child: Image.asset(
+                            'assets/images/ic_expense.png',
+                            // Replace with your image asset path
+                            width: 24,
+                            height: 24,
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Text('Fill the below details',
+                              style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Color(0xFF707d83),
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 5, top: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                              margin: const EdgeInsets.only(left: 0, right: 2, bottom: 2),
+                              child: const Icon(
+                                Icons.forward_sharp,
+                                size: 12,
+                                color: Colors.black54,
+                              )),
+                          const Text('Complaints Type',
+                              style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Color(0xFF707d83),
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                    ),
+                     //
+                    Container(
+                      height: 45,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFf2f3f5), // Light gray background
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Stack(
+                        alignment: AlignmentDirectional.centerStart,
+                        children: [
+                          DropdownButtonHideUnderline(
+                            child: ButtonTheme(
+                              alignedDropdown: true,
+                              child: DropdownButton(
+                                isExpanded: true, // Ensure the dropdown button takes available width
+                                onTap: () {
+                                  FocusScope.of(context).unfocus();
+                                },
+                                hint: RichText(
+                                  text: const TextSpan(
+                                    text: 'Select Complaints Type',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: '*',
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                value: _dropDownComplaintType,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _dropDownComplaintType = newValue;
+                                    bindPointTypeDropDown.forEach((element) {
+                                      if (element["sPointTypeName"] == bindPointTypeDropDown) {
+                                        setState(() {
+                                          selectedComplaintValue = element['iPointTypeCode'];
+                                        });
+                                      }
+                                    });
+                                  });
+                                },
+                                items: bindPointTypeDropDown.map((dynamic item) {
+                                  return DropdownMenuItem(
+                                    child: Text(item['sPointTypeName'].toString()),
+                                    value: item["sPointTypeName"].toString(),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFf2f3f5), // Light gray background
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(10.0), // Adjust the radius as needed
+                                  bottomRight: Radius.circular(10.0), // Adjust the radius as needed
+                                ),
+                              ),
+                              child: Icon(Icons.arrow_drop_down),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // Container(
+                    //   height:35,
+                    //   decoration: BoxDecoration(
+                    //     color: Color(0xFFf2f3f5), // Light gray background
+                    //     borderRadius: BorderRadius.circular(10),
+                    //   ),
+                    //   child: Stack(
+                    //     alignment: AlignmentDirectional.centerStart,
+                    //     children: [
+                    //       DropdownButtonHideUnderline(
+                    //         child: ButtonTheme(
+                    //           alignedDropdown: true,
+                    //           child: DropdownButton(
+                    //             onTap: () {
+                    //               FocusScope.of(context).unfocus();
+                    //             },
+                    //             hint: RichText(
+                    //               text: const TextSpan(
+                    //                 text: 'Select Complaints Type',
+                    //                 style: TextStyle(
+                    //                   color: Colors.black,
+                    //                   fontSize: 16,
+                    //                   fontWeight: FontWeight.normal,
+                    //                 ),
+                    //                 children: <TextSpan>[
+                    //                   TextSpan(
+                    //                     text: '*',
+                    //                     style: TextStyle(
+                    //                       color: Colors.red,
+                    //                       fontSize: 16,
+                    //                       fontWeight: FontWeight.bold,
+                    //                     ),
+                    //                   ),
+                    //                 ],
+                    //               ),
+                    //             ),
+                    //             value: _dropDownComplaintType,
+                    //             onChanged: (newValue) {
+                    //               setState(() {
+                    //                 _dropDownComplaintType = newValue;
+                    //                 bindPointTypeDropDown.forEach((element) {
+                    //                   if (element["sPointTypeName"] == bindPointTypeDropDown) {
+                    //                     setState(() {
+                    //                       //selectedHoldValue = element['iHold'];
+                    //                       selectedComplaintValue = element['iPointTypeCode'];
+                    //                     });
+                    //                   }
+                    //                 });
+                    //               });
+                    //             },
+                    //             items: bindPointTypeDropDown.map((dynamic item) {
+                    //               return DropdownMenuItem(
+                    //                 child: Text(item['sPointTypeName'].toString()),
+                    //                 value: item["sPointTypeName"].toString(),
+                    //               );
+                    //             }).toList(),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       Positioned(
+                    //         right: 0,
+                    //         top: 0,
+                    //         bottom: 0,
+                    //         child: Container(
+                    //           decoration: const BoxDecoration(
+                    //             color: Color(0xFFf2f3f5), // Light gray background
+                    //             borderRadius: BorderRadius.only(
+                    //               topRight: Radius.circular(10.0), // Adjust the radius as needed
+                    //               bottomRight: Radius.circular(10.0), // Adjust the radius as needed
+                    //             ),
+                    //           ),
+                    //           child: Icon(Icons.arrow_drop_down),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+
+                    // Stack(
+                    //   alignment: AlignmentDirectional.centerStart,
+                    //   children: [
+                    //     SingleChildScrollView(
+                    //       scrollDirection: Axis.horizontal,
+                    //       child: DropdownButtonHideUnderline(
+                    //         child: ButtonTheme(
+                    //           alignedDropdown: true,
+                    //           child: DropdownButton(
+                    //             onTap: () {
+                    //               FocusScope.of(context).unfocus();
+                    //             },
+                    //             hint: RichText(
+                    //               text: const TextSpan(
+                    //                 text: 'Select Complaints Type ',
+                    //                 style: TextStyle(
+                    //                   color: Colors.black,
+                    //                   fontSize: 16,
+                    //                   fontWeight: FontWeight.normal,
+                    //                 ),
+                    //                 children: <TextSpan>[
+                    //                   TextSpan(
+                    //                     text: '*',
+                    //                     style: TextStyle(
+                    //                       color: Colors.red,
+                    //                       fontSize: 16,
+                    //                       fontWeight: FontWeight.bold,
+                    //                     ),
+                    //                   ),
+                    //                 ],
+                    //               ),
+                    //             ),
+                    //             value: _dropDownComplaintType,
+                    //             onChanged: (newValue) {
+                    //               setState(() {
+                    //                 _dropDownComplaintType = newValue;
+                    //                 print('---187---$_dropDownComplaintType');
+                    //
+                    //                 bindPointTypeDropDown.forEach((element) {
+                    //                   if (element["sPointTypeName"] ==
+                    //                       _dropDownComplaintType) {
+                    //                     setState(() {
+                    //                       selectedComplaintValue =
+                    //                           element['iPointTypeCode'];
+                    //                     });
+                    //                     print(
+                    //                         '-----1021----$selectedComplaintValue');
+                    //                   }
+                    //                 });
+                    //               });
+                    //             },
+                    //             items: bindPointTypeDropDown.map((dynamic item) {
+                    //               return DropdownMenuItem(
+                    //                 child:
+                    //                     Text(item['sPointTypeName'].toString()),
+                    //                 value: item["sPointTypeName"].toString(),
+                    //               );
+                    //             }).toList(),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     Positioned(
+                    //       right: 0,
+                    //       top: 0,
+                    //       bottom: 0,
+                    //       child: Container(
+                    //         color: Colors.white,
+                    //         child: Icon(Icons.arrow_drop_down),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                        onPressed: () async {
+                          /// TODO REMOVE COMMENT AND apply proper api below and handle api data
+                          // print('----clicked--xxxxxxxx--');
+                          if (selectedComplaintValue != null) {
+                            var complaintForwardResponse =
+                                await ChangePointTypeRepo().changePointType(
+                                    context, selectedComplaintValue, iCompCode);
+
+                            print('-----1453----$complaintForwardResponse');
+
+                            result1 = "${complaintForwardResponse['Result']}";
+                            msg1 = "${complaintForwardResponse['Msg']}";
+                            print('---1468---xxx-----$result1');
+                            print('---1469---xxx-----$msg1');
+                          } else {
+                            if (selectedComplaintValue == null) {
+                              displayToast('Select Complaints Type');
+                            }
+                          }
+                          if (result1 == "1") {
+                            print('----1----xxx----');
+                            displayToast(msg1);
+                            Navigator.pop(context);
+                          } else {
+                            displayToast(msg1);
+                            print('----0---');
+                          }
+                        },
+
+                        /// Todo next Apply condition
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(
+                              0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+                        ),
+                        child: const Text(
+                          "Submit",
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              color: Colors.white,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold),
+                        ))
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
   // bottomSheetHold
   bottomSheetHold() {
     showModalBottomSheet(
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(12.0),),
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(12.0),
+        ),
       ),
       context: context,
       builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.only(left: 10, right: 5, bottom: 5),
-          child: Container(
-            color: Colors.white, // Set the background color here
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 0, right: 0, bottom: 0),
+            child: Container(
+             // color: Color(0xFFf2f3f5),
+              color: Colors.white, // Set the background color here
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10,right: 10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(left: 0, right: 10, top: 10),
-                      child: Image.asset(
-                        'assets/images/ic_expense.png',
-                        // Replace with your image asset path
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 10),
-                      child: Text('Fill the below details',
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Color(0xFF707d83),
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold)),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 5, top: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                          margin: const EdgeInsets.only(left: 0, right: 2, bottom: 2),
-                          child: const Icon(
-                            Icons.forward_sharp,
-                            size: 12,
-                            color: Colors.black54,
-                          )),
-                      const Text('Hold Time',
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Color(0xFF707d83),
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 42,
-                  color: Color(0xFFf2f3f5),
-                  child: Stack(
-                    alignment: AlignmentDirectional.centerStart,
-                    children: [
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: DropdownButtonHideUnderline(
-                          child: ButtonTheme(
-                            alignedDropdown: true,
-                            child: DropdownButton(
-                              onTap: () {
-                                FocusScope.of(context).unfocus();
-                              },
-                              hint: RichText(
-                                text: const TextSpan(
-                                  text: 'Select Hold Time',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text: '*',
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              value: _dropDownHold,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  _dropDownHold = newValue;
-                                  print('---187---$_dropDownHold');
-                                  //  _isShowChosenDistError = false;
-                                  // Iterate the List
-                                  bindHoldList.forEach((element) {
-                                    if (element["sHoldDesc"] == _dropDownHold) {
-                                      setState(() {
-                                        selectedHoldValue = element['iHold'];
-                                      });
-                                      print('-----1021----$selectedHoldValue');
-                                    }
-                                  });
-                                });
-                              },
-                              items: bindHoldList.map((dynamic item) {
-                                return DropdownMenuItem(
-                                  child: Text(item['sHoldDesc'].toString()),
-                                  value: item["sHoldDesc"].toString(),
-                                );
-                              }).toList(),
-                            ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(left: 0, right: 10, top: 10),
+                          child: Image.asset(
+                            'assets/images/ic_expense.png',
+                            // Replace with your image asset path
+                            width: 24,
+                            height: 24,
                           ),
                         ),
-                      ),
-                      Positioned(
-                        right: 0,
-                        top: 0,
-                        bottom: 0,
-                        child: Container(
-                          color: Colors.white,
-                          child: Icon(Icons.arrow_drop_down),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Text('Fill the below details',
+                              style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Color(0xFF707d83),
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.bold)),
                         ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 5, top: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                              margin: const EdgeInsets.only(
+                                  left: 0, right: 2, bottom: 2),
+                              child: const Icon(
+                                Icons.forward_sharp,
+                                size: 12,
+                                color: Colors.black54,
+                              )),
+                          const Text('Hold Time',
+                              style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Color(0xFF707d83),
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.bold)),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10),
-                Container(
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFf2f3f5),
-                    borderRadius: BorderRadius.circular(10.0), // Border radius
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: 10),
-                    child: Row(
-                      children: [
-                        const Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Text(
-                                  'Click Photo',
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Colors.black54,
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold),
+                    ),
+                    Container(
+                      height:45,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFf2f3f5), // Light gray background
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Stack(
+                        alignment: AlignmentDirectional.centerStart,
+                        children: [
+                          DropdownButtonHideUnderline(
+                            child: ButtonTheme(
+                              alignedDropdown: true,
+                              child: DropdownButton(
+                                onTap: () {
+                                  FocusScope.of(context).unfocus();
+                                },
+                                hint: RichText(
+                                  text: const TextSpan(
+                                    text: 'Select Hold Time',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: '*',
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                value: _dropDownHold,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _dropDownHold = newValue;
+                                    bindHoldList.forEach((element) {
+                                      if (element["sHoldDesc"] == _dropDownHold) {
+                                        setState(() {
+                                          selectedHoldValue = element['iHold'];
+                                        });
+                                      }
+                                    });
+                                  });
+                                },
+                                items: bindHoldList.map((dynamic item) {
+                                  return DropdownMenuItem(
+                                    child: Text(item['sHoldDesc'].toString()),
+                                    value: item["sHoldDesc"].toString(),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFf2f3f5), // Light gray background
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(10.0), // Adjust the radius as needed
+                                  bottomRight: Radius.circular(10.0), // Adjust the radius as needed
                                 ),
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      'Please clock here to take a photo',
+                              child: Icon(Icons.arrow_drop_down),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFf2f3f5),
+                        borderRadius: BorderRadius.circular(10.0), // Border radius
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 10),
+                        child: Row(
+                          children: [
+                            const Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 10, top: 10),
+                                    child: Text(
+                                      'Click Photo',
                                       style: TextStyle(
                                           fontFamily: 'Montserrat',
-                                          color: Colors.redAccent,
-                                          fontSize: 10.0,
+                                          color: Colors.black54,
+                                          fontSize: 14.0,
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    SizedBox(width: 10),
-                                    Icon(Icons.forward_sharp, size: 10,
-                                        color: Colors.redAccent),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            // pickImage();
-                            pickImage();
-                            print('---------530-----');
-                          },
-                          child: const Padding(
-                            padding: EdgeInsets.only(right: 10, top: 5),
-                            child: Image(image: AssetImage(
-                                'assets/images/ic_camera.PNG'),
-                              width: 40,
-                              height: 40,
-                              fit: BoxFit.fill,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 10, top: 5),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          'Please click here to take a photo',
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.redAccent,
+                                              fontSize: 10.0,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(width: 10),
+                                        Icon(Icons.forward_sharp,
+                                            size: 10, color: Colors.redAccent),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
+                            InkWell(
+                              onTap: () {
+                                pickImage();
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.only(right: 10, top: 5),
+                                child: Image(
+                                  image: AssetImage('assets/images/ic_camera.PNG'),
+                                  width: 40,
+                                  height: 40,
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        image != null
+                            ? Stack(
+                          children: [
+                            GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FullScreenPage(
+                                          child: image!,
+                                          dark: true,
+                                        )));
+                              },
+                              child: Container(
+                                  color: Colors.lightGreenAccent,
+                                  height: 100,
+                                  width: 70,
+                                  child: Image.file(
+                                    image!,
+                                    fit: BoxFit.fill,
+                                  )),
+                            ),
+                            Positioned(
+                                bottom: 65,
+                                left: 35,
+                                child: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      image = null;
+                                    });
+                                  },
+                                  icon: const Icon(
+                                    Icons.close,
+                                    color: Colors.red,
+                                    size: 30,
+                                  ),
+                                ))
+                          ],
+                        )
+                            : Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            "Photo is required.",
+                            style: TextStyle(color: Colors.red[700]),
+                          ),
+                        )
                       ],
                     ),
-                  ),
-                ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    image != null
-                        ? Stack(
-                      children: [
-                        GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => FullScreenPage(
-                                      child: image!,
-                                      dark: true,
-                                    )));
+                    Center(
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            if (selectedHoldValue != null && uplodedImage != null) {
+                              var complaintForwardResponse =
+                              await HoloComplaintRepo().holoComplaint(
+                                  context,
+                                  selectedHoldValue,
+                                  uplodedImage!,
+                                  iCompCode);
+
+                              result1 = "${complaintForwardResponse['Result']}";
+                              msg1 = "${complaintForwardResponse['Msg']}";
+                            } else {
+                              if (selectedHoldValue == null ||
+                                  selectedHoldValue == "") {
+                                displayToast('Select Hold Time');
+                              } else if (uplodedImage == null) {
+                                displayToast('Click Photo');
+                              }
+                            }
                           },
-                          child: Container(
-                              color: Colors.lightGreenAccent,
-                              height: 100,
-                              width: 70,
-                              child: Image.file(
-                                image!,
-                                fit: BoxFit.fill,
-                              )),
-                        ),
-                        Positioned(
-                            bottom: 65,
-                            left: 35,
-                            child: IconButton(
-                              onPressed: () {
-                                image = null;
-                                setState(() {});
-                              },
-                              icon: const Icon(
-                                Icons.close,
-                                color: Colors.red,
-                                size: 30,
-                              ),
-                            ))
-                      ],
-                    )
-                        : Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Text(
-                        "Photo is required.",
-                        style: TextStyle(color: Colors.red[700]),
-                      ),
-                    )
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF255899),
+                          ),
+                          child: const Text(
+                            "Complaint Hold",
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold),
+                          )),
+                    ),
                   ],
                 ),
-                Center(
-                  child: ElevatedButton(
-                      onPressed: () async {
-                        /// TODO REMOVE COMMENT AND apply proper api below and handle api data
-                        // print('----clicked--xxxxxxxx--
-                        //  var complaintCode =   item['iCompCode'].toString() ?? '';
-                        if (selectedHoldValue != null && uplodedImage != null) {
-                          print('---Api call---');
-                          var complaintForwardResponse = await HoloComplaintRepo()
-                              .holoComplaint(context, selectedHoldValue, uplodedImage!, iCompCode);
-                          print('-----1174--xx--$complaintForwardResponse');
-
-                          result1 = "${complaintForwardResponse['Result']}";
-                          msg1 = "${complaintForwardResponse['Msg']}";
-                          print('---1126---$result1');
-                        } else {
-                          if (selectedHoldValue == null || selectedHoldValue == "") {
-                            displayToast('Select Hold Time');
-                          } else if (uplodedImage == null) {
-                            displayToast('Click Photo');
-                          }
-                          print('----Not call a Api--');
-                        }
-
-                        /// Todo next Apply condition
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF255899), // Hex color code (FF for alpha, followed by RGB)
-                      ),
-                      child: const Text(
-                        "Complaint Hold",
-                        style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            color: Colors.white,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold),
-                      )),
-                ),
-              ],
+              ),
             ),
           ),
         );
@@ -785,6 +1035,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     getlocalvalue();
     super.initState();
   }
+
   getComplaintStatus() async {
     //Future<List<Map<String, dynamic>>?> pendingInternalComplaint(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -797,17 +1048,11 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       var pendingInternalComplaintApi = "$baseURL$endPoint";
 
       showLoader();
-      var headers = {
-        'token': '$sToken',
-        'Content-Type': 'application/json'
-      };
-      var request = http.Request(
-          'POST', Uri.parse('$pendingInternalComplaintApi'));
-      request.body = json.encode({
-        "iUserId": iUserId,
-        "iPage": "",
-        "iPageSize": ""
-      });
+      var headers = {'token': '$sToken', 'Content-Type': 'application/json'};
+      var request =
+          http.Request('POST', Uri.parse('$pendingInternalComplaintApi'));
+      request.body =
+          json.encode({"iUserId": iUserId, "iPage": "", "iPageSize": ""});
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
 
@@ -849,20 +1094,22 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     _searchController.dispose();
     super.dispose();
   }
+
   void _search() {
     String query = _searchController.text.toLowerCase();
     setState(() {
       _filteredData = pendingInternalComplaintList?.where((item) {
-        String location = item['sLocation'].toLowerCase();
-        String pointType = item['sPointTypeName'].toLowerCase();
-        String sector = item['sSectorName'].toLowerCase();
-        return location.contains(query) ||
-            pointType.contains(query) ||
-            sector.contains(query);
-      }).toList() ??
+            String location = item['sLocation'].toLowerCase();
+            String pointType = item['sPointTypeName'].toLowerCase();
+            String sector = item['sSectorName'].toLowerCase();
+            return location.contains(query) ||
+                pointType.contains(query) ||
+                sector.contains(query);
+          }).toList() ??
           [];
     });
   }
+
   // location
   void getLocation() async {
     bool serviceEnabled;
@@ -897,6 +1144,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
     debugPrint(position.toString());
   }
+
   void displayToast(String msg) {
     Fluttertoast.showToast(
         msg: msg,
@@ -907,6 +1155,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
         textColor: Colors.white,
         fontSize: 16.0);
   }
+
   Future pickImage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
@@ -926,19 +1175,19 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       }
     } catch (e) {}
   }
+
   // upload images
   Future<void> uploadImage(String token, File imageFile) async {
     try {
       showLoader();
       // Create a multipart request
-      var request = http.MultipartRequest(
-          'POST',
+      var request = http.MultipartRequest('POST',
           Uri.parse('https://upegov.in/noidaoneapi/Api/PostImage/PostImage'));
       // Add headers
       request.headers['token'] = token;
       // Add the image file as a part of the request
-      request.files.add(
-          await http.MultipartFile.fromPath('sFolder', imageFile.path));
+      request.files
+          .add(await http.MultipartFile.fromPath('sFolder', imageFile.path));
       // Send the request
       var streamedResponse = await request.send();
       // Get the response
@@ -956,12 +1205,14 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       print('Error uploading image: $error');
     }
   }
+
   bindAjency() async {
     bindAjencyList = [];
     bindAjencyList = await BindAjencyRepo().bindajency();
     print(" -----302---bindAjencyList---> $bindAjencyList");
     setState(() {});
   }
+
   // complaintType dropdown value
   bindPointTypeDropDown_2() async {
     // bindPointTypeDropDown = [];
@@ -969,6 +1220,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     print(" -----310---bindPointType---> $bindPointTypeDropDown");
     setState(() {});
   }
+
   // bind Hold
   bindHold() async {
     bindHoldList = [];
@@ -976,6 +1228,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     print(" -----252---bindHoldList---> $bindHoldList");
     setState(() {});
   }
+
   getlocalvalue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -988,10 +1241,9 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       print("------177---$sName");
       print("------178---$sContactNo");
     });
-    setState(() {
-
-    });
+    setState(() {});
   }
+
   userAjency(int ajencyCode) async {
     print('-----170--$ajencyCode');
     // setState(() {
@@ -1014,116 +1266,105 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: generalFunction.appbarFunction("Noida One"),
-      // appBar: AppBar(
-      //   backgroundColor: Color(0xFF255899),
-      //   title: const Text(
-      //     'Noida One',
-      //     style: TextStyle(
-      //         fontFamily: 'Montserrat',
-      //         color: Colors.white,
-      //         fontSize: 18.0,
-      //         fontWeight: FontWeight.bold),
-      //   ),
-      // ),
-      // drawer
-      drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
+      drawer: generalFunction.drawerFunction(context, '$sName', '$sContactNo'),
 
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          SizedBox(height: 0),
-          Padding(
-            padding: const EdgeInsets.only(left: 0,right: 0),
-            child: Container(
-              height: 80,
-              width: 200, // You can adjust the width as needed
-              decoration: const BoxDecoration(
-               // color: Color(0xFF255898),
-                color: Colors.blue,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20), // Set the desired radius for top left corner
-                  bottomRight: Radius.circular(20), // Set the desired radius for bottom right corner
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(height: 10),
-                  Text('Complaint Status',style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      color: Colors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold),),
-                  SizedBox(height: 5),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 18, top: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text('Total', style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                color: Colors.white,
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.bold)
-
-                            ),
-                            const SizedBox(width: 10),
-                            const Text(':', style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                color: Colors.white,
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.bold)
-
-                            ),
-                            const SizedBox(width: 10),
-                            Text('${iTotalComp ?? 0}', style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                color: Colors.white,
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 20, top: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text('Resolved', style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                color: Colors.white,
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.bold)
-                            ),
-                            const SizedBox(width: 10),
-                            const Text(':', style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                color: Colors.white,
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.bold)
-                            ),
-                            SizedBox(width: 10),
-                            Text('${iResolved ?? 0}', style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                color: Colors.white,
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.bold)),
-                          ],
-                        ),
-                      ),
-                    ],
+          Container(
+                height: 80,
+                width: MediaQuery.of(context).size.width,
+                decoration: const BoxDecoration(
+                  // color: Color(0xFF255898),
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    // Set the desired radius for top left corner
+                    bottomRight: Radius.circular(
+                        20), // Set the desired radius for bottom right corner
                   ),
-                ],
-              )
-            ),
-          ),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(height: 10),
+                    const Text(
+                      'Complaint Status',
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          color: Colors.white,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 18, top: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Total',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Colors.white,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold)),
+                              const SizedBox(width: 10),
+                              const Text(':',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Colors.white,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold)),
+                              const SizedBox(width: 10),
+                              Text(
+                                '${iTotalComp ?? 0}',
+                                style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: Colors.white,
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 20, top: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Resolved',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Colors.white,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold)),
+                              const SizedBox(width: 10),
+                              const Text(':',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Colors.white,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold)),
+                              SizedBox(width: 10),
+                              Text('${iResolved ?? 0}',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Colors.white,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                )),
           Center(
             child: Padding(
-              padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+              padding: EdgeInsets.only(left: 10, right: 10, top: 10),
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 10.0),
                 decoration: BoxDecoration(
@@ -1164,570 +1405,541 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
               itemBuilder: (context, index) {
                 Map<String, dynamic> item = _filteredData[index];
                 return Padding(
-                  padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
-                  child: Container(
-                    color: Colors.white,
-                    child: Column(
-                      children: [
-                        Card(
-                            elevation: 1,
-                          // color: Colors.white, // Card background color
-                          // shape: RoundedRectangleBorder(
-                          //   borderRadius: BorderRadius.circular(15.0), // Border radius
-                          //   side: BorderSide(
-                          //     color: Colors.grey, // Border color
-                          //     width: 1.0, // Border width
-                          //   ),
-                          // ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5.0),
-                                border: Border.all(
-                                  color: Colors.white, // Outline border color
-                                  width: 0.2, // Outline border width
+                    padding: const EdgeInsets.only(left: 5, top: 5, right: 5),
+                    child: Container(
+                      //color: Colors.white,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        // Background color
+                        borderRadius: BorderRadius.circular(10),
+                        // Border radius
+                        border: Border.all(
+                          color: Colors.grey, // Border color
+                          width: 1, // Border width
+                        ),
+                      ),
+
+                      child: Container(
+                        margin: EdgeInsets.only(left: 10, right: 10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    width: 30.0,
+                                    height: 30.0,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      border: Border.all(
+                                        color: Color(0xFF255899),
+                                        // Outline border color
+                                        width: 0.5, // Outline border width
+                                      ),
+                                      color: Colors.white,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        '${index + 1}',
+                                        style: const TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Color(0xff3f617d),
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      // child: Icon(Icons.ac_unit_rounded, color: Color(0xFF255899), size: 20)),
+                                    ),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        item['sPointTypeName'] ?? '',
+                                        style: const TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Color(0xff3f617d),
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      const Text(
+                                        'Point Name',
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Color(0xff3f617d),
+                                            fontSize: 12.0,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(width: 0),
+                                  Expanded(
+                                    child: GestureDetector(
+                                        child: Container(
+                                      alignment: Alignment.centerRight,
+                                      height: 40,
+                                      // width: 40,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        // Aligns the row to the right
+                                        children: [
+                                          GestureDetector(
+                                              onTap: () {
+                                                var fLatitude =
+                                                    item['fLatitude'] ?? '';
+                                                var fLongitude =
+                                                    item['fLongitude'] ?? '';
+                                                print(
+                                                    '----462----${fLatitude}');
+                                                print(
+                                                    '-----463---${fLongitude}');
+                                                if (fLatitude != null &&
+                                                    fLongitude != null) {
+                                                  generalfunction
+                                                      .launchGoogleMaps(
+                                                          fLatitude,
+                                                          fLongitude);
+                                                } else {
+                                                  displayToast(
+                                                      "Please check the location.");
+                                                }
+                                              },
+                                              child: const Image(
+                                                  image: AssetImage(
+                                                      'assets/images/ic_google_maps.PNG'))),
+                                          SizedBox(width: 2),
+                                          GestureDetector(
+                                            onTap: () {
+                                              print('---Helo ----jpeg---');
+                                              iCompCode = item['iCompCode']
+                                                      .toString() ??
+                                                  '';
+                                              print('---506--$iCompCode');
+                                              bottomSheetHold();
+                                              //_showBottomSheetHold(context,iCompCode);
+                                            },
+                                            child: const Padding(
+                                              padding: EdgeInsets.only(top: 5),
+                                              child: Image(
+                                                  image: AssetImage(
+                                                      'assets/images/holo.jpeg')),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 15, right: 15),
+                              child: Container(
+                                height: 0.5,
+                                color: const Color(0xff3f617d),
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.forward,
+                                  size: 10,
+                                  color: Color(0xff3f617d),
+                                ),
+                                SizedBox(width: 5),
+                                Text(
+                                  'Complaint No',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xFF255899),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 15),
+                              child: Text(
+                                item['iCompCode'].toString() ?? '',
+                                style: const TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: Color(0xff3f617d),
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.forward,
+                                  size: 10,
+                                  color: Color(0xff3f617d),
+                                ),
+                                SizedBox(width: 5),
+                                Text(
+                                  'Sector',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xFF255899),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 15),
+                              child: Text(
+                                item['sSectorName'] ?? '',
+                                style: const TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: Color(0xff3f617d),
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.forward,
+                                  size: 10,
+                                  color: Color(0xff3f617d),
+                                ),
+                                SizedBox(width: 5),
+                                Text(
+                                  'Posted At',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xFF255899),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 15),
+                              child: Text(
+                                item['dPostedOn'] ?? '',
+                                style: const TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: Color(0xff3f617d),
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(Icons.forward,
+                                    size: 10, color: Color(0xff3f617d)),
+                                SizedBox(width: 5),
+                                Text(
+                                  'Location',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xFF255899),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 15),
+                              child: Text(
+                                item['sLocation'] ?? '',
+                                style: const TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: Color(0xff3f617d),
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(Icons.forward,
+                                    size: 10, color: Color(0xff3f617d)),
+                                SizedBox(width: 5),
+                                Text(
+                                  'Description',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xFF255899),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 15),
+                              child: Text(
+                                item['sDescription'] ?? '',
+                                style: const TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: Color(0xff3f617d),
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    const Icon(
+                                      Icons.calendar_month,
+                                      size: 10,
+                                      color: Color(0xff3f617d),
+                                    ),
+                                    SizedBox(width: 5),
+                                    const Text(
+                                      'Pending Since :',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xFF255899),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      item['sPendingFrom'] ?? '',
+                                      style: const TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xff3f617d),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 15, top: 8),
+                              child: GestureDetector(
+                                onTap: () {
+                                  var sBeforePhoto = "${item['sBeforePhoto']}";
+                                  print('---$sBeforePhoto');
+
+                                  if (sBeforePhoto != null) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ImageScreen(
+                                                sBeforePhoto: sBeforePhoto)));
+                                  } else {
+                                    // toast
+                                  }
+                                },
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'View Image',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xFF255899),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(width: 5),
+                                    Icon(
+                                      Icons.forward_sharp,
+                                      size: 15,
+                                      color: Color(0xFF255899),
+                                    )
+                                  ],
                                 ),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 0, right: 0),
-                                child: Card(
-                                  elevation: 2,
-                                  child: Container(
-                                    color: Colors.white,
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(right: 5),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                            children: <Widget>[
-                                              Container(
-                                                width: 30.0,
-                                                height: 30.0,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                  BorderRadius.circular(15.0),
-                                                  border: Border.all(
-                                                    color: Color(0xFF255899),
-                                                    // Outline border color
-                                                    width: 0.5, // Outline border width
-                                                  ),
-                                                  color: Colors.white,
-                                                ),
-                                                child: Center(
-                                                  child: Text('${index+1}',style: const TextStyle(
-                                                      fontFamily: 'Montserrat',
-                                                      color: Color(0xff3f617d),
-                                                      fontSize: 14.0,
-                                                      fontWeight: FontWeight.bold),),
-                                                   // child: Icon(Icons.ac_unit_rounded, color: Color(0xFF255899), size: 20)),
-                                              ),
-                                              ),
-                                              SizedBox(width: 5),
-                                              Column(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  Text(
-                                                    item['sPointTypeName'] ?? '',
-                                                    style: const TextStyle(
-                                                        fontFamily: 'Montserrat',
-                                                        color: Color(0xff3f617d),
-                                                        fontSize: 14.0,
-                                                        fontWeight: FontWeight.bold),
-                                                  ),
-                                                  const Text(
-                                                    'Point Name',
-                                                    style: TextStyle(
-                                                        fontFamily: 'Montserrat',
-                                                        color: Color(0xff3f617d),
-                                                        fontSize: 12.0,
-                                                        fontWeight: FontWeight.bold),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(width: 0),
-                                              Expanded(
-                                                child: GestureDetector(
-                                                    child: Container(
-                                                      alignment: Alignment
-                                                          .centerRight,
-                                                      height: 40,
-                                                      // width: 40,
-                                                      child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment
-                                                            .end,
-                                                        // Aligns the row to the right
-                                                        children: [
-                                                          GestureDetector(
-                                                              onTap: () {
-                                                                var fLatitude = item['fLatitude'] ??
-                                                                    '';
-                                                                var fLongitude = item['fLongitude'] ??
-                                                                    '';
-                                                                print(
-                                                                    '----462----${fLatitude}');
-                                                                print(
-                                                                    '-----463---${fLongitude}');
-                                                                if (fLatitude !=
-                                                                    null &&
-                                                                    fLongitude !=
-                                                                        null) {
-                                                                  generalfunction
-                                                                      .launchGoogleMaps(
-                                                                      fLatitude,
-                                                                      fLongitude);
-                                                                } else {
-                                                                  displayToast(
-                                                                      "Please check the location.");
-                                                                }
-                                                              },
-                                                              child: const Image(
-                                                                  image: AssetImage('assets/images/ic_google_maps.PNG'))),
-                                                          SizedBox(width: 2),
-                                                          GestureDetector(
-                                                            onTap: () {
-                                                              print(
-                                                                  '---Helo ----jpeg---');
-                                                              iCompCode =
-                                                                  item['iCompCode']
-                                                                      .toString() ??
-                                                                      '';
-                                                              print(
-                                                                  '---506--$iCompCode');
-                                                              bottomSheetHold();
-                                                              //_showBottomSheetHold(context,iCompCode);
-                                                            },
-                                                            child: const Padding(
-                                                              padding: EdgeInsets.only(top: 5),
-                                                              child: Image(
-                                                                  image: AssetImage('assets/images/holo.jpeg')),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    )
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 15, right: 15),
-                                          child: Container(
-                                            height: 0.5,
-                                            color: const Color(0xff3f617d),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        const Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
+                            ),
+                            SizedBox(height: 10),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 5, right: 5, bottom: 10),
+                              child: Container(
+                                //color: Color(0xffe4e4e4),
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  // Border radius
+                                  border: Border.all(
+                                    color: Color(0xFF255899),
+                                    // Border color
+                                    width: 1, // Border width
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 0, right: 10),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
-                                            Icon(
-                                              Icons.forward,
-                                              size: 10,
-                                              color: Color(0xff3f617d),
-                                            ),
-                                            SizedBox(width: 5),
-                                            Text(
-                                              'Complaint No',
-                                              style: TextStyle(
-                                                  fontFamily: 'Montserrat',
-                                                  color: Color(0xFF255899),
-                                                  fontSize: 14.0,
-                                                  fontWeight: FontWeight.bold),
-                                            )
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 15),
-                                          child: Text(
-                                            item['iCompCode'].toString() ?? '',
-                                            style: const TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Color(0xff3f617d),
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                        const Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: <Widget>[
-                                            Icon(
-                                              Icons.forward,
-                                              size: 10,
-                                              color: Color(0xff3f617d),
-                                            ),
-                                            SizedBox(width: 5),
-                                            Text(
-                                              'Sector',
-                                              style: TextStyle(
-                                                  fontFamily: 'Montserrat',
-                                                  color: Color(0xFF255899),
-                                                  fontSize: 14.0,
-                                                  fontWeight: FontWeight.bold),
-                                            )
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 15),
-                                          child: Text(
-                                            item['sSectorName'] ?? '',
-                                            style: const TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Color(0xff3f617d),
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                        const Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: <Widget>[
-                                            Icon(
-                                              Icons.forward,
-                                              size: 10,
-                                              color: Color(0xff3f617d),
-                                            ),
-                                            SizedBox(width: 5),
-                                            Text(
-                                              'Posted At',
-                                              style: TextStyle(
-                                                  fontFamily: 'Montserrat',
-                                                  color: Color(0xFF255899),
-                                                  fontSize: 14.0,
-                                                  fontWeight: FontWeight.bold),
-                                            )
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 15),
-                                          child: Text(
-                                            item['dPostedOn'] ?? '',
-                                            style: const TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Color(0xff3f617d),
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                        const Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: <Widget>[
-                                            Icon(Icons.forward,
-                                                size: 10, color: Color(0xff3f617d)),
-                                            SizedBox(width: 5),
-                                            Text(
-                                              'Location',
-                                              style: TextStyle(
-                                                  fontFamily: 'Montserrat',
-                                                  color: Color(0xFF255899),
-                                                  fontSize: 14.0,
-                                                  fontWeight: FontWeight.bold),
-                                            )
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 15),
-                                          child: Text(
-                                            item['sLocation'] ?? '',
-                                            style: const TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Color(0xff3f617d),
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                        const Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: <Widget>[
-                                            Icon(Icons.forward,
-                                                size: 10, color: Color(0xff3f617d)),
-                                            SizedBox(width: 5),
-                                            Text(
-                                              'Description',
-                                              style: TextStyle(
-                                                  fontFamily: 'Montserrat',
-                                                  color: Color(0xFF255899),
-                                                  fontSize: 14.0,
-                                                  fontWeight: FontWeight.bold),
-                                            )
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 15),
-                                          child: Text(
-                                            item['sDescription'] ?? '',
-                                            style: const TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Color(0xff3f617d),
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment
-                                              .spaceBetween,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment
-                                                  .start,
-                                              children: <Widget>[
-                                                const Icon(
-                                                  Icons.calendar_month,
-                                                  size: 10,
-                                                  color: Color(0xff3f617d),
-                                                ),
-                                                SizedBox(width: 5),
-                                                const Text(
-                                                  'Pending Since :',
-                                                  style: TextStyle(
-                                                      fontFamily: 'Montserrat',
-                                                      color: Color(0xFF255899),
-                                                      fontSize: 14.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                                const SizedBox(width: 5),
-                                                Text(
-                                                  item['sPendingFrom'] ?? '',
-                                                  style: const TextStyle(
-                                                      fontFamily: 'Montserrat',
-                                                      color: Color(0xff3f617d),
-                                                      fontSize: 14.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 15, top: 8),
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              var sBeforePhoto =
-                                                  "${item['sBeforePhoto']}";
-                                              print('---$sBeforePhoto');
-
-                                              if (sBeforePhoto != null) {
-                                                Navigator.push(
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  print('----341---');
+                                                  var sBeforePhoto =
+                                                      "${item['sBeforePhoto']}";
+                                                  var iTaskCode =
+                                                      item['iCompCode']
+                                                              .toString() ??
+                                                          '';
+                                                  print(
+                                                      '----357---$sBeforePhoto');
+                                                  Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            ImageScreen(
-                                                                sBeforePhoto:
-                                                                sBeforePhoto)));
-                                              } else {
-                                                // toast
-                                              }
-                                            },
-                                            child: const Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'View Image',
-                                                  style: TextStyle(
-                                                      fontFamily:
-                                                      'Montserrat',
-                                                      color:
-                                                      Color(0xFF255899),
-                                                      fontSize: 14.0,
-                                                      fontWeight:
-                                                      FontWeight.bold),
-                                                ),
-                                                SizedBox(width: 5),
-                                                Icon(
-                                                  Icons.forward_sharp,
-                                                  color: Color(0xFF255899),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(height: 10),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 10, bottom: 10),
-                                          child: Container(
-                                            //color: Color(0xffe4e4e4),
-                                            height: 40,
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.circular(10),
-                                              // Border radius
-                                              border: Border.all(
-                                                color: Color(0xFF255899),
-                                                // Border color
-                                                width: 1, // Border width
-                                              ),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 0, right: 10),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment
-                                                    .spaceBetween,
-                                                children: <Widget>[
-                                                  Expanded(
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment
-                                                          .spaceBetween,
-                                                      children: <Widget>[
-                                                        Padding(
-                                                          padding: const EdgeInsets
-                                                              .all(8.0),
-                                                          child: GestureDetector(
-                                                            onTap: () {
-                                                              print('----341---');
-                                                              var sBeforePhoto = "${item['sBeforePhoto']}";
-                                                              var iTaskCode = item['iCompCode']
-                                                                  .toString() ?? '';
-                                                              print(
-                                                                  '----357---$sBeforePhoto');
-                                                              Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                  builder: (
-                                                                      context) =>
-                                                                      ActionOnSchedultPointScreen(
-                                                                          sBeforePhoto: sBeforePhoto,
-                                                                          iTaskCode: iTaskCode),
-                                                                ),
-                                                              );
-                                                            },
-                                                            child: const Row(
-                                                              mainAxisAlignment: MainAxisAlignment
-                                                                  .start,
-                                                              children: [
-                                                                Text(
-                                                                  'Action',
-                                                                  style: TextStyle(
-                                                                      fontFamily: 'Montserrat',
-                                                                      color: Color(
-                                                                          0xFF255899),
-                                                                      fontSize: 12.0,
-                                                                      fontWeight: FontWeight
-                                                                          .normal
-                                                                  ),
-                                                                ),
-                                                                SizedBox(width: 2),
-                                                                Icon(Icons
-                                                                    .forward_sharp,
-                                                                    size: 15,
-                                                                    color: Color(
-                                                                        0xFF255899)),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Container(height: 10,
-                                                            width: 1,
-                                                            color: Colors.grey),
-                                                        Padding(
-                                                          padding: const EdgeInsets
-                                                              .all(8.0),
-                                                          child: GestureDetector(
-                                                            onTap: () {
-                                                              print(
-                                                                  '---Complaint Transfer ---');
-                                                              iCompCode =
-                                                                  item['iCompCode']
-                                                                      .toString() ??
-                                                                      '';
-                                                              print(
-                                                                  '---506--$iCompCode');
-                                                              bottomSheetComplaintTransfer();
-                                                              //  _showBottomSheetComplaintType(context,iCompCode);
-
-                                                            },
-                                                            child: const Row(
-                                                              mainAxisAlignment: MainAxisAlignment
-                                                                  .start,
-                                                              children: [
-                                                                Text(
-                                                                  'Complaint Transfer',
-                                                                  style: TextStyle(
-                                                                      fontFamily: 'Montserrat',
-                                                                      color: Color(
-                                                                          0xFF255899),
-                                                                      fontSize: 12.0,
-                                                                      fontWeight: FontWeight
-                                                                          .normal
-                                                                  ),
-                                                                ),
-                                                                SizedBox(width: 2),
-                                                                Icon(Icons
-                                                                    .forward_sharp,
-                                                                    size: 15,
-                                                                    color: Color(
-                                                                        0xFF255899)),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Container(height: 10,
-                                                            width: 1,
-                                                            color: Colors.grey),
-                                                        Padding(
-                                                          padding: const EdgeInsets
-                                                              .all(4.0),
-                                                          child: GestureDetector(
-                                                            onTap: () {
-                                                              print('---Forward---');
-                                                              iCompCode =
-                                                                  item['iCompCode']
-                                                                      .toString() ??
-                                                                      '';
-                                                              print(
-                                                                  '---506--$iCompCode');
-                                                              // _showBottomSheetHold(context,iCompCode);
-                                                              //_showBottomSheet(context,iCompCode);
-                                                              bottomSheetForward(
-                                                                  context, iCompCode);
-                                                            },
-                                                            child: const Row(
-                                                              mainAxisAlignment: MainAxisAlignment
-                                                                  .start,
-                                                              children: [
-                                                                Text(
-                                                                  'Forward',
-                                                                  style: TextStyle(
-                                                                      fontFamily: 'Montserrat',
-                                                                      color: Color(
-                                                                          0xFF255899),
-                                                                      fontSize: 12.0,
-                                                                      fontWeight: FontWeight
-                                                                          .normal
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
+                                                      builder: (context) =>
+                                                          ActionOnSchedultPointScreen(
+                                                              sBeforePhoto:
+                                                                  sBeforePhoto,
+                                                              iTaskCode:
+                                                                  iTaskCode),
                                                     ),
-                                                  ),
-                                                ],
+                                                  );
+                                                },
+                                                child: const Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'Action',
+                                                      style: TextStyle(
+                                                          fontFamily:
+                                                              'Montserrat',
+                                                          color:
+                                                              Color(0xFF255899),
+                                                          fontSize: 12.0,
+                                                          fontWeight: FontWeight
+                                                              .normal),
+                                                    ),
+                                                    SizedBox(width: 2),
+                                                    Icon(Icons.forward_sharp,
+                                                        size: 15,
+                                                        color:
+                                                            Color(0xFF255899)),
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
+                                            Container(
+                                                height: 10,
+                                                width: 1,
+                                                color: Colors.grey),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  print(
+                                                      '---Complaint Transfer ---');
+                                                  iCompCode = item['iCompCode']
+                                                          .toString() ??
+                                                      '';
+                                                  print('---506--$iCompCode');
+                                                  bottomSheetComplaintTransfer();
+                                                  //  _showBottomSheetComplaintType(context,iCompCode);
+                                                },
+                                                child: const Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'Complaint Transfer',
+                                                      style: TextStyle(
+                                                          fontFamily:
+                                                              'Montserrat',
+                                                          color:
+                                                              Color(0xFF255899),
+                                                          fontSize: 12.0,
+                                                          fontWeight: FontWeight
+                                                              .normal),
+                                                    ),
+                                                    SizedBox(width: 2),
+                                                    Icon(Icons.forward_sharp,
+                                                        size: 15,
+                                                        color:
+                                                            Color(0xFF255899)),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                                height: 10,
+                                                width: 1,
+                                                color: Colors.grey),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(4.0),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  print('---Forward---');
+                                                  iCompCode = item['iCompCode']
+                                                          .toString() ??
+                                                      '';
+                                                  print('---506--$iCompCode');
+                                                  // _showBottomSheetHold(context,iCompCode);
+                                                  //_showBottomSheet(context,iCompCode);
+                                                  bottomSheetForward(
+                                                      context, iCompCode);
+                                                },
+                                                child: const Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'Forward',
+                                                      style: TextStyle(
+                                                          fontFamily:
+                                                              'Montserrat',
+                                                          color:
+                                                              Color(0xFF255899),
+                                                          fontSize: 12.0,
+                                                          fontWeight: FontWeight
+                                                              .normal),
+                                                    ),
+                                                    SizedBox(width: 2),
+                                                    Icon(Icons.forward_sharp,
+                                                        size: 15,
+                                                        color:
+                                                            Color(0xFF255899))
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                      ],
-                    ),
-                  ),
-                );
+                          ],
+                        ),
+                      ),
+                    ));
               },
             ),
           )
