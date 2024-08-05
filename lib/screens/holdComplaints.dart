@@ -407,7 +407,7 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
                                       ),
                                       SizedBox(width: 5),
                                       Text(
-                                        'Complaint NO',
+                                        'Complaint No',
                                         style: TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Color(0xFF255899),

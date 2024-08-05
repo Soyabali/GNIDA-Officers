@@ -4,12 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:noidaone/resources/assets_manager.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../Controllers/appversionrepo.dart';
 import '../resources/values_manager.dart';
-import 'homeScreen.dart';
-import 'homepagesecod.dart';
 import 'loginScreen_2.dart';
 
 class Splace extends StatefulWidget {
