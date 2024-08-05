@@ -202,14 +202,11 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                             width: MediaQuery.of(context).size.width - 30,
                             //color: Color(0xFF255899),
                             decoration: const BoxDecoration(
-                              color: Color(
-                                  0xFF3375af), // Container background color
+                              color: Color(0xFF3375af), // Container background color
                               // color: Colors.grey,
                               borderRadius: BorderRadius.horizontal(
-                                left: Radius.circular(
-                                    0), // Adjust this value as per your preference
-                                right: Radius.circular(
-                                    0), // Adjust this value as per your preference
+                                left: Radius.circular(0), // Adjust this value as per your preference
+                                right: Radius.circular(0), // Adjust this value as per your preference
                               ),
                             ),
                             child: TabBar(
@@ -217,8 +214,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                               indicatorColor: Colors.white,
                               indicatorSize: TabBarIndicatorSize.label,
                               indicatorWeight: 0.9,
-                              labelPadding:
-                                  EdgeInsets.symmetric(horizontal: 0.0),
+                              labelPadding: EdgeInsets.symmetric(horizontal: 0.0),
                               unselectedLabelColor: Colors.white,
                               labelColor: Colors.black,
                               indicator: BoxDecoration(

@@ -244,78 +244,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                       ),
                     ),
                   ),
-                  // Stack(
-                  //   alignment: AlignmentDirectional.centerStart,
-                  //   children: [
-                  //     SingleChildScrollView(
-                  //       scrollDirection: Axis.horizontal,
-                  //       child: DropdownButtonHideUnderline(
-                  //         child: ButtonTheme(
-                  //           alignedDropdown: true,
-                  //           child: DropdownButton(
-                  //             onTap: () {
-                  //               FocusScope.of(context).unfocus();
-                  //             },
-                  //             hint: RichText(
-                  //               text: const TextSpan(
-                  //                 text: 'Select JE ',
-                  //                 style: TextStyle(
-                  //                   color: Colors.black,
-                  //                   fontSize: 16,
-                  //                   fontWeight: FontWeight.normal,
-                  //                 ),
-                  //                 children: <TextSpan>[
-                  //                   TextSpan(
-                  //                     text: '*',
-                  //                     style: TextStyle(
-                  //                       color: Colors.red,
-                  //                       fontSize: 16,
-                  //                       fontWeight: FontWeight.bold,
-                  //                     ),
-                  //                   ),
-                  //                 ],
-                  //               ),
-                  //             ),
-                  //             value: _dropDownAgency2,
-                  //             onChanged: (newValue) {
-                  //               setState(() {
-                  //                 _dropDownAgency2 = newValue;
-                  //                 // bindAjencyList = [];
-                  //                 print('---187---$_dropDownAgency2');
-                  //                 //  _isShowChosenDistError = false;
-                  //                 // Iterate the List
-                  //                 bindAjencyList.forEach((element) {
-                  //                   if (element["sName"] == _dropDownAgency2) {
-                  //                     setState(() {
-                  //                       selectedHoldValue = element['iUserId'];
-                  //                     });
-                  //                     print('-----1021----$selectedHoldValue');
-                  //                   }
-                  //                 });
-                  //               });
-                  //             },
-                  //             items: bindAjencyList.map((dynamic item) {
-                  //               return DropdownMenuItem(
-                  //                 child: Text(item['sName'].toString()),
-                  //                 value: item["sName"].toString(),
-                  //               );
-                  //             }).toList(),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     Positioned(
-                  //       right: 0,
-                  //       top: 0,
-                  //       bottom: 0,
-                  //       child: Container(
-                  //         color: Colors.white,
-                  //         child: Icon(Icons.arrow_drop_down),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-
 
                   SizedBox(height: 10),
                   ElevatedButton(
@@ -509,158 +437,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                         ],
                       ),
                     ),
-
-                    // Container(
-                    //   height:35,
-                    //   decoration: BoxDecoration(
-                    //     color: Color(0xFFf2f3f5), // Light gray background
-                    //     borderRadius: BorderRadius.circular(10),
-                    //   ),
-                    //   child: Stack(
-                    //     alignment: AlignmentDirectional.centerStart,
-                    //     children: [
-                    //       DropdownButtonHideUnderline(
-                    //         child: ButtonTheme(
-                    //           alignedDropdown: true,
-                    //           child: DropdownButton(
-                    //             onTap: () {
-                    //               FocusScope.of(context).unfocus();
-                    //             },
-                    //             hint: RichText(
-                    //               text: const TextSpan(
-                    //                 text: 'Select Complaints Type',
-                    //                 style: TextStyle(
-                    //                   color: Colors.black,
-                    //                   fontSize: 16,
-                    //                   fontWeight: FontWeight.normal,
-                    //                 ),
-                    //                 children: <TextSpan>[
-                    //                   TextSpan(
-                    //                     text: '*',
-                    //                     style: TextStyle(
-                    //                       color: Colors.red,
-                    //                       fontSize: 16,
-                    //                       fontWeight: FontWeight.bold,
-                    //                     ),
-                    //                   ),
-                    //                 ],
-                    //               ),
-                    //             ),
-                    //             value: _dropDownComplaintType,
-                    //             onChanged: (newValue) {
-                    //               setState(() {
-                    //                 _dropDownComplaintType = newValue;
-                    //                 bindPointTypeDropDown.forEach((element) {
-                    //                   if (element["sPointTypeName"] == bindPointTypeDropDown) {
-                    //                     setState(() {
-                    //                       //selectedHoldValue = element['iHold'];
-                    //                       selectedComplaintValue = element['iPointTypeCode'];
-                    //                     });
-                    //                   }
-                    //                 });
-                    //               });
-                    //             },
-                    //             items: bindPointTypeDropDown.map((dynamic item) {
-                    //               return DropdownMenuItem(
-                    //                 child: Text(item['sPointTypeName'].toString()),
-                    //                 value: item["sPointTypeName"].toString(),
-                    //               );
-                    //             }).toList(),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //       Positioned(
-                    //         right: 0,
-                    //         top: 0,
-                    //         bottom: 0,
-                    //         child: Container(
-                    //           decoration: const BoxDecoration(
-                    //             color: Color(0xFFf2f3f5), // Light gray background
-                    //             borderRadius: BorderRadius.only(
-                    //               topRight: Radius.circular(10.0), // Adjust the radius as needed
-                    //               bottomRight: Radius.circular(10.0), // Adjust the radius as needed
-                    //             ),
-                    //           ),
-                    //           child: Icon(Icons.arrow_drop_down),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-
-                    // Stack(
-                    //   alignment: AlignmentDirectional.centerStart,
-                    //   children: [
-                    //     SingleChildScrollView(
-                    //       scrollDirection: Axis.horizontal,
-                    //       child: DropdownButtonHideUnderline(
-                    //         child: ButtonTheme(
-                    //           alignedDropdown: true,
-                    //           child: DropdownButton(
-                    //             onTap: () {
-                    //               FocusScope.of(context).unfocus();
-                    //             },
-                    //             hint: RichText(
-                    //               text: const TextSpan(
-                    //                 text: 'Select Complaints Type ',
-                    //                 style: TextStyle(
-                    //                   color: Colors.black,
-                    //                   fontSize: 16,
-                    //                   fontWeight: FontWeight.normal,
-                    //                 ),
-                    //                 children: <TextSpan>[
-                    //                   TextSpan(
-                    //                     text: '*',
-                    //                     style: TextStyle(
-                    //                       color: Colors.red,
-                    //                       fontSize: 16,
-                    //                       fontWeight: FontWeight.bold,
-                    //                     ),
-                    //                   ),
-                    //                 ],
-                    //               ),
-                    //             ),
-                    //             value: _dropDownComplaintType,
-                    //             onChanged: (newValue) {
-                    //               setState(() {
-                    //                 _dropDownComplaintType = newValue;
-                    //                 print('---187---$_dropDownComplaintType');
-                    //
-                    //                 bindPointTypeDropDown.forEach((element) {
-                    //                   if (element["sPointTypeName"] ==
-                    //                       _dropDownComplaintType) {
-                    //                     setState(() {
-                    //                       selectedComplaintValue =
-                    //                           element['iPointTypeCode'];
-                    //                     });
-                    //                     print(
-                    //                         '-----1021----$selectedComplaintValue');
-                    //                   }
-                    //                 });
-                    //               });
-                    //             },
-                    //             items: bindPointTypeDropDown.map((dynamic item) {
-                    //               return DropdownMenuItem(
-                    //                 child:
-                    //                     Text(item['sPointTypeName'].toString()),
-                    //                 value: item["sPointTypeName"].toString(),
-                    //               );
-                    //             }).toList(),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     Positioned(
-                    //       right: 0,
-                    //       top: 0,
-                    //       bottom: 0,
-                    //       child: Container(
-                    //         color: Colors.white,
-                    //         child: Icon(Icons.arrow_drop_down),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
 
                     SizedBox(height: 10),
                     ElevatedButton(
@@ -1261,6 +1037,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1399,6 +1176,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
             ),
           ),
           // scroll item after search bar
+
           Expanded(
             child: ListView.builder(
               itemCount: _filteredData.length ?? 0,
@@ -1943,6 +1721,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
               },
             ),
           )
+
         ],
       ),
     );

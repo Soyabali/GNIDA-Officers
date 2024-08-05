@@ -91,111 +91,117 @@ class _TabPageState extends State<TabTodayPage> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: ListView.builder(
-                    itemCount: userContributionTodayList != null
-                        ? userContributionTodayList!.length - 3
-                        : 0,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                          side: BorderSide(color: Colors.grey.shade300, width: 1),
-                        ),
-                        elevation: 2,
-                        color: Colors.white,
-                        child: Container(
-                          height: 48,
-                          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                '${index + 4} .',
-                                style: GoogleFonts.lato(
-                                  textStyle: const TextStyle(
-                                    color: Color(0xFF707d83),
-                                    fontSize: 14.0,
-                                    letterSpacing: .5,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 8),
-                              const Icon(
-                                Icons.person,
-                                size: 20,
-                                color: Color(0xFF3375af),
-                              ),
-                              SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  userContributionTodayList?[index + 3]['sName'].toString() ?? '',
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.start,
-                                  style: GoogleFonts.lato(
-                                    textStyle: const TextStyle(
-                                      color: Color(0xFF707d83),
-                                      fontSize: 14.0,
-                                      letterSpacing: .5,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      userContributionTodayList?[index + 3]['iEarnedPoints'].toString() ?? '',
-                                      style: GoogleFonts.lato(
-                                        textStyle: const TextStyle(
-                                          color: Color(0xFFad964a),
-                                          fontSize: 14.0,
-                                          letterSpacing: .5,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      'Points',
-                                      style: GoogleFonts.lato(
-                                        textStyle: const TextStyle(
-                                          color: Color(0xFFad964a),
-                                          fontSize: 14.0,
-                                          letterSpacing: .5,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                   child: ListView.builder(
+                     itemCount: userContributionTodayList != null ? userContributionTodayList!.length - 3 : 0,
+                     itemBuilder: (context, index) {
+                       return Container(
+                         color: Colors.white,
+                         padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 4.0),
+                         child: Container(
+                           height: 48,
+                          // color: Colors.white,
+                           decoration: BoxDecoration(
+                             color: Colors.white,
+                             borderRadius: BorderRadius.circular(10), // rounded corners
+                             border: Border.all(
+                               color: Colors.grey, // outline color
+                               width: 1, // outline width
+                             ),
+                           ),
+                           padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
+                           child: Row(
+                             mainAxisAlignment: MainAxisAlignment.start,
+                             children: <Widget>
+                             [
+                               Text(
+                                 '${index + 4} .',
+                                 style: GoogleFonts.lato(
+                                   textStyle: const TextStyle(
+                                     color: Color(0xFF707d83),
+                                     fontSize: 14.0,
+                                     letterSpacing: .5,
+                                     fontWeight: FontWeight.normal,
+                                   ),
+                                 ),
+                               ),
+                               SizedBox(width: 8),
+                               const Icon(
+                                 Icons.person,
+                                 size: 20,
+                                 color: Color(0xFF3375af),
+                               ),
+                               SizedBox(width: 8),
+                               Expanded(
+                                 child: Text(
+                                   userContributionTodayList?[index + 3]['sName'].toString() ?? '',
+                                   overflow: TextOverflow.ellipsis,
+                                   textAlign: TextAlign.start,
+                                   style: GoogleFonts.lato(
+                                     textStyle: const TextStyle(
+                                       color: Color(0xFF707d83),
+                                       fontSize: 14.0,
+                                       letterSpacing: .5,
+                                       fontWeight: FontWeight.normal,
+                                     ),
+                                   ),
+                                 ),
+                               ),
+                               Padding(
+                                 padding: const EdgeInsets.only(right: 10),
+                                 child: Row(
+                                   mainAxisAlignment: MainAxisAlignment.end,
+                                   children: [
+                                     Text(
+                                       userContributionTodayList?[index + 3]['iEarnedPoints'].toString() ?? '',
+                                       style: GoogleFonts.lato(
+                                         textStyle: const TextStyle(
+                                           color: Color(0xFFad964a),
+                                           fontSize: 14.0,
+                                           letterSpacing: .5,
+                                           fontWeight: FontWeight.normal,
+                                         ),
+                                       ),
+                                     ),
+                                     SizedBox(width: 8),
+                                     Text(
+                                       'Points',
+                                       style: GoogleFonts.lato(
+                                         textStyle: const TextStyle(
+                                           color: Color(0xFFad964a),
+                                           fontSize: 14.0,
+                                           letterSpacing: .5,
+                                           fontWeight: FontWeight.normal,
+                                         ),
+                                       ),
+                                     ),
+                                   ],
+                                 ),
+                               ),
+                             ],
+                           ),
+                         ),
+                       );
+                     },
+                   ),
 
                   // child: ListView.builder(
                   //   itemCount: userContributionTodayList != null
                   //       ? userContributionTodayList!.length - 3
                   //       : 0,
                   //   itemBuilder: (context, index) {
-                  //     return Padding(
-                  //       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8.0),
+                  //     return Container(
+                  //       color: Colors.white,
                   //       child: Card(
-                  //         shape: RoundedRectangleBorder(
-                  //           borderRadius: BorderRadius.circular(15.0),
-                  //           side: BorderSide(color: Colors.grey.shade300, width: 1),
-                  //         ),
-                  //         elevation: 2,
+                  //         // shape: RoundedRectangleBorder(
+                  //         //   borderRadius: BorderRadius.circular(15.0),
+                  //         //   side: BorderSide(color: Colors.grey.shade300, width: 1),
+                  //         // ),
+                  //
+                  //        // elevation: 1,
                   //         color: Colors.white,
                   //         child: Container(
                   //           height: 48,
+                  //           color: Colors.white,
                   //           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
                   //           child: Row(
                   //             mainAxisAlignment: MainAxisAlignment.start,
@@ -275,308 +281,6 @@ class _TabPageState extends State<TabTodayPage> {
               ),
             ],
           )
-          // child: ListView(
-          //   children: <Widget>[
-          //     Padding(
-          //       padding: const EdgeInsets.only(left: 15, right: 5, bottom: 15),
-          //       child: Container(
-          //         height: 430,
-          //         width: double.infinity,
-          //         decoration: BoxDecoration(
-          //           borderRadius: BorderRadius.circular(20),
-          //         ),
-          //         child: ListView.builder(
-          //           itemCount: userContributionTodayList != null
-          //               ? userContributionTodayList!.length - 3
-          //               : 0,
-          //           itemBuilder: (context, index) {
-          //             return Padding(
-          //               padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-          //               child: Container(
-          //                 color: Colors.white,
-          //                 child: Card(
-          //                   shape: RoundedRectangleBorder(
-          //                     borderRadius: BorderRadius.circular(15.0),
-          //                     side: BorderSide(color: Colors.grey.shade300, width: 1),
-          //                   ),
-          //                   elevation: 2,
-          //                   color: Colors.white,
-          //                   child: Container(
-          //                     height: 48,
-          //                     padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
-          //                     child: Row(
-          //                       mainAxisAlignment: MainAxisAlignment.start,
-          //                       children: <Widget>[
-          //                         Text(
-          //                           '${index + 4} .',
-          //                           style: GoogleFonts.lato(
-          //                             textStyle: const TextStyle(
-          //                               color: Color(0xFF707d83),
-          //                               fontSize: 14.0,
-          //                               letterSpacing: .5,
-          //                               fontWeight: FontWeight.normal,
-          //                             ),
-          //                           ),
-          //                         ),
-          //                         SizedBox(width: 8),
-          //                         const Icon(
-          //                           Icons.person,
-          //                           size: 20,
-          //                           color: Color(0xFF3375af),
-          //                         ),
-          //                         SizedBox(width: 8),
-          //                         Expanded(
-          //                           child: Text(
-          //                             userContributionTodayList?[index + 3]['sName'].toString() ?? '',
-          //                             overflow: TextOverflow.ellipsis,
-          //                             textAlign: TextAlign.start,
-          //                             style: GoogleFonts.lato(
-          //                               textStyle: const TextStyle(
-          //                                 color: Color(0xFF707d83),
-          //                                 fontSize: 14.0,
-          //                                 letterSpacing: .5,
-          //                                 fontWeight: FontWeight.normal,
-          //                               ),
-          //                             ),
-          //                           ),
-          //                         ),
-          //                         Padding(
-          //                           padding: const EdgeInsets.only(right: 10),
-          //                           child: Row(
-          //                             mainAxisAlignment: MainAxisAlignment.end,
-          //                             children: [
-          //                               Text(
-          //                                 userContributionTodayList?[index + 3]['iEarnedPoints'].toString() ?? '',
-          //                                 style: GoogleFonts.lato(
-          //                                   textStyle: const TextStyle(
-          //                                     color: Color(0xFFad964a),
-          //                                     fontSize: 14.0,
-          //                                     letterSpacing: .5,
-          //                                     fontWeight: FontWeight.normal,
-          //                                   ),
-          //                                 ),
-          //                               ),
-          //                               SizedBox(width: 8),
-          //                               Text(
-          //                                 'Points',
-          //                                 style: GoogleFonts.lato(
-          //                                   textStyle: const TextStyle(
-          //                                     color: Color(0xFFad964a),
-          //                                     fontSize: 14.0,
-          //                                     letterSpacing: .5,
-          //                                     fontWeight: FontWeight.normal,
-          //                                   ),
-          //                                 ),
-          //                               ),
-          //                             ],
-          //                           ),
-          //                         ),
-          //                         SizedBox(height: 75),
-          //                       ],
-          //                     ),
-          //                   ),
-          //                 ),
-          //               ),
-          //             );
-          //           },
-          //         ),
-          //       ),
-          //     ),
-          //   ],
-          // ),
-
-          // child: ListView(
-          //   children: <Widget>[
-          //     Padding(
-          //         padding: const EdgeInsets.only(left: 15, right: 5, bottom: 15),
-          //         child: Container(
-          //           //height: MediaQuery.of(context).size.height,
-          //            height: 430,
-          //          // height: MediaQuery.of(context).size.height-140,
-          //           width: double.infinity,
-          //           decoration: BoxDecoration(
-          //             // color: Color(0xFFf2f3f5), // Container background color
-          //             borderRadius: BorderRadius.circular(20),
-          //           ),
-          //           child: ListView.builder(
-          //               itemCount: userContributionTodayList != null
-          //                   ? userContributionTodayList!.length - 3
-          //                   : 0,
-          //               itemBuilder: (context, index) {
-          //                 return Container(
-          //                     height: 66,
-          //                     color: Colors.white,
-          //                     child: Padding(
-          //                       padding: const EdgeInsets.only(top: 8, bottom: 0),
-          //                       child: Card(
-          //                         child: Column(
-          //                           children: [
-          //                             Center(
-          //                               child: Padding(
-          //                                 padding: const EdgeInsets.only(left: 10, top: 15),
-          //                                  child: Row(
-          //                                    mainAxisAlignment: MainAxisAlignment.start,
-          //                                    children: <Widget>[
-          //                                      Text(
-          //                                        '${index + 4}',
-          //                                        style: GoogleFonts.lato(
-          //                                          textStyle: const TextStyle(
-          //                                            color: Color(0xFF707d83),
-          //                                            fontSize: 14.0,
-          //                                            letterSpacing: .5,
-          //                                            fontWeight: FontWeight.normal,
-          //                                          ),
-          //                                        ),
-          //                                      ),
-          //                                      SizedBox(width: 8),
-          //                                      const Icon(
-          //                                        Icons.person,
-          //                                        size: 20,
-          //                                        color: Color(0xFF3375af),
-          //                                      ),
-          //                                      SizedBox(width: 8),
-          //                                      // Flexible or Expanded widget for the name text
-          //                                      Expanded(
-          //                                        child: Text(
-          //                                          userContributionTodayList?[index + 3]['sName'].toString() ?? '',
-          //                                          overflow: TextOverflow.ellipsis,
-          //                                          textAlign: TextAlign.start,
-          //                                          style: GoogleFonts.lato(
-          //                                            textStyle: const TextStyle(
-          //                                              color: Color(0xFF707d83),
-          //                                              fontSize: 14.0,
-          //                                              letterSpacing: .5,
-          //                                              fontWeight: FontWeight.normal,
-          //                                            ),
-          //                                          ),
-          //                                        ),
-          //                                      ),
-          //                                     // Spacer(),
-          //                                      Padding(
-          //                                        padding: const EdgeInsets.only(right: 10),
-          //                                        child: Row(
-          //                                          mainAxisAlignment: MainAxisAlignment.end,
-          //                                          children: [
-          //                                            Text(
-          //                                              userContributionTodayList?[index + 3]['iEarnedPoints'].toString() ?? '',
-          //                                              style: GoogleFonts.lato(
-          //                                                textStyle: const TextStyle(
-          //                                                  color: Color(0xFFad964a),
-          //                                                  fontSize: 14.0,
-          //                                                  letterSpacing: .5,
-          //                                                  fontWeight: FontWeight.normal,
-          //                                                ),
-          //                                              ),
-          //                                            ),
-          //                                            SizedBox(width: 8),
-          //                                            Text(
-          //                                              'Points',
-          //                                              style: GoogleFonts.lato(
-          //                                                textStyle: const TextStyle(
-          //                                                  color: Color(0xFFad964a),
-          //                                                  fontSize: 14.0,
-          //                                                  letterSpacing: .5,
-          //                                                  fontWeight: FontWeight.normal,
-          //                                                ),
-          //                                              ),
-          //                                            ),
-          //                                          ],
-          //                                        ),
-          //                                      ),
-          //                                    ],
-          //                                  )
-          //                                 ,
-          //                                 // child: Row(
-          //                                 //   mainAxisAlignment:
-          //                                 //       MainAxisAlignment.start,
-          //                                 //   children: <Widget>[
-          //                                 //     Text(
-          //                                 //       '${index + 4}',
-          //                                 //       style: GoogleFonts.lato(
-          //                                 //         textStyle: const TextStyle(
-          //                                 //             color: Color(0xFF707d83),
-          //                                 //             fontSize: 14.0,
-          //                                 //             letterSpacing: .5,
-          //                                 //             fontWeight:
-          //                                 //                 FontWeight.normal),
-          //                                 //       ),
-          //                                 //     ),
-          //                                 //     SizedBox(width: 8),
-          //                                 //     const Icon(
-          //                                 //       Icons.person,
-          //                                 //       size: 20,
-          //                                 //       color: Color(0xFF3375af),
-          //                                 //     ),
-          //                                 //     SizedBox(width: 8),
-          //                                 //     // textName
-          //                                 //     Text(
-          //                                 //       userContributionTodayList?[
-          //                                 //                   index + 3]['sName']
-          //                                 //               .toString() ??
-          //                                 //           '',
-          //                                 //       overflow: TextOverflow.clip,
-          //                                 //       textAlign: TextAlign.start,
-          //                                 //       style: GoogleFonts.lato(
-          //                                 //         textStyle: const TextStyle(
-          //                                 //             color: Color(0xFF707d83),
-          //                                 //             fontSize: 14.0,
-          //                                 //             letterSpacing: .5,
-          //                                 //             fontWeight:
-          //                                 //                 FontWeight.normal),
-          //                                 //       ),
-          //                                 //     ),
-          //                                 //     Spacer(),
-          //                                 //     Row(
-          //                                 //       mainAxisAlignment:
-          //                                 //           MainAxisAlignment.end,
-          //                                 //       children: [
-          //                                 //         Text(
-          //                                 //           userContributionTodayList?[
-          //                                 //                           index + 3][
-          //                                 //                       'iEarnedPoints']
-          //                                 //                   .toString() ??
-          //                                 //               '',
-          //                                 //           style: GoogleFonts.lato(
-          //                                 //             textStyle:
-          //                                 //                 const TextStyle(
-          //                                 //                     color: Color(
-          //                                 //                         0xFFad964a),
-          //                                 //                     fontSize: 14.0,
-          //                                 //                     letterSpacing: .5,
-          //                                 //                     fontWeight:
-          //                                 //                         FontWeight
-          //                                 //                             .normal),
-          //                                 //           ),
-          //                                 //         ),
-          //                                 //         SizedBox(width: 8),
-          //                                 //         Text(
-          //                                 //           'Points',
-          //                                 //           style: GoogleFonts.lato(
-          //                                 //             textStyle:
-          //                                 //                 const TextStyle(
-          //                                 //                     color: Color(
-          //                                 //                         0xFFad964a),
-          //                                 //                     fontSize: 14.0,
-          //                                 //                     letterSpacing: .5,
-          //                                 //                     fontWeight:
-          //                                 //                         FontWeight
-          //                                 //                             .normal),
-          //                                 //           ),
-          //                                 //         ),
-          //                                 //       ],
-          //                                 //     ),
-          //                                 //   ],
-          //                                 // ),
-          //                               ),
-          //                             ),
-          //                           ],
-          //                         ),
-          //                       ),
-          //                     ));
-          //               }),
-          //         ))
-          //   ],
-          // ),
         ),
       ),
     );

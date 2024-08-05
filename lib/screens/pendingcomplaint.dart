@@ -107,11 +107,12 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   // bottomSheetForward
   bottomSheetForward(BuildContext context, String iCompCode) {
     showModalBottomSheet(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(12.0),
           ),
         ),
+
         context: context,
         builder: (context) {
           return Padding(
@@ -125,192 +126,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                        margin:
-                        EdgeInsets.only(left: 0, right: 10, top: 10),
-                        child: Image.asset(
-                          'assets/images/ic_expense.png',
-                          // Replace with your image asset path
-                          width: 24,
-                          height: 24,
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Text('Fill the below details',
-                            style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                color: Color(0xFF707d83),
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.bold)),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 5, top: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                            margin: const EdgeInsets.only(
-                                left: 0, right: 2, bottom: 2),
-                            child: const Icon(
-                              Icons.forward_sharp,
-                              size: 12,
-                              color: Colors.black54,
-                            )),
-                        const Text('JE',
-                            style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                color: Color(0xFF707d83),
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    ),
-                  ),
-                  Stack(
-                    alignment: AlignmentDirectional.centerStart,
-                    children: [
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: DropdownButtonHideUnderline(
-                          child: ButtonTheme(
-                            alignedDropdown: true,
-                            child: DropdownButton(
-                              onTap: () {
-                                FocusScope.of(context).unfocus();
-                              },
-                              hint: RichText(
-                                text: const TextSpan(
-                                  text: 'Select JE ',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text: '*',
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              value: _dropDownAgency2,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  _dropDownAgency2 = newValue;
-                                  // bindAjencyList = [];
-                                  print('---187---$_dropDownAgency2');
-                                  //  _isShowChosenDistError = false;
-                                  // Iterate the List
-                                  bindAjencyList.forEach((element) {
-                                    if (element["sName"] == _dropDownAgency2) {
-                                      setState(() {
-                                        selectedHoldValue = element['iUserId'];
-                                      });
-                                      print('-----1021----$selectedHoldValue');
-                                    }
-                                  });
-                                });
-                              },
-                              items: bindAjencyList.map((dynamic item) {
-                                return DropdownMenuItem(
-                                  child: Text(item['sName'].toString()),
-                                  value: item["sName"].toString(),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        right: 0,
-                        top: 0,
-                        bottom: 0,
-                        child: Container(
-                          color: Colors.white,
-                          child: Icon(Icons.arrow_drop_down),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  ElevatedButton(
-                      onPressed: () async {
-                        /// TODO REMOVE COMMENT AND apply proper api below and handle api data
-                        // print('----clicked--xxxxxxxx--');
-                        if (selectedHoldValue != null) {
-                          var complaintForwardResponse = await ComplaintForwardRepo()
-                              .complaintForward(context,
-                              selectedHoldValue, iCompCode);
-
-                          result1 = "${complaintForwardResponse['Result']}";
-                          msg1 = "${complaintForwardResponse['Msg']}";
-                          print('---1468---xxx-----$result1');
-                          print('---1469---xxx-----$msg1');
-                        } else{
-                            if(selectedHoldValue==null){
-                              displayToast('Select JE');
-                            }
-
-                        }
-
-                        if (result1 == "1") {
-                            print('----1----xxx----');
-                            displayToast(msg1);
-                            Navigator.pop(context);
-                          } else {
-                            displayToast(msg1);
-                            print('----0---');
-                          }
-                        /// Todo next Apply condition
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(
-                            0xFF255899), // Hex color code (FF for alpha, followed by RGB)
-                      ),
-                      child: const Text("Submit",
-                        style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            color: Colors.white,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold),
-                      ))
-                ],
-              ),
-            ),
-          );
-        });
-  }
-
-  // bottomSheetComplaintTransfer
-  bottomSheetComplaintTransfer() {
-    showModalBottomSheet(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(12.0),
-          ),
-        ),
-        context: context,
-        builder: (context) {
-          return Padding(
-            padding: const EdgeInsets.only(left: 10, right: 5, bottom: 5),
-            child: Container(
-              color: Colors.white,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        margin:
-                        EdgeInsets.only(left: 0, right: 10, top: 10),
+                        margin: EdgeInsets.only(left: 0, right: 10, top: 10),
                         child: Image.asset(
                           'assets/images/ic_expense.png',
                           // Replace with your image asset path
@@ -342,7 +158,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                               size: 12,
                               color: Colors.black54,
                             )),
-                        const Text('Complaints Type',
+                        const Text('JE',
                             style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 color: Color(0xFF707d83),
@@ -351,114 +167,124 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                       ],
                     ),
                   ),
-                  Stack(
-                    alignment: AlignmentDirectional.centerStart,
-                    children: [
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: DropdownButtonHideUnderline(
-                          child: ButtonTheme(
-                            alignedDropdown: true,
-                            child: DropdownButton(
-                              onTap: () {
-                                FocusScope.of(context).unfocus();
-                              },
-                              hint: RichText(
-                                text: const TextSpan(
-                                  text: 'Select Complaints Type ',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text: '*',
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10,right: 10),
+                    child: Container(
+                      height: 45,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFf2f3f5), // Light gray background
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Stack(
+                        alignment: AlignmentDirectional.centerStart,
+                        children: [
+                          DropdownButtonHideUnderline(
+                            child: ButtonTheme(
+                              alignedDropdown: true,
+                              child: DropdownButton(
+                                isExpanded: true, // Ensure the dropdown button takes available width
+                                onTap: () {
+                                  FocusScope.of(context).unfocus();
+                                },
+                                hint: RichText(
+                                  text: const TextSpan(
+                                    text: 'Select JE',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.normal,
                                     ),
-                                  ],
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: '*',
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              value: _dropDownComplaintType,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  _dropDownComplaintType = newValue;
-                                  print('---187---$_dropDownComplaintType');
-
-                                  bindPointTypeDropDown.forEach((element) {
-                                    if (element["sPointTypeName"] ==
-                                        _dropDownComplaintType) {
-                                      setState(() {
-                                        selectedComplaintValue =
-                                        element['iPointTypeCode'];
-                                      });
-                                      print('-----1021----$selectedComplaintValue');
-                                    }
+                                value: _dropDownAgency2,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _dropDownAgency2 = newValue;
+                                    bindAjencyList.forEach((element) {
+                                      if (element["sName"] == _dropDownAgency2) {
+                                        setState(() {
+                                          selectedHoldValue = element['iUserId'];
+                                        });
+                                      }
+                                    });
                                   });
-                                });
-                              },
-                              items: bindPointTypeDropDown.map((dynamic item) {
-                                return DropdownMenuItem(
-                                  child: Text(item['sPointTypeName'].toString()),
-                                  value: item["sPointTypeName"].toString(),
-                                );
-                              }).toList(),
+                                },
+                                items: bindAjencyList.map((dynamic item) {
+                                  return DropdownMenuItem(
+                                    child: Text(item['sName'].toString()),
+                                    value: item["sName"].toString(),
+                                  );
+                                }).toList(),
+                              ),
                             ),
                           ),
-                        ),
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFf2f3f5), // Light gray background
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(10.0), // Adjust the radius as needed
+                                  bottomRight: Radius.circular(10.0), // Adjust the radius as needed
+                                ),
+                              ),
+                              child: Icon(Icons.arrow_drop_down),
+                            ),
+                          ),
+                        ],
                       ),
-                      Positioned(
-                        right: 0,
-                        top: 0,
-                        bottom: 0,
-                        child: Container(
-                          color: Colors.white,
-                          child: Icon(Icons.arrow_drop_down),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                  SizedBox(height: 10),
 
+                  SizedBox(height: 10),
                   ElevatedButton(
                       onPressed: () async {
                         /// TODO REMOVE COMMENT AND apply proper api below and handle api data
                         // print('----clicked--xxxxxxxx--');
-                        if (selectedComplaintValue != null) {
-                          var complaintForwardResponse = await ChangePointTypeRepo()
-                              .changePointType(
-                              context, selectedComplaintValue, iCompCode);
-
-                          print('-----1453----$complaintForwardResponse');
+                        if (selectedHoldValue != null) {
+                          var complaintForwardResponse =
+                          await ComplaintForwardRepo().complaintForward(
+                              context, selectedHoldValue, iCompCode);
 
                           result1 = "${complaintForwardResponse['Result']}";
                           msg1 = "${complaintForwardResponse['Msg']}";
                           print('---1468---xxx-----$result1');
                           print('---1469---xxx-----$msg1');
-
-                        } else{
-                            if(selectedComplaintValue==null){
-                              displayToast('Select Complaints Type');
-                            }
+                        } else {
+                          if (selectedHoldValue == null) {
+                            displayToast('Select JE');
+                          }
                         }
+
                         if (result1 == "1") {
-                            print('----1----xxx----');
-                            displayToast(msg1);
-                            Navigator.pop(context);
-                          }
-                        else {
-                            displayToast(msg1);
-                            print('----0---');
-                          }
-                        },
+                          print('----1----xxx----');
+                          displayToast(msg1);
+                          Navigator.pop(context);
+                        } else {
+                          displayToast(msg1);
+                          print('----0---');
+                        }
+
                         /// Todo next Apply condition
-                      style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(
+                            0xFF255899), // Hex color code (FF for alpha, followed by RGB)
                       ),
-                      child: const Text("Submit",
+                      child: const Text(
+                        "Submit",
                         style: TextStyle(
                             fontFamily: 'Montserrat',
                             color: Colors.white,
@@ -468,318 +294,12 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                 ],
               ),
             ),
-
-
           );
         });
   }
-
-  // bottomSheetHold
-  bottomSheetHold() {
-    showModalBottomSheet(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(12.0),),
-      ),
-      context: context,
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.only(left: 10, right: 5, bottom: 5),
-          child: Container(
-            color: Colors.white, // Set the background color here
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(left: 0, right: 10, top: 10),
-                      child: Image.asset(
-                        'assets/images/ic_expense.png',
-                        // Replace with your image asset path
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 10),
-                      child: Text('Fill the below details',
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Color(0xFF707d83),
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold)),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 5, top: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                          margin: const EdgeInsets.only(left: 0, right: 2, bottom: 2),
-                          child: const Icon(
-                            Icons.forward_sharp,
-                            size: 12,
-                            color: Colors.black54,
-                          )),
-                      const Text('Hold Time',
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Color(0xFF707d83),
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 42,
-                  color: Color(0xFFf2f3f5),
-                  child: Stack(
-                    alignment: AlignmentDirectional.centerStart,
-                    children: [
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: DropdownButtonHideUnderline(
-                          child: ButtonTheme(
-                            alignedDropdown: true,
-                            child: DropdownButton(
-                              onTap: () {
-                                FocusScope.of(context).unfocus();
-                              },
-                              hint: RichText(
-                                text: const TextSpan(
-                                  text: 'Select Hold Time',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text: '*',
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              value: _dropDownHold,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  _dropDownHold = newValue;
-                                  print('---187---$_dropDownHold');
-                                  //  _isShowChosenDistError = false;
-                                  // Iterate the List
-                                  bindHoldList.forEach((element) {
-                                    if (element["sHoldDesc"] == _dropDownHold) {
-                                      setState(() {
-                                        selectedHoldValue = element['iHold'];
-                                      });
-                                      print('-----1021----$selectedHoldValue');
-                                    }
-                                  });
-                                });
-                              },
-                              items: bindHoldList.map((dynamic item) {
-                                return DropdownMenuItem(
-                                  child: Text(item['sHoldDesc'].toString()),
-                                  value: item["sHoldDesc"].toString(),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        right: 0,
-                        top: 0,
-                        bottom: 0,
-                        child: Container(
-                          color: Colors.white,
-                          child: Icon(Icons.arrow_drop_down),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10),
-                Container(
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFf2f3f5),
-                    borderRadius: BorderRadius.circular(10.0), // Border radius
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: 10),
-                    child: Row(
-                      children: [
-                        const Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Text(
-                                  'Click Photo',
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Colors.black54,
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      'Please clock here to take a photo',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Colors.redAccent,
-                                          fontSize: 10.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Icon(Icons.forward_sharp, size: 10,
-                                        color: Colors.redAccent),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            // pickImage();
-                            pickImage();
-                            print('---------530-----');
-                          },
-                          child: const Padding(
-                            padding: EdgeInsets.only(right: 10, top: 5),
-                            child: Image(image: AssetImage(
-                                'assets/images/ic_camera.PNG'),
-                              width: 40,
-                              height: 40,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    image != null
-                        ? Stack(
-                      children: [
-                        GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => FullScreenPage(
-                                      child: image!,
-                                      dark: true,
-                                    )));
-                          },
-                          child: Container(
-                              color: Colors.lightGreenAccent,
-                              height: 100,
-                              width: 70,
-                              child: Image.file(
-                                image!,
-                                fit: BoxFit.fill,
-                              )),
-                        ),
-                        Positioned(
-                            bottom: 65,
-                            left: 35,
-                            child: IconButton(
-                              onPressed: () {
-                                image = null;
-                                setState(() {});
-                              },
-                              icon: const Icon(
-                                Icons.close,
-                                color: Colors.red,
-                                size: 30,
-                              ),
-                            ))
-                      ],
-                    )
-                        : Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Text(
-                        "Photo is required.",
-                        style: TextStyle(color: Colors.red[700]),
-                      ),
-                    )
-                  ],
-                ),
-                Center(
-                  child: ElevatedButton(
-                      onPressed: () async {
-                        /// TODO REMOVE COMMENT AND apply proper api below and handle api data
-                        // print('----clicked--xxxxxxxx--
-                        //  var complaintCode =   item['iCompCode'].toString() ?? '';
-                        if (selectedHoldValue != null && uplodedImage != null) {
-                          print('---Api call---');
-                          var complaintForwardResponse = await HoloComplaintRepo()
-                              .holoComplaint(context, selectedHoldValue, uplodedImage!, iCompCode);
-                          print('-----1174--xx--$complaintForwardResponse');
-
-                          result1 = "${complaintForwardResponse['Result']}";
-                          msg1 = "${complaintForwardResponse['Msg']}";
-                          print('---1126---$result1');
-                        } else {
-                          if (selectedHoldValue == null || selectedHoldValue == "") {
-                            displayToast('Select Hold Time');
-                          } else if (uplodedImage == null) {
-                            displayToast('Click Photo');
-                          }
-                          print('----Not call a Api--');
-                        }
-
-                        /// Todo next Apply condition
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF255899), // Hex color code (FF for alpha, followed by RGB)
-                      ),
-                      child: const Text(
-                        "Complaint Hold",
-                        style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            color: Colors.white,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold),
-                      )),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-
-  // bottomSheetHold() {
+  // bottomSheetForward(BuildContext context, String iCompCode) {
   //   showModalBottomSheet(
-  //       shape: const RoundedRectangleBorder(
+  //       shape: RoundedRectangleBorder(
   //         borderRadius: BorderRadius.vertical(
   //           top: Radius.circular(12.0),
   //         ),
@@ -787,64 +307,60 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   //       context: context,
   //       builder: (context) {
   //         return Padding(
-  //           padding: const EdgeInsets.only(left: 10, right: 5, bottom: 5),
-  //           child: Column(
-  //             mainAxisSize: MainAxisSize.min,
-  //             mainAxisAlignment: MainAxisAlignment.start,
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: <Widget>[
-  //               Row(
-  //                 mainAxisAlignment: MainAxisAlignment.start,
-  //                 crossAxisAlignment: CrossAxisAlignment.start,
-  //                 children: <Widget>[
-  //                   Container(
-  //                     margin:
-  //                     EdgeInsets.only(left: 0, right: 10, top: 10),
-  //                     child: Image.asset(
-  //                       'assets/images/ic_expense.png',
-  //                       // Replace with your image asset path
-  //                       width: 24,
-  //                       height: 24,
-  //                     ),
-  //                   ),
-  //                   const Padding(
-  //                     padding: EdgeInsets.only(top: 10),
-  //                     child: Text('Fill the below details',
-  //                         style: TextStyle(
-  //                             fontFamily: 'Montserrat',
-  //                             color: Color(0xFF707d83),
-  //                             fontSize: 14.0,
-  //                             fontWeight: FontWeight.bold)),
-  //                   ),
-  //                 ],
-  //               ),
-  //               Padding(
-  //                 padding: const EdgeInsets.only(bottom: 5, top: 10),
-  //                 child: Row(
+  //           padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+  //           child: Container(
+  //             color: Colors.white,
+  //             child: Column(
+  //               mainAxisSize: MainAxisSize.min,
+  //               children: <Widget>[
+  //                 Row(
   //                   mainAxisAlignment: MainAxisAlignment.start,
-  //                   crossAxisAlignment: CrossAxisAlignment.start,
   //                   children: <Widget>[
   //                     Container(
-  //                         margin: const EdgeInsets.only(
-  //                             left: 0, right: 2, bottom: 2),
-  //                         child: const Icon(
-  //                           Icons.forward_sharp,
-  //                           size: 12,
-  //                           color: Colors.black54,
-  //                         )),
-  //                     const Text('Hold Time',
-  //                         style: TextStyle(
-  //                             fontFamily: 'Montserrat',
-  //                             color: Color(0xFF707d83),
-  //                             fontSize: 14.0,
-  //                             fontWeight: FontWeight.bold)),
+  //                       margin:
+  //                       EdgeInsets.only(left: 0, right: 10, top: 10),
+  //                       child: Image.asset(
+  //                         'assets/images/ic_expense.png',
+  //                         // Replace with your image asset path
+  //                         width: 24,
+  //                         height: 24,
+  //                       ),
+  //                     ),
+  //                     const Padding(
+  //                       padding: EdgeInsets.only(top: 10),
+  //                       child: Text('Fill the below details',
+  //                           style: TextStyle(
+  //                               fontFamily: 'Montserrat',
+  //                               color: Color(0xFF707d83),
+  //                               fontSize: 14.0,
+  //                               fontWeight: FontWeight.bold)),
+  //                     ),
   //                   ],
   //                 ),
-  //               ),
-  //               Container(
-  //                 height: 42,
-  //                 color: Color(0xFFf2f3f5),
-  //                 child: Stack(
+  //                 Padding(
+  //                   padding: const EdgeInsets.only(
+  //                       bottom: 5, top: 10),
+  //                   child: Row(
+  //                     mainAxisAlignment: MainAxisAlignment.start,
+  //                     children: <Widget>[
+  //                       Container(
+  //                           margin: const EdgeInsets.only(
+  //                               left: 0, right: 2, bottom: 2),
+  //                           child: const Icon(
+  //                             Icons.forward_sharp,
+  //                             size: 12,
+  //                             color: Colors.black54,
+  //                           )),
+  //                       const Text('JE',
+  //                           style: TextStyle(
+  //                               fontFamily: 'Montserrat',
+  //                               color: Color(0xFF707d83),
+  //                               fontSize: 14.0,
+  //                               fontWeight: FontWeight.bold)),
+  //                     ],
+  //                   ),
+  //                 ),
+  //                 Stack(
   //                   alignment: AlignmentDirectional.centerStart,
   //                   children: [
   //                     SingleChildScrollView(
@@ -858,7 +374,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   //                             },
   //                             hint: RichText(
   //                               text: const TextSpan(
-  //                                 text: 'Select Hold Time',
+  //                                 text: 'Select JE ',
   //                                 style: TextStyle(
   //                                   color: Colors.black,
   //                                   fontSize: 16,
@@ -876,27 +392,28 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   //                                 ],
   //                               ),
   //                             ),
-  //                             value: _dropDownHold,
+  //                             value: _dropDownAgency2,
   //                             onChanged: (newValue) {
   //                               setState(() {
-  //                                 _dropDownHold = newValue;
-  //                                 print('---187---$_dropDownHold');
+  //                                 _dropDownAgency2 = newValue;
+  //                                 // bindAjencyList = [];
+  //                                 print('---187---$_dropDownAgency2');
   //                                 //  _isShowChosenDistError = false;
   //                                 // Iterate the List
-  //                                 bindHoldList.forEach((element) {
-  //                                   if (element["sHoldDesc"] == _dropDownHold) {
+  //                                 bindAjencyList.forEach((element) {
+  //                                   if (element["sName"] == _dropDownAgency2) {
   //                                     setState(() {
-  //                                       selectedHoldValue = element['iHold'];
+  //                                       selectedHoldValue = element['iUserId'];
   //                                     });
   //                                     print('-----1021----$selectedHoldValue');
   //                                   }
   //                                 });
   //                               });
   //                             },
-  //                             items: bindHoldList.map((dynamic item) {
+  //                             items: bindAjencyList.map((dynamic item) {
   //                               return DropdownMenuItem(
-  //                                 child: Text(item['sHoldDesc'].toString()),
-  //                                 value: item["sHoldDesc"].toString(),
+  //                                 child: Text(item['sName'].toString()),
+  //                                 value: item["sName"].toString(),
   //                               );
   //                             }).toList(),
   //                           ),
@@ -912,184 +429,744 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   //                         child: Icon(Icons.arrow_drop_down),
   //                       ),
   //                     ),
-  //
   //                   ],
   //                 ),
-  //               ),
-  //                SizedBox(height: 10),
-  //               Container(
-  //                 decoration: BoxDecoration(
-  //                   color: const Color(0xFFf2f3f5),
-  //                   borderRadius: BorderRadius.circular(10.0), // Border radius
-  //                 ),
-  //                 child: Padding(
-  //                   padding: EdgeInsets.only(bottom: 10),
-  //                   child: Row(
-  //                     children: [
-  //                       const Expanded(
-  //                         child: Column(
-  //                           crossAxisAlignment: CrossAxisAlignment.start,
-  //                           children: [
-  //                             Padding(
-  //                               padding: EdgeInsets.only(left: 10),
-  //                               child: Text(
-  //                                 'Click Photo',
-  //                                 style: TextStyle(
-  //                                     fontFamily: 'Montserrat',
-  //                                     color: Colors.black54,
-  //                                     fontSize: 14.0,
-  //                                     fontWeight: FontWeight.bold),
-  //                               ),
-  //                             ),
-  //                             Padding(
-  //                               padding: EdgeInsets.only(left: 10),
-  //                               child: Row(
-  //                                 mainAxisAlignment: MainAxisAlignment.start,
-  //                                 children: <Widget>[
-  //                                   Text(
-  //                                     'Please clock here to take a photo',
-  //                                     style: TextStyle(
-  //                                         fontFamily: 'Montserrat',
-  //                                         color: Colors.redAccent,
-  //                                         fontSize: 10.0,
-  //                                         fontWeight: FontWeight.bold),
-  //                                   ),
-  //                                   SizedBox(width: 10),
-  //                                   Icon(Icons.forward_sharp, size: 10,
-  //                                       color: Colors.redAccent),
-  //                                 ],
-  //                               ),
-  //                             )
-  //                           ],
-  //                         ),
-  //                       ),
-  //                       InkWell(
-  //                         onTap: () {
-  //                           // pickImage();
-  //                           pickImage();
-  //                           print('---------530-----');
-  //                         },
-  //                         child: const Padding(
-  //                           padding: EdgeInsets.only(right: 10, top: 5),
-  //                           child: Image(image: AssetImage(
-  //                               'assets/images/ic_camera.PNG'),
-  //                             width: 40,
-  //                             height: 40,
-  //                             fit: BoxFit.fill,
-  //                           ),
-  //                           // child: Icon(
-  //                           //   Icons.camera,
-  //                           //   size: 24.0,
-  //                           //   color: Color(0xFF255899),
-  //                           // ),
-  //                         ),
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 ),
-  //               ),
-  //               SizedBox(height: 10),
-  //               Row(
-  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                   children: <Widget>[
-  //                     image != null
-  //                         ? Stack(
-  //                       children: [
-  //                         GestureDetector(
-  //                           behavior: HitTestBehavior.translucent,
-  //                           onTap: () {
-  //                             Navigator.push(
-  //                                 context,
-  //                                 MaterialPageRoute(
-  //                                     builder: (context) =>
-  //                                         FullScreenPage(
-  //                                           child: image!,
-  //                                           dark: true,
-  //                                         )));
-  //                           },
-  //                           child: Container(
-  //                               color: Colors.lightGreenAccent,
-  //                               height: 100,
-  //                               width: 70,
-  //                               child: Image.file(
-  //                                 image!,
-  //                                 fit: BoxFit.fill,
-  //                               )),
-  //                         ),
-  //                         Positioned(
-  //                             bottom: 65,
-  //                             left: 35,
-  //                             child: IconButton(
-  //                               onPressed: () {
-  //                                 image = null;
-  //                                 setState(() {});
-  //                               },
-  //                               icon: const Icon(
-  //                                 Icons.close,
-  //                                 color: Colors.red,
-  //                                 size: 30,
-  //                               ),
-  //                             ))
-  //                       ],
-  //                     ) :
-  //                     Padding(
-  //                       padding: const EdgeInsets.only(left: 10),
-  //                       child: Text(
-  //                         "Photo is required.",
-  //                         style:
-  //                         TextStyle(color: Colors.red[700]),
-  //                       ),
-  //                     )
-  //                   ]),
-  //
-  //               Center(
-  //                 child: ElevatedButton(
+  //                 SizedBox(height: 10),
+  //                 ElevatedButton(
   //                     onPressed: () async {
   //                       /// TODO REMOVE COMMENT AND apply proper api below and handle api data
-  //                       // print('----clicked--xxxxxxxx--
-  //                       //  var complaintCode =   item['iCompCode'].toString() ?? '';
-  //                       if (selectedHoldValue != null && uplodedImage !=null) {
-  //
-  //                         print('---Api call---');
-  //                         var complaintForwardResponse = await HoloComplaintRepo()
-  //                             .holoComplaint(context,
-  //                             selectedHoldValue, uplodedImage!, iCompCode);
-  //                         print('-----1174--xx--$complaintForwardResponse');
+  //                       // print('----clicked--xxxxxxxx--');
+  //                       if (selectedHoldValue != null) {
+  //                         var complaintForwardResponse = await ComplaintForwardRepo()
+  //                             .complaintForward(context,
+  //                             selectedHoldValue, iCompCode);
   //
   //                         result1 = "${complaintForwardResponse['Result']}";
   //                         msg1 = "${complaintForwardResponse['Msg']}";
-  //                         print('---1126---$result1');
+  //                         print('---1468---xxx-----$result1');
+  //                         print('---1469---xxx-----$msg1');
+  //                       } else{
+  //                           if(selectedHoldValue==null){
+  //                             displayToast('Select JE');
+  //                           }
   //
-  //
-  //                       } else {
-  //                          if(selectedHoldValue==null || selectedHoldValue==""){
-  //                            displayToast('Select Hold Time');
-  //                          }else if(uplodedImage==null){
-  //                            displayToast('Click Photo');
-  //                          }
-  //                         print('----Not call a Api--');
   //                       }
   //
+  //                       if (result1 == "1") {
+  //                           print('----1----xxx----');
+  //                           displayToast(msg1);
+  //                           Navigator.pop(context);
+  //                         } else {
+  //                           displayToast(msg1);
+  //                           print('----0---');
+  //                         }
   //                       /// Todo next Apply condition
   //                     },
-  //
   //                     style: ElevatedButton.styleFrom(
-  //                       backgroundColor: const Color(0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+  //                       backgroundColor: const Color(
+  //                           0xFF255899), // Hex color code (FF for alpha, followed by RGB)
   //                     ),
-  //                     child: const Text("Complaint Hold",
+  //                     child: const Text("Submit",
   //                       style: TextStyle(
   //                           fontFamily: 'Montserrat',
   //                           color: Colors.white,
   //                           fontSize: 16.0,
   //                           fontWeight: FontWeight.bold),
-  //                     )),
-  //               )
-  //
-  //             ],
+  //                     ))
+  //               ],
+  //             ),
   //           ),
   //         );
   //       });
   // }
+
+  // bottomSheetComplaintTransfer
+  bottomSheetComplaintTransfer() {
+    showModalBottomSheet(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(12.0),
+          ),
+        ),
+        context: context,
+        builder: (context) {
+          return Padding(
+            padding: const EdgeInsets.only(left: 0, right: 0, bottom: 0),
+            child: Container(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10,right: 10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(left: 0, right: 10, top: 10),
+                          child: Image.asset(
+                            'assets/images/ic_expense.png',
+                            // Replace with your image asset path
+                            width: 24,
+                            height: 24,
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Text('Fill the below details',
+                              style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Color(0xFF707d83),
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 5, top: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                              margin: const EdgeInsets.only(left: 0, right: 2, bottom: 2),
+                              child: const Icon(
+                                Icons.forward_sharp,
+                                size: 12,
+                                color: Colors.black54,
+                              )),
+                          const Text('Complaints Type',
+                              style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Color(0xFF707d83),
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                    ),
+                    //
+                    Container(
+                      height: 45,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFf2f3f5), // Light gray background
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Stack(
+                        alignment: AlignmentDirectional.centerStart,
+                        children: [
+                          DropdownButtonHideUnderline(
+                            child: ButtonTheme(
+                              alignedDropdown: true,
+                              child: DropdownButton(
+                                isExpanded: true, // Ensure the dropdown button takes available width
+                                onTap: () {
+                                  FocusScope.of(context).unfocus();
+                                },
+                                hint: RichText(
+                                  text: const TextSpan(
+                                    text: 'Select Complaints Type',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: '*',
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                value: _dropDownComplaintType,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _dropDownComplaintType = newValue;
+                                    bindPointTypeDropDown.forEach((element) {
+                                      if (element["sPointTypeName"] == bindPointTypeDropDown) {
+                                        setState(() {
+                                          selectedComplaintValue = element['iPointTypeCode'];
+                                        });
+                                      }
+                                    });
+                                  });
+                                },
+                                items: bindPointTypeDropDown.map((dynamic item) {
+                                  return DropdownMenuItem(
+                                    child: Text(item['sPointTypeName'].toString()),
+                                    value: item["sPointTypeName"].toString(),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFf2f3f5), // Light gray background
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(10.0), // Adjust the radius as needed
+                                  bottomRight: Radius.circular(10.0), // Adjust the radius as needed
+                                ),
+                              ),
+                              child: Icon(Icons.arrow_drop_down),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                        onPressed: () async {
+                          /// TODO REMOVE COMMENT AND apply proper api below and handle api data
+                          // print('----clicked--xxxxxxxx--');
+                          if (selectedComplaintValue != null) {
+                            var complaintForwardResponse =
+                            await ChangePointTypeRepo().changePointType(
+                                context, selectedComplaintValue, iCompCode);
+
+                            print('-----1453----$complaintForwardResponse');
+
+                            result1 = "${complaintForwardResponse['Result']}";
+                            msg1 = "${complaintForwardResponse['Msg']}";
+                            print('---1468---xxx-----$result1');
+                            print('---1469---xxx-----$msg1');
+                          } else {
+                            if (selectedComplaintValue == null) {
+                              displayToast('Select Complaints Type');
+                            }
+                          }
+                          if (result1 == "1") {
+                            print('----1----xxx----');
+                            displayToast(msg1);
+                            Navigator.pop(context);
+                          } else {
+                            displayToast(msg1);
+                            print('----0---');
+                          }
+                        },
+
+                        /// Todo next Apply condition
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(
+                              0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+                        ),
+                        child: const Text(
+                          "Submit",
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              color: Colors.white,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold),
+                        ))
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
+  // bottomSheetComplaintTransfer() {
+  //   showModalBottomSheet(
+  //       shape: const RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.vertical(
+  //           top: Radius.circular(12.0),
+  //         ),
+  //       ),
+  //       context: context,
+  //       builder: (context) {
+  //         return Padding(
+  //           padding: const EdgeInsets.only(left: 10, right: 5, bottom: 5),
+  //           child: Container(
+  //             color: Colors.white,
+  //             child: Column(
+  //               mainAxisSize: MainAxisSize.min,
+  //               children: <Widget>[
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.start,
+  //                   children: <Widget>[
+  //                     Container(
+  //                       margin:
+  //                       EdgeInsets.only(left: 0, right: 10, top: 10),
+  //                       child: Image.asset(
+  //                         'assets/images/ic_expense.png',
+  //                         // Replace with your image asset path
+  //                         width: 24,
+  //                         height: 24,
+  //                       ),
+  //                     ),
+  //                     const Padding(
+  //                       padding: EdgeInsets.only(top: 10),
+  //                       child: Text('Fill the below details',
+  //                           style: TextStyle(
+  //                               fontFamily: 'Montserrat',
+  //                               color: Color(0xFF707d83),
+  //                               fontSize: 14.0,
+  //                               fontWeight: FontWeight.bold)),
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 Padding(
+  //                   padding: const EdgeInsets.only(bottom: 5, top: 10),
+  //                   child: Row(
+  //                     mainAxisAlignment: MainAxisAlignment.start,
+  //                     children: <Widget>[
+  //                       Container(
+  //                           margin: const EdgeInsets.only(
+  //                               left: 0, right: 2, bottom: 2),
+  //                           child: const Icon(
+  //                             Icons.forward_sharp,
+  //                             size: 12,
+  //                             color: Colors.black54,
+  //                           )),
+  //                       const Text('Complaints Type',
+  //                           style: TextStyle(
+  //                               fontFamily: 'Montserrat',
+  //                               color: Color(0xFF707d83),
+  //                               fontSize: 14.0,
+  //                               fontWeight: FontWeight.bold)),
+  //                     ],
+  //                   ),
+  //                 ),
+  //                 Stack(
+  //                   alignment: AlignmentDirectional.centerStart,
+  //                   children: [
+  //                     SingleChildScrollView(
+  //                       scrollDirection: Axis.horizontal,
+  //                       child: DropdownButtonHideUnderline(
+  //                         child: ButtonTheme(
+  //                           alignedDropdown: true,
+  //                           child: DropdownButton(
+  //                             onTap: () {
+  //                               FocusScope.of(context).unfocus();
+  //                             },
+  //                             hint: RichText(
+  //                               text: const TextSpan(
+  //                                 text: 'Select Complaints Type ',
+  //                                 style: TextStyle(
+  //                                   color: Colors.black,
+  //                                   fontSize: 16,
+  //                                   fontWeight: FontWeight.normal,
+  //                                 ),
+  //                                 children: <TextSpan>[
+  //                                   TextSpan(
+  //                                     text: '*',
+  //                                     style: TextStyle(
+  //                                       color: Colors.red,
+  //                                       fontSize: 16,
+  //                                       fontWeight: FontWeight.bold,
+  //                                     ),
+  //                                   ),
+  //                                 ],
+  //                               ),
+  //                             ),
+  //                             value: _dropDownComplaintType,
+  //                             onChanged: (newValue) {
+  //                               setState(() {
+  //                                 _dropDownComplaintType = newValue;
+  //                                 print('---187---$_dropDownComplaintType');
+  //
+  //                                 bindPointTypeDropDown.forEach((element) {
+  //                                   if (element["sPointTypeName"] ==
+  //                                       _dropDownComplaintType) {
+  //                                     setState(() {
+  //                                       selectedComplaintValue =
+  //                                       element['iPointTypeCode'];
+  //                                     });
+  //                                     print('-----1021----$selectedComplaintValue');
+  //                                   }
+  //                                 });
+  //                               });
+  //                             },
+  //                             items: bindPointTypeDropDown.map((dynamic item) {
+  //                               return DropdownMenuItem(
+  //                                 child: Text(item['sPointTypeName'].toString()),
+  //                                 value: item["sPointTypeName"].toString(),
+  //                               );
+  //                             }).toList(),
+  //                           ),
+  //                         ),
+  //                       ),
+  //                     ),
+  //                     Positioned(
+  //                       right: 0,
+  //                       top: 0,
+  //                       bottom: 0,
+  //                       child: Container(
+  //                         color: Colors.white,
+  //                         child: Icon(Icons.arrow_drop_down),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 SizedBox(height: 10),
+  //
+  //                 ElevatedButton(
+  //                     onPressed: () async {
+  //                       /// TODO REMOVE COMMENT AND apply proper api below and handle api data
+  //                       // print('----clicked--xxxxxxxx--');
+  //                       if (selectedComplaintValue != null) {
+  //                         var complaintForwardResponse = await ChangePointTypeRepo()
+  //                             .changePointType(
+  //                             context, selectedComplaintValue, iCompCode);
+  //
+  //                         print('-----1453----$complaintForwardResponse');
+  //
+  //                         result1 = "${complaintForwardResponse['Result']}";
+  //                         msg1 = "${complaintForwardResponse['Msg']}";
+  //                         print('---1468---xxx-----$result1');
+  //                         print('---1469---xxx-----$msg1');
+  //
+  //                       } else{
+  //                           if(selectedComplaintValue==null){
+  //                             displayToast('Select Complaints Type');
+  //                           }
+  //                       }
+  //                       if (result1 == "1") {
+  //                           print('----1----xxx----');
+  //                           displayToast(msg1);
+  //                           Navigator.pop(context);
+  //                         }
+  //                       else {
+  //                           displayToast(msg1);
+  //                           print('----0---');
+  //                         }
+  //                       },
+  //                       /// Todo next Apply condition
+  //                     style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+  //                     ),
+  //                     child: const Text("Submit",
+  //                       style: TextStyle(
+  //                           fontFamily: 'Montserrat',
+  //                           color: Colors.white,
+  //                           fontSize: 16.0,
+  //                           fontWeight: FontWeight.bold),
+  //                     ))
+  //               ],
+  //             ),
+  //           ),
+  //
+  //
+  //         );
+  //       });
+  // }
+
+  // bottomSheetHold
+  bottomSheetHold() {
+    showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(12.0),
+        ),
+      ),
+      context: context,
+      builder: (context) {
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 0, right: 0, bottom: 0),
+            child: Container(
+              // color: Color(0xFFf2f3f5),
+              color: Colors.white, // Set the background color here
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10,right: 10),
+                child: Column(
+                  //mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(left: 0, right: 10, top: 10),
+                          child: Image.asset(
+                            'assets/images/ic_expense.png',
+                            // Replace with your image asset path
+                            width: 24,
+                            height: 24,
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Text('Fill the below details',
+                              style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Color(0xFF707d83),
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 5, top: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                              margin: const EdgeInsets.only(
+                                  left: 0, right: 2, bottom: 2),
+                              child: const Icon(
+                                Icons.forward_sharp,
+                                size: 12,
+                                color: Colors.black54,
+                              )),
+                          const Text('Hold Time',
+                              style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Color(0xFF707d83),
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height:45,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFf2f3f5), // Light gray background
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Stack(
+                        alignment: AlignmentDirectional.centerStart,
+                        children: [
+                          DropdownButtonHideUnderline(
+                            child: ButtonTheme(
+                              alignedDropdown: true,
+                              child: DropdownButton(
+                                onTap: () {
+                                  FocusScope.of(context).unfocus();
+                                },
+                                hint: RichText(
+                                  text: const TextSpan(
+                                    text: 'Select Hold Time',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: '*',
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                value: _dropDownHold,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _dropDownHold = newValue;
+                                    bindHoldList.forEach((element) {
+                                      if (element["sHoldDesc"] == _dropDownHold) {
+                                        setState(() {
+                                          selectedHoldValue = element['iHold'];
+                                        });
+                                      }
+                                    });
+                                  });
+                                },
+                                items: bindHoldList.map((dynamic item) {
+                                  return DropdownMenuItem(
+                                    child: Text(item['sHoldDesc'].toString()),
+                                    value: item["sHoldDesc"].toString(),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFf2f3f5), // Light gray background
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(10.0), // Adjust the radius as needed
+                                  bottomRight: Radius.circular(10.0), // Adjust the radius as needed
+                                ),
+                              ),
+                              child: Icon(Icons.arrow_drop_down),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFf2f3f5),
+                        borderRadius: BorderRadius.circular(10.0), // Border radius
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 10),
+                        child: Row(
+                          children: [
+                            const Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 10, top: 10),
+                                    child: Text(
+                                      'Click Photo',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Colors.black54,
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 10, top: 5),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          'Please click here to take a photo',
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.redAccent,
+                                              fontSize: 10.0,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(width: 10),
+                                        Icon(Icons.forward_sharp,
+                                            size: 10, color: Colors.redAccent),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                pickImage();
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.only(right: 10, top: 5),
+                                child: Image(
+                                  image: AssetImage('assets/images/ic_camera.PNG'),
+                                  width: 40,
+                                  height: 40,
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        image != null
+                            ? Stack(
+                          children: [
+                            GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FullScreenPage(
+                                          child: image!,
+                                          dark: true,
+                                        )));
+                              },
+                              child: Container(
+                                  color: Colors.lightGreenAccent,
+                                  height: 100,
+                                  width: 70,
+                                  child: Image.file(
+                                    image!,
+                                    fit: BoxFit.fill,
+                                  )),
+                            ),
+                            Positioned(
+                                bottom: 65,
+                                left: 35,
+                                child: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      image = null;
+                                    });
+                                  },
+                                  icon: const Icon(
+                                    Icons.close,
+                                    color: Colors.red,
+                                    size: 30,
+                                  ),
+                                ))
+                          ],
+                        )
+                            : Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            "Photo is required.",
+                            style: TextStyle(color: Colors.red[700]),
+                          ),
+                        )
+                      ],
+                    ),
+                    Center(
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            if (selectedHoldValue != null && uplodedImage != null) {
+                              var complaintForwardResponse =
+                              await HoloComplaintRepo().holoComplaint(
+                                  context,
+                                  selectedHoldValue,
+                                  uplodedImage!,
+                                  iCompCode);
+
+                              result1 = "${complaintForwardResponse['Result']}";
+                              msg1 = "${complaintForwardResponse['Msg']}";
+                            } else {
+                              if (selectedHoldValue == null ||
+                                  selectedHoldValue == "") {
+                                displayToast('Select Hold Time');
+                              } else if (uplodedImage == null) {
+                                displayToast('Click Photo');
+                              }
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF255899),
+                          ),
+                          child: const Text(
+                            "Complaint Hold",
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold),
+                          )),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
 
 
 
@@ -1345,17 +1422,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: generalfunction.appbarFunction("Pending Complaint"),
-      // appBar: AppBar(
-      //   backgroundColor: Color(0xFF255899),
-      //   title: const Text(
-      //     'Pending Complaint',
-      //     style: TextStyle(
-      //         fontFamily: 'Montserrat',
-      //         color: Colors.white,
-      //         fontSize: 18.0,
-      //         fontWeight: FontWeight.bold),
-      //   ),
-      // ),
       // drawer
       drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
 
@@ -1399,569 +1465,1121 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
             ),
           ),
           // scroll item after search bar
+
           Expanded(
             child: ListView.builder(
               itemCount: _filteredData.length ?? 0,
               itemBuilder: (context, index) {
                 Map<String, dynamic> item = _filteredData[index];
                 return Padding(
-                  padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
-                  child: Column(
-                      children: [
-                        Card(
-                          elevation: 1,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.0),
-                              border: Border.all(
-                                color: Colors.grey, // Outline border color
-                                width: 0.2, // Outline border width
+                    padding: const EdgeInsets.only(left: 5, top: 5, right: 5),
+                    child: Container(
+                      //color: Colors.white,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        // Background color
+                        borderRadius: BorderRadius.circular(10),
+                        // Border radius
+                        border: Border.all(
+                          color: Colors.grey, // Border color
+                          width: 1, // Border width
+                        ),
+                      ),
+
+                      child: Container(
+                        margin: EdgeInsets.only(left: 10, right: 10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    width: 30.0,
+                                    height: 30.0,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      border: Border.all(
+                                        color: Color(0xFF255899),
+                                        // Outline border color
+                                        width: 0.5, // Outline border width
+                                      ),
+                                      color: Colors.white,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        '${index + 1}',
+                                        style: const TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Color(0xff3f617d),
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      // child: Icon(Icons.ac_unit_rounded, color: Color(0xFF255899), size: 20)),
+                                    ),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          item['sPointTypeName'] ?? '',
+                                          style: const TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Color(0xff3f617d),
+                                              fontSize: 14.0,
+                                              fontWeight: FontWeight.bold),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ),
+                                        const Text(
+                                          'Point Name',
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Color(0xff3f617d),
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(width: 0),
+                                  Expanded(
+                                    child: GestureDetector(
+                                        child: Container(
+                                          alignment: Alignment.centerRight,
+                                          height: 40,
+                                          // width: 40,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                            // Aligns the row to the right
+                                            children: [
+                                              GestureDetector(
+                                                  onTap: () {
+                                                    var fLatitude =
+                                                        item['fLatitude'] ?? '';
+                                                    var fLongitude =
+                                                        item['fLongitude'] ?? '';
+                                                    print(
+                                                        '----462----${fLatitude}');
+                                                    print(
+                                                        '-----463---${fLongitude}');
+                                                    if (fLatitude != null &&
+                                                        fLongitude != null) {
+                                                      generalfunction
+                                                          .launchGoogleMaps(
+                                                          fLatitude,
+                                                          fLongitude);
+                                                    } else {
+                                                      displayToast(
+                                                          "Please check the location.");
+                                                    }
+                                                  },
+                                                  child: const Image(
+                                                      image: AssetImage(
+                                                          'assets/images/ic_google_maps.PNG'))),
+                                              SizedBox(width: 2),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  print('---Helo ----jpeg---');
+                                                  iCompCode = item['iCompCode']
+                                                      .toString() ??
+                                                      '';
+                                                  print('---506--$iCompCode');
+                                                  bottomSheetHold();
+                                                  //_showBottomSheetHold(context,iCompCode);
+                                                },
+                                                child: const Padding(
+                                                  padding: EdgeInsets.only(top: 5),
+                                                  child: Image(
+                                                      image: AssetImage(
+                                                          'assets/images/holo.jpeg')),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )),
+                                  ),
+                                ],
                               ),
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 8, right: 0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                   // crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Column(
-                                        children: <Widget>[
-                                          Container(
-                                            height: 50,
-                                            width: MediaQuery.of(context).size.width - MediaQuery.of(context).size.width / 3,
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: <Widget>[
-                                                Container(
-                                                  width: 30.0,
-                                                  height: 30.0,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(15.0),
-                                                    border: Border.all(
-                                                      color: Color(0xFF255899),
-                                                      width: 0.5,
-                                                    ),
-                                                    color: Colors.white,
-                                                  ),
-                                                  child: const Center(
-                                                      child: Icon(Icons.ac_unit_rounded, color: Color(0xFF255899), size: 20)),
-                                                ),
-                                                SizedBox(width: 5),
-                                                Expanded(
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        item['sPointTypeName'] ?? '',
-                                                        style: const TextStyle(
-                                                          fontFamily: 'Montserrat',
-                                                          color: Color(0xff3f617d),
-                                                          fontSize: 14.0,
-                                                          fontWeight: FontWeight.bold,
-                                                        ),
-                                                        overflow: TextOverflow.ellipsis,
-                                                        maxLines: 1,
-                                                      ),
-                                                      const Text(
-                                                        'Point Name',
-                                                        style: TextStyle(
-                                                          fontFamily: 'Montserrat',
-                                                          color: Color(0xff3f617d),
-                                                          fontSize: 12.0,
-                                                          fontWeight: FontWeight.bold,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Column(
-                                        children: <Widget>[
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: <Widget>
-                                            [
-                                                                GestureDetector(
-                                                                    onTap: () {
-                                                                      var fLatitude = item['fLatitude'] ??
-                                                                          '';
-                                                                      var fLongitude = item['fLongitude'] ??
-                                                                          '';
-                                                                      print(
-                                                                          '----462----${fLatitude}');
-                                                                      print(
-                                                                          '-----463---${fLongitude}');
-                                                                      if (fLatitude !=
-                                                                          null &&
-                                                                          fLongitude !=
-                                                                              null) {
-                                                                        generalfunction
-                                                                            .launchGoogleMaps(
-                                                                            fLatitude,
-                                                                            fLongitude);
-                                                                      } else {
-                                                                        displayToast(
-                                                                            "Please check the location.");
-                                                                      }
-                                                                    },
-                                                                    child: const Image(
-                                                                        image: AssetImage('assets/images/ic_google_maps.PNG'),
-                                                                       height: 42,
-                                                                       width: 42,
-                                                                       fit: BoxFit.fill,
-                                                                    )),
-                                                                SizedBox(width: 0),
 
-                                              GestureDetector(
-                                                                  onTap: () {
-                                                                    print('---Helo ----jpeg---');
-                                                                    iCompCode = item['iCompCode'].toString() ?? '';
-                                                                    print('---506--$iCompCode');
-                                                                    bottomSheetHold();
-                                                                    //_showBottomSheetHold(context,iCompCode);
-                                                                  },
-                                                                  child: const Padding(
-                                                                    padding: EdgeInsets
-                                                                        .only(top: 5),
-                                                                    child: Image(
-                                                                        image: AssetImage('assets/images/holo.jpeg'),
-                                                                       height: 42,
-                                                                       width: 42,
-                                                                       fit: BoxFit.fill,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                            ],
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  // SizedBox(height: 10),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 15, right: 15),
-                                    child: Container(
-                                      height: 0.5,
-                                      color: const Color(0xff3f617d),
+                            const SizedBox(height: 10),
+                            Padding(
+                              padding:
+                              const EdgeInsets.only(left: 15, right: 15),
+                              child: Container(
+                                height: 0.5,
+                                color: const Color(0xff3f617d),
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.forward,
+                                  size: 10,
+                                  color: Color(0xff3f617d),
+                                ),
+                                SizedBox(width: 5),
+                                Text(
+                                  'Complaint No',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xFF255899),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 15),
+                              child: Text(
+                                item['iCompCode'].toString() ?? '',
+                                style: const TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: Color(0xff3f617d),
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.forward,
+                                  size: 10,
+                                  color: Color(0xff3f617d),
+                                ),
+                                SizedBox(width: 5),
+                                Text(
+                                  'Sector',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xFF255899),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 15),
+                              child: Text(
+                                item['sSectorName'] ?? '',
+                                style: const TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: Color(0xff3f617d),
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.forward,
+                                  size: 10,
+                                  color: Color(0xff3f617d),
+                                ),
+                                SizedBox(width: 5),
+                                Text(
+                                  'Posted At',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xFF255899),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 15),
+                              child: Text(
+                                item['dPostedOn'] ?? '',
+                                style: const TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: Color(0xff3f617d),
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(Icons.forward,
+                                    size: 10, color: Color(0xff3f617d)),
+                                SizedBox(width: 5),
+                                Text(
+                                  'Location',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xFF255899),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 15),
+                              child: Text(
+                                item['sLocation'] ?? '',
+                                style: const TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: Color(0xff3f617d),
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(Icons.forward,
+                                    size: 10, color: Color(0xff3f617d)),
+                                SizedBox(width: 5),
+                                Text(
+                                  'Description',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xFF255899),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 15),
+                              child: Text(
+                                item['sDescription'] ?? '',
+                                style: const TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: Color(0xff3f617d),
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    const Icon(
+                                      Icons.calendar_month,
+                                      size: 10,
+                                      color: Color(0xff3f617d),
                                     ),
-                                  ),
-
-                                  const SizedBox(height: 5),
-                                  const Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.forward,
-                                        size: 10,
-                                        color: Color(0xff3f617d),
-                                      ),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        'Complaint NO',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Color(0xFF255899),
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 15),
-                                    child: Text(
-                                      item['iCompCode'].toString() ?? '',
-                                      style: const TextStyle(
+                                    SizedBox(width: 5),
+                                    const Text(
+                                      'Pending Since :',
+                                      style: TextStyle(
                                           fontFamily: 'Montserrat',
-                                          color: Color(0xff3f617d),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  const Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.forward,
-                                        size: 10,
-                                        color: Color(0xff3f617d),
-                                      ),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        'Sector',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Color(0xFF255899),
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 15),
-                                    child: Text(
-                                      item['sSectorName'] ?? '',
-                                      style: const TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xff3f617d),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  const Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.forward,
-                                        size: 10,
-                                        color: Color(0xff3f617d),
-                                      ),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        'Posted At',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Color(0xFF255899),
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 15),
-                                    child: Text(
-                                      item['dPostedOn'] ?? '',
-                                      style: const TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xff3f617d),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  const Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Icon(Icons.forward,
-                                          size: 10, color: Color(0xff3f617d)),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        'Location',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Color(0xFF255899),
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 15),
-                                    child: Text(
-                                      item['sLocation'] ?? '',
-                                      style: const TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xff3f617d),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  const Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Icon(Icons.forward,
-                                          size: 10, color: Color(0xff3f617d)),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        'Description',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Color(0xFF255899),
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 15),
-                                    child: Text(
-                                      item['sDescription'] ?? '',
-                                      style: const TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xff3f617d),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .spaceBetween,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .start,
-                                        children: <Widget>[
-                                          const Icon(
-                                            Icons.calendar_month,
-                                            size: 10,
-                                            color: Color(0xff3f617d),
-                                          ),
-                                          SizedBox(width: 5),
-                                          const Text(
-                                            'Pending Since :-',
-                                            style: TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Color(0xFF255899),
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          const SizedBox(width: 5),
-                                          Text(
-                                            item['sPendingFrom'] ?? '',
-                                            style: const TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Color(0xff3f617d),
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 15, top: 8),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        var sBeforePhoto =
-                                            "${item['sBeforePhoto']}";
-                                        print('---$sBeforePhoto');
-
-                                        if (sBeforePhoto != null) {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ImageScreen(
-                                                          sBeforePhoto:
-                                                          sBeforePhoto)));
-                                        } else {
-                                          // toast
-                                        }
-                                      },
-                                      child: const Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'View Image',
-                                            style: TextStyle(
-                                                fontFamily:
-                                                'Montserrat',
-                                                color:
-                                                Color(0xFF255899),
-                                                fontSize: 14.0,
-                                                fontWeight:
-                                                FontWeight.bold),
-                                          ),
-                                          SizedBox(width: 5),
-                                          Icon(
-                                            Icons.forward_sharp,
-                                            color: Color(0xFF255899),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 10, bottom: 10),
-                                    child: Container(
-                                      //color: Color(0xffe4e4e4),
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
-                                        // Border radius
-                                        border: Border.all(
                                           color: Color(0xFF255899),
-                                          // Border color
-                                          width: 1, // Border width
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(left: 0, right: 10),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Expanded(
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: <Widget>[
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                        .all(8.0),
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                        print('----341---');
-                                                        var sBeforePhoto = "${item['sBeforePhoto']}";
-                                                        var iTaskCode = item['iCompCode']
-                                                            .toString() ?? '';
-                                                        print(
-                                                            '----357---$sBeforePhoto');
-                                                        Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder: (
-                                                                context) =>
-                                                                ActionOnSchedultPointScreen(
-                                                                    sBeforePhoto: sBeforePhoto,
-                                                                    iTaskCode: iTaskCode),
-                                                          ),
-                                                        );
-                                                      },
-                                                      child: const Row(
-                                                        mainAxisAlignment: MainAxisAlignment
-                                                            .start,
-                                                        children: [
-                                                          Text(
-                                                            'Action',
-                                                            style: TextStyle(
-                                                                fontFamily: 'Montserrat',
-                                                                color: Color(
-                                                                    0xFF255899),
-                                                                fontSize: 12.0,
-                                                                fontWeight: FontWeight
-                                                                    .normal
-                                                            ),
-                                                          ),
-                                                          SizedBox(width: 2),
-                                                          Icon(Icons
-                                                              .forward_sharp,
-                                                              size: 15,
-                                                              color: Color(
-                                                                  0xFF255899)),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Container(height: 10,
-                                                      width: 1,
-                                                      color: Colors.grey),
-                                                  Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                        print(
-                                                            '---Complaint Transfer ---');
-                                                        iCompCode =
-                                                            item['iCompCode']
-                                                                .toString() ??
-                                                                '';
-                                                        print(
-                                                            '---506--$iCompCode');
-                                                        bottomSheetComplaintTransfer();
-                                                        //  _showBottomSheetComplaintType(context,iCompCode);
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      item['sPendingFrom'] ?? '',
+                                      style: const TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xff3f617d),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 15, top: 8),
+                              child: GestureDetector(
+                                onTap: () {
+                                  var sBeforePhoto = "${item['sBeforePhoto']}";
+                                  print('---$sBeforePhoto');
 
-                                                      },
-                                                      child: const Row(
-                                                        mainAxisAlignment: MainAxisAlignment
-                                                            .start,
-                                                        children: [
-                                                          Text(
-                                                            'Complaint Transfer',
-                                                            style: TextStyle(
-                                                                fontFamily: 'Montserrat',
-                                                                color: Color(
-                                                                    0xFF255899),
-                                                                fontSize: 12.0,
-                                                                fontWeight: FontWeight
-                                                                    .normal
-                                                            ),
-                                                          ),
-                                                          SizedBox(width: 2),
-                                                          Icon(Icons
-                                                              .forward_sharp,
-                                                              size: 15,
-                                                              color: Color(
-                                                                  0xFF255899)),
-                                                        ],
-                                                      ),
+                                  if (sBeforePhoto != null) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ImageScreen(
+                                                sBeforePhoto: sBeforePhoto)));
+                                  } else {
+                                    // toast
+                                  }
+                                },
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'View Image',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xFF255899),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(width: 5),
+                                    Icon(
+                                      Icons.forward_sharp,
+                                      size: 15,
+                                      color: Color(0xFF255899),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 5, right: 5, bottom: 10),
+                              child: Container(
+                                //color: Color(0xffe4e4e4),
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  // Border radius
+                                  border: Border.all(
+                                    color: Color(0xFF255899),
+                                    // Border color
+                                    width: 1, // Border width
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding:
+                                  const EdgeInsets.only(left: 0, right: 10),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding:
+                                              const EdgeInsets.all(8.0),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  print('----341---');
+                                                  var sBeforePhoto =
+                                                      "${item['sBeforePhoto']}";
+                                                  var iTaskCode =
+                                                      item['iCompCode']
+                                                          .toString() ??
+                                                          '';
+                                                  print(
+                                                      '----357---$sBeforePhoto');
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ActionOnSchedultPointScreen(
+                                                              sBeforePhoto:
+                                                              sBeforePhoto,
+                                                              iTaskCode:
+                                                              iTaskCode),
                                                     ),
-                                                  ),
-                                                  Container(height: 10,
-                                                      width: 1,
-                                                      color: Colors.grey),
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                        .all(4.0),
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                        print('---Forward---');
-                                                        iCompCode =
-                                                            item['iCompCode']
-                                                                .toString() ??
-                                                                '';
-                                                        print(
-                                                            '---506--$iCompCode');
-                                                        // _showBottomSheetHold(context,iCompCode);
-                                                        //_showBottomSheet(context,iCompCode);
-                                                        bottomSheetForward(
-                                                            context, iCompCode);
-                                                      },
-                                                      child: const Row(
-                                                        mainAxisAlignment: MainAxisAlignment
-                                                            .start,
-                                                        children: [
-                                                          Text(
-                                                            'Forward',
-                                                            style: TextStyle(
-                                                                fontFamily: 'Montserrat',
-                                                                color: Color(
-                                                                    0xFF255899),
-                                                                fontSize: 12.0,
-                                                                fontWeight: FontWeight
-                                                                    .normal
-                                                            ),
-                                                          ),
-                                                          SizedBox(width: 2),
-                                                          Icon(Icons
-                                                              .forward_sharp,
-                                                              size: 15,
-                                                              color: Color(
-                                                                  0xFF255899)),
-                                                        ],
-                                                      ),
+                                                  );
+                                                },
+                                                child: const Row(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'Action',
+                                                      style: TextStyle(
+                                                          fontFamily:
+                                                          'Montserrat',
+                                                          color:
+                                                          Color(0xFF255899),
+                                                          fontSize: 12.0,
+                                                          fontWeight: FontWeight
+                                                              .normal),
                                                     ),
-                                                  ),
-                                                ],
+                                                    SizedBox(width: 2),
+                                                    Icon(Icons.forward_sharp,
+                                                        size: 15,
+                                                        color:
+                                                        Color(0xFF255899)),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                                height: 10,
+                                                width: 1,
+                                                color: Colors.grey),
+                                            Padding(
+                                              padding:
+                                              const EdgeInsets.all(8.0),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  print(
+                                                      '---Complaint Transfer ---');
+                                                  iCompCode = item['iCompCode']
+                                                      .toString() ??
+                                                      '';
+                                                  print('---506--$iCompCode');
+                                                  bottomSheetComplaintTransfer();
+                                                  //  _showBottomSheetComplaintType(context,iCompCode);
+                                                },
+                                                child: const Row(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'Complaint Transfer',
+                                                      style: TextStyle(
+                                                          fontFamily:
+                                                          'Montserrat',
+                                                          color:
+                                                          Color(0xFF255899),
+                                                          fontSize: 12.0,
+                                                          fontWeight: FontWeight
+                                                              .normal),
+                                                    ),
+                                                    SizedBox(width: 2),
+                                                    Icon(Icons.forward_sharp,
+                                                        size: 15,
+                                                        color:
+                                                        Color(0xFF255899)),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                                height: 10,
+                                                width: 1,
+                                                color: Colors.grey),
+                                            Padding(
+                                              padding:
+                                              const EdgeInsets.all(4.0),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  print('---Forward---');
+                                                  iCompCode = item['iCompCode']
+                                                      .toString() ??
+                                                      '';
+                                                  print('---506--$iCompCode');
+                                                  // _showBottomSheetHold(context,iCompCode);
+                                                  //_showBottomSheet(context,iCompCode);
+                                                  bottomSheetForward(
+                                                      context, iCompCode);
+                                                },
+                                                child: const Row(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'Forward',
+                                                      style: TextStyle(
+                                                          fontFamily:
+                                                          'Montserrat',
+                                                          color:
+                                                          Color(0xFF255899),
+                                                          fontSize: 12.0,
+                                                          fontWeight: FontWeight
+                                                              .normal),
+                                                    ),
+                                                    SizedBox(width: 2),
+                                                    Icon(Icons.forward_sharp,
+                                                        size: 15,
+                                                        color:
+                                                        Color(0xFF255899))
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                    ),
+                                    ],
                                   ),
-                                ],
+                                ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
-                  );
-
+                      ),
+                    ));
               },
             ),
           )
+
+          // Expanded(
+          //   child: ListView.builder(
+          //     itemCount: _filteredData.length ?? 0,
+          //     itemBuilder: (context, index) {
+          //       Map<String, dynamic> item = _filteredData[index];
+          //       return Padding(
+          //         padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
+          //         child: Column(
+          //             children: [
+          //               Card(
+          //                 elevation: 1,
+          //                 child: Container(
+          //                   decoration: BoxDecoration(
+          //                     borderRadius: BorderRadius.circular(5.0),
+          //                     border: Border.all(
+          //                       color: Colors.grey, // Outline border color
+          //                       width: 0.2, // Outline border width
+          //                     ),
+          //                   ),
+          //                   child: Padding(
+          //                     padding: const EdgeInsets.only(left: 8, right: 0),
+          //                     child: Column(
+          //                       mainAxisAlignment: MainAxisAlignment.start,
+          //                       crossAxisAlignment: CrossAxisAlignment.start,
+          //                       children: [
+          //                         Row(
+          //                           mainAxisAlignment: MainAxisAlignment.start,
+          //                          // crossAxisAlignment: CrossAxisAlignment.start,
+          //                           children: <Widget>[
+          //                             Column(
+          //                               children: <Widget>[
+          //                                 Container(
+          //                                   height: 50,
+          //                                   width: MediaQuery.of(context).size.width - MediaQuery.of(context).size.width / 3,
+          //                                   child: Row(
+          //                                     mainAxisAlignment: MainAxisAlignment.start,
+          //                                     children: <Widget>[
+          //                                       Container(
+          //                                         width: 30.0,
+          //                                         height: 30.0,
+          //                                         decoration: BoxDecoration(
+          //                                           borderRadius: BorderRadius.circular(15.0),
+          //                                           border: Border.all(
+          //                                             color: Color(0xFF255899),
+          //                                             width: 0.5,
+          //                                           ),
+          //                                           color: Colors.white,
+          //                                         ),
+          //                                         child: const Center(
+          //                                             child: Icon(Icons.ac_unit_rounded, color: Color(0xFF255899), size: 20)),
+          //                                       ),
+          //                                       SizedBox(width: 5),
+          //                                       Expanded(
+          //                                         child: Column(
+          //                                           crossAxisAlignment: CrossAxisAlignment.start,
+          //                                           children: <Widget>[
+          //                                             Text(
+          //                                               item['sPointTypeName'] ?? '',
+          //                                               style: const TextStyle(
+          //                                                 fontFamily: 'Montserrat',
+          //                                                 color: Color(0xff3f617d),
+          //                                                 fontSize: 14.0,
+          //                                                 fontWeight: FontWeight.bold,
+          //                                               ),
+          //                                               overflow: TextOverflow.ellipsis,
+          //                                               maxLines: 1,
+          //                                             ),
+          //                                             const Text(
+          //                                               'Point Name',
+          //                                               style: TextStyle(
+          //                                                 fontFamily: 'Montserrat',
+          //                                                 color: Color(0xff3f617d),
+          //                                                 fontSize: 12.0,
+          //                                                 fontWeight: FontWeight.bold,
+          //                                               ),
+          //                                             ),
+          //                                           ],
+          //                                         ),
+          //                                       ),
+          //                                     ],
+          //                                   ),
+          //                                 ),
+          //                               ],
+          //                             ),
+          //                             Column(
+          //                               children: <Widget>[
+          //                                 Row(
+          //                                   mainAxisAlignment: MainAxisAlignment.start,
+          //                                   children: <Widget>
+          //                                   [
+          //                                                       GestureDetector(
+          //                                                           onTap: () {
+          //                                                             var fLatitude = item['fLatitude'] ??
+          //                                                                 '';
+          //                                                             var fLongitude = item['fLongitude'] ??
+          //                                                                 '';
+          //                                                             print(
+          //                                                                 '----462----${fLatitude}');
+          //                                                             print(
+          //                                                                 '-----463---${fLongitude}');
+          //                                                             if (fLatitude !=
+          //                                                                 null &&
+          //                                                                 fLongitude !=
+          //                                                                     null) {
+          //                                                               generalfunction
+          //                                                                   .launchGoogleMaps(
+          //                                                                   fLatitude,
+          //                                                                   fLongitude);
+          //                                                             } else {
+          //                                                               displayToast(
+          //                                                                   "Please check the location.");
+          //                                                             }
+          //                                                           },
+          //                                                           child: const Image(
+          //                                                               image: AssetImage('assets/images/ic_google_maps.PNG'),
+          //                                                              height: 42,
+          //                                                              width: 42,
+          //                                                              fit: BoxFit.fill,
+          //                                                           )),
+          //                                                       SizedBox(width: 0),
+          //
+          //                                     GestureDetector(
+          //                                                         onTap: () {
+          //                                                           print('---Helo ----jpeg---');
+          //                                                           iCompCode = item['iCompCode'].toString() ?? '';
+          //                                                           print('---506--$iCompCode');
+          //                                                           bottomSheetHold();
+          //                                                           //_showBottomSheetHold(context,iCompCode);
+          //                                                         },
+          //                                                         child: const Padding(
+          //                                                           padding: EdgeInsets
+          //                                                               .only(top: 5),
+          //                                                           child: Image(
+          //                                                               image: AssetImage('assets/images/holo.jpeg'),
+          //                                                              height: 42,
+          //                                                              width: 42,
+          //                                                              fit: BoxFit.fill,
+          //                                                           ),
+          //                                                         ),
+          //                                                       ),
+          //                                   ],
+          //                                 )
+          //                               ],
+          //                             )
+          //                           ],
+          //                         ),
+          //                         // SizedBox(height: 10),
+          //                         Padding(
+          //                           padding: const EdgeInsets.only(
+          //                               left: 15, right: 15),
+          //                           child: Container(
+          //                             height: 0.5,
+          //                             color: const Color(0xff3f617d),
+          //                           ),
+          //                         ),
+          //
+          //                         const SizedBox(height: 5),
+          //                         const Row(
+          //                           mainAxisAlignment: MainAxisAlignment.start,
+          //                           children: <Widget>[
+          //                             Icon(
+          //                               Icons.forward,
+          //                               size: 10,
+          //                               color: Color(0xff3f617d),
+          //                             ),
+          //                             SizedBox(width: 5),
+          //                             Text(
+          //                               'Complaint NO',
+          //                               style: TextStyle(
+          //                                   fontFamily: 'Montserrat',
+          //                                   color: Color(0xFF255899),
+          //                                   fontSize: 14.0,
+          //                                   fontWeight: FontWeight.bold),
+          //                             )
+          //                           ],
+          //                         ),
+          //                         Padding(
+          //                           padding: EdgeInsets.only(left: 15),
+          //                           child: Text(
+          //                             item['iCompCode'].toString() ?? '',
+          //                             style: const TextStyle(
+          //                                 fontFamily: 'Montserrat',
+          //                                 color: Color(0xff3f617d),
+          //                                 fontSize: 14.0,
+          //                                 fontWeight: FontWeight.bold),
+          //                           ),
+          //                         ),
+          //                         const Row(
+          //                           mainAxisAlignment: MainAxisAlignment.start,
+          //                           children: <Widget>[
+          //                             Icon(
+          //                               Icons.forward,
+          //                               size: 10,
+          //                               color: Color(0xff3f617d),
+          //                             ),
+          //                             SizedBox(width: 5),
+          //                             Text(
+          //                               'Sector',
+          //                               style: TextStyle(
+          //                                   fontFamily: 'Montserrat',
+          //                                   color: Color(0xFF255899),
+          //                                   fontSize: 14.0,
+          //                                   fontWeight: FontWeight.bold),
+          //                             )
+          //                           ],
+          //                         ),
+          //                         Padding(
+          //                           padding: EdgeInsets.only(left: 15),
+          //                           child: Text(
+          //                             item['sSectorName'] ?? '',
+          //                             style: const TextStyle(
+          //                                 fontFamily: 'Montserrat',
+          //                                 color: Color(0xff3f617d),
+          //                                 fontSize: 14.0,
+          //                                 fontWeight: FontWeight.bold),
+          //                           ),
+          //                         ),
+          //                         const Row(
+          //                           mainAxisAlignment: MainAxisAlignment.start,
+          //                           children: <Widget>[
+          //                             Icon(
+          //                               Icons.forward,
+          //                               size: 10,
+          //                               color: Color(0xff3f617d),
+          //                             ),
+          //                             SizedBox(width: 5),
+          //                             Text(
+          //                               'Posted At',
+          //                               style: TextStyle(
+          //                                   fontFamily: 'Montserrat',
+          //                                   color: Color(0xFF255899),
+          //                                   fontSize: 14.0,
+          //                                   fontWeight: FontWeight.bold),
+          //                             )
+          //                           ],
+          //                         ),
+          //                         Padding(
+          //                           padding: EdgeInsets.only(left: 15),
+          //                           child: Text(
+          //                             item['dPostedOn'] ?? '',
+          //                             style: const TextStyle(
+          //                                 fontFamily: 'Montserrat',
+          //                                 color: Color(0xff3f617d),
+          //                                 fontSize: 14.0,
+          //                                 fontWeight: FontWeight.bold),
+          //                           ),
+          //                         ),
+          //                         const Row(
+          //                           mainAxisAlignment: MainAxisAlignment.start,
+          //                           children: <Widget>[
+          //                             Icon(Icons.forward,
+          //                                 size: 10, color: Color(0xff3f617d)),
+          //                             SizedBox(width: 5),
+          //                             Text(
+          //                               'Location',
+          //                               style: TextStyle(
+          //                                   fontFamily: 'Montserrat',
+          //                                   color: Color(0xFF255899),
+          //                                   fontSize: 14.0,
+          //                                   fontWeight: FontWeight.bold),
+          //                             )
+          //                           ],
+          //                         ),
+          //                         Padding(
+          //                           padding: EdgeInsets.only(left: 15),
+          //                           child: Text(
+          //                             item['sLocation'] ?? '',
+          //                             style: const TextStyle(
+          //                                 fontFamily: 'Montserrat',
+          //                                 color: Color(0xff3f617d),
+          //                                 fontSize: 14.0,
+          //                                 fontWeight: FontWeight.bold),
+          //                           ),
+          //                         ),
+          //                         const Row(
+          //                           mainAxisAlignment: MainAxisAlignment.start,
+          //                           children: <Widget>[
+          //                             Icon(Icons.forward,
+          //                                 size: 10, color: Color(0xff3f617d)),
+          //                             SizedBox(width: 5),
+          //                             Text(
+          //                               'Description',
+          //                               style: TextStyle(
+          //                                   fontFamily: 'Montserrat',
+          //                                   color: Color(0xFF255899),
+          //                                   fontSize: 14.0,
+          //                                   fontWeight: FontWeight.bold),
+          //                             )
+          //                           ],
+          //                         ),
+          //                         Padding(
+          //                           padding: EdgeInsets.only(left: 15),
+          //                           child: Text(
+          //                             item['sDescription'] ?? '',
+          //                             style: const TextStyle(
+          //                                 fontFamily: 'Montserrat',
+          //                                 color: Color(0xff3f617d),
+          //                                 fontSize: 14.0,
+          //                                 fontWeight: FontWeight.bold),
+          //                           ),
+          //                         ),
+          //                         Row(
+          //                           mainAxisAlignment: MainAxisAlignment
+          //                               .spaceBetween,
+          //                           children: [
+          //                             Row(
+          //                               mainAxisAlignment: MainAxisAlignment
+          //                                   .start,
+          //                               children: <Widget>[
+          //                                 const Icon(
+          //                                   Icons.calendar_month,
+          //                                   size: 10,
+          //                                   color: Color(0xff3f617d),
+          //                                 ),
+          //                                 SizedBox(width: 5),
+          //                                 const Text(
+          //                                   'Pending Since :-',
+          //                                   style: TextStyle(
+          //                                       fontFamily: 'Montserrat',
+          //                                       color: Color(0xFF255899),
+          //                                       fontSize: 14.0,
+          //                                       fontWeight: FontWeight.bold),
+          //                                 ),
+          //                                 const SizedBox(width: 5),
+          //                                 Text(
+          //                                   item['sPendingFrom'] ?? '',
+          //                                   style: const TextStyle(
+          //                                       fontFamily: 'Montserrat',
+          //                                       color: Color(0xff3f617d),
+          //                                       fontSize: 14.0,
+          //                                       fontWeight: FontWeight.bold),
+          //                                 ),
+          //                               ],
+          //                             ),
+          //                           ],
+          //                         ),
+          //                         Padding(
+          //                           padding: const EdgeInsets.only(
+          //                               left: 15, top: 8),
+          //                           child: GestureDetector(
+          //                             onTap: () {
+          //                               var sBeforePhoto =
+          //                                   "${item['sBeforePhoto']}";
+          //                               print('---$sBeforePhoto');
+          //
+          //                               if (sBeforePhoto != null) {
+          //                                 Navigator.push(
+          //                                     context,
+          //                                     MaterialPageRoute(
+          //                                         builder: (context) =>
+          //                                             ImageScreen(
+          //                                                 sBeforePhoto:
+          //                                                 sBeforePhoto)));
+          //                               } else {
+          //                                 // toast
+          //                               }
+          //                             },
+          //                             child: const Row(
+          //                               mainAxisAlignment:
+          //                               MainAxisAlignment.start,
+          //                               children: [
+          //                                 Text(
+          //                                   'View Image',
+          //                                   style: TextStyle(
+          //                                       fontFamily:
+          //                                       'Montserrat',
+          //                                       color:
+          //                                       Color(0xFF255899),
+          //                                       fontSize: 14.0,
+          //                                       fontWeight:
+          //                                       FontWeight.bold),
+          //                                 ),
+          //                                 SizedBox(width: 5),
+          //                                 Icon(
+          //                                   Icons.forward_sharp,
+          //                                   color: Color(0xFF255899),
+          //                                 )
+          //                               ],
+          //                             ),
+          //                           ),
+          //                         ),
+          //                         SizedBox(height: 10),
+          //                         Padding(
+          //                           padding: const EdgeInsets.only(
+          //                               right: 10, bottom: 10),
+          //                           child: Container(
+          //                             //color: Color(0xffe4e4e4),
+          //                             height: 40,
+          //                             decoration: BoxDecoration(
+          //                               color: Colors.white,
+          //                               borderRadius: BorderRadius.circular(10),
+          //                               // Border radius
+          //                               border: Border.all(
+          //                                 color: Color(0xFF255899),
+          //                                 // Border color
+          //                                 width: 1, // Border width
+          //                               ),
+          //                             ),
+          //                             child: Padding(
+          //                               padding: const EdgeInsets.only(left: 0, right: 10),
+          //                               child: Row(
+          //                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //                                 children: <Widget>[
+          //                                   Expanded(
+          //                                     child: Row(
+          //                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //                                       children: <Widget>[
+          //                                         Padding(
+          //                                           padding: const EdgeInsets
+          //                                               .all(8.0),
+          //                                           child: GestureDetector(
+          //                                             onTap: () {
+          //                                               print('----341---');
+          //                                               var sBeforePhoto = "${item['sBeforePhoto']}";
+          //                                               var iTaskCode = item['iCompCode']
+          //                                                   .toString() ?? '';
+          //                                               print(
+          //                                                   '----357---$sBeforePhoto');
+          //                                               Navigator.push(
+          //                                                 context,
+          //                                                 MaterialPageRoute(
+          //                                                   builder: (
+          //                                                       context) =>
+          //                                                       ActionOnSchedultPointScreen(
+          //                                                           sBeforePhoto: sBeforePhoto,
+          //                                                           iTaskCode: iTaskCode),
+          //                                                 ),
+          //                                               );
+          //                                             },
+          //                                             child: const Row(
+          //                                               mainAxisAlignment: MainAxisAlignment
+          //                                                   .start,
+          //                                               children: [
+          //                                                 Text(
+          //                                                   'Action',
+          //                                                   style: TextStyle(
+          //                                                       fontFamily: 'Montserrat',
+          //                                                       color: Color(
+          //                                                           0xFF255899),
+          //                                                       fontSize: 12.0,
+          //                                                       fontWeight: FontWeight
+          //                                                           .normal
+          //                                                   ),
+          //                                                 ),
+          //                                                 SizedBox(width: 2),
+          //                                                 Icon(Icons
+          //                                                     .forward_sharp,
+          //                                                     size: 15,
+          //                                                     color: Color(
+          //                                                         0xFF255899)),
+          //                                               ],
+          //                                             ),
+          //                                           ),
+          //                                         ),
+          //                                         Container(height: 10,
+          //                                             width: 1,
+          //                                             color: Colors.grey),
+          //                                         Padding(
+          //                                           padding: const EdgeInsets.all(8.0),
+          //                                           child: GestureDetector(
+          //                                             onTap: () {
+          //                                               print(
+          //                                                   '---Complaint Transfer ---');
+          //                                               iCompCode =
+          //                                                   item['iCompCode']
+          //                                                       .toString() ??
+          //                                                       '';
+          //                                               print(
+          //                                                   '---506--$iCompCode');
+          //                                               bottomSheetComplaintTransfer();
+          //                                               //  _showBottomSheetComplaintType(context,iCompCode);
+          //
+          //                                             },
+          //                                             child: const Row(
+          //                                               mainAxisAlignment: MainAxisAlignment
+          //                                                   .start,
+          //                                               children: [
+          //                                                 Text(
+          //                                                   'Complaint Transfer',
+          //                                                   style: TextStyle(
+          //                                                       fontFamily: 'Montserrat',
+          //                                                       color: Color(
+          //                                                           0xFF255899),
+          //                                                       fontSize: 12.0,
+          //                                                       fontWeight: FontWeight
+          //                                                           .normal
+          //                                                   ),
+          //                                                 ),
+          //                                                 SizedBox(width: 2),
+          //                                                 Icon(Icons
+          //                                                     .forward_sharp,
+          //                                                     size: 15,
+          //                                                     color: Color(
+          //                                                         0xFF255899)),
+          //                                               ],
+          //                                             ),
+          //                                           ),
+          //                                         ),
+          //                                         Container(height: 10,
+          //                                             width: 1,
+          //                                             color: Colors.grey),
+          //                                         Padding(
+          //                                           padding: const EdgeInsets
+          //                                               .all(4.0),
+          //                                           child: GestureDetector(
+          //                                             onTap: () {
+          //                                               print('---Forward---');
+          //                                               iCompCode =
+          //                                                   item['iCompCode']
+          //                                                       .toString() ??
+          //                                                       '';
+          //                                               print(
+          //                                                   '---506--$iCompCode');
+          //                                               // _showBottomSheetHold(context,iCompCode);
+          //                                               //_showBottomSheet(context,iCompCode);
+          //                                               bottomSheetForward(
+          //                                                   context, iCompCode);
+          //                                             },
+          //                                             child: const Row(
+          //                                               mainAxisAlignment: MainAxisAlignment
+          //                                                   .start,
+          //                                               children: [
+          //                                                 Text(
+          //                                                   'Forward',
+          //                                                   style: TextStyle(
+          //                                                       fontFamily: 'Montserrat',
+          //                                                       color: Color(
+          //                                                           0xFF255899),
+          //                                                       fontSize: 12.0,
+          //                                                       fontWeight: FontWeight
+          //                                                           .normal
+          //                                                   ),
+          //                                                 ),
+          //                                                 SizedBox(width: 2),
+          //                                                 Icon(Icons
+          //                                                     .forward_sharp,
+          //                                                     size: 15,
+          //                                                     color: Color(
+          //                                                         0xFF255899)),
+          //                                               ],
+          //                                             ),
+          //                                           ),
+          //                                         ),
+          //                                       ],
+          //                                     ),
+          //                                   ),
+          //                                 ],
+          //                               ),
+          //                             ),
+          //                           ),
+          //                         ),
+          //                       ],
+          //                     ),
+          //                   ),
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         );
+          //
+          //     },
+          //   ),
+          // )
+
         ],
       ),
     );

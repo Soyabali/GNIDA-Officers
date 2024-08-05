@@ -147,8 +147,6 @@ class _SplaceState extends State<Splace> {
 class SplaceScreen extends StatelessWidget {
   const SplaceScreen({super.key});
 
-
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

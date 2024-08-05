@@ -503,7 +503,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               MainAxisAlignment.start,
                                           children: <Widget>[
                                             Text(
-                                              'Please clock here to take a photo',
+                                              'Please click here to take a photo',
                                               style: TextStyle(
                                                   fontFamily: 'Montserrat',
                                                   color: Colors.redAccent,
