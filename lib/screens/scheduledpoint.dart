@@ -189,22 +189,6 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                           ),
                         )
 
-                        // Expanded(
-                        //   child: TextFormField(
-                        //     controller: _searchController,
-                        //     autofocus: true,
-                        //     decoration: const InputDecoration(
-                        //       hintText: 'Enter Keywords',
-                        //       prefixIcon: Icon(Icons.search),
-                        //       hintStyle: TextStyle(
-                        //           fontFamily: 'Montserrat',
-                        //           color: Color(0xFF707d83),
-                        //           fontSize: 14.0,
-                        //           fontWeight: FontWeight.bold),
-                        //       border: InputBorder.none,
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
@@ -241,7 +225,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 4,right: 4),
+                                      padding: const EdgeInsets.only(left: 4,right: 4,top: 5),
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: <Widget>[
@@ -370,7 +354,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                     ),
                                     SizedBox(height: 10),
                                     Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.only(left: 8,right: 8,bottom: 8),
                                       child: Container(
                                         height: 40,
                                         decoration: BoxDecoration(color: Color(0xffe4e4e4),

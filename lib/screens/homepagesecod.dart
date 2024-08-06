@@ -1045,7 +1045,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Container(
-                height: 80,
+                height: 75,
                 width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
                   // color: Color(0xFF255898),
@@ -1068,7 +1068,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 5),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -1136,8 +1136,10 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                 )),
           Center(
             child: Padding(
-              padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+              padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+              // child: SearchBar(),
               child: Container(
+                height: 45,
                 padding: EdgeInsets.symmetric(horizontal: 10.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5.0),
@@ -1147,29 +1149,76 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                   ),
                   color: Colors.white,
                 ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: _searchController,
-                        autofocus: true,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.search),
-                          hintText: 'Enter Keywords',
-                          hintStyle: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Color(0xFF707d83),
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold),
-                          border: InputBorder.none,
-                        ),
-                      ),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: _searchController,
+                            autofocus: true,
+                            decoration: const InputDecoration(
+                              hintText: 'Enter Keywords',
+                              prefixIcon: Icon(Icons.search,
+                                  color: Colors.grey
+                              ),
+                              hintStyle: TextStyle(
+                                fontFamily: 'Montserrat',
+                                color: Colors.grey,
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.fromLTRB(8.0, 6.0, 16.0, 8.0),
+                              // contentPadding: EdgeInsets.symmetric(horizontal: 16.0), // Adjust horizontal padding as needed
+                            ),
+                          ),
+                        )
+
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
           ),
+          // Center(
+          //   child: Padding(
+          //     padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+          //     child: Container(
+          //       padding: EdgeInsets.symmetric(horizontal: 10.0),
+          //       decoration: BoxDecoration(
+          //         borderRadius: BorderRadius.circular(5.0),
+          //         border: Border.all(
+          //           color: Colors.grey, // Outline border color
+          //           width: 0.2, // Outline border width
+          //         ),
+          //         color: Colors.white,
+          //       ),
+          //       child: Row(
+          //         children: [
+          //           Expanded(
+          //             child: TextFormField(
+          //               controller: _searchController,
+          //               autofocus: true,
+          //               decoration: const InputDecoration(
+          //                 prefixIcon: Icon(Icons.search),
+          //                 hintText: 'Enter Keywords',
+          //                 hintStyle: TextStyle(
+          //                     fontFamily: 'Montserrat',
+          //                     color: Color(0xFF707d83),
+          //                     fontSize: 14.0,
+          //                     fontWeight: FontWeight.bold),
+          //                 border: InputBorder.none,
+          //               ),
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),
           // scroll item after search bar
 
           Expanded(
