@@ -26,10 +26,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    //   statusBarColor: Colors.green, // Change this to the desired status bar color
-    // ));
-
     return MaterialApp(
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
@@ -121,7 +117,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       print("------178---$sContactNo");
     });
     setState(() {
-
     });
   }
 
@@ -493,119 +488,249 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
               padding: const EdgeInsets.only(left: 15, right: 15, bottom: 0, top: 0),
               child: Container(
                 height: 100,
-                child: Container(
-                    // color: Colors.grey,
-                    height: 100,
-                    width: MediaQuery.of(context).size.width,
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: userModuleRightList.length,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {
-                              var activatecode =
-                                  '${userModuleRightList[index]['iActivityCode']}';
-                              if (activatecode == "1") {
-                                // print('---Mark---');
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const MarkPointScreen()));
-                              } else if (activatecode == "6") {
-                                //print('---Scheduled \n Points---');
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ScheduledPointScreen()));
-                              } else if (activatecode == "3") {
-                                // print('---Pending \n Complaint---');
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const PendingComplaintScreen()));
-                              } else if (activatecode == "2") {
-                                print('---Post \n Complaint---');
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const PostComplaintScreen()));
-                              } else if (activatecode == "7") {
-                                print('---Daily \n Activity---');
-                                //  DailyActivitytScreen
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const DailyActivitytScreen()));
-                              } else if (activatecode == "4") {
-                                // Dry/Wet \n Segregation
-                                print('---Dry/Wet \n Segregation---');
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const DryWetSegregationScreen()));
-                              }
-                              else if(activatecode =="5"){
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                        const ComplaintStatusScreen()));
-                              }
-                              else if(activatecode =="8"){
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                        const ShopSurvey()));
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: userModuleRightList.length,
+                  itemBuilder: (context, index) {
+                    var activity = userModuleRightList[index];
+                    var sActivityName = activity['sActivityName'];
+                    final parts = sActivityName.split('\n');  // Split on the newline character
 
-                              }
-                            },
-
-                            child: Container(
-                              width: 91,
-                              height: 80,
-                              margin: const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 0),
-                              decoration: BoxDecoration(
-                                color: Color(0xff81afea),
-                                borderRadius: BorderRadius.circular(
-                                    10), // Adjust the value for more or less rounded corners
+                    return InkWell(
+                      onTap: () {
+                        var activatecode = '${userModuleRightList[index]['iActivityCode']}';
+                        if (activatecode == "1") {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const MarkPointScreen()));
+                        } else if (activatecode == "6") {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const ScheduledPointScreen()));
+                        } else if (activatecode == "3") {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const PendingComplaintScreen()));
+                        } else if (activatecode == "2") {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const PostComplaintScreen()));
+                        } else if (activatecode == "7") {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const DailyActivitytScreen()));
+                        } else if (activatecode == "4") {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const DryWetSegregationScreen()));
+                        } else if (activatecode == "5") {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const ComplaintStatusScreen()));
+                        } else if (activatecode == "8") {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const ShopSurvey()));
+                        }
+                      },
+                      child: Container(
+                        width: 91,
+                        height: 80,
+                        margin: const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 0),
+                        decoration: BoxDecoration(
+                          color: Color(0xff81afea),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Image.network(
+                                '${activity['iImgIcon']}',
+                                width: 30,
+                                height: 30,
                               ),
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Center(
-                                      child: Image.network('${userModuleRightList[index]['iImgIcon']}', // Replace with your asset image path
-                                        width: 30, // Adjust image width as needed
-                                        height: 30, // Adjust image height as needed
-                                      ),
+                              SizedBox(height: 2),
+                              Column(
+                                children: <Widget>[
+                                  Text(
+                                    parts[0],
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.normal,
                                     ),
-                                    SizedBox(height: 2),
-                                    Center(
-                                      child: Text(
-                                        '${userModuleRightList[index]['sActivityName']}',
-                                        style: const TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.bold),
-                                      ),
+                                  ),
+                                  Text(
+                                    parts[1],
+                                    style: const TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          );
-                        })),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
+            )
+
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 15, right: 15, bottom: 0, top: 0),
+            //   child: Container(
+            //     height: 100,
+            //     child: Container(
+            //         // color: Colors.grey,
+            //         height: 100,
+            //         width: MediaQuery.of(context).size.width,
+            //         child: ListView.builder(
+            //             scrollDirection: Axis.horizontal,
+            //             itemCount: userModuleRightList.length,
+            //             itemBuilder: (context, index) {
+            //               var activity = userModuleRightList[index];
+            //               var sActivityName = activity['sActivityName'];  // Correctly access the map using index
+            //               final parts = sActivityName.split(' \\n ');
+            //               return InkWell(
+            //                 onTap: () {
+            //                   var activatecode =
+            //                       '${userModuleRightList[index]['iActivityCode']}';
+            //                   if (activatecode == "1") {
+            //                     // print('---Mark---');
+            //                     Navigator.push(
+            //                         context,
+            //                         MaterialPageRoute(
+            //                             builder: (context) =>
+            //                                 const MarkPointScreen()));
+            //                   } else if (activatecode == "6") {
+            //                     //print('---Scheduled \n Points---');
+            //                     Navigator.push(
+            //                         context,
+            //                         MaterialPageRoute(
+            //                             builder: (context) =>
+            //                                 const ScheduledPointScreen()));
+            //                   } else if (activatecode == "3") {
+            //                     // print('---Pending \n Complaint---');
+            //                     Navigator.push(
+            //                         context,
+            //                         MaterialPageRoute(
+            //                             builder: (context) =>
+            //                                 const PendingComplaintScreen()));
+            //                   } else if (activatecode == "2") {
+            //                     print('---Post \n Complaint---');
+            //                     Navigator.push(
+            //                         context,
+            //                         MaterialPageRoute(
+            //                             builder: (context) =>
+            //                                 const PostComplaintScreen()));
+            //                   } else if (activatecode == "7") {
+            //                     print('---Daily \n Activity---');
+            //                     //  DailyActivitytScreen
+            //                     Navigator.push(
+            //                         context,
+            //                         MaterialPageRoute(
+            //                             builder: (context) =>
+            //                                 const DailyActivitytScreen()));
+            //                   } else if (activatecode == "4") {
+            //                     // Dry/Wet \n Segregation
+            //                     print('---Dry/Wet \n Segregation---');
+            //                     Navigator.push(
+            //                         context,
+            //                         MaterialPageRoute(
+            //                             builder: (context) =>
+            //                                 const DryWetSegregationScreen()));
+            //                   }
+            //                   else if(activatecode =="5"){
+            //                     Navigator.push(
+            //                         context,
+            //                         MaterialPageRoute(
+            //                             builder: (context) =>
+            //                             const ComplaintStatusScreen()));
+            //                   }
+            //                   else if(activatecode =="8"){
+            //                     Navigator.push(
+            //                         context,
+            //                         MaterialPageRoute(
+            //                             builder: (context) =>
+            //                             const ShopSurvey()));
+            //
+            //                   }
+            //                 },
+            //                 child: Container(
+            //                   width: 91,
+            //                   height: 80,
+            //                   margin: const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 0),
+            //                   decoration: BoxDecoration(
+            //                     color: Color(0xff81afea),
+            //                     borderRadius: BorderRadius.circular(10), // Adjust the value for more or less rounded corners
+            //                   ),
+            //                   child: Center(
+            //                     child: Column(
+            //                       mainAxisAlignment: MainAxisAlignment.center,
+            //                       crossAxisAlignment: CrossAxisAlignment.center,
+            //                       children: <Widget>[
+            //                         Center(
+            //                           child: Image.network('${userModuleRightList[index]['iImgIcon']}', // Replace with your asset image path
+            //                             width: 30, // Adjust image width as needed
+            //                             height: 30, // Adjust image height as needed
+            //                           ),
+            //                         ),
+            //                         SizedBox(height: 2),
+            //                         Column(
+            //                           children: <Widget>[
+            //                             Text(
+            //                               parts[0],
+            //                               style: const TextStyle(
+            //                                 color: Colors.black,
+            //                                 fontSize: 16,
+            //                                 fontWeight: FontWeight.normal,
+            //                               ),
+            //                             ),
+            //                             SizedBox(width: 5),
+            //                             Text(
+            //                               parts[1],
+            //                               style: const TextStyle(
+            //                                 color: Colors.red,
+            //                                 fontSize: 16,
+            //                                 fontWeight: FontWeight.bold,
+            //                               ),
+            //                             ),
+            //                           ],
+            //                         )
+            //
+            //                         // Center(
+            //                         //   child: Text(
+            //                         //     '${userModuleRightList[index]['sActivityName']}',
+            //                         //     style: const TextStyle(
+            //                         //         fontFamily: 'Montserrat',
+            //                         //         color: Colors.white,
+            //                         //         fontSize: 12.0,
+            //                         //         fontWeight: FontWeight.bold),
+            //                         //   ),
+            //                         // ),
+            //
+            //                       ],
+            //                     ),
+            //                   ),
+            //                 ),
+            //               );
+            //             })),
+            //   ),
+            // ),
           ],
         ),
       ),
