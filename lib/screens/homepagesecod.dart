@@ -745,7 +745,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                             : Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
-                            "Photo is required.",
+                            "",
                             style: TextStyle(color: Colors.red[700]),
                           ),
                         )
@@ -769,7 +769,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                   selectedHoldValue == "") {
                                 displayToast('Select Hold Time');
                               } else if (uplodedImage == null) {
-                                displayToast('Click Photo');
+                                displayToast('Please Click Photo');
                               }
                             }
                           },

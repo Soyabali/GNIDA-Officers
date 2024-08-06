@@ -4,9 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:noidaone/Controllers/notificationRepo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'generalFunction.dart';
-import 'loginScreen_2.dart';
+
 
 class NotificationPage extends StatelessWidget {
+
   const NotificationPage({super.key});
 
   @override
@@ -33,9 +34,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   List<Map<String, dynamic>>? notificationList;
   String? sName, sContactNo;
   GeneralFunction generalFunction = GeneralFunction();
+
   getnotificationResponse() async {
     notificationList = await NotificationRepo().notification(context);
     print('------39----$notificationList');
@@ -65,17 +68,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: generalFunction.appbarFunction("Notification"),
-        // appBar: AppBar(
-        //   backgroundColor: Color(0xFF255899),
-        //   title: const Text(
-        //     'Notification',
-        //     style: TextStyle(
-        //         fontFamily: 'Montserrat',
-        //         color: Colors.white,
-        //         fontSize: 18.0,
-        //         fontWeight: FontWeight.bold),
-        //   ),
-        // ),
         // drawer
         drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
 
@@ -87,81 +79,157 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: const EdgeInsets.only(left: 15,right: 15,top: 15,bottom: 15),
                 child: Container(
                   height: MediaQuery.of(context).size.height,
-            
                   child: ListView.separated(
-                      itemCount: notificationList != null ? notificationList!.length : 0,
-                      separatorBuilder: (BuildContext context, int index) {
-                        return Divider(); // Example separator, you can customize this
-                      },
-                      itemBuilder: (context, index) {
-                        return  SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Column(
+                    itemCount: notificationList != null ? notificationList!.length : 0,
+                    separatorBuilder: (BuildContext context, int index) {
+                      return Divider(); // Example separator, you can customize this
+                    },
+                    itemBuilder: (context, index) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(top: 15),
-                                child: Container(
-                                  child: const Icon(
-                                    Icons.notification_important, size: 30, color: Color(
-                                      0xFF255899),),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 16),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                const Icon(
+                                  Icons.notification_important,
+                                  size: 30,
+                                  color: Color(0xFF255899),
                                 ),
-                              ),
-                              SizedBox(width: 10),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(notificationList?[index]['sTitle'].toString() ?? '',
-                                    style: const TextStyle(
-                                                          fontFamily: 'Montserrat',
-                                                          color: Color(0xff3f617d),
-                                                          fontSize: 14.0,
-                                                          fontWeight: FontWeight.bold),
-                                                    ),
-                                  SizedBox(height: 2),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width - 32,
-                                    child: Text(
-                                      notificationList?[index]['sNotification'].toString() ?? '',
-                                      overflow: TextOverflow.clip,
-                                      textAlign: TextAlign.start,
-                                      style: const TextStyle(
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        notificationList?[index]['sTitle'].toString() ?? '',
+                                        style: const TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xff3f617d),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 2),
+                                      Text(
+                                        notificationList?[index]['sNotification'].toString() ?? '',
+                                        style: const TextStyle(
                                           fontFamily: 'Montserrat',
                                           color: Color(0xff3f617d),
                                           fontSize: 12.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  SizedBox(height: 2),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Icon(Icons.calendar_month,size:18,
-                                      color: Color(0xff3f617d),),
-                                      SizedBox(width: 5),
-                                      Text(notificationList?[index]['dRecivedAt'].toString() ?? '',
-                                        style: const TextStyle(
-                                            fontFamily: 'Montserrat',
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        textAlign: TextAlign.start,
+                                      ),
+                                      SizedBox(height: 2),
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.calendar_month,
+                                            size: 18,
                                             color: Color(0xff3f617d),
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold),
-                                      )
+                                          ),
+                                          SizedBox(width: 5),
+                                          Text(
+                                            notificationList?[index]['dRecivedAt'].toString() ?? '',
+                                            style: const TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Color(0xff3f617d),
+                                              fontSize: 14.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ],
-                                  )
-                                ],
-                              )
-                            ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
-                      )
-                        );
-                      }
+                      );
+                    },
                   ),
                 ),
+                // child: Container(
+                //   height: MediaQuery.of(context).size.height,
+                //   child: ListView.separated(
+                //       itemCount: notificationList != null ? notificationList!.length : 0,
+                //       separatorBuilder: (BuildContext context, int index) {
+                //         return Divider(); // Example separator, you can customize this
+                //       },
+                //       itemBuilder: (context, index) {
+                //         return  SingleChildScrollView(
+                //      // scrollDirection: Axis.horizontal,
+                //       child: Column(
+                //         children: [
+                //           Row(
+                //             mainAxisAlignment: MainAxisAlignment.start,
+                //             crossAxisAlignment: CrossAxisAlignment.start,
+                //             children: <Widget>[
+                //               Padding(
+                //                 padding: const EdgeInsets.only(top: 15),
+                //                 child: Container(
+                //                   child: const Icon(
+                //                     Icons.notification_important, size: 30, color: Color(
+                //                       0xFF255899),),
+                //                 ),
+                //               ),
+                //               SizedBox(width: 10),
+                //               Column(
+                //                 mainAxisAlignment: MainAxisAlignment.start,
+                //                 crossAxisAlignment: CrossAxisAlignment.start,
+                //                 children: <Widget>[
+                //                   Text(notificationList?[index]['sTitle'].toString() ?? '',
+                //                     style: const TextStyle(
+                //                                           fontFamily: 'Montserrat',
+                //                                           color: Color(0xff3f617d),
+                //                                           fontSize: 14.0,
+                //                                           fontWeight: FontWeight.bold),
+                //                                     ),
+                //                   SizedBox(height: 2),
+                //                   Container(
+                //                     width: MediaQuery.of(context).size.width - 32,
+                //                     child: Text(
+                //                       notificationList?[index]['sNotification'].toString() ?? '',
+                //                       overflow: TextOverflow.clip,
+                //                       textAlign: TextAlign.start,
+                //                       style: const TextStyle(
+                //                           fontFamily: 'Montserrat',
+                //                           color: Color(0xff3f617d),
+                //                           fontSize: 12.0,
+                //                           fontWeight: FontWeight.bold),
+                //                     ),
+                //                   ),
+                //                   SizedBox(height: 2),
+                //                   Row(
+                //                     mainAxisAlignment: MainAxisAlignment.start,
+                //                     children: [
+                //                       Icon(Icons.calendar_month,size:18,
+                //                       color: Color(0xff3f617d),),
+                //                       SizedBox(width: 5),
+                //                       Text(notificationList?[index]['dRecivedAt'].toString() ?? '',
+                //                         style: const TextStyle(
+                //                             fontFamily: 'Montserrat',
+                //                             color: Color(0xff3f617d),
+                //                             fontSize: 14.0,
+                //                             fontWeight: FontWeight.bold),
+                //                       )
+                //                     ],
+                //                   )
+                //                 ],
+                //               )
+                //             ],
+                //           ),
+                //         ],
+                //       )
+                //         );
+                //       }
+                //   ),
+                // ),
               )
             
               ]

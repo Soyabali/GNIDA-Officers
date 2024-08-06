@@ -402,7 +402,7 @@ class _ActionOnSchedultPointScreenState
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      'Please clock here to take a photo',
+                                      'Please click here to take a photo',
                                       style: TextStyle(
                                           fontFamily: 'Montserrat',
                                           color: Colors.redAccent,
@@ -484,7 +484,7 @@ class _ActionOnSchedultPointScreenState
                         ],
                       ) :
                       Text(
-                        "Photo is required.",
+                        "",
                         style:
                         TextStyle(color: Colors.red[700]),
                       )
@@ -533,7 +533,7 @@ class _ActionOnSchedultPointScreenState
                         displayToast("Please Enter remarks");
                       }
                       if (_imageFile == null || remarks == '') {
-                        displayToast("Please pick image");
+                        displayToast("Please click Photo");
                       }
                     }
                     if (result == "1") {

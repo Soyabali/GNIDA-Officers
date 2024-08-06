@@ -978,7 +978,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ],
                               )
                                   : Text(
-                                "Photo is required.",
+                                "",
                                 style: TextStyle(color: Colors.red[700]),
                               )
                             ]),
@@ -1063,7 +1063,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 }else if(address==""){
                                   displayToast('Enter Address');
                                 }else if(uplodedImage==null){
-                                  displayToast('Please pick a Photo');
+                                  displayToast('Please click a Photo');
                                 }
                               }
                               if(result2=="1"){

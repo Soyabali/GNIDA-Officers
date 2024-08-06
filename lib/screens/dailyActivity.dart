@@ -567,7 +567,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       ],
                                     )
                                   : Text(
-                                      "Photo is required.",
+                                      "",
                                       style: TextStyle(color: Colors.red[700]),
                                     )
                             ]),

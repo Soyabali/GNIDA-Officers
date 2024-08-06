@@ -370,27 +370,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: generalFunction.appbarback(context,"Mark Points"),
-      // appBar: AppBar(
-      //   backgroundColor: Color(0xFF255899),
-      //   leading: GestureDetector(
-      //       onTap: () {
-      //         //Navigator.pop(context);
-      //         Navigator.push(context,
-      //             MaterialPageRoute(builder: (context) => const HomePage()));
-      //       },
-      //       child: const Padding(
-      //         padding: EdgeInsets.all(8.0),
-      //         child: Icon(Icons.arrow_back_ios),
-      //       )),
-      //   title: const Text(
-      //     'Mark Points',
-      //     style: TextStyle(
-      //         fontFamily: 'Montserrat',
-      //         color: Colors.white,
-      //         fontSize: 18.0,
-      //         fontWeight: FontWeight.bold),
-      //   ),
-      // ),
+
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -745,7 +725,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       ],
                                     )
                                   : Text(
-                                      "Photo is required.",
+                                      "",
                                       style: TextStyle(color: Colors.red[700]),
                                     )
                             ]),
@@ -813,7 +793,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 }else if(location==""){
                                   displayToast('Enter location');
                                 }else if(uplodedImage==null){
-                                  displayToast('Pick image');
+                                  displayToast('Please Click Photo');
                                 }else{
                                 }
                               }
