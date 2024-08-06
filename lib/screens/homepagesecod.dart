@@ -537,21 +537,18 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 5, top: 10),
-                      child: Row(
+                     const Row(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Container(
-                              margin: const EdgeInsets.only(
-                                  left: 0, right: 2, bottom: 2),
-                              child: const Icon(
-                                Icons.forward_sharp,
-                                size: 12,
-                                color: Colors.black54,
-                              )),
-                          const Text('Hold Time',
+                          Padding(
+                            padding: EdgeInsets.only(top: 2),
+                            child: Icon(
+                                  Icons.forward_sharp,
+                                  size: 12,
+                                  color: Colors.black54,
+                                ),
+                          ),
+                          Text('Hold Time',
                               style: TextStyle(
                                   fontFamily: 'Montserrat',
                                   color: Color(0xFF707d83),
@@ -559,7 +556,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                   fontWeight: FontWeight.bold)),
                         ],
                       ),
-                    ),
+
                     Container(
                       height:45,
                       decoration: BoxDecoration(
@@ -797,7 +794,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       },
     );
   }
-
 
   @override
   void initState() {
@@ -1057,8 +1053,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(20),
                     // Set the desired radius for top left corner
-                    bottomRight: Radius.circular(
-                        20), // Set the desired radius for bottom right corner
+                    bottomRight: Radius.circular(20), // Set the desired radius for bottom right corner
                   ),
                 ),
                 child: Column(
@@ -1073,12 +1068,12 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 18, top: 10),
+                          padding: EdgeInsets.only(left: 18, top: 0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -1108,7 +1103,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(right: 20, top: 10),
+                          padding: EdgeInsets.only(right: 20, top: 0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -1196,7 +1191,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                           width: 1, // Border width
                         ),
                       ),
-
                       child: Container(
                         margin: EdgeInsets.only(left: 10, right: 10),
                         child: Column(
@@ -1289,9 +1283,12 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                                       "Please check the location.");
                                                 }
                                               },
-                                              child: const Image(
-                                                  image: AssetImage(
-                                                      'assets/images/ic_google_maps.PNG'))),
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(top: 5),
+                                                child: const Image(
+                                                    image: AssetImage(
+                                                        'assets/images/ic_google_maps.PNG')),
+                                              )),
                                           SizedBox(width: 2),
                                           GestureDetector(
                                             onTap: () {
@@ -1306,8 +1303,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                             child: const Padding(
                                               padding: EdgeInsets.only(top: 5),
                                               child: Image(
-                                                  image: AssetImage(
-                                                      'assets/images/holo.jpeg')),
+                                                  image: AssetImage('assets/images/holo.jpeg')),
                                             ),
                                           ),
                                         ],
@@ -1317,7 +1313,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                 ],
                               ),
                             ),
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 5),
                             Padding(
                               padding:
                                   const EdgeInsets.only(left: 15, right: 15),

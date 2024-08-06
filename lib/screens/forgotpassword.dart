@@ -166,7 +166,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                             ),
                                             border: OutlineInputBorder(),
                                             contentPadding: EdgeInsets.symmetric(
-                                                vertical: AppPadding.p10),
+                                              vertical: AppPadding.p10,
+                                              horizontal: AppPadding.p10, // Add horizontal padding
+                                            ),
                                             prefixIcon: Icon(
                                               Icons.mobile_friendly_sharp,
                                               color: Color(0xFF255899),

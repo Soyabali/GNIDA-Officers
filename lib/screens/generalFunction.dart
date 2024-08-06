@@ -389,7 +389,7 @@ class GeneralFunction {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    const Text('Synergy Telmatics Pvt.Ltd.',style: TextStyle(
+                    const Text('Synergy Telematics Pvt.Ltd.',style: TextStyle(
                       fontFamily: 'Montserrat',
                       color: Color(0xffF37339),//#F37339
                       fontSize: 14.0,

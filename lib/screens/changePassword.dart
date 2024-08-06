@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Controllers/changepasswordrepo.dart';
+import '../resources/values_manager.dart';
 import 'generalFunction.dart';
 import 'homeScreen.dart';
 import 'loginScreen_2.dart';
@@ -340,8 +341,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                             border: const OutlineInputBorder(
                                                 borderSide: BorderSide(color:Color(0xFF255899))
                                             ),
-                                            contentPadding:
-                                            EdgeInsets.symmetric(vertical: 10.0),
+                                            contentPadding: EdgeInsets.symmetric(
+                                              vertical: AppPadding.p10,
+                                              horizontal: AppPadding.p10, // Add horizontal padding
+                                            ),
                                             prefixIcon:
                                             Icon(Icons.lock,size: 20, color: Color(0xFF255899)),
                                             suffixIcon: IconButton(
@@ -381,8 +384,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                             border: const OutlineInputBorder(
                                                 borderSide: BorderSide(color:Color(0xFF255899))
                                             ),
-                                            contentPadding:
-                                            EdgeInsets.symmetric(vertical: 10.0),
+                                            contentPadding: EdgeInsets.symmetric(
+                                              vertical: AppPadding.p10,
+                                              horizontal: AppPadding.p10, // Add horizontal padding
+                                            ),
                                             prefixIcon:
                                             Icon(Icons.lock,size: 20, color: Color(0xFF255899)),
                                             suffixIcon: IconButton(
@@ -422,8 +427,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                             border: const OutlineInputBorder(
                                                 borderSide: BorderSide(color:Color(0xFF255899))
                                             ),
-                                            contentPadding:
-                                            EdgeInsets.symmetric(vertical: 10.0),
+                                            contentPadding: EdgeInsets.symmetric(
+                                              vertical: AppPadding.p10,
+                                              horizontal: AppPadding.p10, // Add horizontal padding
+                                            ),
                                             prefixIcon:
                                             Icon(Icons.lock,size: 20, color: Color(0xFF255899)),
                                             suffixIcon: IconButton(

@@ -296,8 +296,7 @@ class _LoginPageState extends State<LoginPage> {
                         padding: const EdgeInsets.all(AppMargin.m16),
                         child: Center(
                           child: Image.asset(
-                            ImageAssets
-                                .loginIcon, // Replace with your image asset path
+                            ImageAssets.loginIcon, // Replace with your image asset path
                             width: AppSize.s145,
                             height: AppSize.s145,
                             fit: BoxFit.contain, // Adjust as needed
@@ -329,8 +328,7 @@ class _LoginPageState extends State<LoginPage> {
                                 focusNode: phoneNumberfocus,
                                 controller: _phoneNumberController,
                                 textInputAction: TextInputAction.next,
-                                onEditingComplete: () =>
-                                    FocusScope.of(context).nextFocus(),
+                                onEditingComplete: () => FocusScope.of(context).nextFocus(),
                                 keyboardType: TextInputType.phone,
                                 inputFormatters: [
                                   LengthLimitingTextInputFormatter(10), // Limit to 10 digits
@@ -340,7 +338,10 @@ class _LoginPageState extends State<LoginPage> {
                                   labelText: AppStrings.txtMobile,
                                   border: OutlineInputBorder(),
                                   contentPadding: EdgeInsets.symmetric(
-                                      vertical: AppPadding.p10),
+                                    vertical: AppPadding.p10,
+                                    horizontal: AppPadding.p10, // Add horizontal padding
+                                  ),
+
                                   prefixIcon: Icon(
                                     Icons.phone,
                                     color: Color(0xFF255899),
@@ -373,8 +374,10 @@ class _LoginPageState extends State<LoginPage> {
                                 decoration: InputDecoration(
                                   labelText: AppStrings.txtpassword,
                                   border: const OutlineInputBorder(),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: AppPadding.p10),
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: AppPadding.p10,
+                                    horizontal: AppPadding.p10, // Add horizontal padding
+                                  ),
                                   prefixIcon: const Icon(Icons.lock,
                                       color: Color(0xFF255899)),
                                   suffixIcon: IconButton(

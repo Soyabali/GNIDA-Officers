@@ -275,10 +275,9 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                         ],
                                       ),
                                     ),
-                                    const SizedBox(height: 10),
+                                    const SizedBox(height: 4),
                                     Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15, right: 15),
+                                      padding: const EdgeInsets.only(left: 15, right: 15),
                                       child: Container(
                                         height: 0.5,
                                         color: Color(0xff3f617d),

@@ -236,23 +236,32 @@ class _MyHomePageState extends State<MyHomePage> {
                   onTap: () {
                     FocusScope.of(context).unfocus();
                   },
-                  hint: RichText(
-                    text: const TextSpan(
-                      text: "Select a Sector",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.normal),
-                      children: <TextSpan>[
-                        TextSpan(
-                            text: '',
+                  hint: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      children: [
+                        RichText(
+                          text: const TextSpan(
+                            text: "Select a Sector",
                             style: TextStyle(
-                                color: Colors.red,
+                                color: Colors.black,
                                 fontSize: 16,
-                                fontWeight: FontWeight.bold)),
+                                fontWeight: FontWeight.normal),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: '',
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
-                  ), // Not necessary for Option 1
+                  ),
+
+                  // Not necessary for Option 1
                   value: _dropDownValueDistric,
                   // key: distDropdownFocus,
                   onChanged: (newValue) {
@@ -292,27 +301,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: generalFunction.appbarback(context,"Field Inspection"),
-      // appBar: AppBar(
-      //   backgroundColor: Color(0xFF255899),
-      //   leading: GestureDetector(
-      //       onTap: () {
-      //         //Navigator.pop(context);
-      //         Navigator.push(context,
-      //             MaterialPageRoute(builder: (context) => const HomePage()));
-      //       },
-      //       child: Padding(
-      //         padding: const EdgeInsets.all(8.0),
-      //         child: Icon(Icons.arrow_back_ios),
-      //       )),
-      //   title: const Text(
-      //     'Field Inspection',
-      //     style: TextStyle(
-      //         fontFamily: 'Montserrat',
-      //         color: Colors.white,
-      //         fontSize: 18.0,
-      //         fontWeight: FontWeight.bold),
-      //   ),
-      // ),
 
       body: SingleChildScrollView(
         child: Column(
@@ -329,6 +317,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
+
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Container(
@@ -338,8 +327,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color:
-                            Colors.grey.withOpacity(0.5), // Color of the shadow
+                        color: Colors.grey.withOpacity(0.5), // Color of the shadow
                         spreadRadius: 5, // Spread radius
                         blurRadius: 7, // Blur radius
                         offset: Offset(0, 3), // Offset of the shadow
@@ -373,19 +361,18 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         ),
                         const SizedBox(height: 10),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 5),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              Container(
-                                  margin: EdgeInsets.only(left: 8, right: 2),
-                                  child: const Icon(
+                               Icon(
                                     Icons.forward_sharp,
                                     size: 12,
                                     color: Colors.black54,
-                                  )),
-                              const Text('Sector',
+                                  ),
+                               SizedBox(width: 2),
+                               Text('Sector',
                                   style: TextStyle(
                                       fontFamily: 'Montserrat',
                                       color: Color(0xFF707d83),
@@ -396,19 +383,17 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         // _casteDropDownWithValidation(),
                         _bindSector(),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5, top: 5),
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 5, top: 5),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              Container(
-                                  margin: EdgeInsets.only(left: 8, right: 2),
-                                  child: const Icon(
+                             Icon(
                                     Icons.forward_sharp,
                                     size: 12,
                                     color: Colors.black54,
-                                  )),
-                              const Text('Description',
+                                  ),
+                              Text('Description',
                                   style: TextStyle(
                                       fontFamily: 'Montserrat',
                                       color: Color(0xFF707d83),
@@ -449,19 +434,17 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5, top: 5),
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 5, top: 5),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              Container(
-                                  margin: EdgeInsets.only(left: 8, right: 2),
-                                  child: const Icon(
+                              Icon(
                                     Icons.forward_sharp,
                                     size: 12,
                                     color: Colors.black54,
-                                  )),
-                              const Text('Upload Photo',
+                                  ),
+                              Text('Upload Photo',
                                   style: TextStyle(
                                       fontFamily: 'Montserrat',
                                       color: Color(0xFF707d83),
