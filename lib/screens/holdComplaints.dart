@@ -10,10 +10,7 @@ import 'package:noidaone/Controllers/complaintForwardRepo.dart';
 import 'package:noidaone/screens/viewimage.dart';
 import '../Controllers/HoldComplaintRepo.dart';
 import '../Controllers/bindAjencyRepo.dart';
-import '../Controllers/pendingInternalComplaintRepo.dart';
-import 'actionOnSchedulePoint.dart';
 import 'generalFunction.dart';
-import 'homeScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HoldComplaintScreen extends StatelessWidget {
@@ -249,17 +246,38 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
                         controller: _searchController,
                         autofocus: true,
                         decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.search),
                           hintText: 'Enter Keywords',
+                          prefixIcon: Icon(Icons.search,
+                              color: Colors.grey
+                          ),
                           hintStyle: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Color(0xFF707d83),
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold),
+                            fontFamily: 'Montserrat',
+                            color: Colors.grey,
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                           border: InputBorder.none,
+                          contentPadding: EdgeInsets.fromLTRB(8.0, 6.0, 16.0, 8.0),
+                          // contentPadding: EdgeInsets.symmetric(horizontal: 16.0), // Adjust horizontal padding as needed
                         ),
                       ),
-                    ),
+                    )
+                    // Expanded(
+                    //   child: TextFormField(
+                    //     controller: _searchController,
+                    //     autofocus: true,
+                    //     decoration: const InputDecoration(
+                    //       prefixIcon: Icon(Icons.search),
+                    //       hintText: 'Enter Keywords',
+                    //       hintStyle: TextStyle(
+                    //           fontFamily: 'Montserrat',
+                    //           color: Color(0xFF707d83),
+                    //           fontSize: 14.0,
+                    //           fontWeight: FontWeight.bold),
+                    //       border: InputBorder.none,
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

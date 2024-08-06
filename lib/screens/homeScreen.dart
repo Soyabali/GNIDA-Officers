@@ -143,24 +143,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: generalFunction.appbarFunction("Noida One"),
-        // appBar: AppBar(
-        //   systemOverlayStyle: const SystemUiOverlayStyle(
-        //     // Status bar color
-        //     statusBarColor: Colors.blue,
-        //     // Status bar brightness (optional)
-        //     statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
-        //     statusBarBrightness: Brightness.light, // For iOS (dark icons)
-        //   ),
-        //   backgroundColor: Color(0xFF255899),  //   0xFF255899
-        //   title: const Text(
-        //     'Noida One',
-        //     style: TextStyle(
-        //         fontFamily: 'Montserrat',
-        //         color: Colors.white,
-        //         fontSize: 18.0,
-        //         fontWeight: FontWeight.bold),
-        //   ),
-        // ),
         // drawer
         drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
         // body
@@ -230,210 +212,422 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                       ),
                     ),
                     Positioned(
-                        top: 45,
-                        left: 15,
-                        right: 15,
-                        child: Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                           // crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/firsttrophy.png',
-                                      width: 70, // Adjust the width of the image
-                                      height: 70, // Adjust the height of the image
-                                      fit: BoxFit.fill,
-                                    ), // Asset image for column 1
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        const Text(
-                                          '1.',
-                                          style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            fontSize: 10.0,
-                                            fontWeight: FontWeight.normal,
-                                          ),
+                      top: 45,
+                      left: 15,
+                      right: 15,
+                      child: Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/firsttrophy.png',
+                                    width: 70,
+                                    height: 70,
+                                    fit: BoxFit.fill,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Text(
+                                        '1.',
+                                        style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Colors.white,
+                                          fontSize: 10.0,
+                                          fontWeight: FontWeight.normal,
                                         ),
-                                   // Text widget 1
-                                        Flexible(
-                                          child: Text(
-                                            '$nameFirst',
-                                            style: const TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Colors.white,
-                                              fontSize: 10.0,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                          ),
-                                        ), // Text widget 2
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          '$pointFirst',
+                                      ),
+                                      SizedBox(width: 2),
+                                      Flexible(
+                                        child: Text(
+                                          '$nameFirst',
                                           style: const TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Colors.white,
                                             fontSize: 10.0,
                                             fontWeight: FontWeight.normal,
                                           ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                        SizedBox(width: 2), // Text widget 1
-                                        const Text(
-                                          'Points',
-                                          style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            fontSize: 10.0,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ), // Text widget 2
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '$pointFirst',
+                                        style: const TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Colors.white,
+                                          fontSize: 10.0,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                      SizedBox(width: 2),
+                                      const Text(
+                                        'Points',
+                                        style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Colors.white,
+                                          fontSize: 10.0,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/firsttrophy.png',
-                                      width: 55, // Adjust the width of the image
-                                      height: 55, // Adjust the height of the image
-                                      fit: BoxFit.fill,
-                                    ), // Asset image for column 1
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        const Text(
-                                          '2.',
-                                          style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            fontSize: 10.0,
-                                            fontWeight: FontWeight.normal,
-                                          ),
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/firsttrophy.png',
+                                    width: 55,
+                                    height: 55,
+                                    fit: BoxFit.fill,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Text(
+                                        '2.',
+                                        style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Colors.white,
+                                          fontSize: 10.0,
+                                          fontWeight: FontWeight.normal,
                                         ),
-                                        SizedBox(width: 0), // Text widget 1
-                                        Flexible(
-                                          child: Text(
-                                            '$nameSecond',
-                                            style: const TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Colors.white,
-                                              fontSize: 10.0,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                          ),
-                                        ), // Text widget 2
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          '$pointSecond',
+                                      ),
+                                      SizedBox(width: 2),
+                                      Flexible(
+                                        child: Text(
+                                          '$nameSecond',
                                           style: const TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Colors.white,
                                             fontSize: 10.0,
                                             fontWeight: FontWeight.normal,
                                           ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                        SizedBox(width: 2), // Text widget 1
-                                        const Text(
-                                          'Points',
-                                          style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            fontSize: 10.0,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ), // Text widget 2
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '$pointSecond',
+                                        style: const TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Colors.white,
+                                          fontSize: 10.0,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                      SizedBox(width: 2),
+                                      const Text(
+                                        'Points',
+                                        style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Colors.white,
+                                          fontSize: 10.0,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/firsttrophy.png',
-                                      width: 40, // Adjust the width of the image
-                                      height: 40, // Adjust the height of the image
-                                      fit: BoxFit.fill,
-                                    ), // Asset image for column 1
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        const Text(
-                                          '3.',
-                                          style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            fontSize: 10.0,
-                                            fontWeight: FontWeight.normal,
-                                          ),
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/firsttrophy.png',
+                                    width: 40,
+                                    height: 40,
+                                    fit: BoxFit.fill,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Text(
+                                        '3.',
+                                        style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Colors.white,
+                                          fontSize: 10.0,
+                                          fontWeight: FontWeight.normal,
                                         ),
-                                        SizedBox(width: 2), // Text widget 1
-                                        Flexible(
-                                          child: Text(
-                                            '$nameThird',
-                                            style: const TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Colors.white,
-                                              fontSize: 10.0,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                          ),
-                                        ), // Text widget 2
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          '$pointThird',
+                                      ),
+                                      SizedBox(width: 2),
+                                      Flexible(
+                                        child: Text(
+                                          '$nameThird',
                                           style: const TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Colors.white,
                                             fontSize: 10.0,
                                             fontWeight: FontWeight.normal,
                                           ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                        SizedBox(width: 2), // Text widget 1
-                                        const Text(
-                                          'Points',
-                                          style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            fontSize: 10.0,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ), // Text widget 2
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '$pointThird',
+                                        style: const TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Colors.white,
+                                          fontSize: 10.0,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                      SizedBox(width: 2),
+                                      const Text(
+                                        'Points',
+                                        style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Colors.white,
+                                          fontSize: 10.0,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        )
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
+
+                    // Positioned(
+                    //     top: 45,
+                    //     left: 15,
+                    //     right: 15,
+                    //     child: Container(
+                    //       child: Row(
+                    //         mainAxisAlignment: MainAxisAlignment.center,
+                    //        // crossAxisAlignment: CrossAxisAlignment.center,
+                    //         children: [
+                    //           Expanded(
+                    //             child: Column(
+                    //               crossAxisAlignment: CrossAxisAlignment.center,
+                    //               mainAxisAlignment: MainAxisAlignment.center,
+                    //               children: [
+                    //                 Image.asset(
+                    //                   'assets/images/firsttrophy.png',
+                    //                   width: 70, // Adjust the width of the image
+                    //                   height: 70, // Adjust the height of the image
+                    //                   fit: BoxFit.fill,
+                    //                 ), // Asset image for column 1
+                    //                 Row(
+                    //                   mainAxisAlignment: MainAxisAlignment.center,
+                    //                   children: [
+                    //                     const Text(
+                    //                       '1.',
+                    //                       style: TextStyle(
+                    //                         fontFamily: 'Montserrat',
+                    //                         color: Colors.white,
+                    //                         fontSize: 10.0,
+                    //                         fontWeight: FontWeight.normal,
+                    //                       ),
+                    //                     ),
+                    //                     SizedBox(width: 2),
+                    //                // Text widget 1
+                    //                     Flexible(
+                    //                       child: Text(
+                    //                         '$nameFirst',
+                    //                         style: const TextStyle(
+                    //                           fontFamily: 'Montserrat',
+                    //                           color: Colors.white,
+                    //                           fontSize: 10.0,
+                    //                           fontWeight: FontWeight.normal,
+                    //                         ),
+                    //                       ),
+                    //                     ), // Text widget 2
+                    //                   ],
+                    //                 ),
+                    //                 Row(
+                    //                   mainAxisAlignment: MainAxisAlignment.center,
+                    //                   children: [
+                    //                     Text(
+                    //                       '$pointFirst',
+                    //                       style: const TextStyle(
+                    //                         fontFamily: 'Montserrat',
+                    //                         color: Colors.white,
+                    //                         fontSize: 10.0,
+                    //                         fontWeight: FontWeight.normal,
+                    //                       ),
+                    //                     ),
+                    //                     SizedBox(width: 2), // Text widget 1
+                    //                     const Text(
+                    //                       'Points',
+                    //                       style: TextStyle(
+                    //                         fontFamily: 'Montserrat',
+                    //                         color: Colors.white,
+                    //                         fontSize: 10.0,
+                    //                         fontWeight: FontWeight.normal,
+                    //                       ),
+                    //                     ), // Text widget 2
+                    //                   ],
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //           ),
+                    //           Expanded(
+                    //             child: Column(
+                    //               crossAxisAlignment: CrossAxisAlignment.center,
+                    //               mainAxisAlignment: MainAxisAlignment.center,
+                    //               children: [
+                    //                 Image.asset(
+                    //                   'assets/images/firsttrophy.png',
+                    //                   width: 55, // Adjust the width of the image
+                    //                   height: 55, // Adjust the height of the image
+                    //                   fit: BoxFit.fill,
+                    //                 ), // Asset image for column 1
+                    //                 Row(
+                    //                   mainAxisAlignment: MainAxisAlignment.center,
+                    //                   children: [
+                    //                     const Text(
+                    //                       '2.',
+                    //                       style: TextStyle(
+                    //                         fontFamily: 'Montserrat',
+                    //                         color: Colors.white,
+                    //                         fontSize: 10.0,
+                    //                         fontWeight: FontWeight.normal,
+                    //                       ),
+                    //                     ),
+                    //                     SizedBox(width: 2), // Text widget 1
+                    //                     Flexible(
+                    //                       child: Text(
+                    //                         '$nameSecond',
+                    //                         style: const TextStyle(
+                    //                           fontFamily: 'Montserrat',
+                    //                           color: Colors.white,
+                    //                           fontSize: 10.0,
+                    //                           fontWeight: FontWeight.normal,
+                    //                         ),
+                    //                       ),
+                    //                     ), // Text widget 2
+                    //                   ],
+                    //                 ),
+                    //                 Row(
+                    //                   mainAxisAlignment: MainAxisAlignment.center,
+                    //                   children: [
+                    //                     Text(
+                    //                       '$pointSecond',
+                    //                       style: const TextStyle(
+                    //                         fontFamily: 'Montserrat',
+                    //                         color: Colors.white,
+                    //                         fontSize: 10.0,
+                    //                         fontWeight: FontWeight.normal,
+                    //                       ),
+                    //                     ),
+                    //                     SizedBox(width: 2), // Text widget 1
+                    //                     const Text(
+                    //                       'Points',
+                    //                       style: TextStyle(
+                    //                         fontFamily: 'Montserrat',
+                    //                         color: Colors.white,
+                    //                         fontSize: 10.0,
+                    //                         fontWeight: FontWeight.normal,
+                    //                       ),
+                    //                     ), // Text widget 2
+                    //                   ],
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //           ),
+                    //           Expanded(
+                    //             child: Column(
+                    //               crossAxisAlignment: CrossAxisAlignment.center,
+                    //               mainAxisAlignment: MainAxisAlignment.center,
+                    //               children: [
+                    //                 Image.asset(
+                    //                   'assets/images/firsttrophy.png',
+                    //                   width: 40, // Adjust the width of the image
+                    //                   height: 40, // Adjust the height of the image
+                    //                   fit: BoxFit.fill,
+                    //                 ), // Asset image for column 1
+                    //                 Row(
+                    //                   mainAxisAlignment: MainAxisAlignment.center,
+                    //                   children: [
+                    //                     const Text(
+                    //                       '3.',
+                    //                       style: TextStyle(
+                    //                         fontFamily: 'Montserrat',
+                    //                         color: Colors.white,
+                    //                         fontSize: 10.0,
+                    //                         fontWeight: FontWeight.normal,
+                    //                       ),
+                    //                     ),
+                    //                     SizedBox(width: 2), // Text widget 1
+                    //                     Flexible(
+                    //                       child: Text(
+                    //                         '$nameThird',
+                    //                         style: const TextStyle(
+                    //                           fontFamily: 'Montserrat',
+                    //                           color: Colors.white,
+                    //                           fontSize: 10.0,
+                    //                           fontWeight: FontWeight.normal,
+                    //                         ),
+                    //                       ),
+                    //                     ), // Text widget 2
+                    //                   ],
+                    //                 ),
+                    //                 Row(
+                    //                   mainAxisAlignment: MainAxisAlignment.center,
+                    //                   children: [
+                    //                     Text(
+                    //                       '$pointThird',
+                    //                       style: const TextStyle(
+                    //                         fontFamily: 'Montserrat',
+                    //                         color: Colors.white,
+                    //                         fontSize: 10.0,
+                    //                         fontWeight: FontWeight.normal,
+                    //                       ),
+                    //                     ),
+                    //                     SizedBox(width: 2), // Text widget 1
+                    //                     const Text(
+                    //                       'Points',
+                    //                       style: TextStyle(
+                    //                         fontFamily: 'Montserrat',
+                    //                         color: Colors.white,
+                    //                         fontSize: 10.0,
+                    //                         fontWeight: FontWeight.normal,
+                    //                       ),
+                    //                     ), // Text widget 2
+                    //                   ],
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     )
+                    // ),
                   ],
                 ),
               ),
@@ -565,7 +759,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                   Text(
                                     parts[0],
                                     style: const TextStyle(
-                                      color: Colors.black,
+                                      color: Colors.white,
                                       fontSize: 16,
                                       fontWeight: FontWeight.normal,
                                     ),
@@ -573,7 +767,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                   Text(
                                     parts[1],
                                     style: const TextStyle(
-                                      color: Colors.red,
+                                      color: Colors.white,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
                                     ),

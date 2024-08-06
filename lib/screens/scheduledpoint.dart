@@ -9,7 +9,6 @@ import '../Controllers/PendingScheduledPointRepo.dart';
 import '../Helpers/loader_helper.dart';
 import 'actionOnSchedulePoint.dart';
 import 'generalFunction.dart';
-import 'homeScreen.dart';
 
 class ScheduledPointScreen extends StatelessWidget {
   const ScheduledPointScreen({Key? key}) : super(key: key);
@@ -37,7 +36,6 @@ class SchedulePointScreen extends StatefulWidget {
   @override
   State<SchedulePointScreen> createState() => _SchedulePointScreenState();
 }
-
 
 class _SchedulePointScreenState extends State<SchedulePointScreen> {
 
@@ -175,16 +173,38 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                             autofocus: true,
                             decoration: const InputDecoration(
                               hintText: 'Enter Keywords',
-                              prefixIcon: Icon(Icons.search),
+                              prefixIcon: Icon(Icons.search,
+                              color: Colors.grey
+                              ),
                               hintStyle: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Color(0xFF707d83),
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold),
+                                fontFamily: 'Montserrat',
+                                color: Colors.grey,
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold,
+                              ),
                               border: InputBorder.none,
+                              contentPadding: EdgeInsets.fromLTRB(8.0, 6.0, 16.0, 8.0),
+                              // contentPadding: EdgeInsets.symmetric(horizontal: 16.0), // Adjust horizontal padding as needed
                             ),
                           ),
-                        ),
+                        )
+
+                        // Expanded(
+                        //   child: TextFormField(
+                        //     controller: _searchController,
+                        //     autofocus: true,
+                        //     decoration: const InputDecoration(
+                        //       hintText: 'Enter Keywords',
+                        //       prefixIcon: Icon(Icons.search),
+                        //       hintStyle: TextStyle(
+                        //           fontFamily: 'Montserrat',
+                        //           color: Color(0xFF707d83),
+                        //           fontSize: 14.0,
+                        //           fontWeight: FontWeight.bold),
+                        //       border: InputBorder.none,
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
