@@ -92,6 +92,7 @@ class _LoginPageState extends State<LoginPage> {
     debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
     debugPrint(position.toString());
   }
+
   Future<bool> _onWillPop() async {
     return (await showDialog(
       context: context,
@@ -166,8 +167,7 @@ class _LoginPageState extends State<LoginPage> {
         return Container(
             height: 200,
             color: Colors.white,
-
-          child: GestureDetector(
+            child: GestureDetector(
             onTap: (){
               print('---------');
             },
@@ -200,7 +200,7 @@ class _LoginPageState extends State<LoginPage> {
                     Text("Can't Login?",style:AppTextStyle.font18OpenSansboldAppBasicTextStyle),
                     SizedBox(height: 10),
                     Center(
-                  child: ElevatedButton(
+                    child: ElevatedButton(
                     onPressed: () {
                       /// After implement attion this comment is remove and OtpVerfication is hide
                       // Add your button onPressed logic here

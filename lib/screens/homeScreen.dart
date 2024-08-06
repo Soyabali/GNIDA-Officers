@@ -16,6 +16,7 @@ import 'package:noidaone/screens/tabbarHome.dart';
 import 'package:noidaone/screens/tabbarHomeToday.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Controllers/userModuleRight.dart';
+import '../resources/app_text_style.dart';
 import 'complaintStatus.dart';
 import 'dailyActivity.dart';
 
@@ -132,6 +133,34 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     //  userContributionResponse();
     super.didUpdateWidget(oldWidget);
   }
+  // backbutton handle
+
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Are you sure?',style: AppTextStyle
+            .font14OpenSansRegularBlackTextStyle,),
+        content: new Text('Do you want to exit app',style: AppTextStyle
+            .font14OpenSansRegularBlackTextStyle,),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false), //<-- SEE HERE
+            child: new Text('No'),
+          ),
+          TextButton(
+            onPressed: () {
+              //  goToHomePage();
+              // exit the app
+              exit(0);
+            }, //Navigator.of(context).pop(true), // <-- SEE HERE
+            child: new Text('Yes'),
+          ),
+        ],
+      ),
+    )) ??
+        false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       DeviceOrientation.portraitUp,
     ]);
     return WillPopScope(
-      onWillPop: () async => false,
+      onWillPop: _onWillPop,
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: generalFunction.appbarFunction("Noida One"),
@@ -201,6 +230,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                     color: Colors.blue,
                                     width: 0,
                                   )),
+
                               tabs: <Widget>[
                                 _buildTab('Today', context),
                                 _buildTab('Month', context),
@@ -421,217 +451,11 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                         ),
                       ),
                     ),
-
-                    // Positioned(
-                    //     top: 45,
-                    //     left: 15,
-                    //     right: 15,
-                    //     child: Container(
-                    //       child: Row(
-                    //         mainAxisAlignment: MainAxisAlignment.center,
-                    //        // crossAxisAlignment: CrossAxisAlignment.center,
-                    //         children: [
-                    //           Expanded(
-                    //             child: Column(
-                    //               crossAxisAlignment: CrossAxisAlignment.center,
-                    //               mainAxisAlignment: MainAxisAlignment.center,
-                    //               children: [
-                    //                 Image.asset(
-                    //                   'assets/images/firsttrophy.png',
-                    //                   width: 70, // Adjust the width of the image
-                    //                   height: 70, // Adjust the height of the image
-                    //                   fit: BoxFit.fill,
-                    //                 ), // Asset image for column 1
-                    //                 Row(
-                    //                   mainAxisAlignment: MainAxisAlignment.center,
-                    //                   children: [
-                    //                     const Text(
-                    //                       '1.',
-                    //                       style: TextStyle(
-                    //                         fontFamily: 'Montserrat',
-                    //                         color: Colors.white,
-                    //                         fontSize: 10.0,
-                    //                         fontWeight: FontWeight.normal,
-                    //                       ),
-                    //                     ),
-                    //                     SizedBox(width: 2),
-                    //                // Text widget 1
-                    //                     Flexible(
-                    //                       child: Text(
-                    //                         '$nameFirst',
-                    //                         style: const TextStyle(
-                    //                           fontFamily: 'Montserrat',
-                    //                           color: Colors.white,
-                    //                           fontSize: 10.0,
-                    //                           fontWeight: FontWeight.normal,
-                    //                         ),
-                    //                       ),
-                    //                     ), // Text widget 2
-                    //                   ],
-                    //                 ),
-                    //                 Row(
-                    //                   mainAxisAlignment: MainAxisAlignment.center,
-                    //                   children: [
-                    //                     Text(
-                    //                       '$pointFirst',
-                    //                       style: const TextStyle(
-                    //                         fontFamily: 'Montserrat',
-                    //                         color: Colors.white,
-                    //                         fontSize: 10.0,
-                    //                         fontWeight: FontWeight.normal,
-                    //                       ),
-                    //                     ),
-                    //                     SizedBox(width: 2), // Text widget 1
-                    //                     const Text(
-                    //                       'Points',
-                    //                       style: TextStyle(
-                    //                         fontFamily: 'Montserrat',
-                    //                         color: Colors.white,
-                    //                         fontSize: 10.0,
-                    //                         fontWeight: FontWeight.normal,
-                    //                       ),
-                    //                     ), // Text widget 2
-                    //                   ],
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           ),
-                    //           Expanded(
-                    //             child: Column(
-                    //               crossAxisAlignment: CrossAxisAlignment.center,
-                    //               mainAxisAlignment: MainAxisAlignment.center,
-                    //               children: [
-                    //                 Image.asset(
-                    //                   'assets/images/firsttrophy.png',
-                    //                   width: 55, // Adjust the width of the image
-                    //                   height: 55, // Adjust the height of the image
-                    //                   fit: BoxFit.fill,
-                    //                 ), // Asset image for column 1
-                    //                 Row(
-                    //                   mainAxisAlignment: MainAxisAlignment.center,
-                    //                   children: [
-                    //                     const Text(
-                    //                       '2.',
-                    //                       style: TextStyle(
-                    //                         fontFamily: 'Montserrat',
-                    //                         color: Colors.white,
-                    //                         fontSize: 10.0,
-                    //                         fontWeight: FontWeight.normal,
-                    //                       ),
-                    //                     ),
-                    //                     SizedBox(width: 2), // Text widget 1
-                    //                     Flexible(
-                    //                       child: Text(
-                    //                         '$nameSecond',
-                    //                         style: const TextStyle(
-                    //                           fontFamily: 'Montserrat',
-                    //                           color: Colors.white,
-                    //                           fontSize: 10.0,
-                    //                           fontWeight: FontWeight.normal,
-                    //                         ),
-                    //                       ),
-                    //                     ), // Text widget 2
-                    //                   ],
-                    //                 ),
-                    //                 Row(
-                    //                   mainAxisAlignment: MainAxisAlignment.center,
-                    //                   children: [
-                    //                     Text(
-                    //                       '$pointSecond',
-                    //                       style: const TextStyle(
-                    //                         fontFamily: 'Montserrat',
-                    //                         color: Colors.white,
-                    //                         fontSize: 10.0,
-                    //                         fontWeight: FontWeight.normal,
-                    //                       ),
-                    //                     ),
-                    //                     SizedBox(width: 2), // Text widget 1
-                    //                     const Text(
-                    //                       'Points',
-                    //                       style: TextStyle(
-                    //                         fontFamily: 'Montserrat',
-                    //                         color: Colors.white,
-                    //                         fontSize: 10.0,
-                    //                         fontWeight: FontWeight.normal,
-                    //                       ),
-                    //                     ), // Text widget 2
-                    //                   ],
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           ),
-                    //           Expanded(
-                    //             child: Column(
-                    //               crossAxisAlignment: CrossAxisAlignment.center,
-                    //               mainAxisAlignment: MainAxisAlignment.center,
-                    //               children: [
-                    //                 Image.asset(
-                    //                   'assets/images/firsttrophy.png',
-                    //                   width: 40, // Adjust the width of the image
-                    //                   height: 40, // Adjust the height of the image
-                    //                   fit: BoxFit.fill,
-                    //                 ), // Asset image for column 1
-                    //                 Row(
-                    //                   mainAxisAlignment: MainAxisAlignment.center,
-                    //                   children: [
-                    //                     const Text(
-                    //                       '3.',
-                    //                       style: TextStyle(
-                    //                         fontFamily: 'Montserrat',
-                    //                         color: Colors.white,
-                    //                         fontSize: 10.0,
-                    //                         fontWeight: FontWeight.normal,
-                    //                       ),
-                    //                     ),
-                    //                     SizedBox(width: 2), // Text widget 1
-                    //                     Flexible(
-                    //                       child: Text(
-                    //                         '$nameThird',
-                    //                         style: const TextStyle(
-                    //                           fontFamily: 'Montserrat',
-                    //                           color: Colors.white,
-                    //                           fontSize: 10.0,
-                    //                           fontWeight: FontWeight.normal,
-                    //                         ),
-                    //                       ),
-                    //                     ), // Text widget 2
-                    //                   ],
-                    //                 ),
-                    //                 Row(
-                    //                   mainAxisAlignment: MainAxisAlignment.center,
-                    //                   children: [
-                    //                     Text(
-                    //                       '$pointThird',
-                    //                       style: const TextStyle(
-                    //                         fontFamily: 'Montserrat',
-                    //                         color: Colors.white,
-                    //                         fontSize: 10.0,
-                    //                         fontWeight: FontWeight.normal,
-                    //                       ),
-                    //                     ),
-                    //                     SizedBox(width: 2), // Text widget 1
-                    //                     const Text(
-                    //                       'Points',
-                    //                       style: TextStyle(
-                    //                         fontFamily: 'Montserrat',
-                    //                         color: Colors.white,
-                    //                         fontSize: 10.0,
-                    //                         fontWeight: FontWeight.normal,
-                    //                       ),
-                    //                     ), // Text widget 2
-                    //                   ],
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     )
-                    // ),
                   ],
                 ),
               ),
             ),
+            // bottom ListView
             Padding(
               padding: const EdgeInsets.only(bottom: 5),
               child: Container(
@@ -769,7 +593,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.normal,
                                     ),
                                   ),
                                 ],
@@ -783,148 +607,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                 ),
               ),
             )
-
-            // Padding(
-            //   padding: const EdgeInsets.only(left: 15, right: 15, bottom: 0, top: 0),
-            //   child: Container(
-            //     height: 100,
-            //     child: Container(
-            //         // color: Colors.grey,
-            //         height: 100,
-            //         width: MediaQuery.of(context).size.width,
-            //         child: ListView.builder(
-            //             scrollDirection: Axis.horizontal,
-            //             itemCount: userModuleRightList.length,
-            //             itemBuilder: (context, index) {
-            //               var activity = userModuleRightList[index];
-            //               var sActivityName = activity['sActivityName'];  // Correctly access the map using index
-            //               final parts = sActivityName.split(' \\n ');
-            //               return InkWell(
-            //                 onTap: () {
-            //                   var activatecode =
-            //                       '${userModuleRightList[index]['iActivityCode']}';
-            //                   if (activatecode == "1") {
-            //                     // print('---Mark---');
-            //                     Navigator.push(
-            //                         context,
-            //                         MaterialPageRoute(
-            //                             builder: (context) =>
-            //                                 const MarkPointScreen()));
-            //                   } else if (activatecode == "6") {
-            //                     //print('---Scheduled \n Points---');
-            //                     Navigator.push(
-            //                         context,
-            //                         MaterialPageRoute(
-            //                             builder: (context) =>
-            //                                 const ScheduledPointScreen()));
-            //                   } else if (activatecode == "3") {
-            //                     // print('---Pending \n Complaint---');
-            //                     Navigator.push(
-            //                         context,
-            //                         MaterialPageRoute(
-            //                             builder: (context) =>
-            //                                 const PendingComplaintScreen()));
-            //                   } else if (activatecode == "2") {
-            //                     print('---Post \n Complaint---');
-            //                     Navigator.push(
-            //                         context,
-            //                         MaterialPageRoute(
-            //                             builder: (context) =>
-            //                                 const PostComplaintScreen()));
-            //                   } else if (activatecode == "7") {
-            //                     print('---Daily \n Activity---');
-            //                     //  DailyActivitytScreen
-            //                     Navigator.push(
-            //                         context,
-            //                         MaterialPageRoute(
-            //                             builder: (context) =>
-            //                                 const DailyActivitytScreen()));
-            //                   } else if (activatecode == "4") {
-            //                     // Dry/Wet \n Segregation
-            //                     print('---Dry/Wet \n Segregation---');
-            //                     Navigator.push(
-            //                         context,
-            //                         MaterialPageRoute(
-            //                             builder: (context) =>
-            //                                 const DryWetSegregationScreen()));
-            //                   }
-            //                   else if(activatecode =="5"){
-            //                     Navigator.push(
-            //                         context,
-            //                         MaterialPageRoute(
-            //                             builder: (context) =>
-            //                             const ComplaintStatusScreen()));
-            //                   }
-            //                   else if(activatecode =="8"){
-            //                     Navigator.push(
-            //                         context,
-            //                         MaterialPageRoute(
-            //                             builder: (context) =>
-            //                             const ShopSurvey()));
-            //
-            //                   }
-            //                 },
-            //                 child: Container(
-            //                   width: 91,
-            //                   height: 80,
-            //                   margin: const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 0),
-            //                   decoration: BoxDecoration(
-            //                     color: Color(0xff81afea),
-            //                     borderRadius: BorderRadius.circular(10), // Adjust the value for more or less rounded corners
-            //                   ),
-            //                   child: Center(
-            //                     child: Column(
-            //                       mainAxisAlignment: MainAxisAlignment.center,
-            //                       crossAxisAlignment: CrossAxisAlignment.center,
-            //                       children: <Widget>[
-            //                         Center(
-            //                           child: Image.network('${userModuleRightList[index]['iImgIcon']}', // Replace with your asset image path
-            //                             width: 30, // Adjust image width as needed
-            //                             height: 30, // Adjust image height as needed
-            //                           ),
-            //                         ),
-            //                         SizedBox(height: 2),
-            //                         Column(
-            //                           children: <Widget>[
-            //                             Text(
-            //                               parts[0],
-            //                               style: const TextStyle(
-            //                                 color: Colors.black,
-            //                                 fontSize: 16,
-            //                                 fontWeight: FontWeight.normal,
-            //                               ),
-            //                             ),
-            //                             SizedBox(width: 5),
-            //                             Text(
-            //                               parts[1],
-            //                               style: const TextStyle(
-            //                                 color: Colors.red,
-            //                                 fontSize: 16,
-            //                                 fontWeight: FontWeight.bold,
-            //                               ),
-            //                             ),
-            //                           ],
-            //                         )
-            //
-            //                         // Center(
-            //                         //   child: Text(
-            //                         //     '${userModuleRightList[index]['sActivityName']}',
-            //                         //     style: const TextStyle(
-            //                         //         fontFamily: 'Montserrat',
-            //                         //         color: Colors.white,
-            //                         //         fontSize: 12.0,
-            //                         //         fontWeight: FontWeight.bold),
-            //                         //   ),
-            //                         // ),
-            //
-            //                       ],
-            //                     ),
-            //                   ),
-            //                 ),
-            //               );
-            //             })),
-            //   ),
-            // ),
           ],
         ),
       ),

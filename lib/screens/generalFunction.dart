@@ -42,6 +42,7 @@ class GeneralFunction {
           (route) => false, // Pop all routes until this page
     );
   }
+  // mobile back hale code
   // drawerFunction
   drawerFunction(BuildContext context, String sName, String sContactNo) {
     return Drawer(

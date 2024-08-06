@@ -10,6 +10,7 @@ import '../Controllers/district_repo.dart';
 import '../Controllers/markLocationRepo.dart';
 import '../Controllers/postDailyActivityRepo.dart';
 import '../Helpers/loader_helper.dart';
+import '../resources/app_text_style.dart';
 import '../resources/values_manager.dart';
 import 'dart:async';
 import 'flull_screen_image.dart';
@@ -87,6 +88,36 @@ class _MyHomePageState extends State<MyHomePage> {
   var uplodedImage;
   final _formKey = GlobalKey<FormState>();
   GeneralFunction generalFunction = GeneralFunction();
+
+   // mobile back button handle
+
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Are you sure?',style: AppTextStyle
+            .font14OpenSansRegularBlackTextStyle,),
+        content: new Text('Do you want to exit app',style: AppTextStyle
+            .font14OpenSansRegularBlackTextStyle,),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false), //<-- SEE HERE
+            child: new Text('No'),
+          ),
+          TextButton(
+            onPressed: () {
+              //  goToHomePage();
+              // exit the app
+              exit(0);
+            }, //Navigator.of(context).pop(true), // <-- SEE HERE
+            child: new Text('Yes'),
+          ),
+        ],
+      ),
+    )) ??
+        false;
+  }
+
   // pick Image Codew
   Future pickImage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -298,153 +329,63 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: generalFunction.appbarback(context,"Field Inspection"),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: generalFunction.appbarback(context,"Field Inspection"),
 
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 150, // Height of the container
-              width: 200, // Width of the container
-              child: Opacity(
-                opacity: 0.9,
-                child: Image.asset(
-                  'assets/images/step3.jpg', // Replace 'image_name.png' with your asset image path
-                  fit: BoxFit
-                      .cover, // Adjust the image fit to cover the container
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 150, // Height of the container
+                width: 200, // Width of the container
+                child: Opacity(
+                  opacity: 0.9,
+                  child: Image.asset(
+                    'assets/images/step3.jpg', // Replace 'image_name.png' with your asset image path
+                    fit: BoxFit
+                        .cover, // Adjust the image fit to cover the container
+                  ),
                 ),
               ),
-            ),
 
-            Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15),
-              child: Container(
-                width: MediaQuery.of(context).size.width - 30,
-                decoration: BoxDecoration(
-                    color: Colors.white, // Background color of the container
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5), // Color of the shadow
-                        spreadRadius: 5, // Spread radius
-                        blurRadius: 7, // Blur radius
-                        offset: Offset(0, 3), // Offset of the shadow
-                      ),
-                    ]),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              margin:
-                                  EdgeInsets.only(left: 0, right: 10, top: 10),
-                              child: Image.asset(
-                                'assets/images/ic_expense.png', // Replace with your image asset path
-                                width: 24,
-                                height: 24,
-                              ),
-                            ),
-                            const Text('Fill the below details',
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    color: Color(0xFF707d83),
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold)),
-                          ],
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: Container(
+                  width: MediaQuery.of(context).size.width - 30,
+                  decoration: BoxDecoration(
+                      color: Colors.white, // Background color of the container
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5), // Color of the shadow
+                          spreadRadius: 5, // Spread radius
+                          blurRadius: 7, // Blur radius
+                          offset: Offset(0, 3), // Offset of the shadow
                         ),
-                        const SizedBox(height: 10),
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 5),
-                          child: Row(
+                      ]),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 15),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                               Icon(
-                                    Icons.forward_sharp,
-                                    size: 12,
-                                    color: Colors.black54,
-                                  ),
-                               SizedBox(width: 2),
-                               Text('Sector',
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xFF707d83),
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                        ),
-                        // _casteDropDownWithValidation(),
-                        _bindSector(),
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 5, top: 5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                             Icon(
-                                    Icons.forward_sharp,
-                                    size: 12,
-                                    color: Colors.black54,
-                                  ),
-                              Text('Description',
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xFF707d83),
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 0, right: 0),
-                          child: Container(
-                            height: 42,
-                            color: Color(0xFFf2f3f5),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: TextFormField(
-                               // focusNode: locationfocus,
-                                controller: _activityDetails,
-                                textInputAction: TextInputAction.next,
-                                onEditingComplete: () =>
-                                    FocusScope.of(context).nextFocus(),
-                                decoration: const InputDecoration(
-                                  // labelText: AppStrings.txtMobile,
-                                  // border: OutlineInputBorder(),
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: AppPadding.p10),
+                              Container(
+                                margin:
+                                    EdgeInsets.only(left: 0, right: 10, top: 10),
+                                child: Image.asset(
+                                  'assets/images/ic_expense.png', // Replace with your image asset path
+                                  width: 24,
+                                  height: 24,
                                 ),
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                // validator: (value) {
-                                //   if (value!.isEmpty) {
-                                //     return 'Enter location';
-                                //   }
-                                //   return null;
-                                // },
                               ),
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 5, top: 5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Icon(
-                                    Icons.forward_sharp,
-                                    size: 12,
-                                    color: Colors.black54,
-                                  ),
-                              Text('Upload Photo',
+                              const Text('Fill the below details',
                                   style: TextStyle(
                                       fontFamily: 'Montserrat',
                                       color: Color(0xFF707d83),
@@ -452,217 +393,310 @@ class _MyHomePageState extends State<MyHomePage> {
                                       fontWeight: FontWeight.bold)),
                             ],
                           ),
-                        ),
-                        //ContainerWithRow(),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Color(0xFFf2f3f5),
-                            borderRadius:
-                                BorderRadius.circular(10.0), // Border radius
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: 10),
+                          const SizedBox(height: 10),
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 5),
                             child: Row(
-                              children: [
-                                const Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          'Click Photo',
-                                          style: TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Colors.black54,
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 10),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(
-                                              'Please click here to take a photo',
-                                              style: TextStyle(
-                                                  fontFamily: 'Montserrat',
-                                                  color: Colors.redAccent,
-                                                  fontSize: 10.0,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            SizedBox(width: 10),
-                                            Icon(Icons.forward_sharp,
-                                                size: 10,
-                                                color: Colors.redAccent),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    // pickImage();
-                                    pickImage();
-                                    print('---------530-----');
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.only(right: 10, top: 5),
-                                    child: Image(image: AssetImage('assets/images/ic_camera.PNG'),
-                                      width: 35,
-                                      height: 35,
-                                      fit: BoxFit.fill,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                 Icon(
+                                      Icons.forward_sharp,
+                                      size: 12,
+                                      color: Colors.black54,
                                     ),
-                                  ),
-                                ),
+                                 SizedBox(width: 2),
+                                 Text('Sector',
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Color(0xFF707d83),
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold)),
                               ],
                             ),
                           ),
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              _imageFile != null
-                                  ? Stack(
-                                      children: [
-                                        GestureDetector(
-                                          behavior: HitTestBehavior.translucent,
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        FullScreenPage(
-                                                          child: _imageFile!,
-                                                          dark: true,
-                                                        )));
-                                          },
-                                          child: Container(
-                                              color: Colors.lightGreenAccent,
-                                              height: 100,
-                                              width: 70,
-                                              child: Image.file(
-                                                _imageFile!,
-                                                fit: BoxFit.fill,
-                                              )),
-                                        ),
-                                        Positioned(
-                                            bottom: 65,
-                                            left: 35,
-                                            child: IconButton(
-                                              onPressed: () {
-                                                _imageFile = null;
-                                                setState(() {});
-                                              },
-                                              icon: const Icon(
-                                                Icons.close,
-                                                color: Colors.red,
-                                                size: 30,
-                                              ),
-                                            ))
-                                      ],
-                                    )
-                                  : Text(
-                                      "",
-                                      style: TextStyle(color: Colors.red[700]),
-                                    )
-                            ]),
-                        ElevatedButton(
-                            onPressed: () async {
-                             // getLocation();
-                              var random = Random();
-                              int randomNumber = random.nextInt(99999999 - 10000000) + 10000000;
-                             //print('Random 8-digit number---770--: $randomNumber');
-                              print('-------615---');
-                              String activityDetaile = _activityDetails.text;
-                              print('--iTranNo --$randomNumber');
-                              print('--iSectorCode --$_selectedStateId');
-                              print("-sRemarks--"+activityDetaile);
-                              print('--sActivityPhoto --$uplodedImage');
-                              print('--iPostedBy --$iUserId');
-                              print('--fLatitude --$lat');
-                              print('--fLongitude --$long');
-                              double latitude = lat??0.0;
-                              double longitude = long??0.0;
-                               print('--fLatitude--604 --$latitude');
-                               print('--fLongitude ---605---$longitude');
-                               
-                              if (_formKey.currentState!.validate() &&
-                                  activityDetaile != null &&
-                                  _selectedStateId != null &&
-                                  _imageFile != null) {
-
-                                print('---Api Call---');
-
-                                var  postDailyActivityResponse =
-                                await PostDailyActiviyRepo().postDailyActivity(
-                                    context,
-                                    randomNumber,
-                                    _selectedStateId,
-                                    activityDetaile,
-                                    uplodedImage,
-                                    iUserId,
-                                    latitude,
-                                    longitude);
-
-                               print('-------625---$postDailyActivityResponse');
-                               result = postDailyActivityResponse['Result'];
-                               msg = postDailyActivityResponse['Msg'];
-
-                              } else {
-
-                                print('---Api Not Call---');
-                                // here you should apply again if condition
-                                if (_selectedStateId==null || _selectedStateId=='') {
-                                  //activityDetailfocus.requestFocus();
-                                  displayToast('Please Select Sector');
-                                }else if(activityDetaile==null || activityDetaile==''){
-                                  displayToast('Please Enter Description');
-                                }else if(_imageFile==null){
-                                  displayToast('Please Click Photo');
-                                }
-                              }
-                              /// Todo next Apply condition
-                              if(result=="1"){
-                                // success
-                                print("----556----"+result);
-                                print("----569---Success-");
-                                displayToast(msg);
-                               Navigator.pop(context);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const HomePage()),
-                                );
-                              }else{
-                                // failed
-                                print("----573----"+result);
-                                displayToast(msg);
-                                print("----574---Faild-");
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(
-                                  0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+                          // _casteDropDownWithValidation(),
+                          _bindSector(),
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 5, top: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                               Icon(
+                                      Icons.forward_sharp,
+                                      size: 12,
+                                      color: Colors.black54,
+                                    ),
+                                Text('Description',
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Color(0xFF707d83),
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold)),
+                              ],
                             ),
-                            child: const Text(
-                              "Submit",
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Colors.white,
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold),
-                            ))
-                      ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 0, right: 0),
+                            child: Container(
+                              height: 42,
+                              color: Color(0xFFf2f3f5),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: TextFormField(
+                                 // focusNode: locationfocus,
+                                  controller: _activityDetails,
+                                  textInputAction: TextInputAction.next,
+                                  onEditingComplete: () =>
+                                      FocusScope.of(context).nextFocus(),
+                                  decoration: const InputDecoration(
+                                    // labelText: AppStrings.txtMobile,
+                                    // border: OutlineInputBorder(),
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: AppPadding.p10),
+                                  ),
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  // validator: (value) {
+                                  //   if (value!.isEmpty) {
+                                  //     return 'Enter location';
+                                  //   }
+                                  //   return null;
+                                  // },
+                                ),
+                              ),
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 5, top: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(
+                                      Icons.forward_sharp,
+                                      size: 12,
+                                      color: Colors.black54,
+                                    ),
+                                Text('Upload Photo',
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Color(0xFF707d83),
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                          ),
+                          //ContainerWithRow(),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Color(0xFFf2f3f5),
+                              borderRadius:
+                                  BorderRadius.circular(10.0), // Border radius
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: Row(
+                                children: [
+                                  const Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            'Click Photo',
+                                            style: TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                color: Colors.black54,
+                                                fontSize: 14.0,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text(
+                                                'Please click here to take a photo',
+                                                style: TextStyle(
+                                                    fontFamily: 'Montserrat',
+                                                    color: Colors.redAccent,
+                                                    fontSize: 10.0,
+                                                    fontWeight: FontWeight.bold),
+                                              ),
+                                              SizedBox(width: 10),
+                                              Icon(Icons.forward_sharp,
+                                                  size: 10,
+                                                  color: Colors.redAccent),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      // pickImage();
+                                      pickImage();
+                                      print('---------530-----');
+                                    },
+                                    child: const Padding(
+                                      padding: EdgeInsets.only(right: 10, top: 5),
+                                      child: Image(image: AssetImage('assets/images/ic_camera.PNG'),
+                                        width: 35,
+                                        height: 35,
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                _imageFile != null
+                                    ? Stack(
+                                        children: [
+                                          GestureDetector(
+                                            behavior: HitTestBehavior.translucent,
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          FullScreenPage(
+                                                            child: _imageFile!,
+                                                            dark: true,
+                                                          )));
+                                            },
+                                            child: Container(
+                                                color: Colors.lightGreenAccent,
+                                                height: 100,
+                                                width: 70,
+                                                child: Image.file(
+                                                  _imageFile!,
+                                                  fit: BoxFit.fill,
+                                                )),
+                                          ),
+                                          Positioned(
+                                              bottom: 65,
+                                              left: 35,
+                                              child: IconButton(
+                                                onPressed: () {
+                                                  _imageFile = null;
+                                                  setState(() {});
+                                                },
+                                                icon: const Icon(
+                                                  Icons.close,
+                                                  color: Colors.red,
+                                                  size: 30,
+                                                ),
+                                              ))
+                                        ],
+                                      )
+                                    : Text(
+                                        "",
+                                        style: TextStyle(color: Colors.red[700]),
+                                      )
+                              ]),
+                          ElevatedButton(
+                              onPressed: () async {
+                               // getLocation();
+                                var random = Random();
+                                int randomNumber = random.nextInt(99999999 - 10000000) + 10000000;
+                               //print('Random 8-digit number---770--: $randomNumber');
+                                print('-------615---');
+                                String activityDetaile = _activityDetails.text;
+                                print('--iTranNo --$randomNumber');
+                                print('--iSectorCode --$_selectedStateId');
+                                print("-sRemarks--"+activityDetaile);
+                                print('--sActivityPhoto --$uplodedImage');
+                                print('--iPostedBy --$iUserId');
+                                print('--fLatitude --$lat');
+                                print('--fLongitude --$long');
+                                double latitude = lat??0.0;
+                                double longitude = long??0.0;
+                                 print('--fLatitude--604 --$latitude');
+                                 print('--fLongitude ---605---$longitude');
+
+                                if (_formKey.currentState!.validate() &&
+                                    activityDetaile != null &&
+                                    _selectedStateId != null &&
+                                    _imageFile != null) {
+
+                                  print('---Api Call---');
+
+                                  var  postDailyActivityResponse =
+                                  await PostDailyActiviyRepo().postDailyActivity(
+                                      context,
+                                      randomNumber,
+                                      _selectedStateId,
+                                      activityDetaile,
+                                      uplodedImage,
+                                      iUserId,
+                                      latitude,
+                                      longitude);
+
+                                 print('-------625---$postDailyActivityResponse');
+                                 result = postDailyActivityResponse['Result'];
+                                 msg = postDailyActivityResponse['Msg'];
+
+                                } else {
+
+                                  print('---Api Not Call---');
+                                  // here you should apply again if condition
+                                  if (_selectedStateId==null || _selectedStateId=='') {
+                                    //activityDetailfocus.requestFocus();
+                                    displayToast('Please Select Sector');
+                                  }else if(activityDetaile==null || activityDetaile==''){
+                                    displayToast('Please Enter Description');
+                                  }else if(_imageFile==null){
+                                    displayToast('Please Click Photo');
+                                  }
+                                }
+                                /// Todo next Apply condition
+                                if(result=="1"){
+                                  // success
+                                  print("----556----"+result);
+                                  print("----569---Success-");
+                                  displayToast(msg);
+                                 Navigator.pop(context);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const HomePage()),
+                                  );
+                                }else{
+                                  // failed
+                                  print("----573----"+result);
+                                  displayToast(msg);
+                                  print("----574---Faild-");
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(
+                                    0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+                              ),
+                              child: const Text(
+                                "Submit",
+                                style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: Colors.white,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold),
+                              ))
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
