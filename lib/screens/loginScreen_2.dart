@@ -263,8 +263,7 @@ class _LoginPageState extends State<LoginPage> {
                           width: AppSize.s50,
                           height: AppSize.s50,
                           child: Image.asset(
-                            ImageAssets
-                                .noidaauthoritylogo, // Replace with your image asset path
+                            ImageAssets.noidaauthoritylogo, // Replace with your image asset path
                             width: AppSize.s50,
                             height: AppSize.s50,
                           ),
@@ -273,10 +272,9 @@ class _LoginPageState extends State<LoginPage> {
                         Container(
                           margin: EdgeInsets.only(right: 5),
                           child: Image.asset(
-                            ImageAssets
-                                .favicon, // Replace with your image asset path
-                            width: AppSize.s50,
-                            height: AppSize.s50,
+                            ImageAssets.favicon, // Replace with your image asset path
+                            width: 40,
+                            height: 40,
                             fit: BoxFit.cover,
                           ),
                         ),

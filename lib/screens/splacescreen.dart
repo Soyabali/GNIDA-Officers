@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:noidaone/resources/assets_manager.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../Controllers/appversionrepo.dart';
 import '../resources/values_manager.dart';
+import 'homeScreen.dart';
+import 'homepagesecod.dart';
 import 'loginScreen_2.dart';
 
 class Splace extends StatefulWidget {
@@ -21,6 +24,7 @@ class _SplaceState extends State<Splace> {
 
   bool activeConnection = false;
   String T = "";
+  var iAgencyCode;
   Future checkUserConnection() async {
     try {
       final result = await InternetAddress.lookup('google.com');
@@ -72,28 +76,30 @@ class _SplaceState extends State<Splace> {
   }
   // toShareScreenAccordingToUserId
 
-  // shareScreenBehafeOfId() async{
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   var iAgencyCode = prefs.getString('iAgencyCode').toString();
-  //   if(iAgencyCode=="1"){
-  //     Navigator.pushReplacement(
-  //       context,
-  //       MaterialPageRoute(builder: (context) => HomePage()),
-  //     );
-  //   }else if(iAgencyCode=="5"){
-  //     Navigator.pushReplacement(
-  //       context,
-  //       MaterialPageRoute(builder: (context) => HomeScreen_2()),
-  //     );
-  //   }else{}
-  // }
 
+  getUserValueFromaLocalDataBase() async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          iAgencyCode = prefs.getString('iAgencyCode').toString();
+           if(iAgencyCode=="1"){
+             print('----Ali Screenn---xxxxx--');
+             Navigator.pushReplacement(context,
+                 MaterialPageRoute(builder: (context) =>  const HomePage()));
+           }else if(iAgencyCode=="5"){
+             print('----Ravi  Screen--xxxx-');
+             Navigator.pushReplacement(context,
+                 MaterialPageRoute(builder: (context) =>  const HomeScreen_2()));
+           }else{
+             print('----check user Connection and go LoginScreen-');
+             checkUserConnection();
+           }
+         }
   @override
   void initState() {
     // TODO: implement initState
     // shareScreenBehafeOfId();
-    checkUserConnection();
+   // checkUserConnection();
     _getAppVersion();
+    getUserValueFromaLocalDataBase();
    // versionAliCall();
     super.initState();
   }
@@ -107,11 +113,20 @@ class _SplaceState extends State<Splace> {
     //print('---73--$result');
     //print('---74--$msg');
     if(result=="1"){
-      Navigator.pushReplacement(
-        context,
+      // /// TODO HERE YOU SHOULD APPLY LOGIC
+      // /// TODO YOU Fetch a value from a sharedPreference , behafe of value you should  open the screen login or Home Page or Second Home Page
+      //  if(iAgencyCode=="1"){
+      //    print('----ALI Screen------');
+      //  }else{
+      //    print('----ravi Screen------');
+      //  }
+
+      Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context) =>  const LoginScreen_2()),
       );
+
       // displayToast(msg);
+
     }else{
       showDialog(context: context,
         builder: (BuildContext context) {
