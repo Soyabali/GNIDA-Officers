@@ -201,20 +201,8 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: generalFunction.appbarFunction("Hold Complaints"),
-      // appBar: AppBar(
-      //   backgroundColor: Color(0xFF255899),
-      //   title: const Text(
-      //     'Hold Complaints',
-      //     style: TextStyle(
-      //         fontFamily: 'Montserrat',
-      //         color: Colors.white,
-      //         fontSize: 18.0,
-      //         fontWeight: FontWeight.bold),
-      //   ),
-      // ),
       // drawer
       drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
-
       body: pendingInternalComplaintList == null
           ? const Center(
         child: Text(
@@ -228,7 +216,7 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
         children: <Widget>[
           Center(
             child: Padding(
-              padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+              padding: EdgeInsets.only(left: 10, right: 10, top: 10),
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 10.0),
                 decoration: BoxDecoration(
@@ -290,7 +278,7 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
               itemBuilder: (context, index) {
                 Map<String, dynamic> item = _filteredData[index];
                 return Padding(
-                  padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
+                  padding: const EdgeInsets.only(left: 10, top: 8, right: 10),
                   child: Container(
                    // color: Colors.white,
                     decoration: BoxDecoration(
@@ -306,7 +294,7 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
                     child: Column(
                       children: [
                         Card(
-                          elevation: 1,
+                          //elevation: 1,
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5.0),
@@ -408,7 +396,7 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
                                             ),
                                           ],
                                         ),
-                                      const SizedBox(height: 10),
+                                      const SizedBox(height: 5),
                                       Padding(
                                         padding: const EdgeInsets.only(left: 15, right: 15),
                                         child: Container(
@@ -562,7 +550,6 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
                                         ),
                                       ),
                                       SizedBox(height: 5),
-
                                       Padding(
                                         padding: const EdgeInsets.only(left: 5,right: 5,bottom: 5),
                                         child: Container(

@@ -564,7 +564,7 @@ class GeneralFunction {
       statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
       statusBarBrightness: Brightness.light, // For iOS (dark icons)
       ),
-      backgroundColor: Color(0xFF255899),  //   0xFF255899
+      backgroundColor: Color(0xFF255899),  //   0xFF255899    //    0xFF3A6090
       title: Text(
       '$title',
       style: TextStyle(

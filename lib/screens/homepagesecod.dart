@@ -1049,7 +1049,9 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                 width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
                   // color: Color(0xFF255898),
-                  color: Colors.blue,
+                  // 0xFF3A6090
+                  //color: Colors.blue,
+                  color: Color(0xFF3A6090),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(20),
                     // Set the desired radius for top left corner
@@ -1136,7 +1138,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                 )),
           Center(
             child: Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+              padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
               // child: SearchBar(),
               child: Container(
                 height: 45,
@@ -1183,43 +1185,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
               ),
             ),
           ),
-          // Center(
-          //   child: Padding(
-          //     padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-          //     child: Container(
-          //       padding: EdgeInsets.symmetric(horizontal: 10.0),
-          //       decoration: BoxDecoration(
-          //         borderRadius: BorderRadius.circular(5.0),
-          //         border: Border.all(
-          //           color: Colors.grey, // Outline border color
-          //           width: 0.2, // Outline border width
-          //         ),
-          //         color: Colors.white,
-          //       ),
-          //       child: Row(
-          //         children: [
-          //           Expanded(
-          //             child: TextFormField(
-          //               controller: _searchController,
-          //               autofocus: true,
-          //               decoration: const InputDecoration(
-          //                 prefixIcon: Icon(Icons.search),
-          //                 hintText: 'Enter Keywords',
-          //                 hintStyle: TextStyle(
-          //                     fontFamily: 'Montserrat',
-          //                     color: Color(0xFF707d83),
-          //                     fontSize: 14.0,
-          //                     fontWeight: FontWeight.bold),
-          //                 border: InputBorder.none,
-          //               ),
-          //             ),
-          //           ),
-          //         ],
-          //       ),
-          //     ),
-          //   ),
-          // ),
-          // scroll item after search bar
 
           Expanded(
             child: ListView.builder(
@@ -1258,8 +1223,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                       borderRadius: BorderRadius.circular(15.0),
                                       border: Border.all(
                                         color: Color(0xFF255899),
-                                        // Outline border color
-                                        width: 0.5, // Outline border width
+                                        width: 0.5,
                                       ),
                                       color: Colors.white,
                                     ),
@@ -1267,100 +1231,202 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                       child: Text(
                                         '${index + 1}',
                                         style: const TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Color(0xff3f617d),
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold),
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xff3f617d),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                      // child: Icon(Icons.ac_unit_rounded, color: Color(0xFF255899), size: 20)),
                                     ),
                                   ),
                                   SizedBox(width: 5),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        item['sPointTypeName'] ?? '',
-                                        style: const TextStyle(
+                                  Expanded(
+                                    flex: 2, // You can adjust the flex value as needed
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          item['sPointTypeName'] ?? '',
+                                          style: const TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Color(0xff3f617d),
                                             fontSize: 14.0,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      const Text(
-                                        'Point Name',
-                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        const Text(
+                                          'Point Name',
+                                          style: TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Color(0xff3f617d),
                                             fontSize: 12.0,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  const SizedBox(width: 0),
                                   Expanded(
-                                    child: GestureDetector(
-                                        child: Container(
-                                      alignment: Alignment.centerRight,
-                                      height: 40,
-                                      // width: 40,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        // Aligns the row to the right
-                                        children: [
-                                          GestureDetector(
-                                              onTap: () {
-                                                var fLatitude =
-                                                    item['fLatitude'] ?? '';
-                                                var fLongitude =
-                                                    item['fLongitude'] ?? '';
-                                                print(
-                                                    '----462----${fLatitude}');
-                                                print(
-                                                    '-----463---${fLongitude}');
-                                                if (fLatitude != null &&
-                                                    fLongitude != null) {
-                                                  generalfunction
-                                                      .launchGoogleMaps(
-                                                          fLatitude,
-                                                          fLongitude);
-                                                } else {
-                                                  displayToast(
-                                                      "Please check the location.");
-                                                }
-                                              },
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(top: 5),
-                                                child: const Image(
-                                                    image: AssetImage(
-                                                        'assets/images/ic_google_maps.PNG')),
-                                              )),
-                                          SizedBox(width: 2),
-                                          GestureDetector(
-                                            onTap: () {
-                                              print('---Helo ----jpeg---');
-                                              iCompCode = item['iCompCode']
-                                                      .toString() ??
-                                                  '';
-                                              print('---506--$iCompCode');
-                                              bottomSheetHold();
-                                              //_showBottomSheetHold(context,iCompCode);
-                                            },
-                                            child: const Padding(
-                                              padding: EdgeInsets.only(top: 5),
-                                              child: Image(
-                                                  image: AssetImage('assets/images/holo.jpeg')),
+                                    flex: 1, // Adjust the flex value here too if needed
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            var fLatitude = item['fLatitude'] ?? '';
+                                            var fLongitude = item['fLongitude'] ?? '';
+                                            if (fLatitude != null && fLongitude != null) {
+                                              generalfunction.launchGoogleMaps(fLatitude, fLongitude);
+                                            } else {
+                                              displayToast("Please check the location.");
+                                            }
+                                          },
+                                          child: const Padding(
+                                            padding: EdgeInsets.only(top: 5),
+                                            child: Image(
+                                              image: AssetImage('assets/images/ic_google_maps.PNG'),
+                                              height: 30,
+                                              width: 30,
+                                              fit: BoxFit.cover,
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    )),
+                                        ),
+                                        SizedBox(width: 2),
+                                        GestureDetector(
+                                          onTap: () {
+                                            iCompCode = item['iCompCode'].toString() ?? '';
+                                            bottomSheetHold();
+                                          },
+                                          child: const Padding(
+                                            padding: EdgeInsets.only(top: 5),
+                                            child: Image(image: AssetImage('assets/images/holo.jpeg'),
+                                              height: 30,
+                                              width: 30,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
+                              // child: Row(
+                              //   mainAxisAlignment: MainAxisAlignment.start,
+                              //   children: <Widget>[
+                              //     Container(
+                              //       width: 30.0,
+                              //       height: 30.0,
+                              //       decoration: BoxDecoration(
+                              //         borderRadius: BorderRadius.circular(15.0),
+                              //         border: Border.all(
+                              //           color: Color(0xFF255899),
+                              //           // Outline border color
+                              //           width: 0.5, // Outline border width
+                              //         ),
+                              //         color: Colors.white,
+                              //       ),
+                              //       child: Center(
+                              //         child: Text(
+                              //           '${index + 1}',
+                              //           style: const TextStyle(
+                              //               fontFamily: 'Montserrat',
+                              //               color: Color(0xff3f617d),
+                              //               fontSize: 14.0,
+                              //               fontWeight: FontWeight.bold),
+                              //         ),
+                              //         // child: Icon(Icons.ac_unit_rounded, color: Color(0xFF255899), size: 20)),
+                              //       ),
+                              //     ),
+                              //     SizedBox(width: 5),
+                              //     Column(
+                              //       mainAxisAlignment: MainAxisAlignment.start,
+                              //       crossAxisAlignment:
+                              //           CrossAxisAlignment.start,
+                              //       children: <Widget>[
+                              //         Text(
+                              //           item['sPointTypeName'] ?? '',
+                              //           style: const TextStyle(
+                              //               fontFamily: 'Montserrat',
+                              //               color: Color(0xff3f617d),
+                              //               fontSize: 14.0,
+                              //               fontWeight: FontWeight.bold),
+                              //         ),
+                              //         const Text(
+                              //           'Point Name',
+                              //           style: TextStyle(
+                              //               fontFamily: 'Montserrat',
+                              //               color: Color(0xff3f617d),
+                              //               fontSize: 12.0,
+                              //               fontWeight: FontWeight.bold),
+                              //         ),
+                              //       ],
+                              //     ),
+                              //     const SizedBox(width: 0),
+                              //     Expanded(
+                              //       child: GestureDetector(
+                              //           child: Container(
+                              //         alignment: Alignment.centerRight,
+                              //         height: 40,
+                              //         // width: 40,
+                              //         child: Row(
+                              //           mainAxisAlignment:
+                              //               MainAxisAlignment.end,
+                              //           // Aligns the row to the right
+                              //           children: [
+                              //             GestureDetector(
+                              //                 onTap: () {
+                              //                   var fLatitude =
+                              //                       item['fLatitude'] ?? '';
+                              //                   var fLongitude =
+                              //                       item['fLongitude'] ?? '';
+                              //                   print(
+                              //                       '----462----${fLatitude}');
+                              //                   print(
+                              //                       '-----463---${fLongitude}');
+                              //                   if (fLatitude != null &&
+                              //                       fLongitude != null) {
+                              //                     generalfunction
+                              //                         .launchGoogleMaps(
+                              //                             fLatitude,
+                              //                             fLongitude);
+                              //                   } else {
+                              //                     displayToast(
+                              //                         "Please check the location.");
+                              //                   }
+                              //                 },
+                              //                 child: Padding(
+                              //                   padding: const EdgeInsets.only(top: 5),
+                              //                   child: const Image(
+                              //                       image: AssetImage(
+                              //                           'assets/images/ic_google_maps.PNG')),
+                              //                 )),
+                              //             SizedBox(width: 2),
+                              //             GestureDetector(
+                              //               onTap: () {
+                              //                 print('---Helo ----jpeg---');
+                              //                 iCompCode = item['iCompCode']
+                              //                         .toString() ??
+                              //                     '';
+                              //                 print('---506--$iCompCode');
+                              //                 bottomSheetHold();
+                              //                 //_showBottomSheetHold(context,iCompCode);
+                              //               },
+                              //               child: const Padding(
+                              //                 padding: EdgeInsets.only(top: 5),
+                              //                 child: Image(
+                              //                     image: AssetImage('assets/images/holo.jpeg')),
+                              //               ),
+                              //             ),
+                              //           ],
+                              //         ),
+                              //       )),
+                              //     ),
+                              //   ],
+                              // ),
                             ),
                             const SizedBox(height: 5),
                             Padding(

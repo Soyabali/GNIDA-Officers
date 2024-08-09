@@ -180,7 +180,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
           children: <Widget>[
             Center(
               child: Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
                 // child: SearchBar(),
                 child: Container(
                   height: 45,
@@ -234,7 +234,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                 itemBuilder: (context, index) {
                   Map<String, dynamic> item = _filteredData[index];
                   return Padding(
-                    padding: const EdgeInsets.only(left: 5, top: 5, right: 5),
+                    padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
                     child: Container(
                       decoration: BoxDecoration(
                         // radious

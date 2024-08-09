@@ -799,7 +799,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     );
   }
 // mobile back button
-
   Future<bool> _onWillPop() async {
     return (await showDialog(
       context: context,
@@ -828,8 +827,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   }
 
 
-
-
   @override
   void initState() {
     // TODO: implement initState
@@ -842,7 +839,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     getlocalvalue();
     super.initState();
   }
-
   getComplaintStatus() async {
     //Future<List<Map<String, dynamic>>?> pendingInternalComplaint(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -913,7 +909,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
           [];
     });
   }
-
   // location
   void getLocation() async {
     bool serviceEnabled;
@@ -948,7 +943,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
     debugPrint(position.toString());
   }
-
   void displayToast(String msg) {
     Fluttertoast.showToast(
         msg: msg,
@@ -959,7 +953,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
         textColor: Colors.white,
         fontSize: 16.0);
   }
-
   Future pickImage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
@@ -979,7 +972,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       }
     } catch (e) {}
   }
-
   // upload images
   Future<void> uploadImage(String token, File imageFile) async {
     try {
@@ -1010,14 +1002,12 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       print('Error uploading image: $error');
     }
   }
-
   bindAjency() async {
     bindAjencyList = [];
     bindAjencyList = await BindAjencyRepo().bindajency();
     print(" -----302---bindAjencyList---> $bindAjencyList");
     setState(() {});
   }
-
   // complaintType dropdown value
   bindPointTypeDropDown_2() async {
     // bindPointTypeDropDown = [];
@@ -1025,7 +1015,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     print(" -----310---bindPointType---> $bindPointTypeDropDown");
     setState(() {});
   }
-
   // bind Hold
   bindHold() async {
     bindHoldList = [];
@@ -1033,7 +1022,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     print(" -----252---bindHoldList---> $bindHoldList");
     setState(() {});
   }
-
   userAjency(int ajencyCode) async {
     print('-----170--$ajencyCode');
     // setState(() {
@@ -1066,15 +1054,14 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: generalfunction.appbarFunction("Pending Complaint"),
+        // appBar: generalfunction.appbarFunction("Pending Complaint"),
+        appBar: generalfunction.appbarback(context, "Pending Complaint"),
         // drawer
         drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
 
@@ -1083,7 +1070,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
           children: <Widget>[
             Center(
               child: Padding(
-                padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                padding: EdgeInsets.only(left: 10, right: 10, top: 10),
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 10.0),
                   decoration: BoxDecoration(
@@ -1123,7 +1110,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
               ),
             ),
             // scroll item after search bar
-
             Expanded(
               child: ListView.builder(
                 itemCount: _filteredData.length ?? 0,
@@ -1143,7 +1129,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                             width: 1, // Border width
                           ),
                         ),
-
                         child: Container(
                           margin: EdgeInsets.only(left: 10, right: 10),
                           child: Column(
@@ -1162,8 +1147,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                         borderRadius: BorderRadius.circular(15.0),
                                         border: Border.all(
                                           color: Color(0xFF255899),
-                                          // Outline border color
-                                          width: 0.5, // Outline border width
+                                          width: 0.5,
                                         ),
                                         color: Colors.white,
                                       ),
@@ -1171,102 +1155,92 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                         child: Text(
                                           '${index + 1}',
                                           style: const TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Color(0xff3f617d),
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.bold),
+                                            fontFamily: 'Montserrat',
+                                            color: Color(0xff3f617d),
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
-                                        // child: Icon(Icons.ac_unit_rounded, color: Color(0xFF255899), size: 20)),
                                       ),
                                     ),
                                     SizedBox(width: 5),
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          item['sPointTypeName'] ?? '',
-                                          style: const TextStyle(
+                                    Expanded(
+                                      flex: 2, // You can adjust the flex value as needed
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            item['sPointTypeName'] ?? '',
+                                            style: const TextStyle(
                                               fontFamily: 'Montserrat',
                                               color: Color(0xff3f617d),
                                               fontSize: 14.0,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        const Text(
-                                          'Point Name',
-                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          const Text(
+                                            'Point Name',
+                                            style: TextStyle(
                                               fontFamily: 'Montserrat',
                                               color: Color(0xff3f617d),
                                               fontSize: 12.0,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(width: 0),
-                                    Expanded(
-                                      child: GestureDetector(
-                                          child: Container(
-                                            alignment: Alignment.centerRight,
-                                            height: 40,
-                                            // width: 40,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                              // Aligns the row to the right
-                                              children: [
-                                                GestureDetector(
-                                                    onTap: () {
-                                                      var fLatitude =
-                                                          item['fLatitude'] ?? '';
-                                                      var fLongitude =
-                                                          item['fLongitude'] ?? '';
-                                                      print(
-                                                          '----462----${fLatitude}');
-                                                      print(
-                                                          '-----463---${fLongitude}');
-                                                      if (fLatitude != null &&
-                                                          fLongitude != null) {
-                                                        generalfunction
-                                                            .launchGoogleMaps(
-                                                            fLatitude,
-                                                            fLongitude);
-                                                      } else {
-                                                        displayToast(
-                                                            "Please check the location.");
-                                                      }
-                                                    },
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.only(top: 5),
-                                                      child: const Image(
-                                                          image: AssetImage(
-                                                              'assets/images/ic_google_maps.PNG')),
-                                                    )),
-                                                SizedBox(width: 2),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    print('---Helo ----jpeg---');
-                                                    iCompCode = item['iCompCode']
-                                                        .toString() ??
-                                                        '';
-                                                    print('---506--$iCompCode');
-                                                    bottomSheetHold();
-                                                    //_showBottomSheetHold(context,iCompCode);
-                                                  },
-                                                  child: const Padding(
-                                                    padding: EdgeInsets.only(top: 5),
-                                                    child: Image(
-                                                        image: AssetImage('assets/images/holo.jpeg')),
-                                                  ),
-                                                ),
-                                              ],
+                                              fontWeight: FontWeight.bold,
                                             ),
-                                          )),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1, // Adjust the flex value here too if needed
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              var fLatitude = item['fLatitude'] ?? '';
+                                              var fLongitude = item['fLongitude'] ?? '';
+                                              if (fLatitude != null && fLongitude != null) {
+                                                generalfunction.launchGoogleMaps(fLatitude, fLongitude);
+                                              } else {
+                                                displayToast("Please check the location.");
+                                              }
+                                            },
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(top: 5),
+                                              child: const Image(
+                                                  image: AssetImage('assets/images/ic_google_maps.PNG'),
+                                                  height: 30,
+                                                width: 30,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(width: 2),
+                                          GestureDetector(
+                                            onTap: () {
+                                              iCompCode = item['iCompCode'].toString() ?? '';
+                                              bottomSheetHold();
+                                            },
+                                            child: const Padding(
+                                              padding: EdgeInsets.only(top: 5),
+                                              child: Image(image: AssetImage('assets/images/holo.jpeg'),
+                                                height: 30,
+                                                width: 30,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
-                                ),
+                                )
+
                               ),
-                              const SizedBox(height: 10),
+                              const SizedBox(height: 5),
                               Padding(
                                 padding:
                                 const EdgeInsets.only(left: 15, right: 15),
