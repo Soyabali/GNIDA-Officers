@@ -15,7 +15,8 @@ class ShopSubmitRepo {
   Future shopSummit(BuildContext context, String shopName,
       String ownerName, selectedShopId, String contactNo,
       selectedSectorId, String address, String landMark, uplodedImage, double? lat,
-      double? long, userId) async {
+      double? long, userId, selectedShopSizeId, String? selectedOption) async {
+    //selectedShopSizeId, String? selectedOption
 
       print('---21--sShopName---$shopName');
       print('---22--OwnerName---$ownerName');
@@ -28,7 +29,9 @@ class ShopSubmitRepo {
       print('---29--slat ---$lat');
       print('---30--slong ---$long');
       print('---31--sGoogleLocation ---');
-      print('---32--sSurveyBt ---$userId');
+      print('---31--sSurveyBt ---$userId');
+     print('---32--selectedShopSizeId ---$selectedShopSizeId');
+     print('---33--selectedOption ---$selectedOption');
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? sToken = prefs.getString('sToken');
@@ -59,13 +62,13 @@ class ShopSubmitRepo {
           "sPhoto": uplodedImage,
           "fLatitude": lat,
           "fLongitude": long,
-          "sGoogleLocation": "",
+          "sGoogleLocation":'',
           "iSurveyBy": userId,
+          "iSizeTypeId":selectedShopSizeId,
+          "sPaymentReceived":selectedOption
         });
         request.headers.addAll(headers);
-
         http.StreamedResponse response = await request.send();
-
         var map;
         var data = await response.stream.bytesToString();
         map = json.decode(data);

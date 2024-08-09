@@ -52,7 +52,7 @@ class ShopTypeRepo
     {
       showLoader();
       var baseURL = BaseRepo().baseurl;
-      var endPoint = "ShopType/ShopType";
+      var endPoint = "ShopTypeV1/ShopTypeV1";
       var shopTypeApi = "$baseURL$endPoint";
       print('------------17---loginAPI---$shopTypeApi');
       var headers = {

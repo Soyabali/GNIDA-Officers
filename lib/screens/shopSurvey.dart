@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Controllers/district_repo.dart';
 import '../Controllers/postimagerepo.dart';
 import '../Controllers/shopTypeRepo.dart';
+import '../Controllers/shopeSizeRepo.dart';
 import '../Helpers/loader_helper.dart';
 import '../resources/app_text_style.dart';
 import '../resources/values_manager.dart';
@@ -52,6 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List distList = [];
   List blockList = [];
   List shopTypeList = [];
+  List shopSizeList = [];
   var result2,msg2;
 
   // Distic List
@@ -60,7 +62,12 @@ class _MyHomePageState extends State<MyHomePage> {
     print(" -----xxxxx-  list Data--65---> $distList");
     setState(() {});
   }
-
+  shopSize() async {
+    shopSizeList = await ShopSizeRepo().getShopSize();
+    print(" -----xxxxx-  shopSizeList--- Data--65---> $shopSizeList");
+    setState(() {});
+  }
+  //
   shopType() async {
     shopTypeList = await ShopTypeRepo().getShopType();
     print(" -----xxxxx-  shopTypeList--- Data--65---> $shopTypeList");
@@ -87,6 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController _landMarkController = TextEditingController();
   TextEditingController _addressController = TextEditingController();
 
+  String? _selectedOption;
+
   // focus
  // FocusNode locationfocus = FocusNode();
   FocusNode _shopfocus = FocusNode();
@@ -100,6 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List? data;
   var _dropDownValueDistric;
   var _dropDownValueShopeType;
+  var _dropDownValueShopeSize;
   var _dropDownSector;
   var _dropDownSector2gi;
 
@@ -110,6 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final sectorFocus = GlobalKey();
   File? _imageFile;
   var _selectedShopId;
+  var _selectedShopSizeId;
   var _selectedBlockId;
   var _selectedSectorId;
   final _formKey = GlobalKey<FormState>();
@@ -252,6 +263,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO: implement initState
     updatedSector();
     shopType();
+    shopSize();
     getLocation();
     super.initState();
     _shopfocus = FocusNode();
@@ -290,9 +302,8 @@ class _MyHomePageState extends State<MyHomePage> {
       lat = position.latitude;
       long = position.longitude;
     });
-
-    print('-----------105----$lat');
-    print('-----------106----$long');
+    print('-----------306----lat--$lat');
+    print('-----------307-----long-$long');
     // setState(() {
     // });
     debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
@@ -411,18 +422,18 @@ class _MyHomePageState extends State<MyHomePage> {
               onChanged: (newValue) {
                 setState(() {
                   _dropDownValueShopeType = newValue;
-                  print('---333-------$_dropDownValueShopeType');
+                  print('---426-------$_dropDownValueShopeType');
                   //  _isShowChosenDistError = false;
                   // Iterate the List
                   shopTypeList.forEach((element) {
-                    if (element["sShopType"] == _dropDownValueShopeType) {
+                    if (element["sShopTypeName"] == _dropDownValueShopeType) {
                       setState(() {
-                        _selectedShopId = element['iTranId'];
-                        print('----349--shoptype id ------$_selectedShopId');
+                        _selectedShopId = element['iShopTypeId'];
                       });
-                      print('-----Point id----241---$_selectedShopId');
+                      print('-----iShopTypeId id----434----$_selectedShopId');
                       if (_selectedShopId != null) {
                         // updatedBlock();
+                       // print('-----iShopTypeId id----438----$_selectedShopId');
                       } else {
                         print('-------');
                       }
@@ -435,8 +446,8 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               items: shopTypeList.map((dynamic item) {
                 return DropdownMenuItem(
-                  child: Text(item['sShopType'].toString()),
-                  value: item["sShopType"].toString(),
+                  child: Text(item['sShopTypeName'].toString()),
+                  value: item["sShopTypeName"].toString(),
                 );
               }).toList(),
             ),
@@ -445,7 +456,77 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-
+  // Shop Size dropdown
+  Widget _bindShopSize() {
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(10.0),
+      child: Container(
+        width: MediaQuery.of(context).size.width - 50,
+        height: 42,
+        color: Color(0xFFf2f3f5),
+        child: DropdownButtonHideUnderline(
+          child: ButtonTheme(
+            alignedDropdown: true,
+            child: DropdownButton(
+              onTap: () {
+                FocusScope.of(context).unfocus();
+              },
+              hint: RichText(
+                text: const TextSpan(
+                  text: "Select a Shop Size",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal),
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: '',
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              ), // Not necessary for Option 1
+              value: _dropDownValueShopeSize,
+              // key: distDropdownFocus,
+              onChanged: (newValue) {
+                setState(() {
+                  _dropDownValueShopeSize = newValue;
+                  print('---498-------$_dropDownValueShopeSize');
+                  //  _isShowChosenDistError = false;
+                  // Iterate the List
+                  shopSizeList.forEach((element) {
+                    if (element["sSizeType"] == _dropDownValueShopeSize) {
+                      setState(() {
+                        _selectedShopSizeId = element['iSizeTypeId'];
+                        //print('------_505--selectedShopSizeId id ------$_selectedShopSizeId');
+                      });
+                     // print('-----_selectedShopSizeId id---507---$_selectedShopSizeId');
+                      if (_selectedShopSizeId != null) {
+                        // updatedBlock();
+                        print('-----_selectedShopSizeId id---510---$_selectedShopSizeId');
+                      } else {
+                        print('-----_selectedShopSizeId id---512---$_selectedShopSizeId');
+                       // print('-------');
+                      }
+                    }
+                  });
+                });
+              },
+              items: shopSizeList.map((dynamic item) {
+                return DropdownMenuItem(
+                  child: Text(item['sSizeType'].toString()),
+                  value: item["sSizeType"].toString(),
+                );
+              }).toList(),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
   /// Algo.  First of all create repo, secodn get repo data in the main page after that apply list data on  dropdown.
 
   @override
@@ -454,7 +535,6 @@ class _MyHomePageState extends State<MyHomePage> {
       onWillPop: _onWillPop,
       child: Scaffold(
         backgroundColor: Colors.white,
-
         //appBar: generalFunction.appbarback(context,"Field Inspection"),
         appBar: generalfunction.appbarback(context,"Shop Survey"),
 
@@ -467,8 +547,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Opacity(
                   opacity: 0.9,
                   //step3.jpg
-                  child: Image.asset(
-                    'assets/images/markpointheader.jpeg', // Replace 'image_name.png' with your asset image path
+                  child: Image.asset('assets/images/markpointheader.jpeg', // Replace 'image_name.png' with your asset image path
                     fit: BoxFit.cover, // Adjust the image fit to cover the container
                   ),
                 ),
@@ -542,8 +621,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               ],
                             ),
                           ),
-                          // _casteDropDownWithValidation(),
-                         // _bindMarkLocation(),
                           _bindSector(),
                           const SizedBox(height: 10),
                           Padding(
@@ -567,10 +644,30 @@ class _MyHomePageState extends State<MyHomePage> {
                               ],
                             ),
                           ),
-                          // _casteDropDownWithValidation(),
-                          //_bindSector(),
                           _bindShopType(),
-
+                          const SizedBox(height: 10),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                    margin: EdgeInsets.only(left: 0, right: 2),
+                                    child: const Icon(
+                                      Icons.forward_sharp,
+                                      size: 12,
+                                      color: Colors.black54,
+                                    )),
+                                const Text('Shop Size',
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Color(0xFF707d83),
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                          ),
+                          _bindShopSize(),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5, top: 5),
                             child: Row(
@@ -624,7 +721,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                             ),
                           ),
-
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5, top: 5),
                             child: Row(
@@ -678,7 +774,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                             ),
                           ),
-
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5, top: 5),
                             child: Row(
@@ -736,7 +831,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                             ),
                           ),
-
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5, top: 5),
                             child: Row(
@@ -792,7 +886,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                             ),
                           ),
-
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5, top: 5),
                             child: Row(
@@ -848,7 +941,65 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                             ),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 5, top: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                    margin: EdgeInsets.only(left: 0, right: 2),
+                                    child: const Icon(
+                                      Icons.forward_sharp,
+                                      size: 12,
+                                      color: Colors.black54,
+                                    )),
+                                const Text('Payment Received',
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Color(0xFF707d83),
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                          ),
+                         // bollen value
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Radio<String>(
+                                    value: 'Yes',
+                                    groupValue: _selectedOption,
+                                    onChanged: (String? value) {
+                                      setState(() {
+                                        _selectedOption = value;
+                                        print('----968--$_selectedOption');
+                                      });
+                                    },
+                                  ),
+                                  Text('Yes'),
+                                ],
+                              ),
+                              SizedBox(width: 20),
+                              Row(
+                                children: [
+                                  Radio<String>(
+                                    value: 'No',
+                                    groupValue: _selectedOption,
+                                    onChanged: (String? value) {
+                                      setState(() {
+                                        _selectedOption = value;
+                                        print('----984--$_selectedOption');
+                                      });
+                                    },
+                                  ),
+                                  Text('No'),
+                                ],
+                              ),
+                            ],
 
+                          ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5, top: 5),
                             child: Row(
@@ -995,20 +1146,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
                           ElevatedButton(
                               onPressed: () async {
-                                // random number
-                                // var random = Random();
-                                // // Generate an 8-digit random number
-                                // int randomNumber = random.nextInt(99999999 - 10000000) + 10000000;
-                                // print('Random 8-digit number---770--: $randomNumber');
-                                //
-                                // DateTime currentDate = DateTime.now();
-                                // todayDate = DateFormat('dd/MMM/yyyy HH:mm').format(currentDate);
 
                                 SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
                                 iUserTypeCode = prefs.getString('iUserTypeCode');
                                 userId = prefs.getString('iUserId');
-
 
                                 var shopName = _shopController.text;
                                 var ownerName = _ownerController.text;
@@ -1021,6 +1163,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 print('---997--sShopType---$_selectedShopId');
                                 print('---998--sContactNo ---$contactNo');
                                 print('---1000--isectorCode ---$_selectedSectorId');
+                                print('---1007--_selectedShopSizeId ---$_selectedShopSizeId');
                                 print('---1001--sAddress ---$address');
                                 print('---1002--sLandmark ---$landMark');
                                 print('---1003--sPhoto ---$uplodedImage');
@@ -1028,6 +1171,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                 print('---1005--slong ---$long');
                                 print('---1006--sGoogleLocation ---');
                                 print('---1007--sSurveyBt ---$userId');
+                                print('---1008--_selectedShopSizeId ---$_selectedShopSizeId');
+                                print('---1009--_selectedOption ---$_selectedOption');
+
 
                                 // apply condition
                                 if (_formKey.currentState!.validate() &&
@@ -1053,26 +1199,34 @@ class _MyHomePageState extends State<MyHomePage> {
                                       uplodedImage,
                                       lat,
                                       long,
-                                      userId
+                                      userId,
+                                      _selectedShopSizeId,
+                                      _selectedOption
                                   );
                                   print('---1036----$shopSurveyResponse');
                                   result2 = shopSurveyResponse['Result'];
                                   msg2 = shopSurveyResponse['Msg'];
 
                                 } else {
-                                  if(_selectedSectorId==null){
+                                  if (_selectedSectorId == null) {
                                     displayToast('Select Sector');
-                                  }else if(_selectedShopId==null){
+                                  } else if (_selectedShopId == null) {
                                     displayToast('Select Shop Type');
-                                  }else if(shopName==""){
+                                  } else if (_selectedShopSizeId == null) {
+                                    displayToast('Select Shop Size');
+                                  }
+                                  else if (shopName == "") {
                                     displayToast('Enter Shop Name');
-                                  }else if(ownerName==""){
+                                  } else if (ownerName == "") {
                                     displayToast('Enter Owner Name');
-                                  }else if(contactNo==""){
+                                  } else if (contactNo == "") {
                                     displayToast('Enter Contact No');
-                                  }else if(address==""){
+                                  } else if (address == "") {
                                     displayToast('Enter Address');
-                                  }else if(uplodedImage==null){
+                                  } else if (_selectedOption == null) {
+                                    displayToast('Select Payment Received');
+                                  }
+                                  else if (uplodedImage == null) {
                                     displayToast('Please click a Photo');
                                   }
                                 }
