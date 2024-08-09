@@ -62,7 +62,7 @@ class ShopSubmitRepo {
           "sPhoto": uplodedImage,
           "fLatitude": lat,
           "fLongitude": long,
-          "sGoogleLocation":'',
+          "sGoogleLocation":'A6, Bishanpura Rd, Block A, Sector 57, Noida, Uttar Pradesh 201301',
           "iSurveyBy": userId,
           "iSizeTypeId":selectedShopSizeId,
           "sPaymentReceived":selectedOption

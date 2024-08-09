@@ -20,7 +20,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'flull_screen_image.dart';
 import 'generalFunction.dart';
-
+import 'package:geocoding/geocoding.dart';
+import 'package:geocoding/geocoding.dart';
 
 class ShopSurvey extends StatelessWidget {
   const ShopSurvey({super.key});
@@ -49,12 +50,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   List stateList = [];
   List distList = [];
   List blockList = [];
   List shopTypeList = [];
   List shopSizeList = [];
-  var result2,msg2;
+  var result2, msg2;
+  String _address = 'No address found';
 
   // Distic List
   updatedSector() async {
@@ -62,11 +65,13 @@ class _MyHomePageState extends State<MyHomePage> {
     print(" -----xxxxx-  list Data--65---> $distList");
     setState(() {});
   }
+
   shopSize() async {
     shopSizeList = await ShopSizeRepo().getShopSize();
     print(" -----xxxxx-  shopSizeList--- Data--65---> $shopSizeList");
     setState(() {});
   }
+
   //
   shopType() async {
     shopTypeList = await ShopTypeRepo().getShopType();
@@ -77,9 +82,33 @@ class _MyHomePageState extends State<MyHomePage> {
   // postImage
   postimage() async {
     print('----ImageFile----$_imageFile');
-    var postimageResponse = await PostImageRepo().postImage(context, _imageFile);
+    var postimageResponse = await PostImageRepo().postImage(
+        context, _imageFile);
     print(" -----xxxxx-  --72---> $postimageResponse");
     setState(() {});
+  }
+
+  // getHuman ReadableForm
+  Future<void> _getAddressFromCoordinates() async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+          lat!, long!);
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks[0];
+        setState(() {
+          _address = '${place.street}, ${place.locality}, ${place
+              .administrativeArea}, ${place.country}';
+        });
+      } else {
+        setState(() {
+          _address = 'No address available for the provided coordinates.';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _address = 'Error: $e';
+      });
+    }
   }
 
   String? _chosenValue;
@@ -97,13 +126,15 @@ class _MyHomePageState extends State<MyHomePage> {
   String? _selectedOption;
 
   // focus
- // FocusNode locationfocus = FocusNode();
+  // FocusNode locationfocus = FocusNode();
   FocusNode _shopfocus = FocusNode();
   FocusNode _owenerfocus = FocusNode();
   FocusNode _contactfocus = FocusNode();
   FocusNode _landMarkfocus = FocusNode();
   FocusNode _addressfocus = FocusNode();
- // FocusNode descriptionfocus = FocusNode();
+  bool _isLocationPermanentlyDenied = false;
+
+  // FocusNode descriptionfocus = FocusNode();
   String? todayDate;
 
   List? data;
@@ -131,33 +162,38 @@ class _MyHomePageState extends State<MyHomePage> {
   File? image;
   var uplodedImage;
   double? lat, long;
+  String? _currentAddress;
+  Position? _currentPosition;
 
   GeneralFunction generalfunction = GeneralFunction();
+
   // mobile back button handle
 
   Future<bool> _onWillPop() async {
     return (await showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Are you sure?',style: AppTextStyle
-            .font14OpenSansRegularBlackTextStyle,),
-        content: new Text('Do you want to exit app',style: AppTextStyle
-            .font14OpenSansRegularBlackTextStyle,),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false), //<-- SEE HERE
-            child: new Text('No'),
+      builder: (context) =>
+          AlertDialog(
+            title: Text('Are you sure?', style: AppTextStyle
+                .font14OpenSansRegularBlackTextStyle,),
+            content: new Text('Do you want to exit app', style: AppTextStyle
+                .font14OpenSansRegularBlackTextStyle,),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                //<-- SEE HERE
+                child: new Text('No'),
+              ),
+              TextButton(
+                onPressed: () {
+                  //  goToHomePage();
+                  // exit the app
+                  exit(0);
+                }, //Navigator.of(context).pop(true), // <-- SEE HERE
+                child: new Text('Yes'),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () {
-              //  goToHomePage();
-              // exit the app
-              exit(0);
-            }, //Navigator.of(context).pop(true), // <-- SEE HERE
-            child: new Text('Yes'),
-          ),
-        ],
-      ),
     )) ??
         false;
   }
@@ -195,6 +231,7 @@ class _MyHomePageState extends State<MyHomePage> {
         textColor: Colors.white,
         fontSize: 16.0);
   }
+
   // image code
   Future<void> uploadImage(String token, File imageFile) async {
     try {
@@ -244,7 +281,8 @@ class _MyHomePageState extends State<MyHomePage> {
       'token': '$sToken',
       'Content-Type': 'application/json'
     };
-    var request = http.Request('POST', Uri.parse('https://upegov.in/noidaoneapi/Api/PostImage/PostImage'));
+    var request = http.Request('POST',
+        Uri.parse('https://upegov.in/noidaoneapi/Api/PostImage/PostImage'));
     request.body = json.encode({
       "sImagePath": "$image"
     });
@@ -254,10 +292,11 @@ class _MyHomePageState extends State<MyHomePage> {
     var responsed = await http.Response.fromStream(response);
     final responseData = json.decode(responsed.body);
     print('---155----$responseData');
-
   }
+
   // datepicker
   // InitState
+
   @override
   void initState() {
     // TODO: implement initState
@@ -297,18 +336,62 @@ class _MyHomePageState extends State<MyHomePage> {
         desiredAccuracy: LocationAccuracy.high);
     debugPrint("-------------Position-----------------");
     debugPrint(position.latitude.toString());
+    // call a human readable function
+    if(position!=null){
+      _getAddressFromLatLng(position);
+    }
 
     setState(() {
       lat = position.latitude;
       long = position.longitude;
+
     });
+    if (lat != null && long != null) {
+      // call a Human readable code
+     // _getAddressFromLatLng(_currentPosition!);
+      print('----351----------lat-------$lat----');
+     // _getAddressFromLatLng(position!);
+    }
+
     print('-----------306----lat--$lat');
     print('-----------307-----long-$long');
+
     // setState(() {
     // });
+
     debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
     debugPrint(position.toString());
   }
+
+  // human readable function
+  // Future<void> _getAddressFromLatLng(Position position) async {
+  //   await placemarkFromCoordinates(
+  //       lat!, long!)
+  //       .then((List<Placemark> placemarks) {
+  //     Placemark place = placemarks[0];
+  //     setState(() {
+  //       _currentAddress = '${place.street}, ${place.subLocality},${place
+  //           .subAdministrativeArea}, ${place.postalCode}';
+  //     });
+  //     print('-----370---Address----${_currentAddress}');
+  //   }).catchError((e) {
+  //     debugPrint(e);
+  //   });
+  // }
+  Future<void> _getAddressFromLatLng(Position position) async {
+    await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
+        .then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      setState(() {
+        _currentAddress = '${place.street}, ${place.subLocality},${place.subAdministrativeArea}, ${place.postalCode}';
+        print('----383----Address---$_currentAddress');
+      });
+      print('----385----Address---$_currentAddress');
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
 
   @override
   void dispose() {

@@ -53,6 +53,9 @@ dependencies:
   google_maps_flutter: ^2.6.1
   flutter_svg_provider: ^1.0.7
   octo_image: ^2.0.0
+  geocoding: ^2.0.4
+
+
 
 
 dev_dependencies:
