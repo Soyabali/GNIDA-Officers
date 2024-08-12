@@ -49,9 +49,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
 
-  // void sendData(String data) {
-  // }
-
   String? sName, sContactNo;
   List userModuleRightList = [];
   List<Map<String, dynamic>>? userContributionList; // All
@@ -168,449 +165,461 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       DeviceOrientation.portraitUp,
     ]);
     return WillPopScope(
-      onWillPop: _onWillPop,
+     // onWillPop: () {  },
+      onWillPop: () async {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content:
+            Text('Pop Screen Disabled.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return false;
+      },
       child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: generalFunction.appbarFunction("Noida One"),
-        // drawer
-        drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
-        // body
-        body: Column(
-          children: <Widget>[
-            // stack
-            Expanded(
-              child: Container(
-                height: 220,
-                width: double.infinity,
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                      width: double.infinity,
-                      height: 220,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(
-                              'assets/images/top_contributor_header.png'), // Provide your image path here
-                          fit: BoxFit.cover,
+          backgroundColor: Colors.white,
+          appBar: generalFunction.appbarFunction("Noida One"),
+          // drawer
+          drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
+          // body
+          body: Column(
+            children: <Widget>[
+              // stack
+              Expanded(
+                child: Container(
+                  height: 220,
+                  width: double.infinity,
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                        width: double.infinity,
+                        height: 220,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                                'assets/images/top_contributor_header.png'), // Provide your image path here
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 0, right: 0),
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 15, right: 15),
-                          child: Container(
-                            height: 35,
-                            width: MediaQuery.of(context).size.width - 30,
-                            //color: Color(0xFF255899),
-                            decoration: const BoxDecoration(
-                              color: Color(0xFF3375af), // Container background color
-                              // color: Colors.grey,
-                              borderRadius: BorderRadius.horizontal(
-                                left: Radius.circular(0), // Adjust this value as per your preference
-                                right: Radius.circular(0), // Adjust this value as per your preference
+                          padding: const EdgeInsets.only(left: 0, right: 0),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 15, right: 15),
+                            child: Container(
+                              height: 35,
+                              width: MediaQuery.of(context).size.width - 30,
+                              //color: Color(0xFF255899),
+                              decoration: const BoxDecoration(
+                                color: Color(0xFF3375af), // Container background color
+                                // color: Colors.grey,
+                                borderRadius: BorderRadius.horizontal(
+                                  left: Radius.circular(0), // Adjust this value as per your preference
+                                  right: Radius.circular(0), // Adjust this value as per your preference
+                                ),
                               ),
-                            ),
-                            child: TabBar(
-                              controller: tabController,
-                              indicatorColor: Colors.white,
-                              indicatorSize: TabBarIndicatorSize.label,
-                              indicatorWeight: 0.9,
-                              labelPadding: EdgeInsets.symmetric(horizontal: 0.0),
-                              unselectedLabelColor: Colors.white,
-                              labelColor: Colors.black,
-                              indicator: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Colors.white,
-                                  border: Border.all(
-                                    color: Colors.blue,
-                                    width: 0,
-                                  )),
+                              child: TabBar(
+                                controller: tabController,
+                                indicatorColor: Colors.white,
+                                indicatorSize: TabBarIndicatorSize.label,
+                                indicatorWeight: 0.9,
+                                labelPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                                unselectedLabelColor: Colors.white,
+                                labelColor: Colors.black,
+                                indicator: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.white,
+                                    border: Border.all(
+                                      color: Colors.blue,
+                                      width: 0,
+                                    )),
 
-                              tabs: <Widget>[
-                                _buildTab('Today', context),
-                                _buildTab('Month', context),
-                                _buildTab('All Time', context),
-                              ],
+                                tabs: <Widget>[
+                                  _buildTab('Today', context),
+                                  _buildTab('Month', context),
+                                  _buildTab('All Time', context),
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      top: 45,
-                      left: 15,
-                      right: 15,
-                      child: Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'assets/images/firsttrophy.png',
-                                    width: 70,
-                                    height: 70,
-                                    fit: BoxFit.fill,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Text(
-                                        '1.',
-                                        style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Colors.white,
-                                          fontSize: 10.0,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      SizedBox(width: 2),
-                                      Flexible(
-                                        child: Text(
-                                          '$nameFirst',
-                                          style: const TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            fontSize: 10.0,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        '$pointFirst',
-                                        style: const TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Colors.white,
-                                          fontSize: 10.0,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      SizedBox(width: 2),
-                                      const Text(
-                                        'Points',
-                                        style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Colors.white,
-                                          fontSize: 10.0,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'assets/images/firsttrophy.png',
-                                    width: 55,
-                                    height: 55,
-                                    fit: BoxFit.fill,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Text(
-                                        '2.',
-                                        style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Colors.white,
-                                          fontSize: 10.0,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      SizedBox(width: 2),
-                                      Flexible(
-                                        child: Text(
-                                          '$nameSecond',
-                                          style: const TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            fontSize: 10.0,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        '$pointSecond',
-                                        style: const TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Colors.white,
-                                          fontSize: 10.0,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      SizedBox(width: 2),
-                                      const Text(
-                                        'Points',
-                                        style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Colors.white,
-                                          fontSize: 10.0,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'assets/images/firsttrophy.png',
-                                    width: 40,
-                                    height: 40,
-                                    fit: BoxFit.fill,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Text(
-                                        '3.',
-                                        style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Colors.white,
-                                          fontSize: 10.0,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      SizedBox(width: 2),
-                                      Flexible(
-                                        child: Text(
-                                          '$nameThird',
-                                          style: const TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            fontSize: 10.0,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        '$pointThird',
-                                        style: const TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Colors.white,
-                                          fontSize: 10.0,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      SizedBox(width: 2),
-                                      const Text(
-                                        'Points',
-                                        style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Colors.white,
-                                          fontSize: 10.0,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            // bottom ListView
-            Padding(
-              padding: const EdgeInsets.only(bottom: 5),
-              child: Container(
-                height: MediaQuery.of(context).size.height - 400.0,
-               // height: 250,
-                child: TabBarView(
-                    controller: tabController,
-                    children: <Widget>[
-                      //new FoodList(),
-                      // new TabBarHomeToday(),
-                      TabTodayPage(onDataReceived: (nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird) {
-                        // Handle data received from AllTab here
-                        TofetchvalueFromTab(nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird);
-
-                        print('---518--TodayNameFirst---$nameFirst');
-                        print('---519--TodayPointFirst---$pointFirst');
-                        print('---520--TodayNameSecond---$nameSecond');
-                        print('---521--TodayPointSecond---$pointSecond');
-                        print('---522--TodayNameThird---$nameThird');
-                        print('---523--TodayPointThird---$pointThird');
-                      }),
-                  TabPageMonth(onDataReceived: (nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird){
-                    TofetchvalueFromTab(nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird);
-
-                    print('---526--MonthNameFirst---$nameFirst');
-                    print('---527--MonthPointFirst---$pointFirst');
-                    print('---528--MonthNameSecond---$nameSecond');
-                    print('---529--MonthPointSecond---$pointSecond');
-                    print('---530--MonthNameThird---$nameThird');
-                    print('---531--MonthPointThird---$pointThird');
-                   }),
-                      TabPage(onDataReceived: (nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird){
-                        TofetchvalueFromTab(nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird);
-
-                        print('---534--AllFirst---$nameFirst');
-                        print('---535--AllPointFirst---$pointFirst');
-                        print('---536--AllNameSecond---$nameSecond');
-                        print('---537--AllPointSecond---$pointSecond');
-                        print('---538--AllNameThird---$nameThird');
-                        print('---539--AllPointThird---$pointThird');
-                     }),
-                    ],
-                  ),
-                ),
-              ),
-            const SizedBox(height: 0),
-            Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15, bottom: 0, top: 0),
-              child: Container(
-                height: 100,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: userModuleRightList.length,
-                  itemBuilder: (context, index) {
-                    var activity = userModuleRightList[index];
-                    var sActivityName = activity['sActivityName'];
-                    final parts = sActivityName.split('\n');  // Split on the newline character
-
-                    return InkWell(
-                      onTap: () {
-                        var activatecode = '${userModuleRightList[index]['iActivityCode']}';
-                        if (activatecode == "1") {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const MarkPointScreen()));
-                        } else if (activatecode == "6") {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const ScheduledPointScreen()));
-                        } else if (activatecode == "3") {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const PendingComplaintScreen()));
-                        } else if (activatecode == "2") {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const PostComplaintScreen()));
-                        } else if (activatecode == "7") {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const DailyActivitytScreen()));
-                        } else if (activatecode == "4") {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const DryWetSegregationScreen()));
-                        } else if (activatecode == "5") {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const ComplaintStatusScreen()));
-                        } else if (activatecode == "8") {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const ShopSurvey()));
-                        }
-                      },
-                      child: Container(
-                        width: 91,
-                        height: 80,
-                        margin: const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 0),
-                        decoration: BoxDecoration(
-                          color: Color(0xff81afea),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Center(
-                          child: Column(
+                      Positioned(
+                        top: 45,
+                        left: 15,
+                        right: 15,
+                        child: Container(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Image.network(
-                                '${activity['iImgIcon']}',
-                                width: 30,
-                                height: 30,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/firsttrophy.png',
+                                      width: 70,
+                                      height: 70,
+                                      fit: BoxFit.fill,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const Text(
+                                          '1.',
+                                          style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.white,
+                                            fontSize: 10.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                        SizedBox(width: 2),
+                                        Flexible(
+                                          child: Text(
+                                            '$nameFirst',
+                                            style: const TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.white,
+                                              fontSize: 10.0,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          '$pointFirst',
+                                          style: const TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.white,
+                                            fontSize: 10.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                        SizedBox(width: 2),
+                                        const Text(
+                                          'Points',
+                                          style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.white,
+                                            fontSize: 10.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                              SizedBox(height: 2),
-                              Column(
-                                children: <Widget>[
-                                  Text(
-                                    parts[0],
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.normal,
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/firsttrophy.png',
+                                      width: 55,
+                                      height: 55,
+                                      fit: BoxFit.fill,
                                     ),
-                                  ),
-                                  Text(
-                                    parts[1],
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.normal,
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const Text(
+                                          '2.',
+                                          style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.white,
+                                            fontSize: 10.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                        SizedBox(width: 2),
+                                        Flexible(
+                                          child: Text(
+                                            '$nameSecond',
+                                            style: const TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.white,
+                                              fontSize: 10.0,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ],
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          '$pointSecond',
+                                          style: const TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.white,
+                                            fontSize: 10.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                        SizedBox(width: 2),
+                                        const Text(
+                                          'Points',
+                                          style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.white,
+                                            fontSize: 10.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/firsttrophy.png',
+                                      width: 40,
+                                      height: 40,
+                                      fit: BoxFit.fill,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const Text(
+                                          '3.',
+                                          style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.white,
+                                            fontSize: 10.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                        SizedBox(width: 2),
+                                        Flexible(
+                                          child: Text(
+                                            '$nameThird',
+                                            style: const TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.white,
+                                              fontSize: 10.0,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          '$pointThird',
+                                          style: const TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.white,
+                                            fontSize: 10.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                        SizedBox(width: 2),
+                                        const Text(
+                                          'Points',
+                                          style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.white,
+                                            fontSize: 10.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
                         ),
                       ),
-                    );
-                  },
+                    ],
+                  ),
                 ),
               ),
-            )
-          ],
+              // bottom ListView
+              Padding(
+                padding: const EdgeInsets.only(bottom: 5),
+                child: Container(
+                  height: MediaQuery.of(context).size.height - 400.0,
+                 // height: 250,
+                  child: TabBarView(
+                      controller: tabController,
+                      children: <Widget>[
+                        //new FoodList(),
+                        // new TabBarHomeToday(),
+                        TabTodayPage(onDataReceived: (nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird) {
+                          // Handle data received from AllTab here
+                          TofetchvalueFromTab(nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird);
+
+                          print('---518--TodayNameFirst---$nameFirst');
+                          print('---519--TodayPointFirst---$pointFirst');
+                          print('---520--TodayNameSecond---$nameSecond');
+                          print('---521--TodayPointSecond---$pointSecond');
+                          print('---522--TodayNameThird---$nameThird');
+                          print('---523--TodayPointThird---$pointThird');
+                        }),
+                    TabPageMonth(onDataReceived: (nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird){
+                      TofetchvalueFromTab(nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird);
+
+                      print('---526--MonthNameFirst---$nameFirst');
+                      print('---527--MonthPointFirst---$pointFirst');
+                      print('---528--MonthNameSecond---$nameSecond');
+                      print('---529--MonthPointSecond---$pointSecond');
+                      print('---530--MonthNameThird---$nameThird');
+                      print('---531--MonthPointThird---$pointThird');
+                     }),
+                        TabPage(onDataReceived: (nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird){
+                          TofetchvalueFromTab(nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird);
+
+                          print('---534--AllFirst---$nameFirst');
+                          print('---535--AllPointFirst---$pointFirst');
+                          print('---536--AllNameSecond---$nameSecond');
+                          print('---537--AllPointSecond---$pointSecond');
+                          print('---538--AllNameThird---$nameThird');
+                          print('---539--AllPointThird---$pointThird');
+                       }),
+                      ],
+                    ),
+                  ),
+                ),
+              const SizedBox(height: 0),
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 0, top: 0),
+                child: Container(
+                  height: 100,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: userModuleRightList.length,
+                    itemBuilder: (context, index) {
+                      var activity = userModuleRightList[index];
+                      var sActivityName = activity['sActivityName'];
+                      final parts = sActivityName.split('\n');  // Split on the newline character
+
+                      return InkWell(
+                        onTap: () {
+                          var activatecode = '${userModuleRightList[index]['iActivityCode']}';
+                          if (activatecode == "1") {
+
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const MarkPointScreen()));
+
+                          } else if (activatecode == "6") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ScheduledPointScreen()));
+                          } else if (activatecode == "3") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const PendingComplaintScreen()));
+                          } else if (activatecode == "2") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const PostComplaintScreen()));
+                          } else if (activatecode == "7") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const DailyActivitytScreen()));
+                          } else if (activatecode == "4") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const DryWetSegregationScreen()));
+                          } else if (activatecode == "5") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ComplaintStatusScreen()));
+                          } else if (activatecode == "8") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ShopSurvey()));
+                          }
+                        },
+                        child: Container(
+                          width: 91,
+                          height: 80,
+                          margin: const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 0),
+                          decoration: BoxDecoration(
+                            color: Color(0xff81afea),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Image.network(
+                                  '${activity['iImgIcon']}',
+                                  width: 30,
+                                  height: 30,
+                                ),
+                                SizedBox(height: 2),
+                                Column(
+                                  children: <Widget>[
+                                    Text(
+                                      parts[0],
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                    Text(
+                                      parts[1],
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              )
+            ],
+          ),
+          // mobile back button code
+
         ),
-      ),
     );
+
   }
   // widget  tab
   Widget _buildTab(String text, BuildContext context) {

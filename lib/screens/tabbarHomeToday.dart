@@ -63,7 +63,6 @@ class _TabPageState extends State<TabTodayPage> {
     print('-----------45---xxxxxxxxxx-$pointFirst');
     String dataToSend = 'Data from TodayClass';
     // Call the callback function to send data to homePage
-
     setState(() {});
   }
 

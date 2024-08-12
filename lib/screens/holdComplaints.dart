@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:noidaone/Controllers/complaintForwardRepo.dart';
 import 'package:noidaone/screens/viewimage.dart';
 import '../Controllers/HoldComplaintRepo.dart';
 import '../Controllers/bindAjencyRepo.dart';
+import '../resources/app_text_style.dart';
 import 'generalFunction.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -195,481 +197,511 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
       print('${userAjencyList.length}');
     }
   }
+  // backbutton
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Are you sure?',style: AppTextStyle
+            .font14OpenSansRegularBlackTextStyle,),
+        content: new Text('Do you want to exit app',style: AppTextStyle
+            .font14OpenSansRegularBlackTextStyle,),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false), //<-- SEE HERE
+            child: new Text('No'),
+          ),
+          TextButton(
+            onPressed: () {
+              //  goToHomePage();
+              // exit the app
+              exit(0);
+            }, //Navigator.of(context).pop(true), // <-- SEE HERE
+            child: new Text('Yes'),
+          ),
+        ],
+      ),
+    )) ??
+        false;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: generalFunction.appbarFunction("Hold Complaints"),
-      // drawer
-      drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
-      body: pendingInternalComplaintList == null
-          ? const Center(
-        child: Text(
-          'No record found',
-          style: TextStyle(fontSize: 20),
-        ),
-      )
-      :
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Center(
-            child: Padding(
-              padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5.0),
-                  border: Border.all(
-                    color: Colors.grey, // Outline border color
-                    width: 0.2, // Outline border width
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: generalFunction.appbarFunction("Hold Complaints"),
+        // drawer
+        drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
+        body: pendingInternalComplaintList == null
+            ? const Center(
+          child: Text(
+            'No record found',
+            style: TextStyle(fontSize: 20),
+          ),
+        )
+        :
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Center(
+              child: Padding(
+                padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5.0),
+                    border: Border.all(
+                      color: Colors.grey, // Outline border color
+                      width: 0.2, // Outline border width
+                    ),
+                    color: Colors.white,
                   ),
-                  color: Colors.white,
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: _searchController,
-                        autofocus: true,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter Keywords',
-                          prefixIcon: Icon(Icons.search,
-                              color: Colors.grey
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: _searchController,
+                          autofocus: true,
+                          decoration: const InputDecoration(
+                            hintText: 'Enter Keywords',
+                            prefixIcon: Icon(Icons.search,
+                                color: Colors.grey
+                            ),
+                            hintStyle: TextStyle(
+                              fontFamily: 'Montserrat',
+                              color: Colors.grey,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.fromLTRB(8.0, 6.0, 16.0, 8.0),
+                            // contentPadding: EdgeInsets.symmetric(horizontal: 16.0), // Adjust horizontal padding as needed
                           ),
-                          hintStyle: TextStyle(
-                            fontFamily: 'Montserrat',
-                            color: Colors.grey,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.fromLTRB(8.0, 6.0, 16.0, 8.0),
-                          // contentPadding: EdgeInsets.symmetric(horizontal: 16.0), // Adjust horizontal padding as needed
                         ),
-                      ),
-                    )
-                    // Expanded(
-                    //   child: TextFormField(
-                    //     controller: _searchController,
-                    //     autofocus: true,
-                    //     decoration: const InputDecoration(
-                    //       prefixIcon: Icon(Icons.search),
-                    //       hintText: 'Enter Keywords',
-                    //       hintStyle: TextStyle(
-                    //           fontFamily: 'Montserrat',
-                    //           color: Color(0xFF707d83),
-                    //           fontSize: 14.0,
-                    //           fontWeight: FontWeight.bold),
-                    //       border: InputBorder.none,
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
+                      )
+                      // Expanded(
+                      //   child: TextFormField(
+                      //     controller: _searchController,
+                      //     autofocus: true,
+                      //     decoration: const InputDecoration(
+                      //       prefixIcon: Icon(Icons.search),
+                      //       hintText: 'Enter Keywords',
+                      //       hintStyle: TextStyle(
+                      //           fontFamily: 'Montserrat',
+                      //           color: Color(0xFF707d83),
+                      //           fontSize: 14.0,
+                      //           fontWeight: FontWeight.bold),
+                      //       border: InputBorder.none,
+                      //     ),
+                      //   ),
+                      // ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          // scroll item after search bar
-          Expanded(
-            child: ListView.builder(
-              itemCount: _filteredData.length ?? 0,
-              itemBuilder: (context, index) {
-                Map<String, dynamic> item = _filteredData[index];
-                return Padding(
-                  padding: const EdgeInsets.only(left: 10, top: 8, right: 10),
-                  child: Container(
-                   // color: Colors.white,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      // Background color
-                      borderRadius: BorderRadius.circular(10),
-                      // Border radius
-                      border: Border.all(
-                        color: Colors.grey, // Border color
-                        width: 1, // Border width
+            // scroll item after search bar
+            Expanded(
+              child: ListView.builder(
+                itemCount: _filteredData.length ?? 0,
+                itemBuilder: (context, index) {
+                  Map<String, dynamic> item = _filteredData[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 10, top: 8, right: 10),
+                    child: Container(
+                     // color: Colors.white,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        // Background color
+                        borderRadius: BorderRadius.circular(10),
+                        // Border radius
+                        border: Border.all(
+                          color: Colors.grey, // Border color
+                          width: 1, // Border width
+                        ),
                       ),
-                    ),
-                    child: Column(
-                      children: [
-                        Card(
-                          //elevation: 1,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.0),
-                              border: Border.all(
-                                color: Colors.white, // Outline border color
-                                width: 0.2, // Outline border width
+                      child: Column(
+                        children: [
+                          Card(
+                            //elevation: 1,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.0),
+                                border: Border.all(
+                                  color: Colors.white, // Outline border color
+                                  width: 0.2, // Outline border width
+                                ),
                               ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 0, right: 0),
-                              child: Container(
-                                color: Colors.white,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 10,right: 10),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: <Widget>[
-                                            Container(
-                                              width: 30.0,
-                                              height: 30.0,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                BorderRadius.circular(15.0),
-                                                border: Border.all(
-                                                  color: Color(0xFF255899),
-                                                  // Outline border color
-                                                  width:
-                                                  0.5, // Outline border width
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 0, right: 0),
+                                child: Container(
+                                  color: Colors.white,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 10,right: 10),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: <Widget>[
+                                              Container(
+                                                width: 30.0,
+                                                height: 30.0,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                  BorderRadius.circular(15.0),
+                                                  border: Border.all(
+                                                    color: Color(0xFF255899),
+                                                    // Outline border color
+                                                    width:
+                                                    0.5, // Outline border width
+                                                  ),
+                                                  color: Colors.white,
                                                 ),
-                                                color: Colors.white,
+                                                child: Center(
+                                                    child:  Text(
+                                                       '${index+1}',
+                                                      style: const TextStyle(
+                                                          fontFamily: 'Montserrat',
+                                                          color: Color(0xff3f617d),
+                                                          fontSize: 14.0,
+                                                          fontWeight: FontWeight.bold),
+                                                    ),
+                                                ),
                                               ),
-                                              child: Center(
-                                                  child:  Text(
-                                                     '${index+1}',
-                                                    style: const TextStyle(
+                                              SizedBox(width: 5),
+                                              const Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    'Floating Garbage Point',
+                                                   // item['sPointTypeName'] ?? '',
+                                                    style: TextStyle(
                                                         fontFamily: 'Montserrat',
                                                         color: Color(0xff3f617d),
                                                         fontSize: 14.0,
                                                         fontWeight: FontWeight.bold),
                                                   ),
+                                                  Text(
+                                                    'Point Name',
+                                                    style: TextStyle(
+                                                        fontFamily: 'Montserrat',
+                                                        color: Color(0xff3f617d),
+                                                        fontSize: 12.0,
+                                                        fontWeight: FontWeight.bold),
+                                                  ),
+                                                ],
                                               ),
+                                              const SizedBox(width: 0),
+                                              Expanded(
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    var fLatitude =
+                                                        item['fLatitude'] ?? '';
+                                                    var fLongitude =
+                                                        item['fLongitude'] ?? '';
+                                                    print('----462----${fLatitude}');
+                                                    print('-----463---${fLongitude}');
+                                                    if (fLatitude != null &&
+                                                        fLongitude != null) {
+                                                      generalfunction.launchGoogleMaps(fLatitude,fLongitude);
+
+                                                    } else {
+                                                      displayToast(
+                                                          "Please check the location.");
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    alignment: Alignment.centerRight,
+                                                    height: 40,
+                                                    width: 40,
+                                                    child: const Image(
+                                                        image: AssetImage(
+                                                            'assets/images/ic_google_maps.PNG')),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        const SizedBox(height: 5),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 15, right: 15),
+                                          child: Container(
+                                            height: 0.5,
+                                            color: const Color(0xff3f617d),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        const Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.forward,
+                                              size: 10,
+                                              color: Color(0xff3f617d),
                                             ),
                                             SizedBox(width: 5),
-                                            const Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text(
-                                                  'Floating Garbage Point',
-                                                 // item['sPointTypeName'] ?? '',
-                                                  style: TextStyle(
-                                                      fontFamily: 'Montserrat',
-                                                      color: Color(0xff3f617d),
-                                                      fontSize: 14.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                                Text(
-                                                  'Point Name',
-                                                  style: TextStyle(
-                                                      fontFamily: 'Montserrat',
-                                                      color: Color(0xff3f617d),
-                                                      fontSize: 12.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(width: 0),
-                                            Expanded(
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  var fLatitude =
-                                                      item['fLatitude'] ?? '';
-                                                  var fLongitude =
-                                                      item['fLongitude'] ?? '';
-                                                  print('----462----${fLatitude}');
-                                                  print('-----463---${fLongitude}');
-                                                  if (fLatitude != null &&
-                                                      fLongitude != null) {
-                                                    generalfunction.launchGoogleMaps(fLatitude,fLongitude);
-
-                                                  } else {
-                                                    displayToast(
-                                                        "Please check the location.");
-                                                  }
-                                                },
-                                                child: Container(
-                                                  alignment: Alignment.centerRight,
-                                                  height: 40,
-                                                  width: 40,
-                                                  child: const Image(
-                                                      image: AssetImage(
-                                                          'assets/images/ic_google_maps.PNG')),
-                                                ),
-                                              ),
-                                            ),
+                                            Text(
+                                              'Complaint No',
+                                              style: TextStyle(
+                                                  fontFamily: 'Montserrat',
+                                                  color: Color(0xFF255899),
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.bold),
+                                            )
                                           ],
                                         ),
-                                      const SizedBox(height: 5),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 15, right: 15),
-                                        child: Container(
-                                          height: 0.5,
-                                          color: const Color(0xff3f617d),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 5),
-                                      const Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Icon(
-                                            Icons.forward,
-                                            size: 10,
-                                            color: Color(0xff3f617d),
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 15),
+                                          child: Text(
+                                            item['iCompCode'].toString() ?? '',
+                                            style: const TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                color: Color(0xff3f617d),
+                                                fontSize: 14.0,
+                                                fontWeight: FontWeight.bold),
                                           ),
-                                          SizedBox(width: 5),
-                                          Text(
-                                            'Complaint No',
-                                            style: TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Color(0xFF255899),
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        ],
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 15),
-                                        child: Text(
-                                          item['iCompCode'].toString() ?? '',
-                                          style: const TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Color(0xff3f617d),
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.bold),
                                         ),
-                                      ),
-                                      const Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Icon(
-                                            Icons.forward,
-                                            size: 10,
-                                            color: Color(0xff3f617d),
-                                          ),
-                                          SizedBox(width: 5),
-                                          Text(
-                                            'Sector',
-                                            style: TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Color(0xFF255899),
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        ],
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 15),
-                                        child: Text(
-                                          item['sSectorName'] ?? '',
-                                          style: const TextStyle(
-                                              fontFamily: 'Montserrat',
+                                        const Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.forward,
+                                              size: 10,
                                               color: Color(0xff3f617d),
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                      const Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Icon(
-                                            Icons.forward,
-                                            size: 10,
-                                            color: Color(0xff3f617d),
-                                          ),
-                                          SizedBox(width: 5),
-                                          Text(
-                                            'Posted At',
-                                            style: TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Color(0xFF255899),
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        ],
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 15),
-                                        child: Text(
-                                          item['dPostedOn'] ?? '',
-                                          style: const TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Color(0xff3f617d),
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                      const Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Icon(Icons.forward,
-                                              size: 10, color: Color(0xff3f617d)),
-                                          SizedBox(width: 5),
-                                          Text(
-                                            'Location',
-                                            style: TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Color(0xFF255899),
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        ],
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 15),
-                                        child: Text(
-                                          item['sLocation'] ?? '',
-                                          style: const TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Color(0xff3f617d),
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                      const Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Icon(Icons.forward,
-                                              size: 10, color: Color(0xff3f617d)),
-                                          SizedBox(width: 5),
-                                          Text(
-                                            'Description',
-                                            style: TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Color(0xFF255899),
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        ],
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 15),
-                                        child: Text(
-                                          item['sDescription'] ?? '',
-                                          style: const TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Color(0xff3f617d),
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                      SizedBox(height: 5),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 5,right: 5,bottom: 5),
-                                        child: Container(
-                                          //color: Color(0xffe4e4e4),
-                                          height: 40,
-                                          decoration: const BoxDecoration(
-                                            color: Color(0xffe4e4e4),
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(5), // Only the top-left corner
                                             ),
+                                            SizedBox(width: 5),
+                                            Text(
+                                              'Sector',
+                                              style: TextStyle(
+                                                  fontFamily: 'Montserrat',
+                                                  color: Color(0xFF255899),
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.bold),
+                                            )
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 15),
+                                          child: Text(
+                                            item['sSectorName'] ?? '',
+                                            style: const TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                color: Color(0xff3f617d),
+                                                fontSize: 14.0,
+                                                fontWeight: FontWeight.bold),
                                           ),
+                                        ),
+                                        const Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.forward,
+                                              size: 10,
+                                              color: Color(0xff3f617d),
+                                            ),
+                                            SizedBox(width: 5),
+                                            Text(
+                                              'Posted At',
+                                              style: TextStyle(
+                                                  fontFamily: 'Montserrat',
+                                                  color: Color(0xFF255899),
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.bold),
+                                            )
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 15),
+                                          child: Text(
+                                            item['dPostedOn'] ?? '',
+                                            style: const TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                color: Color(0xff3f617d),
+                                                fontSize: 14.0,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                        const Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Icon(Icons.forward,
+                                                size: 10, color: Color(0xff3f617d)),
+                                            SizedBox(width: 5),
+                                            Text(
+                                              'Location',
+                                              style: TextStyle(
+                                                  fontFamily: 'Montserrat',
+                                                  color: Color(0xFF255899),
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.bold),
+                                            )
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 15),
+                                          child: Text(
+                                            item['sLocation'] ?? '',
+                                            style: const TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                color: Color(0xff3f617d),
+                                                fontSize: 14.0,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                        const Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Icon(Icons.forward,
+                                                size: 10, color: Color(0xff3f617d)),
+                                            SizedBox(width: 5),
+                                            Text(
+                                              'Description',
+                                              style: TextStyle(
+                                                  fontFamily: 'Montserrat',
+                                                  color: Color(0xFF255899),
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.bold),
+                                            )
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 15),
+                                          child: Text(
+                                            item['sDescription'] ?? '',
+                                            style: const TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                color: Color(0xff3f617d),
+                                                fontSize: 14.0,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                        SizedBox(height: 5),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 5,right: 5,bottom: 5),
+                                          child: Container(
+                                            //color: Color(0xffe4e4e4),
+                                            height: 40,
+                                            decoration: const BoxDecoration(
+                                              color: Color(0xffe4e4e4),
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(5), // Only the top-left corner
+                                              ),
+                                            ),
 
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 0, right: 10),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                              children: <Widget>[
-                                                Padding(
-                                                  padding: const EdgeInsets.only(top:4.0,bottom: 4.0),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      print('---Forward---');
-                                                      //bindAjency();
-                                                     // _showBottomSheet(context);
-                                                    },
-                                                    child:Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        SizedBox(width: 2),
-                                                        Icon(Icons.edit,size: 14,color: Color(0xFF255899)),
-                                                        SizedBox(width: 2),
-                                                        const Text('Scheduled At :',
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 0, right: 10),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                                children: <Widget>[
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top:4.0,bottom: 4.0),
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        print('---Forward---');
+                                                        //bindAjency();
+                                                       // _showBottomSheet(context);
+                                                      },
+                                                      child:Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                        children: [
+                                                          SizedBox(width: 2),
+                                                          Icon(Icons.edit,size: 14,color: Color(0xFF255899)),
+                                                          SizedBox(width: 2),
+                                                          const Text('Scheduled At :',
+                                                              style: TextStyle(
+                                                                  fontFamily:
+                                                                  'Montserrat',
+                                                                  color:
+                                                                  Color(0xFF255899),
+                                                                  fontSize: 12.0,
+                                                                  fontWeight:
+                                                                  FontWeight.bold)),
+                                                          SizedBox(width: 2),
+                                                          Text(item['sPendingFrom'] ?? '',
+                                                              style: const TextStyle(
+                                                                  fontFamily:
+                                                                  'Montserrat',
+                                                                  color:
+                                                                  Color(0xFF255899),
+                                                                  fontSize: 12.0,
+                                                                  fontWeight:
+                                                                  FontWeight.bold)),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Spacer(),
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        var sBeforePhoto =
+                                                            "${item['sBeforePhoto']}";
+                                                        print('---$sBeforePhoto');
+
+                                                        if (sBeforePhoto != null) {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (
+                                                                      context) =>
+                                                                      ImageScreen(
+                                                                          sBeforePhoto:
+                                                                          sBeforePhoto)));
+                                                        } else {
+                                                          // toast
+                                                        }
+                                                      },
+                                                      child: const Row(
+                                                        mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                        children: [
+                                                          Text(
+                                                            'View Image',
                                                             style: TextStyle(
-                                                                fontFamily:
-                                                                'Montserrat',
-                                                                color:
-                                                                Color(0xFF255899),
+                                                                fontFamily: 'Montserrat',
+                                                                color: Color(0xFF255899),
                                                                 fontSize: 12.0,
-                                                                fontWeight:
-                                                                FontWeight.bold)),
-                                                        SizedBox(width: 2),
-                                                        Text(item['sPendingFrom'] ?? '',
-                                                            style: const TextStyle(
-                                                                fontFamily:
-                                                                'Montserrat',
-                                                                color:
-                                                                Color(0xFF255899),
-                                                                fontSize: 12.0,
-                                                                fontWeight:
-                                                                FontWeight.bold)),
-                                                      ],
+                                                                fontWeight: FontWeight.bold),
+                                                          ),
+                                                          SizedBox(width: 2),
+                                                          Icon(
+                                                            Icons.arrow_forward_ios,
+                                                            size: 12,
+                                                            color: Color(0xFF255899),
+                                                          )
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                Spacer(),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      var sBeforePhoto =
-                                                          "${item['sBeforePhoto']}";
-                                                      print('---$sBeforePhoto');
-
-                                                      if (sBeforePhoto != null) {
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder: (
-                                                                    context) =>
-                                                                    ImageScreen(
-                                                                        sBeforePhoto:
-                                                                        sBeforePhoto)));
-                                                      } else {
-                                                        // toast
-                                                      }
-                                                    },
-                                                    child: const Row(
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                      children: [
-                                                        Text(
-                                                          'View Image',
-                                                          style: TextStyle(
-                                                              fontFamily: 'Montserrat',
-                                                              color: Color(0xFF255899),
-                                                              fontSize: 12.0,
-                                                              fontWeight: FontWeight.bold),
-                                                        ),
-                                                        SizedBox(width: 2),
-                                                        Icon(
-                                                          Icons.arrow_forward_ios,
-                                                          size: 12,
-                                                          color: Color(0xFF255899),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
-          )
-        ],
+                  );
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:noidaone/Controllers/notificationRepo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../resources/app_text_style.dart';
 import 'generalFunction.dart';
 
 
@@ -61,6 +64,33 @@ class _MyHomePageState extends State<MyHomePage> {
       print("------148---$sName");
       print("------1149---$sContactNo");
     });
+  }
+  // onWillPopScope
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Are you sure?',style: AppTextStyle
+            .font14OpenSansRegularBlackTextStyle,),
+        content: new Text('Do you want to exit app',style: AppTextStyle
+            .font14OpenSansRegularBlackTextStyle,),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false), //<-- SEE HERE
+            child: new Text('No'),
+          ),
+          TextButton(
+            onPressed: () {
+              //  goToHomePage();
+              // exit the app
+              exit(0);
+            }, //Navigator.of(context).pop(true), // <-- SEE HERE
+            child: new Text('Yes'),
+          ),
+        ],
+      ),
+    )) ??
+        false;
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:noidaone/screens/homeScreen.dart';
@@ -397,10 +398,55 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: _onWillPop,
+        onWillPop: () async {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content:
+              Text('Pop Screen Disabled.'),
+              backgroundColor: Colors.red,
+            ),
+          );
+          return false;
+    },
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: generalFunction.appbarback(context,"Mark Points"),
+       // appBar: generalFunction.appbarback(context,"Mark Points"),
+        appBar:AppBar(
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          // Status bar color
+          statusBarColor: Colors.blue,
+          // Status bar brightness (optional)
+          statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+          statusBarBrightness: Brightness.light, // For iOS (dark icons)
+        ),
+        backgroundColor: Color(0xFF255899),
+        leading: GestureDetector(
+            onTap: () {
+             // Navigator.pop(context);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const HomePage()));
+
+              // Navigator.pushAndRemoveUntil(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => HomePage()),
+              //       (Route<dynamic> route) => false,
+              // );
+
+             // Navigator.pop(context);
+            },
+            child:Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(Icons.arrow_back_ios),
+            )),
+        title:const Text(
+          'Mark Points',
+          style: TextStyle(
+              fontFamily: 'Montserrat',
+              color: Colors.white,
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold),
+        ),
+      ),
 
         body: SingleChildScrollView(
           child: Column(
@@ -868,7 +914,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-
   // caste dropdown with a validation
   Widget _casteDropDownWithValidation() {
     return Container(

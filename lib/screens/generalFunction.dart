@@ -36,11 +36,17 @@ class GeneralFunction {
   }
 
   goNext(BuildContext context) {
+
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => LoginScreen_2()),
-          (route) => false, // Pop all routes until this page
+          (Route<dynamic> route) => false, // This ensures all previous routes are removed
     );
+    // Navigator.pushAndRemoveUntil(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => LoginScreen_2()),
+    //       (route) => false, // Pop all routes until this page
+    // );
   }
   // mobile back hale code
   // drawerFunction
@@ -62,69 +68,6 @@ class GeneralFunction {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Align(
-                //   alignment: Alignment.centerRight,
-                //   child: Text(
-                //     'Version - 06',
-                //     style: TextStyle(
-                //       fontFamily: 'Montserrat',
-                //       color: Colors.black,
-                //       fontSize: 16.0,
-                //       fontWeight: FontWeight.bold,
-                //     ),
-                //   ),
-                // ),
-                // Text(
-                //   'Version - 06',
-                //   style: TextStyle(
-                //     fontFamily: 'Montserrat',
-                //     color: Colors.black,
-                //     fontSize: 16.0,
-                //     fontWeight: FontWeight.bold,
-                //   ),
-                // ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.end,
-                //   children: [
-                //     // Text(
-                //     //   'Version - 06',
-                //     //   style: TextStyle(
-                //     //     fontFamily: 'Montserrat',
-                //     //     color: Color(0xff3f617d),
-                //     //     fontSize: 16.0,
-                //     //     fontWeight: FontWeight.bold,
-                //     //   ),
-                //     // ),
-                //     Text(
-                //       'Version - 06',
-                //       style: TextStyle(
-                //         fontFamily: 'Montserrat',
-                //         color: Colors.black,
-                //         fontSize: 16.0,
-                //         fontWeight: FontWeight.bold,
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                // Icon(
-                //   Icons.person,
-                //   size: 50,
-                //   color: Color(0xff3f617d),
-                // ),
-                // Icon(
-                //   Icons.person,
-                //   size: 50,
-                //   color: Colors.black,
-                // ),
-                // Text(
-                //   '${sName}',
-                //   style: TextStyle(
-                //     fontFamily: 'Montserrat',
-                //     color: Color(0xff3f617d),
-                //     fontSize: 16.0,
-                //     fontWeight: FontWeight.bold,
-                //   ),
-                // ),
                 Text(
                   '${sName}',
                   style: TextStyle(
@@ -142,21 +85,8 @@ class GeneralFunction {
                       size: 18,
                       color: Colors.black,
                     ),
-                    // Icon(
-                    //   Icons.call,
-                    //   size: 18,
-                    //   color: Color(0xff3f617d),
-                    // ),
+
                     SizedBox(width: 5),
-                    // Text(
-                    //   '${sContactNo}',
-                    //   style: TextStyle(
-                    //     fontFamily: 'Montserrat',
-                    //     color: Color(0xff3f617d),
-                    //     fontSize: 16.0,
-                    //     fontWeight: FontWeight.bold,
-                    //   ),
-                    // ),
                     Text(
                       '${sContactNo}',
                       style: TextStyle(
@@ -200,12 +130,6 @@ class GeneralFunction {
                         ),
                       );
                     }
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => const HomePage(),
-                      //   ),
-                      // );
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -355,7 +279,9 @@ class GeneralFunction {
                   const SizedBox(height: 15),
                   GestureDetector(
                     onTap: () {
-                      _showBottomSheet(context);
+                     // _showBottomSheet(context);
+                      logout(context);
+
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -589,8 +515,15 @@ class GeneralFunction {
       leading: GestureDetector(
           onTap: () {
             //Navigator.pop(context);
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const HomePage()));
+            // Navigator.push(context,
+            //     MaterialPageRoute(builder: (context) => const HomePage()));
+
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+                  (Route<dynamic> route) => false,
+            );
+            //Navigator.pop(context);
           },
           child:Padding(
             padding: EdgeInsets.all(8.0),

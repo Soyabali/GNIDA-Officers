@@ -19,6 +19,7 @@ import '../Controllers/holoComplaintRepo.dart';
 import '../Controllers/pendingInternalComplaintRepo.dart';
 import '../Controllers/postimage_2_Repo.dart';
 import '../Helpers/loader_helper.dart';
+import '../resources/app_text_style.dart';
 import 'actionOnSchedulePoint.dart';
 import 'flull_screen_image.dart';
 import 'generalFunction.dart';
@@ -92,9 +93,9 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   // Get a api response
   pendingInternalComplaintResponse() async {
     pendingInternalComplaintList =
-        await PendingInternalComplaintRepo().pendingInternalComplaint(context);
+    await PendingInternalComplaintRepo().pendingInternalComplaint(context);
     _filteredData =
-        List<Map<String, dynamic>>.from(pendingInternalComplaintList ?? []);
+    List<Map<String, dynamic>>.from(pendingInternalComplaintList ?? []);
 
     print('--77-----$pendingInternalComplaintList');
     print('--45--$_filteredData');
@@ -165,7 +166,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 10,right: 10),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Container(
                       height: 45,
                       decoration: BoxDecoration(
@@ -179,7 +180,8 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                             child: ButtonTheme(
                               alignedDropdown: true,
                               child: DropdownButton(
-                                isExpanded: true, // Ensure the dropdown button takes available width
+                                isExpanded: true,
+                                // Ensure the dropdown button takes available width
                                 onTap: () {
                                   FocusScope.of(context).unfocus();
                                 },
@@ -208,9 +210,11 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                   setState(() {
                                     _dropDownAgency2 = newValue;
                                     bindAjencyList.forEach((element) {
-                                      if (element["sName"] == _dropDownAgency2) {
+                                      if (element["sName"] ==
+                                          _dropDownAgency2) {
                                         setState(() {
-                                          selectedHoldValue = element['iUserId'];
+                                          selectedHoldValue =
+                                          element['iUserId'];
                                         });
                                       }
                                     });
@@ -231,10 +235,13 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                             bottom: 0,
                             child: Container(
                               decoration: const BoxDecoration(
-                                color: Color(0xFFf2f3f5), // Light gray background
+                                color: Color(0xFFf2f3f5),
+                                // Light gray background
                                 borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(10.0), // Adjust the radius as needed
-                                  bottomRight: Radius.circular(10.0), // Adjust the radius as needed
+                                  topRight: Radius.circular(10.0),
+                                  // Adjust the radius as needed
+                                  bottomRight: Radius.circular(
+                                      10.0), // Adjust the radius as needed
                                 ),
                               ),
                               child: Icon(Icons.arrow_drop_down),
@@ -252,8 +259,8 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                         // print('----clicked--xxxxxxxx--');
                         if (selectedHoldValue != null) {
                           var complaintForwardResponse =
-                              await ComplaintForwardRepo().complaintForward(
-                                  context, selectedHoldValue, iCompCode);
+                          await ComplaintForwardRepo().complaintForward(
+                              context, selectedHoldValue, iCompCode);
 
                           result1 = "${complaintForwardResponse['Result']}";
                           msg1 = "${complaintForwardResponse['Msg']}";
@@ -311,7 +318,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
             child: Container(
               color: Colors.white,
               child: Padding(
-                padding: const EdgeInsets.only(left: 10,right: 10),
+                padding: const EdgeInsets.only(left: 10, right: 10),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -344,7 +351,9 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Container(
-                              margin: const EdgeInsets.only(left: 0, right: 2, bottom: 2),
+                              margin: const EdgeInsets.only(left: 0,
+                                  right: 2,
+                                  bottom: 2),
                               child: const Icon(
                                 Icons.forward_sharp,
                                 size: 12,
@@ -359,7 +368,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                         ],
                       ),
                     ),
-                     //
+                    //
                     Container(
                       height: 45,
                       decoration: BoxDecoration(
@@ -373,7 +382,8 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                             child: ButtonTheme(
                               alignedDropdown: true,
                               child: DropdownButton(
-                                isExpanded: true, // Ensure the dropdown button takes available width
+                                isExpanded: true,
+                                // Ensure the dropdown button takes available width
                                 onTap: () {
                                   FocusScope.of(context).unfocus();
                                 },
@@ -402,17 +412,21 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                   setState(() {
                                     _dropDownComplaintType = newValue;
                                     bindPointTypeDropDown.forEach((element) {
-                                      if (element["sPointTypeName"] == bindPointTypeDropDown) {
+                                      if (element["sPointTypeName"] ==
+                                          bindPointTypeDropDown) {
                                         setState(() {
-                                          selectedComplaintValue = element['iPointTypeCode'];
+                                          selectedComplaintValue =
+                                          element['iPointTypeCode'];
                                         });
                                       }
                                     });
                                   });
                                 },
-                                items: bindPointTypeDropDown.map((dynamic item) {
+                                items: bindPointTypeDropDown.map((
+                                    dynamic item) {
                                   return DropdownMenuItem(
-                                    child: Text(item['sPointTypeName'].toString()),
+                                    child: Text(
+                                        item['sPointTypeName'].toString()),
                                     value: item["sPointTypeName"].toString(),
                                   );
                                 }).toList(),
@@ -425,10 +439,13 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                             bottom: 0,
                             child: Container(
                               decoration: const BoxDecoration(
-                                color: Color(0xFFf2f3f5), // Light gray background
+                                color: Color(0xFFf2f3f5),
+                                // Light gray background
                                 borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(10.0), // Adjust the radius as needed
-                                  bottomRight: Radius.circular(10.0), // Adjust the radius as needed
+                                  topRight: Radius.circular(10.0),
+                                  // Adjust the radius as needed
+                                  bottomRight: Radius.circular(
+                                      10.0), // Adjust the radius as needed
                                 ),
                               ),
                               child: Icon(Icons.arrow_drop_down),
@@ -445,8 +462,8 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                           // print('----clicked--xxxxxxxx--');
                           if (selectedComplaintValue != null) {
                             var complaintForwardResponse =
-                                await ChangePointTypeRepo().changePointType(
-                                    context, selectedComplaintValue, iCompCode);
+                            await ChangePointTypeRepo().changePointType(
+                                context, selectedComplaintValue, iCompCode);
 
                             print('-----1453----$complaintForwardResponse');
 
@@ -504,10 +521,10 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
           child: Padding(
             padding: const EdgeInsets.only(left: 0, right: 0, bottom: 0),
             child: Container(
-             // color: Color(0xFFf2f3f5),
+              // color: Color(0xFFf2f3f5),
               color: Colors.white, // Set the background color here
               child: Padding(
-                padding: const EdgeInsets.only(left: 10,right: 10),
+                padding: const EdgeInsets.only(left: 10, right: 10),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -537,28 +554,28 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                         ),
                       ],
                     ),
-                     const Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(top: 2),
-                            child: Icon(
-                                  Icons.forward_sharp,
-                                  size: 12,
-                                  color: Colors.black54,
-                                ),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(top: 2),
+                          child: Icon(
+                            Icons.forward_sharp,
+                            size: 12,
+                            color: Colors.black54,
                           ),
-                          Text('Hold Time',
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Color(0xFF707d83),
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold)),
-                        ],
-                      ),
+                        ),
+                        Text('Hold Time',
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                color: Color(0xFF707d83),
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    ),
 
                     Container(
-                      height:45,
+                      height: 45,
                       decoration: BoxDecoration(
                         color: Color(0xFFf2f3f5), // Light gray background
                         borderRadius: BorderRadius.circular(10),
@@ -598,7 +615,8 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                   setState(() {
                                     _dropDownHold = newValue;
                                     bindHoldList.forEach((element) {
-                                      if (element["sHoldDesc"] == _dropDownHold) {
+                                      if (element["sHoldDesc"] ==
+                                          _dropDownHold) {
                                         setState(() {
                                           selectedHoldValue = element['iHold'];
                                         });
@@ -621,10 +639,13 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                             bottom: 0,
                             child: Container(
                               decoration: const BoxDecoration(
-                                color: Color(0xFFf2f3f5), // Light gray background
+                                color: Color(0xFFf2f3f5),
+                                // Light gray background
                                 borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(10.0), // Adjust the radius as needed
-                                  bottomRight: Radius.circular(10.0), // Adjust the radius as needed
+                                  topRight: Radius.circular(10.0),
+                                  // Adjust the radius as needed
+                                  bottomRight: Radius.circular(
+                                      10.0), // Adjust the radius as needed
                                 ),
                               ),
                               child: Icon(Icons.arrow_drop_down),
@@ -637,7 +658,8 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                     Container(
                       decoration: BoxDecoration(
                         color: const Color(0xFFf2f3f5),
-                        borderRadius: BorderRadius.circular(10.0), // Border radius
+                        borderRadius: BorderRadius.circular(
+                            10.0), // Border radius
                       ),
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 10),
@@ -661,7 +683,8 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                   Padding(
                                     padding: EdgeInsets.only(left: 10, top: 5),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .start,
                                       children: <Widget>[
                                         Text(
                                           'Please click here to take a photo',
@@ -687,7 +710,8 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                               child: const Padding(
                                 padding: EdgeInsets.only(right: 10, top: 5),
                                 child: Image(
-                                  image: AssetImage('assets/images/ic_camera.PNG'),
+                                  image: AssetImage(
+                                      'assets/images/ic_camera.PNG'),
                                   width: 40,
                                   height: 40,
                                   fit: BoxFit.fill,
@@ -711,10 +735,11 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => FullScreenPage(
-                                          child: image!,
-                                          dark: true,
-                                        )));
+                                        builder: (context) =>
+                                            FullScreenPage(
+                                              child: image!,
+                                              dark: true,
+                                            )));
                               },
                               child: Container(
                                   color: Colors.lightGreenAccent,
@@ -754,7 +779,8 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                     Center(
                       child: ElevatedButton(
                           onPressed: () async {
-                            if (selectedHoldValue != null && uplodedImage != null) {
+                            if (selectedHoldValue != null &&
+                                uplodedImage != null) {
                               var complaintForwardResponse =
                               await HoloComplaintRepo().holoComplaint(
                                   context,
@@ -1033,807 +1059,836 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     }
   }
 
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Are you sure?',style: AppTextStyle
+            .font14OpenSansRegularBlackTextStyle,),
+        content: new Text('Do you want to exit app',style: AppTextStyle
+            .font14OpenSansRegularBlackTextStyle,),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false), //<-- SEE HERE
+            child: new Text('No'),
+          ),
+          TextButton(
+            onPressed: () {
+              //  goToHomePage();
+              // exit the app
+              exit(0);
+            }, //Navigator.of(context).pop(true), // <-- SEE HERE
+            child: new Text('Yes'),
+          ),
+        ],
+      ),
+    )) ??
+        false;
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: generalFunction.appbarFunction("Noida One"),
-      drawer: generalFunction.drawerFunction(context, '$sName', '$sContactNo'),
-
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Container(
-                height: 75,
-                width: MediaQuery.of(context).size.width,
-                decoration: const BoxDecoration(
-                  // color: Color(0xFF255898),
-                  // 0xFF3A6090
-                  //color: Colors.blue,
-                  color: Color(0xFF3A6090),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    // Set the desired radius for top left corner
-                    bottomRight: Radius.circular(20), // Set the desired radius for bottom right corner
-                  ),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(height: 10),
-                    const Text(
-                      'Complaint Status',
-                      style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          color: Colors.white,
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: generalFunction.appbarFunction("Noida One"),
+        drawer: generalFunction.drawerFunction(context, '$sName', '$sContactNo'),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Container(
+                  height: 75,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: const BoxDecoration(
+                    // color: Color(0xFF255898),
+                    // 0xFF3A6090
+                    //color: Colors.blue,
+                    color: Color(0xFF3A6090),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      // Set the desired radius for top left corner
+                      bottomRight: Radius.circular(20), // Set the desired radius for bottom right corner
                     ),
-                    SizedBox(height: 5),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 18, top: 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('Total',
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Colors.white,
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold)),
-                              const SizedBox(width: 10),
-                              const Text(':',
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Colors.white,
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold)),
-                              const SizedBox(width: 10),
-                              Text(
-                                '${iTotalComp ?? 0}',
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    color: Colors.white,
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 20, top: 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('Resolved',
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Colors.white,
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold)),
-                              const SizedBox(width: 10),
-                              const Text(':',
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Colors.white,
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold)),
-                              SizedBox(width: 10),
-                              Text('${iResolved ?? 0}',
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Colors.white,
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                )),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-              // child: SearchBar(),
-              child: Container(
-                height: 45,
-                padding: EdgeInsets.symmetric(horizontal: 10.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5.0),
-                  border: Border.all(
-                    color: Colors.grey, // Outline border color
-                    width: 0.2, // Outline border width
                   ),
-                  color: Colors.white,
-                ),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 0),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            controller: _searchController,
-                            autofocus: true,
-                            decoration: const InputDecoration(
-                              hintText: 'Enter Keywords',
-                              prefixIcon: Icon(Icons.search,
-                                  color: Colors.grey
-                              ),
-                              hintStyle: TextStyle(
-                                fontFamily: 'Montserrat',
-                                color: Colors.grey,
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.fromLTRB(8.0, 6.0, 16.0, 8.0),
-                              // contentPadding: EdgeInsets.symmetric(horizontal: 16.0), // Adjust horizontal padding as needed
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(height: 10),
+                      const Text(
+                        'Complaint Status',
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            color: Colors.white,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 18, top: 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('Total',
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Colors.white,
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold)),
+                                const SizedBox(width: 10),
+                                const Text(':',
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Colors.white,
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold)),
+                                const SizedBox(width: 10),
+                                Text(
+                                  '${iTotalComp ?? 0}',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Colors.white,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
                             ),
                           ),
-                        )
+                          Padding(
+                            padding: EdgeInsets.only(right: 20, top: 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('Resolved',
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Colors.white,
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold)),
+                                const SizedBox(width: 10),
+                                const Text(':',
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Colors.white,
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold)),
+                                SizedBox(width: 10),
+                                Text('${iResolved ?? 0}',
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Colors.white,
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+                // child: SearchBar(),
+                child: Container(
+                  height: 45,
+                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5.0),
+                    border: Border.all(
+                      color: Colors.grey, // Outline border color
+                      width: 0.2, // Outline border width
+                    ),
+                    color: Colors.white,
+                  ),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: _searchController,
+                              autofocus: true,
+                              decoration: const InputDecoration(
+                                hintText: 'Enter Keywords',
+                                prefixIcon: Icon(Icons.search,
+                                    color: Colors.grey
+                                ),
+                                hintStyle: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Colors.grey,
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.fromLTRB(8.0, 6.0, 16.0, 8.0),
+                                // contentPadding: EdgeInsets.symmetric(horizontal: 16.0), // Adjust horizontal padding as needed
+                              ),
+                            ),
+                          )
 
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
 
-          Expanded(
-            child: ListView.builder(
-              itemCount: _filteredData.length ?? 0,
-              itemBuilder: (context, index) {
-                Map<String, dynamic> item = _filteredData[index];
-                return Padding(
-                    padding: const EdgeInsets.only(left: 5, top: 5, right: 5),
-                    child: Container(
-                      //color: Colors.white,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        // Background color
-                        borderRadius: BorderRadius.circular(10),
-                        // Border radius
-                        border: Border.all(
-                          color: Colors.grey, // Border color
-                          width: 1, // Border width
-                        ),
-                      ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: _filteredData.length ?? 0,
+                itemBuilder: (context, index) {
+                  Map<String, dynamic> item = _filteredData[index];
+                  return Padding(
+                      padding: const EdgeInsets.only(left: 5, top: 5, right: 5),
                       child: Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 5),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                    width: 30.0,
-                                    height: 30.0,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                      border: Border.all(
-                                        color: Color(0xFF255899),
-                                        width: 0.5,
-                                      ),
-                                      color: Colors.white,
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        '${index + 1}',
-                                        style: const TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xff3f617d),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold,
+                        //color: Colors.white,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          // Background color
+                          borderRadius: BorderRadius.circular(10),
+                          // Border radius
+                          border: Border.all(
+                            color: Colors.grey, // Border color
+                            width: 1, // Border width
+                          ),
+                        ),
+                        child: Container(
+                          margin: EdgeInsets.only(left: 10, right: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 5),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      width: 30.0,
+                                      height: 30.0,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15.0),
+                                        border: Border.all(
+                                          color: Color(0xFF255899),
+                                          width: 0.5,
                                         ),
+                                        color: Colors.white,
                                       ),
-                                    ),
-                                  ),
-                                  SizedBox(width: 5),
-                                  Expanded(
-                                    flex: 2, // You can adjust the flex value as needed
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          item['sPointTypeName'] ?? '',
+                                      child: Center(
+                                        child: Text(
+                                          '${index + 1}',
                                           style: const TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Color(0xff3f617d),
                                             fontSize: 14.0,
                                             fontWeight: FontWeight.bold,
                                           ),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                        const Text(
-                                          'Point Name',
-                                          style: TextStyle(
+                                      ),
+                                    ),
+                                    SizedBox(width: 5),
+                                    Expanded(
+                                      flex: 2, // You can adjust the flex value as needed
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            item['sPointTypeName'] ?? '',
+                                            style: const TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Color(0xff3f617d),
+                                              fontSize: 14.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          const Text(
+                                            'Point Name',
+                                            style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Color(0xff3f617d),
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1, // Adjust the flex value here too if needed
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              var fLatitude = item['fLatitude'] ?? '';
+                                              var fLongitude = item['fLongitude'] ?? '';
+                                              if (fLatitude != null && fLongitude != null) {
+                                                generalfunction.launchGoogleMaps(fLatitude, fLongitude);
+                                              } else {
+                                                displayToast("Please check the location.");
+                                              }
+                                            },
+                                            child: const Padding(
+                                              padding: EdgeInsets.only(top: 5),
+                                              child: Image(
+                                                image: AssetImage('assets/images/ic_google_maps.PNG'),
+                                                height: 30,
+                                                width: 30,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(width: 2),
+                                          GestureDetector(
+                                            onTap: () {
+                                              iCompCode = item['iCompCode'].toString() ?? '';
+                                              bottomSheetHold();
+                                            },
+                                            child: const Padding(
+                                              padding: EdgeInsets.only(top: 5),
+                                              child: Image(image: AssetImage('assets/images/holo.jpeg'),
+                                                height: 30,
+                                                width: 30,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                // child: Row(
+                                //   mainAxisAlignment: MainAxisAlignment.start,
+                                //   children: <Widget>[
+                                //     Container(
+                                //       width: 30.0,
+                                //       height: 30.0,
+                                //       decoration: BoxDecoration(
+                                //         borderRadius: BorderRadius.circular(15.0),
+                                //         border: Border.all(
+                                //           color: Color(0xFF255899),
+                                //           // Outline border color
+                                //           width: 0.5, // Outline border width
+                                //         ),
+                                //         color: Colors.white,
+                                //       ),
+                                //       child: Center(
+                                //         child: Text(
+                                //           '${index + 1}',
+                                //           style: const TextStyle(
+                                //               fontFamily: 'Montserrat',
+                                //               color: Color(0xff3f617d),
+                                //               fontSize: 14.0,
+                                //               fontWeight: FontWeight.bold),
+                                //         ),
+                                //         // child: Icon(Icons.ac_unit_rounded, color: Color(0xFF255899), size: 20)),
+                                //       ),
+                                //     ),
+                                //     SizedBox(width: 5),
+                                //     Column(
+                                //       mainAxisAlignment: MainAxisAlignment.start,
+                                //       crossAxisAlignment:
+                                //           CrossAxisAlignment.start,
+                                //       children: <Widget>[
+                                //         Text(
+                                //           item['sPointTypeName'] ?? '',
+                                //           style: const TextStyle(
+                                //               fontFamily: 'Montserrat',
+                                //               color: Color(0xff3f617d),
+                                //               fontSize: 14.0,
+                                //               fontWeight: FontWeight.bold),
+                                //         ),
+                                //         const Text(
+                                //           'Point Name',
+                                //           style: TextStyle(
+                                //               fontFamily: 'Montserrat',
+                                //               color: Color(0xff3f617d),
+                                //               fontSize: 12.0,
+                                //               fontWeight: FontWeight.bold),
+                                //         ),
+                                //       ],
+                                //     ),
+                                //     const SizedBox(width: 0),
+                                //     Expanded(
+                                //       child: GestureDetector(
+                                //           child: Container(
+                                //         alignment: Alignment.centerRight,
+                                //         height: 40,
+                                //         // width: 40,
+                                //         child: Row(
+                                //           mainAxisAlignment:
+                                //               MainAxisAlignment.end,
+                                //           // Aligns the row to the right
+                                //           children: [
+                                //             GestureDetector(
+                                //                 onTap: () {
+                                //                   var fLatitude =
+                                //                       item['fLatitude'] ?? '';
+                                //                   var fLongitude =
+                                //                       item['fLongitude'] ?? '';
+                                //                   print(
+                                //                       '----462----${fLatitude}');
+                                //                   print(
+                                //                       '-----463---${fLongitude}');
+                                //                   if (fLatitude != null &&
+                                //                       fLongitude != null) {
+                                //                     generalfunction
+                                //                         .launchGoogleMaps(
+                                //                             fLatitude,
+                                //                             fLongitude);
+                                //                   } else {
+                                //                     displayToast(
+                                //                         "Please check the location.");
+                                //                   }
+                                //                 },
+                                //                 child: Padding(
+                                //                   padding: const EdgeInsets.only(top: 5),
+                                //                   child: const Image(
+                                //                       image: AssetImage(
+                                //                           'assets/images/ic_google_maps.PNG')),
+                                //                 )),
+                                //             SizedBox(width: 2),
+                                //             GestureDetector(
+                                //               onTap: () {
+                                //                 print('---Helo ----jpeg---');
+                                //                 iCompCode = item['iCompCode']
+                                //                         .toString() ??
+                                //                     '';
+                                //                 print('---506--$iCompCode');
+                                //                 bottomSheetHold();
+                                //                 //_showBottomSheetHold(context,iCompCode);
+                                //               },
+                                //               child: const Padding(
+                                //                 padding: EdgeInsets.only(top: 5),
+                                //                 child: Image(
+                                //                     image: AssetImage('assets/images/holo.jpeg')),
+                                //               ),
+                                //             ),
+                                //           ],
+                                //         ),
+                                //       )),
+                                //     ),
+                                //   ],
+                                // ),
+                              ),
+                              const SizedBox(height: 5),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 15, right: 15),
+                                child: Container(
+                                  height: 0.5,
+                                  color: const Color(0xff3f617d),
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.forward,
+                                    size: 10,
+                                    color: Color(0xff3f617d),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(
+                                    'Complaint No',
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Color(0xFF255899),
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 15),
+                                child: Text(
+                                  item['iCompCode'].toString() ?? '',
+                                  style: const TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xff3f617d),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.forward,
+                                    size: 10,
+                                    color: Color(0xff3f617d),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(
+                                    'Sector',
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Color(0xFF255899),
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 15),
+                                child: Text(
+                                  item['sSectorName'] ?? '',
+                                  style: const TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xff3f617d),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.forward,
+                                    size: 10,
+                                    color: Color(0xff3f617d),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(
+                                    'Posted At',
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Color(0xFF255899),
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 15),
+                                child: Text(
+                                  item['dPostedOn'] ?? '',
+                                  style: const TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xff3f617d),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Icon(Icons.forward,
+                                      size: 10, color: Color(0xff3f617d)),
+                                  SizedBox(width: 5),
+                                  Text(
+                                    'Location',
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Color(0xFF255899),
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 15),
+                                child: Text(
+                                  item['sLocation'] ?? '',
+                                  style: const TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xff3f617d),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Icon(Icons.forward,
+                                      size: 10, color: Color(0xff3f617d)),
+                                  SizedBox(width: 5),
+                                  Text(
+                                    'Description',
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Color(0xFF255899),
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 15),
+                                child: Text(
+                                  item['sDescription'] ?? '',
+                                  style: const TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xff3f617d),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      const Icon(
+                                        Icons.calendar_month,
+                                        size: 10,
+                                        color: Color(0xff3f617d),
+                                      ),
+                                      SizedBox(width: 5),
+                                      const Text(
+                                        'Pending Since :',
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Color(0xFF255899),
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Text(
+                                        item['sPendingFrom'] ?? '',
+                                        style: const TextStyle(
                                             fontFamily: 'Montserrat',
                                             color: Color(0xff3f617d),
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 1, // Adjust the flex value here too if needed
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            var fLatitude = item['fLatitude'] ?? '';
-                                            var fLongitude = item['fLongitude'] ?? '';
-                                            if (fLatitude != null && fLongitude != null) {
-                                              generalfunction.launchGoogleMaps(fLatitude, fLongitude);
-                                            } else {
-                                              displayToast("Please check the location.");
-                                            }
-                                          },
-                                          child: const Padding(
-                                            padding: EdgeInsets.only(top: 5),
-                                            child: Image(
-                                              image: AssetImage('assets/images/ic_google_maps.PNG'),
-                                              height: 30,
-                                              width: 30,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 2),
-                                        GestureDetector(
-                                          onTap: () {
-                                            iCompCode = item['iCompCode'].toString() ?? '';
-                                            bottomSheetHold();
-                                          },
-                                          child: const Padding(
-                                            padding: EdgeInsets.only(top: 5),
-                                            child: Image(image: AssetImage('assets/images/holo.jpeg'),
-                                              height: 30,
-                                              width: 30,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                              // child: Row(
-                              //   mainAxisAlignment: MainAxisAlignment.start,
-                              //   children: <Widget>[
-                              //     Container(
-                              //       width: 30.0,
-                              //       height: 30.0,
-                              //       decoration: BoxDecoration(
-                              //         borderRadius: BorderRadius.circular(15.0),
-                              //         border: Border.all(
-                              //           color: Color(0xFF255899),
-                              //           // Outline border color
-                              //           width: 0.5, // Outline border width
-                              //         ),
-                              //         color: Colors.white,
-                              //       ),
-                              //       child: Center(
-                              //         child: Text(
-                              //           '${index + 1}',
-                              //           style: const TextStyle(
-                              //               fontFamily: 'Montserrat',
-                              //               color: Color(0xff3f617d),
-                              //               fontSize: 14.0,
-                              //               fontWeight: FontWeight.bold),
-                              //         ),
-                              //         // child: Icon(Icons.ac_unit_rounded, color: Color(0xFF255899), size: 20)),
-                              //       ),
-                              //     ),
-                              //     SizedBox(width: 5),
-                              //     Column(
-                              //       mainAxisAlignment: MainAxisAlignment.start,
-                              //       crossAxisAlignment:
-                              //           CrossAxisAlignment.start,
-                              //       children: <Widget>[
-                              //         Text(
-                              //           item['sPointTypeName'] ?? '',
-                              //           style: const TextStyle(
-                              //               fontFamily: 'Montserrat',
-                              //               color: Color(0xff3f617d),
-                              //               fontSize: 14.0,
-                              //               fontWeight: FontWeight.bold),
-                              //         ),
-                              //         const Text(
-                              //           'Point Name',
-                              //           style: TextStyle(
-                              //               fontFamily: 'Montserrat',
-                              //               color: Color(0xff3f617d),
-                              //               fontSize: 12.0,
-                              //               fontWeight: FontWeight.bold),
-                              //         ),
-                              //       ],
-                              //     ),
-                              //     const SizedBox(width: 0),
-                              //     Expanded(
-                              //       child: GestureDetector(
-                              //           child: Container(
-                              //         alignment: Alignment.centerRight,
-                              //         height: 40,
-                              //         // width: 40,
-                              //         child: Row(
-                              //           mainAxisAlignment:
-                              //               MainAxisAlignment.end,
-                              //           // Aligns the row to the right
-                              //           children: [
-                              //             GestureDetector(
-                              //                 onTap: () {
-                              //                   var fLatitude =
-                              //                       item['fLatitude'] ?? '';
-                              //                   var fLongitude =
-                              //                       item['fLongitude'] ?? '';
-                              //                   print(
-                              //                       '----462----${fLatitude}');
-                              //                   print(
-                              //                       '-----463---${fLongitude}');
-                              //                   if (fLatitude != null &&
-                              //                       fLongitude != null) {
-                              //                     generalfunction
-                              //                         .launchGoogleMaps(
-                              //                             fLatitude,
-                              //                             fLongitude);
-                              //                   } else {
-                              //                     displayToast(
-                              //                         "Please check the location.");
-                              //                   }
-                              //                 },
-                              //                 child: Padding(
-                              //                   padding: const EdgeInsets.only(top: 5),
-                              //                   child: const Image(
-                              //                       image: AssetImage(
-                              //                           'assets/images/ic_google_maps.PNG')),
-                              //                 )),
-                              //             SizedBox(width: 2),
-                              //             GestureDetector(
-                              //               onTap: () {
-                              //                 print('---Helo ----jpeg---');
-                              //                 iCompCode = item['iCompCode']
-                              //                         .toString() ??
-                              //                     '';
-                              //                 print('---506--$iCompCode');
-                              //                 bottomSheetHold();
-                              //                 //_showBottomSheetHold(context,iCompCode);
-                              //               },
-                              //               child: const Padding(
-                              //                 padding: EdgeInsets.only(top: 5),
-                              //                 child: Image(
-                              //                     image: AssetImage('assets/images/holo.jpeg')),
-                              //               ),
-                              //             ),
-                              //           ],
-                              //         ),
-                              //       )),
-                              //     ),
-                              //   ],
-                              // ),
-                            ),
-                            const SizedBox(height: 5),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 15, right: 15),
-                              child: Container(
-                                height: 0.5,
-                                color: const Color(0xff3f617d),
-                              ),
-                            ),
-                            const SizedBox(height: 5),
-                            const Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.forward,
-                                  size: 10,
-                                  color: Color(0xff3f617d),
-                                ),
-                                SizedBox(width: 5),
-                                Text(
-                                  'Complaint No',
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xFF255899),
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 15),
-                              child: Text(
-                                item['iCompCode'].toString() ?? '',
-                                style: const TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    color: Color(0xff3f617d),
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            const Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.forward,
-                                  size: 10,
-                                  color: Color(0xff3f617d),
-                                ),
-                                SizedBox(width: 5),
-                                Text(
-                                  'Sector',
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xFF255899),
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 15),
-                              child: Text(
-                                item['sSectorName'] ?? '',
-                                style: const TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    color: Color(0xff3f617d),
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            const Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.forward,
-                                  size: 10,
-                                  color: Color(0xff3f617d),
-                                ),
-                                SizedBox(width: 5),
-                                Text(
-                                  'Posted At',
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xFF255899),
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 15),
-                              child: Text(
-                                item['dPostedOn'] ?? '',
-                                style: const TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    color: Color(0xff3f617d),
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            const Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Icon(Icons.forward,
-                                    size: 10, color: Color(0xff3f617d)),
-                                SizedBox(width: 5),
-                                Text(
-                                  'Location',
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xFF255899),
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 15),
-                              child: Text(
-                                item['sLocation'] ?? '',
-                                style: const TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    color: Color(0xff3f617d),
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            const Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Icon(Icons.forward,
-                                    size: 10, color: Color(0xff3f617d)),
-                                SizedBox(width: 5),
-                                Text(
-                                  'Description',
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xFF255899),
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 15),
-                              child: Text(
-                                item['sDescription'] ?? '',
-                                style: const TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    color: Color(0xff3f617d),
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    const Icon(
-                                      Icons.calendar_month,
-                                      size: 10,
-                                      color: Color(0xff3f617d),
-                                    ),
-                                    SizedBox(width: 5),
-                                    const Text(
-                                      'Pending Since :',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xFF255899),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    const SizedBox(width: 5),
-                                    Text(
-                                      item['sPendingFrom'] ?? '',
-                                      style: const TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xff3f617d),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 15, top: 8),
-                              child: GestureDetector(
-                                onTap: () {
-                                  var sBeforePhoto = "${item['sBeforePhoto']}";
-                                  print('---$sBeforePhoto');
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15, top: 8),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    var sBeforePhoto = "${item['sBeforePhoto']}";
+                                    print('---$sBeforePhoto');
 
-                                  if (sBeforePhoto != null) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => ImageScreen(
-                                                sBeforePhoto: sBeforePhoto)));
-                                  } else {
-                                    // toast
-                                  }
-                                },
-                                child: const Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'View Image',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xFF255899),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(width: 5),
-                                    Icon(
-                                      Icons.forward_sharp,
-                                      size: 15,
-                                      color: Color(0xFF255899),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 5, right: 5, bottom: 10),
-                              child: Container(
-                                //color: Color(0xffe4e4e4),
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  // Border radius
-                                  border: Border.all(
-                                    color: Color(0xFF255899),
-                                    // Border color
-                                    width: 1, // Border width
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 0, right: 10),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  print('----341---');
-                                                  var sBeforePhoto =
-                                                      "${item['sBeforePhoto']}";
-                                                  var iTaskCode =
-                                                      item['iCompCode']
-                                                              .toString() ??
-                                                          '';
-                                                  print(
-                                                      '----357---$sBeforePhoto');
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ActionOnSchedultPointScreen(
-                                                              sBeforePhoto:
-                                                                  sBeforePhoto,
-                                                              iTaskCode:
-                                                                  iTaskCode),
-                                                    ),
-                                                  );
-                                                },
-                                                child: const Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      'Action',
-                                                      style: TextStyle(
-                                                          fontFamily:
-                                                              'Montserrat',
-                                                          color:
-                                                              Color(0xFF255899),
-                                                          fontSize: 12.0,
-                                                          fontWeight: FontWeight
-                                                              .normal),
-                                                    ),
-                                                    SizedBox(width: 2),
-                                                    Icon(Icons.forward_sharp,
-                                                        size: 15,
-                                                        color:
-                                                            Color(0xFF255899)),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                                height: 10,
-                                                width: 1,
-                                                color: Colors.grey),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  print(
-                                                      '---Complaint Transfer ---');
-                                                  iCompCode = item['iCompCode']
-                                                          .toString() ??
-                                                      '';
-                                                  print('---506--$iCompCode');
-                                                  bottomSheetComplaintTransfer();
-                                                  //  _showBottomSheetComplaintType(context,iCompCode);
-                                                },
-                                                child: const Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      'Complaint Transfer',
-                                                      style: TextStyle(
-                                                          fontFamily:
-                                                              'Montserrat',
-                                                          color:
-                                                              Color(0xFF255899),
-                                                          fontSize: 12.0,
-                                                          fontWeight: FontWeight
-                                                              .normal),
-                                                    ),
-                                                    SizedBox(width: 2),
-                                                    Icon(Icons.forward_sharp,
-                                                        size: 15,
-                                                        color:
-                                                            Color(0xFF255899)),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                                height: 10,
-                                                width: 1,
-                                                color: Colors.grey),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(4.0),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  print('---Forward---');
-                                                  iCompCode = item['iCompCode']
-                                                          .toString() ??
-                                                      '';
-                                                  print('---506--$iCompCode');
-                                                  // _showBottomSheetHold(context,iCompCode);
-                                                  //_showBottomSheet(context,iCompCode);
-                                                  bottomSheetForward(
-                                                      context, iCompCode);
-                                                },
-                                                child: const Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      'Forward',
-                                                      style: TextStyle(
-                                                          fontFamily:
-                                                              'Montserrat',
-                                                          color:
-                                                              Color(0xFF255899),
-                                                          fontSize: 12.0,
-                                                          fontWeight: FontWeight
-                                                              .normal),
-                                                    ),
-                                                    SizedBox(width: 2),
-                                                    Icon(Icons.forward_sharp,
-                                                        size: 15,
-                                                        color:
-                                                            Color(0xFF255899))
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                    if (sBeforePhoto != null) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => ImageScreen(
+                                                  sBeforePhoto: sBeforePhoto)));
+                                    } else {
+                                      // toast
+                                    }
+                                  },
+                                  child: const Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'View Image',
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Color(0xFF255899),
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.bold),
                                       ),
+                                      SizedBox(width: 5),
+                                      Icon(
+                                        Icons.forward_sharp,
+                                        size: 15,
+                                        color: Color(0xFF255899),
+                                      )
                                     ],
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                              SizedBox(height: 10),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 5, right: 5, bottom: 10),
+                                child: Container(
+                                  //color: Color(0xffe4e4e4),
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    // Border radius
+                                    border: Border.all(
+                                      color: Color(0xFF255899),
+                                      // Border color
+                                      width: 1, // Border width
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.only(left: 0, right: 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    print('----341---');
+                                                    var sBeforePhoto =
+                                                        "${item['sBeforePhoto']}";
+                                                    var iTaskCode =
+                                                        item['iCompCode']
+                                                                .toString() ??
+                                                            '';
+                                                    print(
+                                                        '----357---$sBeforePhoto');
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ActionOnSchedultPointScreen(
+                                                                sBeforePhoto:
+                                                                    sBeforePhoto,
+                                                                iTaskCode:
+                                                                    iTaskCode),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: const Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        'Action',
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'Montserrat',
+                                                            color:
+                                                                Color(0xFF255899),
+                                                            fontSize: 12.0,
+                                                            fontWeight: FontWeight
+                                                                .normal),
+                                                      ),
+                                                      SizedBox(width: 2),
+                                                      Icon(Icons.forward_sharp,
+                                                          size: 15,
+                                                          color:
+                                                              Color(0xFF255899)),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                  height: 10,
+                                                  width: 1,
+                                                  color: Colors.grey),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    print(
+                                                        '---Complaint Transfer ---');
+                                                    iCompCode = item['iCompCode']
+                                                            .toString() ??
+                                                        '';
+                                                    print('---506--$iCompCode');
+                                                    bottomSheetComplaintTransfer();
+                                                    //  _showBottomSheetComplaintType(context,iCompCode);
+                                                  },
+                                                  child: const Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        'Complaint Transfer',
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'Montserrat',
+                                                            color:
+                                                                Color(0xFF255899),
+                                                            fontSize: 12.0,
+                                                            fontWeight: FontWeight
+                                                                .normal),
+                                                      ),
+                                                      SizedBox(width: 2),
+                                                      Icon(Icons.forward_sharp,
+                                                          size: 15,
+                                                          color:
+                                                              Color(0xFF255899)),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                  height: 10,
+                                                  width: 1,
+                                                  color: Colors.grey),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(4.0),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    print('---Forward---');
+                                                    iCompCode = item['iCompCode']
+                                                            .toString() ??
+                                                        '';
+                                                    print('---506--$iCompCode');
+                                                    // _showBottomSheetHold(context,iCompCode);
+                                                    //_showBottomSheet(context,iCompCode);
+                                                    bottomSheetForward(
+                                                        context, iCompCode);
+                                                  },
+                                                  child: const Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        'Forward',
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'Montserrat',
+                                                            color:
+                                                                Color(0xFF255899),
+                                                            fontSize: 12.0,
+                                                            fontWeight: FontWeight
+                                                                .normal),
+                                                      ),
+                                                      SizedBox(width: 2),
+                                                      Icon(Icons.forward_sharp,
+                                                          size: 15,
+                                                          color:
+                                                              Color(0xFF255899))
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ));
-              },
-            ),
-          )
+                      ));
+                },
+              ),
+            )
 
-        ],
+          ],
+        ),
       ),
     );
   }

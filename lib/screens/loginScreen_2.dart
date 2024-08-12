@@ -240,7 +240,16 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: _onWillPop,
+      //onWillPop: _onWillPop,
+      onWillPop: () async {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Pop Screen Disabled.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return false; // Prevent the back button action
+      },
       child: Scaffold(
           backgroundColor: Colors.white,
           body: Padding(
