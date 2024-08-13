@@ -612,7 +612,7 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
                                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                         children: [
                                                           SizedBox(width: 2),
-                                                          Icon(Icons.edit,size: 14,color: Color(0xFF255899)),
+                                                          Icon(Icons.lock_clock,size: 14,color: Color(0xFF255899)),
                                                           SizedBox(width: 2),
                                                           const Text('Scheduled At :',
                                                               style: TextStyle(

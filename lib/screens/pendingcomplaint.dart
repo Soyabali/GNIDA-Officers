@@ -546,7 +546,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                         children: <Widget>[
                           Container(
                               margin: const EdgeInsets.only(
-                                  left: 0, right: 2, bottom: 2),
+                                  left: 0, right: 2, bottom: 2,top: 4),
                               child: const Icon(
                                 Icons.forward_sharp,
                                 size: 12,
@@ -825,7 +825,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     )) ??
         false;
   }
-
 
   @override
   void initState() {
