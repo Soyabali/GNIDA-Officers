@@ -178,7 +178,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       },
       child: Scaffold(
           backgroundColor: Colors.white,
-          appBar: generalFunction.appbarFunction("Noida One"),
+          appBar: generalFunction.appbarFunction("Noida One "),
           // drawer
           drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
           // body

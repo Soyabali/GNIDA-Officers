@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Controllers/login_repo.dart';
@@ -12,7 +13,6 @@ import '../resources/app_strings.dart';
 import '../resources/app_text_style.dart';
 import '../resources/assets_manager.dart';
 import '../resources/values_manager.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'forgotpassword.dart';
 import 'generalFunction.dart';
 import 'homeScreen.dart';
@@ -588,13 +588,23 @@ class _LoginPageState extends State<LoginPage> {
   }
   // toast code
 void displayToast(String msg){
-  Fluttertoast.showToast(
-      msg: msg,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.red,
-      textColor: Colors.white,
-      fontSize: 16.0);
+  showToast(
+    msg,
+    duration: const Duration(seconds: 1),
+    position: ToastPosition.center,
+    backgroundColor: Colors.red,
+    textStyle: const TextStyle(
+      color: Colors.white,
+      fontSize: 16.0,
+    ),
+  );
+  // Fluttertoast.showToast(
+  //     msg: msg,
+  //     toastLength: Toast.LENGTH_SHORT,
+  //     gravity: ToastGravity.CENTER,
+  //     timeInSecForIosWeb: 1,
+  //     backgroundColor: Colors.red,
+  //     textColor: Colors.white,
+  //     fontSize: 16.0);
   }
 }

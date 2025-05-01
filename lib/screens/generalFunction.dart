@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:noidaone/resources/routes_managements.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -454,15 +454,25 @@ class GeneralFunction {
   }
 
   void displayToastlogout(){
-    Fluttertoast.showToast(
-        msg: "Someone else has been login with your number.",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0
+    showToast(
+      "Someone else has been login with your number.",
+      duration: const Duration(seconds: 1),
+      position: ToastPosition.center,
+      backgroundColor: Colors.red,
+      textStyle: const TextStyle(
+        color: Colors.white,
+        fontSize: 16.0,
+      ),
     );
+    // Fluttertoast.showToast(
+    //     msg: "Someone else has been login with your number.",
+    //     toastLength: Toast.LENGTH_SHORT,
+    //     gravity: ToastGravity.CENTER,
+    //     timeInSecForIosWeb: 1,
+    //     backgroundColor: Colors.red,
+    //     textColor: Colors.white,
+    //     fontSize: 16.0
+    // );
   }
 
    Future<void> launchGoogleMaps(double laititude,double longitude) async {

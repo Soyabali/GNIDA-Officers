@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:noidaone/resources/color_manager.dart';
-import 'package:noidaone/resources/theme_manager.dart';
 import 'package:noidaone/screens/homeScreen.dart';
 import 'package:noidaone/screens/homepagesecod.dart';
 import 'package:noidaone/screens/splacescreen.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  runApp(const MyApp());
+
+  //runApp(const MyApp());
+  runApp(
+    OKToast(
+      child: MyApp(), // or your root widget
+    ),
+  );
+
   configLoading();
 }
 

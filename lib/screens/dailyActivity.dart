@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:noidaone/screens/homeScreen.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Controllers/district_repo.dart';
 import '../Controllers/markLocationRepo.dart';
@@ -703,13 +703,23 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   // dialog toast code
   void displayToast(String msg){
-    Fluttertoast.showToast(
-        msg: msg,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);
+    showToast(
+      msg,
+      duration: const Duration(seconds: 1),
+      position: ToastPosition.center,
+      backgroundColor: Colors.red,
+      textStyle: const TextStyle(
+        color: Colors.white,
+        fontSize: 16.0,
+      ),
+    );
+    // Fluttertoast.showToast(
+    //     msg: msg,
+    //     toastLength: Toast.LENGTH_SHORT,
+    //     gravity: ToastGravity.CENTER,
+    //     timeInSecForIosWeb: 1,
+    //     backgroundColor: Colors.red,
+    //     textColor: Colors.white,
+    //     fontSize: 16.0);
   }
 }

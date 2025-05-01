@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:noidaone/resources/assets_manager.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -64,15 +64,25 @@ class _SplaceState extends State<Splace> {
   }
   //
   void displayToast(String msg){
-    Fluttertoast.showToast(
-        msg: msg,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0
+    showToast(
+      msg,
+      duration: const Duration(seconds: 1),
+      position: ToastPosition.center,
+      backgroundColor: Colors.red,
+      textStyle: const TextStyle(
+        color: Colors.white,
+        fontSize: 16.0,
+      ),
     );
+    // Fluttertoast.showToast(
+    //     msg: msg,
+    //     toastLength: Toast.LENGTH_SHORT,
+    //     gravity: ToastGravity.CENTER,
+    //     timeInSecForIosWeb: 1,
+    //     backgroundColor: Colors.red,
+    //     textColor: Colors.white,
+    //     fontSize: 16.0
+    // );
   }
   // toShareScreenAccordingToUserId
 
@@ -106,7 +116,7 @@ class _SplaceState extends State<Splace> {
   versionAliCall() async{
     /// TODO HERE YOU SHOULD CHANGE APP VERSION FLUTTER VERSION MIN 3 DIGIT SUCH AS 1.0.0
     /// HERE YOU PASS variable _appVersion
-    var loginMap = await AppVersionRepo().appversion(context,'18');
+    var loginMap = await AppVersionRepo().appversion(context,'22');
     var result = "${loginMap['Result']}";
     var msg = "${loginMap['Msg']}";
     print('------------110----$result');
