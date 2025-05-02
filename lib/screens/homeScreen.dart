@@ -20,7 +20,6 @@ import '../resources/app_text_style.dart';
 import 'complaintStatus.dart';
 import 'dailyActivity.dart';
 
-
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -178,7 +177,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       },
       child: Scaffold(
           backgroundColor: Colors.white,
-          appBar: generalFunction.appbarFunction("Noida One "),
+          appBar: generalFunction.appbarFunction("Noida One"),
           // drawer
           drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
           // body
@@ -237,7 +236,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                       color: Colors.blue,
                                       width: 0,
                                     )),
-
                                 tabs: <Widget>[
                                   _buildTab('Today', context),
                                   _buildTab('Month', context),

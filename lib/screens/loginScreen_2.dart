@@ -144,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
       print('Permission denied');
     } else if (status == PermissionStatus.permanentlyDenied) {
       print('Permission Permanently Denied');
-      await openAppSettings();
+     // await openAppSettings();
     }
   }
 

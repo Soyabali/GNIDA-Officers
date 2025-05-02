@@ -413,9 +413,8 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                                     InkWell(
                                                       onTap: () {
                                                         print('00000000----');
-                                                        var sBeforePhoto =
-                                                            "${item['sBeforePhoto']}";
-                                                        print('---$sBeforePhoto');
+                                                        var sBeforePhoto = "${item['sBeforePhoto']}";
+                                                        print('-----417---$sBeforePhoto');
 
                                                         if (sBeforePhoto != null) {
                                                           Navigator.push(

@@ -1,4 +1,4 @@
-package com.example.noidaone
+package com.synergy.noidaOne
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -20,8 +20,7 @@ import 'notification.dart';
 class GeneralFunction {
   void logout(BuildContext context)async {
        /// TODO LOGOUT CODE
-    SharedPreferences prefs =
-        await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove("iUserId");
     prefs.remove("sName");
     prefs.remove("sContactNo");

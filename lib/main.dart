@@ -15,7 +15,6 @@ void main() {
       child: MyApp(), // or your root widget
     ),
   );
-
   configLoading();
 }
 
