@@ -36,10 +36,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'baseurl.dart';
 
 
-class DistRepo
+class AgencyRepo
 {
   List distList = [];
-  Future<List> getDistList() async
+  Future<List> getAgencyList() async
   {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
@@ -48,7 +48,7 @@ class DistRepo
     print('-----22---$sToken');
     print('-----23---$iUserId');
     var baseURL = BaseRepo().baseurl;
-    var bindSector = "BindSector/BindSector";
+    var bindSector = "----add a ent point Agency--";
     var sectorApi = "$baseURL$bindSector";
     try
     {

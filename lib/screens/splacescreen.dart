@@ -119,10 +119,12 @@ class _SplaceState extends State<Splace> {
     var loginMap = await AppVersionRepo().appversion(context,'22');
     var result = "${loginMap['Result']}";
     var msg = "${loginMap['Msg']}";
+    var iVersion = "${loginMap['iVersion']}";
     print('------------110----$result');
+    print("--123---$loginMap");
     //print('---73--$result');
     //print('---74--$msg');
-    if(result=="1"){
+    if(iVersion=="1"){
       // /// TODO HERE YOU SHOULD APPLY LOGIC
       // /// TODO YOU Fetch a value from a sharedPreference , behafe of value you should  open the screen login or Home Page or Second Home Page
       //  if(iAgencyCode=="1"){
@@ -148,7 +150,7 @@ class _SplaceState extends State<Splace> {
                 onPressed: () {
                   _launchGooglePlayStore(); // Close the dialog
                 },
-                child: const Text('Downlode'),
+                child: const Text('Download'),
               ),
 
             ],

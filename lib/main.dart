@@ -84,7 +84,7 @@ class MyApp extends StatelessWidget {
         );
   }
   //
-  goNext(BuildContext context) async{
+  goNext(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var iAgencyCode = prefs.getString('iAgencyCode').toString();
     if(iAgencyCode=="1"){

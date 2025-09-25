@@ -2,18 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../Controllers/userContributionRepo.dart';
 
-// class TabBarHome extends StatelessWidget {
-//   const TabBarHome({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: TabPage(),
-//     );
-//   }
-// }
 class TabPage extends StatefulWidget {
+
   final Function(String,int,String,int,String,int) onDataReceived;
   const TabPage({Key? key, required this.onDataReceived}) : super(key: key);
 
@@ -69,7 +59,8 @@ class _TabPageState extends State<TabPage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 15, right: 5, bottom: 15),
                   child: Container(
-                    height: 430,
+                   // height: 430,
+                   height: 600,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),

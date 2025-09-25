@@ -1,9 +1,7 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -32,6 +30,7 @@ class LoginScreen_2 extends StatelessWidget {
 }
 
 class LoginPage extends StatefulWidget {
+
   const LoginPage({super.key});
 
   @override
@@ -79,8 +78,7 @@ class _LoginPageState extends State<LoginPage> {
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     debugPrint("-------------Position-----------------");
     debugPrint(position.latitude.toString());
 
@@ -136,7 +134,6 @@ class _LoginPageState extends State<LoginPage> {
   // request location permission
   // location Permission
   Future<void> requestLocationPermission() async {
-
     final status = await Permission.locationWhenInUse.request();
 
     if (status == PermissionStatus.granted) {
@@ -161,7 +158,6 @@ class _LoginPageState extends State<LoginPage> {
     passwordController.clear();
   }
   // bottomSheet
-
   void _showBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -388,7 +384,7 @@ class _LoginPageState extends State<LoginPage> {
                                 decoration: InputDecoration(
                                   labelText: AppStrings.txtpassword,
                                   border: const OutlineInputBorder(),
-                                  contentPadding: EdgeInsets.symmetric(
+                                  contentPadding: const EdgeInsets.symmetric(
                                     vertical: AppPadding.p10,
                                     horizontal: AppPadding.p10, // Add horizontal padding
                                   ),
@@ -405,8 +401,7 @@ class _LoginPageState extends State<LoginPage> {
                                     },
                                   ),
                                 ),
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Enter password';

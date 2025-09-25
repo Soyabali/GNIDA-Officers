@@ -61,7 +61,8 @@ class _TabPageState extends State<TabPageMonth> {
               Padding(
                 padding: const EdgeInsets.only(left: 15, right: 5, bottom: 15),
                 child: Container(
-                  height: 430,
+                 // height: 430,
+                  height: 600,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),

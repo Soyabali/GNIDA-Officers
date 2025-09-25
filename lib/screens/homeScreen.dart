@@ -1,9 +1,7 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:noidaone/screens/MarkPointScreen.dart';
 import 'package:noidaone/screens/TabBarHomeMonth.dart';
 import 'package:noidaone/screens/drywetsegregation.dart';
@@ -67,7 +65,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
 
   usermoduleright() async {
     userModuleRightList = await UserModuleRightRepo().usermoduleright();
-    print(" ----83----xxxxx-> $userModuleRightList");
+    //print(" ----83----xxxxx-> $userModuleRightList");
+    debugPrint("----83----xxxxx-> $userModuleRightList", wrapWidth: 1024);
     // print(" ----84--> ${userModuleRightList.length}");
     // print(" ----85--> $userModuleRightList['sActivityName']");
     setState(() {});
@@ -465,6 +464,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                 padding: const EdgeInsets.only(bottom: 5),
                 child: Container(
                   height: MediaQuery.of(context).size.height - 400.0,
+                 color: Colors.white,
                  // height: 250,
                   child: TabBarView(
                       controller: tabController,
@@ -482,7 +482,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                           print('---522--TodayNameThird---$nameThird');
                           print('---523--TodayPointThird---$pointThird');
                         }),
-                    TabPageMonth(onDataReceived: (nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird){
+                        TabPageMonth(onDataReceived: (nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird){
                       TofetchvalueFromTab(nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird);
 
                       print('---526--MonthNameFirst---$nameFirst');
@@ -508,7 +508,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                 ),
               const SizedBox(height: 0),
               Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 0, top: 0),
+                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 5, top: 0),
                 child: Container(
                   height: 100,
                   child: ListView.builder(
@@ -564,11 +564,19 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                           }
                         },
                         child: Container(
-                          width: 91,
-                          height: 80,
-                          margin: const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 0),
+                          width: 100,
+                          height: 90,
+                          margin: const EdgeInsets.only(left: 2, right: 2, bottom: 8, top: 0),
                           decoration: BoxDecoration(
-                            color: Color(0xff81afea),
+                            //color: Color(0xff81afea),
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xFF81AFEA), // Your base color
+                                Color(0xFF2E6DD8), // Matching darker blue
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Center(
@@ -585,18 +593,13 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                 Column(
                                   children: <Widget>[
                                     Text(
-                                      parts[0],
+                                      sActivityName,
+                                      textAlign: TextAlign.center,
+                                      overflow: TextOverflow.ellipsis, // adds "..." if too long
+                                      maxLines: 2,
                                       style: const TextStyle(
                                         color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
-                                    Text(
-                                      parts[1],
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.normal,
                                       ),
                                     ),

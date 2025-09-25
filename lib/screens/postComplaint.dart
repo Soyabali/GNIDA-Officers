@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:noidaone/screens/homeScreen.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../Controllers/agencyRepo.dart';
 import '../Controllers/block_repo.dart';
 import '../Controllers/district_repo.dart';
 import '../Controllers/markLocationRepo.dart';
@@ -52,6 +53,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   List stateList = [];
   List distList = [];
+  List AgencyList = [];
   List blockList = [];
   List marklocationList = [];
   //File? image;
@@ -60,7 +62,13 @@ class _MyHomePageState extends State<MyHomePage> {
   // Distic List
   updatedSector() async {
     distList = await DistRepo().getDistList();
-    print(" -----xxxxx-  list Data--65---> $distList");
+    print(" -----xxxxx-  list Data--65----------> $distList");
+    setState(() {});
+  }
+  // updateAgency
+  updatedAgency() async {
+    AgencyList = await AgencyRepo().getAgencyList();
+    print(" -----xxxxx-  AgencyList----71----------> $AgencyList");
     setState(() {});
   }
   marklocationData() async {
@@ -86,9 +94,11 @@ class _MyHomePageState extends State<MyHomePage> {
   double? lat, long;
   var _selectedStateId;
   var _dropDownValueDistric;
+  var _dropDownValueAgency;
   var _dropDownValueMarkLocation;
   var _iPointTypeCode;
   var _iSectorCode;
+  var _iAgencyCode;
   var sectorresponse;
   String? sec;
   final distDropdownFocus = GlobalKey();
@@ -112,12 +122,22 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     // TODO: implement initState
-    updatedSector();
-    marklocationData();
-    getLocation();
+    callApiOnInit();
     super.initState();
     locationfocus = FocusNode();
     descriptionfocus = FocusNode();
+  }
+  void callApiOnInit(){
+    updatedSector();
+    marklocationData();
+  //  updatedAgency();
+    getLocation();
+  }
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+   // _bindAgency();
+    super.didChangeDependencies();
   }
   @override
   void dispose() {
@@ -187,6 +207,79 @@ class _MyHomePageState extends State<MyHomePage> {
                   });
                 },
                 items: distList.map((dynamic item) {
+                  return DropdownMenuItem(
+                    child: Text(item['sSectorName'].toString()),
+                    value: item["sSectorName"].toString(),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+  Widget _bindAgency() {
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(10.0),
+      child: Container(
+        width: MediaQuery.of(context).size.width - 50,
+        height: 42,
+        color: Color(0xFFf2f3f5),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: DropdownButtonHideUnderline(
+            child: ButtonTheme(
+              alignedDropdown: true,
+              child: DropdownButton(
+                onTap: () {
+                  FocusScope.of(context).unfocus();
+                },
+                hint: RichText(
+                  text: const TextSpan(
+                    text: "Please choose a Sector",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: '',
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ), // Not necessary for Option 1
+                value: _dropDownValueAgency,
+                key: distDropdownFocus,
+                onChanged: (newValue) {
+                  setState(() {
+                    _dropDownValueAgency = newValue;
+                    print('---187---$_dropDownValueAgency');
+                    //  _isShowChosenDistError = false;
+                    // Iterate the List
+                    AgencyList.forEach((element) {
+                      if (element["sSectorName"] == _dropDownValueAgency) {
+                        setState(() {
+                          _iAgencyCode = element['iSectorCode'];
+                        });
+                        // if (_selectedDisticId != null) {
+                        //   updatedBlock();
+                        // } else {
+                        //   print('Please Select Distic name');
+                        // }
+                        // print("Distic Id value xxxxx.... $_selectedDisticId");
+                        print("-----AgencyCode---$_iAgencyCode");
+                        print("_dropDownValueAgency xxxxxxx.... $_dropDownValueAgency");
+                        //print("Block list Ali xxxxxxxxx.... $blockList");
+                      }
+                    });
+                  });
+                },
+                items: AgencyList.map((dynamic item) {
                   return DropdownMenuItem(
                     child: Text(item['sSectorName'].toString()),
                     value: item["sSectorName"].toString(),
@@ -283,8 +376,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       builder: (context) =>
                       const HomePage()));
             },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Icon(Icons.arrow_back_ios),
             )),
         title: const Text(
@@ -402,7 +495,36 @@ class _MyHomePageState extends State<MyHomePage> {
                             ],
                           ),
                         ),
-                        _bindSector(),
+                         _bindSector(),
+                        const SizedBox(height: 10),
+                        // Agency
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 5),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                  margin: EdgeInsets.only(left: 8,right: 2),
+                                  child: const Icon(
+                                    Icons.forward_sharp,
+                                    size: 12,
+                                    color: Colors.black54,
+                                  )),
+                              const Text(
+                                  'Agency',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xFF707d83),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold)
+                              ),
+                            ],
+                          ),
+                        ),
+                        // bind Agency
+                       // _bindSector(),
+                      //  _bindAgency(),
+                        _bindMarkLocation(),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 5,top: 5),
                           child: Row(
