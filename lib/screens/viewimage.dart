@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class ImageScreen extends StatelessWidget {
 
   final sBeforePhoto;
+
   const ImageScreen({super.key,required this.sBeforePhoto});
 
   @override
