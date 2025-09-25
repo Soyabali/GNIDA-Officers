@@ -6,7 +6,6 @@ import 'baseurl.dart';
 
 
 class AppVersionRepo {
-
   // this is a loginApi call functin
 
   Future appversion(BuildContext context, String version) async {
@@ -21,6 +20,7 @@ class AppVersionRepo {
       print('------------17---versionApi---$versionApi');
 
       showLoader();
+
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request(
           'POST',

@@ -17,7 +17,7 @@ void main() {
   );
   configLoading();
 }
-
+ var result;
 configLoading() {
   EasyLoading.instance
     ..displayDuration = const Duration(milliseconds: 2000)
