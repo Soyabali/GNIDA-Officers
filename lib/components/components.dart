@@ -158,18 +158,6 @@ Widget listTile(){
                   ),
                 ),
               ),
-              // leading: Container(
-              //   margin: const EdgeInsets.all(15), // margin on all sides
-              //   height: 35,
-              //   width: 35,
-              //   child: ClipRRect(
-              //     borderRadius: BorderRadius.circular(35 / 2), // makes it circular
-              //     child: Image.asset(
-              //       'assets/images/attendancelist.jpeg',
-              //       fit: BoxFit.cover,
-              //     ),
-              //   ),
-              // ),
               title: const Text(
                 'Attendance List',
                 style:  const TextStyle(
@@ -178,11 +166,15 @@ Widget listTile(){
                     fontSize: 12.0,
                     fontWeight: FontWeight.bold),
               ),
-              trailing:  Image.asset('assets/images/small_right_arrow.png',
-                height: 20,
-                width: 20,
-                fit: BoxFit.cover,
+              trailing: Icon(Icons.arrow_forward_ios,
+              size: 20,
+                color: Colors.grey.shade400,
               ),
+              // trailing:  Image.asset('assets/images/small_right_arrow.png',
+              //   height: 20,
+              //   width: 20,
+              //   fit: BoxFit.cover,
+              // ),
               onTap: () {
                 // Handle tap action
                 debugPrint("Profile tapped!");
@@ -246,11 +238,15 @@ Widget listTile(){
                     fontSize: 12.0,
                     fontWeight: FontWeight.bold),
               ),
-              trailing: Image.asset('assets/images/small_right_arrow.png',
-                height: 20,
-                width: 20,
-                fit: BoxFit.cover,
-              ),
+              trailing: Icon(Icons.arrow_forward_ios,
+              size: 20,
+              color: Colors.grey.shade400,
+            ),
+              // trailing: Image.asset('assets/images/small_right_arrow.png',
+              //   height: 20,
+              //   width: 20,
+              //   fit: BoxFit.cover,
+              // ),
               onTap: () {
                 // Handle tap action
                 debugPrint("Profile tapped!");
@@ -264,6 +260,7 @@ Widget listTile(){
 Widget bottomListCard(int index){
   return Card(
     elevation: 4,
+    color: Colors.white,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(16),
       side: BorderSide( // 👈 outline border
