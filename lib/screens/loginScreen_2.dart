@@ -13,11 +13,11 @@ import '../resources/assets_manager.dart';
 import '../resources/values_manager.dart';
 import 'forgotpassword.dart';
 import 'generalFunction.dart';
+import 'gnidaofficers/gnoidadashboard.dart';
 import 'homeScreen.dart';
 import 'homepagesecod.dart';
 
 class LoginScreen_2 extends StatelessWidget {
-
   const LoginScreen_2({super.key});
 
   @override
@@ -30,7 +30,6 @@ class LoginScreen_2 extends StatelessWidget {
 }
 
 class LoginPage extends StatefulWidget {
-
   const LoginPage({super.key});
 
   @override
@@ -319,7 +318,6 @@ class _LoginPageState extends State<LoginPage> {
                             style:
                                 AppTextStyle.font18OpenSansboldAppBasicTextStyle),
                       ),
-
                     /// Todo here we mention main code for a login ui.
                     GestureDetector(
                       onTap: () {
@@ -426,7 +424,6 @@ class _LoginPageState extends State<LoginPage> {
                                            loginMap = await LoginRepo1()
                                           .authenticate(context, phone!, password!);
 
-
                                            print('---358----$loginMap');
                                            result = "${loginMap['Result']}";
                                            msg = "${loginMap['Msg']}";
@@ -482,24 +479,29 @@ class _LoginPageState extends State<LoginPage> {
                                     print('---465----stringContact----$stringContact');
                                     print('---473----iAgencyCode----$iAgencyCode');
                                     if(iAgencyCode =="1"){
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => HomePage()),
-                                      );
-                                     // print('----570---To go with $iAgencyCode---');
-                                    }else{
-                                      // HomeScreen_2
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => HomeScreen_2()),
-                                      );
-                                    //  print('----572---To go with $iAgencyCode---');
 
-                                    }
-                                    // Navigator.pushReplacement(
-                                    //   context,
-                                    //   MaterialPageRoute(builder: (context) => HomePage()),
-                                    // );
+                                      print("----482------GNIDA Officers");
+
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => GnoidaOfficersHome()),
+                                        );
+
+
+
+                                      /// todo her this is important code after , this is used to gess the flow of the application
+
+                                    //   Navigator.pushReplacement(
+                                    //     context,
+                                    //     MaterialPageRoute(builder: (context) => HomePage()),
+                                    //   );
+                                    // }else{
+                                    //   Navigator.pushReplacement(
+                                    //     context,
+                                    //     MaterialPageRoute(builder: (context) => HomeScreen_2()),
+                                    //   );
+
+                                     }
 
                                 }else{
                                   print('----373---To display error msg---');

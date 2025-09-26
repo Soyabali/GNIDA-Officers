@@ -61,16 +61,21 @@ class MyApp extends StatelessWidget {
          MaterialApp(
           debugShowCheckedModeBanner: false,
           // theme: getApplicationTheme(),
-        theme: ThemeData(
-        primaryColor: ColorManager.primary,
-        primaryColorLight: ColorManager.primaryOpacity70,
-        primaryColorDark: ColorManager.darkPrimary,
-        disabledColor: ColorManager.grey1,
-        // ripple color
-        splashColor: ColorManager.primaryOpacity70,
-        // will be used incase of disabled button for example
-        hintColor: ColorManager.grey
-        ),
+           theme: ThemeData(
+             drawerTheme: const DrawerThemeData(
+               backgroundColor: Colors.white, // all drawers white by default
+             ),
+           ),
+        // theme: ThemeData(
+        // primaryColor: ColorManager.primary,
+        // primaryColorLight: ColorManager.primaryOpacity70,
+        // primaryColorDark: ColorManager.darkPrimary,
+        // disabledColor: ColorManager.grey1,
+        // // ripple color
+        // splashColor: ColorManager.primaryOpacity70,
+        // // will be used incase of disabled button for example
+        // hintColor: ColorManager.grey
+        // ),
 
           // theme: ThemeData(
           //   primarySwatch: Colors.blue,

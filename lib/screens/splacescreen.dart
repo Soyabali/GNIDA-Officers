@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../Controllers/appversionrepo.dart';
 import '../resources/values_manager.dart';
+import 'gnidaofficers/gnoidadashboard.dart';
 import 'homeScreen.dart';
 import 'homepagesecod.dart';
 import 'loginScreen_2.dart';
@@ -91,18 +92,27 @@ class _SplaceState extends State<Splace> {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           iAgencyCode = prefs.getString('iAgencyCode').toString();
            if(iAgencyCode=="1"){
-             print('----Ali Screenn---xxxxx--');
-             Navigator.pushReplacement(context,
-                 MaterialPageRoute(builder: (context) =>  const HomePage()));
-           }else if(iAgencyCode=="5"){
-             print('----Ravi  Screen--xxxx-');
-             Navigator.pushReplacement(context,
-                 MaterialPageRoute(builder: (context) =>  const HomeScreen_2()));
-           }else{
-             print('----check user Connection and go LoginScreen-');
-             checkUserConnection();
+
+             //GnoidaOfficersHome
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) =>  const GnoidaOfficersHome()));
            }
-         }
+             /// todo her you should uncomment in a future
+             ///
+           //   print('----Ali Screenn---xxxxx--');
+           //   Navigator.pushReplacement(context,
+           //       MaterialPageRoute(builder: (context) =>  const HomePage()));
+           // }else if(iAgencyCode=="5"){
+           //   print('----Ravi  Screen--xxxx-');
+           //   Navigator.pushReplacement(context,
+           //       MaterialPageRoute(builder: (context) =>  const HomeScreen_2()));
+           // }else{
+           //   print('----check user Connection and go LoginScreen-');
+           //   checkUserConnection();
+           // }
+
+
+  }
   @override
   void initState() {
     // TODO: implement initState

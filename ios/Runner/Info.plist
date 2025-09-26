@@ -14,15 +14,15 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Noida One</string>
+	<string>GNIDA Officers</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.synergy.noidaOne</string>
+	<string>com.synergy.gnidaofficers</string>
 	<key>CFBundleInfoDictionaryVersion</key>
-	<string>5.0</string>
+	<string>1.0</string>
 	<key>CFBundleName</key>
-	<string>noida One</string>
+	<string>GNIDA Officers</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

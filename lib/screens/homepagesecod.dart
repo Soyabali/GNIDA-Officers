@@ -17,7 +17,6 @@ import '../Controllers/bindPointTypeRepo.dart';
 import '../Controllers/changePointTypeRepo.dart';
 import '../Controllers/holoComplaintRepo.dart';
 import '../Controllers/pendingInternalComplaintRepo.dart';
-import '../Controllers/postimage_2_Repo.dart';
 import '../Helpers/loader_helper.dart';
 import '../resources/app_text_style.dart';
 import 'actionOnSchedulePoint.dart';
@@ -45,6 +44,7 @@ class HomeScreen_2 extends StatelessWidget {
 }
 
 class HomeScreenPage_2 extends StatefulWidget {
+
   const HomeScreenPage_2({Key? key}) : super(key: key);
 
   @override
@@ -52,6 +52,7 @@ class HomeScreenPage_2 extends StatefulWidget {
 }
 
 class _SchedulePointScreenState extends State<HomeScreenPage_2> {
+
   GeneralFunction generalFunction = GeneralFunction();
 
   var variableName;
@@ -101,7 +102,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     print('--45--$_filteredData');
     setState(() {});
   }
-
   // bottomSheetForward
   bottomSheetForward(BuildContext context, String iCompCode) {
     showModalBottomSheet(

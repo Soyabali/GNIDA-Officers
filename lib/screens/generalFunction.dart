@@ -51,6 +51,7 @@ class GeneralFunction {
   // drawerFunction
   drawerFunction(BuildContext context, String sName, String sContactNo) {
     return Drawer(
+      backgroundColor: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[

@@ -1,4 +1,4 @@
-package com.synergy.noidaOne
+package com.synergy.gnidaofficers
 
 import io.flutter.embedding.android.FlutterActivity
 
