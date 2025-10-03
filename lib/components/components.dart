@@ -4,6 +4,18 @@ import '../screens/complaintStatus.dart';
 import '../screens/dailyActivity.dart';
 import '../screens/postComplaint.dart';
 
+
+Widget circle10(){
+  return  Container(
+    height: 10,
+    width: 10,
+    decoration: const BoxDecoration(
+      color: Colors.black45, // 👈 circle color
+      shape: BoxShape.circle, // 👈 makes it circular
+    ),
+  );
+}
+
 Widget buildFancyStack() {
   return SizedBox(
     height: 360,
