@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:noidaone/Controllers/shopSubmitRepo.dart';
@@ -22,7 +21,7 @@ import 'package:http/http.dart' as http;
 import 'flull_screen_image.dart';
 import 'generalFunction.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:geocoding/geocoding.dart';
+import 'gnidaofficers/supervisorDashboard/supervisiorDashboard.dart';
 
 class ShopSurvey extends StatelessWidget {
   const ShopSurvey({super.key});
@@ -43,14 +42,14 @@ class ShopSurvey extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class ShopSurveyHome extends StatefulWidget {
+  const ShopSurveyHome({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<ShopSurveyHome> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<ShopSurveyHome> {
 
   List stateList = [];
   List distList = [];
@@ -630,7 +629,43 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Scaffold(
         backgroundColor: Colors.white,
         //appBar: generalFunction.appbarback(context,"Field Inspection"),
-        appBar: generalfunction.appbarback(context,"Shop Survey"),
+       // appBar: generalfunction.appbarback(context,"Shop Survey"),
+        appBar:AppBar(
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            // Status bar color
+            statusBarColor: Color(0xFF8b2355),
+            statusBarIconBrightness: Brightness.dark,
+            statusBarBrightness: Brightness.light,
+            // Status bar brightness (optional)
+            // For Android (dark icons)
+            // For iOS (dark icons)
+          ),
+          backgroundColor:  const Color(0xFFD31F76),
+          leading: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => SupervisiorDashBoard()));
+                // Navigator.pop(context);
+              },
+              child:const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(Icons.arrow_back_ios),
+              )),
+          title:const Text(
+            'Shop Survey',
+            style: TextStyle(
+                fontFamily: 'Montserrat',
+                color: Colors.white,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold),
+          ),
+          elevation: 1,
+          iconTheme: const IconThemeData(
+            color: Colors.white, // 👈 sets drawer icon color to white
+          ),
+        ),
 
         body: SingleChildScrollView(
           child: Column(
@@ -1342,8 +1377,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 /// Todo next Apply condition
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(
-                                    0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+                                backgroundColor: Color(0xFFD31F76), // Hex color code (FF for alpha, followed by RGB)
                               ),
                               child: const Text(
                                 "Submit",

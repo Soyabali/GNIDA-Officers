@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ import '../resources/app_text_style.dart';
 import 'actionOnSchedulePoint.dart';
 import 'flull_screen_image.dart';
 import 'generalFunction.dart';
+import 'gnidaofficers/supervisorDashboard/supervisiorDashboard.dart';
 import 'homeScreen.dart';
 import 'navigateScreen.dart';
 
@@ -1069,8 +1071,44 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       onWillPop: _onWillPop,
       child: Scaffold(
         backgroundColor: Colors.white,
-        // appBar: generalfunction.appbarFunction("Pending Complaint"),
-        appBar: generalfunction.appbarback(context, "Pending Complaint"),
+        //appBar: generalfunction.appbarFunction("Pending Complaint"),
+        appBar: AppBar(
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: Color(0xFF8b2355),
+            statusBarIconBrightness: Brightness.dark,
+            statusBarBrightness: Brightness.light,
+          ),
+          backgroundColor: const Color(0xFFD31F76),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white), // 👈 iOS style back
+            onPressed: () {
+              //  SupervisiorDashBoard
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const SupervisiorDashBoard()));
+
+              // Navigator.pop(context); // 👈 go back when pressed
+
+            },
+          ),
+          title: const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5),
+            child: Text(
+              'Pending Complaint',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Montserrat',
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          elevation: 0,
+          iconTheme: const IconThemeData(
+            color: Colors.white, // 👈 sets drawer/back icon color to white
+          ),
+        ),
+
+          // appBar: generalfunction.appbarback(context, "Pending Complaint"),
         // drawer
         drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
 

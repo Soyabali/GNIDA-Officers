@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -104,7 +105,41 @@ class _MyHomePageState extends State<MyPointPage> {
       onWillPop: _onWillPop,
       child: Scaffold(
           backgroundColor: Colors.white,
-            appBar: generalFunction.appbarFunction("My Points"),
+          appBar: AppBar(
+            systemOverlayStyle: const SystemUiOverlayStyle(
+              // Status bar color
+              statusBarColor: Color(0xFF8b2355),
+              statusBarIconBrightness: Brightness.dark,
+              statusBarBrightness: Brightness.light,
+            ),
+            backgroundColor:  const Color(0xFFD31F76),
+            leading: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                  // Navigator.pop(context);
+                  //
+                  // Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => SupervisiorDashBoard()));
+                  //Navigator.pop(context);
+                },
+                child:const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.arrow_back_ios),
+                )),
+            title:const Text(
+              'My Points',
+              style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold),
+            ),
+            elevation: 1,
+            iconTheme: const IconThemeData(
+              color: Colors.white, // 👈 sets drawer icon color to white
+            ),
+          ),
+            //appBar: generalFunction.appbarFunction("My Points"),
           // appBar: AppBar(
           //   backgroundColor: Color(0xFF255899),
           //   title: const Text(

@@ -11,6 +11,7 @@ import '../Controllers/bindAjencyRepo.dart';
 import '../Controllers/internalComplaintStatusRepo.dart';
 import '../Controllers/pendingInternalComplaintRepo.dart';
 import 'generalFunction.dart';
+import 'gnidaofficers/gnoidadashboard.dart';
 import 'homeScreen.dart';
 import 'navigateScreen.dart';
 
@@ -160,12 +161,12 @@ class _SchedulePointScreenState extends State<ComplaintScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color(0xFF255899),
+        backgroundColor: const Color(0xFFD31F76),
         leading: GestureDetector(
             onTap: () {
               //Navigator.pop(context);
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const HomePage()));
+                  MaterialPageRoute(builder: (context) => const GnoidaOfficersHome()));
             },
             child: const Padding(
               padding: EdgeInsets.all(8.0),

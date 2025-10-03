@@ -7,23 +7,24 @@ import 'package:image_picker/image_picker.dart';
 import 'package:noidaone/screens/homeScreen.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../Controllers/district_repo.dart';
-import '../Controllers/markLocationRepo.dart';
-import '../Controllers/postDailyActivityRepo.dart';
-import '../Helpers/loader_helper.dart';
-import '../resources/app_text_style.dart';
-import '../resources/values_manager.dart';
 import 'dart:async';
-import 'flull_screen_image.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import 'generalFunction.dart';
-import 'gnidaofficers/supervisorDashboard/supervisiorDashboard.dart';
+import '../../Controllers/district_repo.dart';
+import '../../Controllers/markLocationRepo.dart';
+import '../../Controllers/postDailyActivityRepo.dart';
+import '../../Helpers/loader_helper.dart';
+import '../../resources/app_text_style.dart';
+import '../../resources/values_manager.dart';
+import '../flull_screen_image.dart';
+import '../generalFunction.dart';
+import '../gnidaofficers/supervisorDashboard/supervisiorDashboard.dart';
 
-class DailyActivitytScreen extends StatelessWidget {
-  const DailyActivitytScreen({super.key});
+
+class GnidaBeautification extends StatelessWidget {
+  const GnidaBeautification({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +42,14 @@ class DailyActivitytScreen extends StatelessWidget {
   }
 }
 
-class DailyActivitytScreenHome extends StatefulWidget {
-  const DailyActivitytScreenHome({super.key});
+class GnidaBeautificationHome extends StatefulWidget {
+  const GnidaBeautificationHome({super.key});
 
   @override
-  State<DailyActivitytScreenHome> createState() => _MyHomePageState();
+  State<GnidaBeautificationHome> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<DailyActivitytScreenHome> {
+class _MyHomePageState extends State<GnidaBeautificationHome> {
   List stateList = [];
   List distList = [];
   List blockList = [];
@@ -76,6 +77,7 @@ class _MyHomePageState extends State<DailyActivitytScreenHome> {
   final stateDropdownFocus = GlobalKey();
   TextEditingController _locationController = TextEditingController();
   TextEditingController _activityDetails = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
   // focus
   FocusNode activityDetailfocus = FocusNode();
   FocusNode descriptionfocus = FocusNode();
@@ -91,7 +93,7 @@ class _MyHomePageState extends State<DailyActivitytScreenHome> {
   final _formKey = GlobalKey<FormState>();
   GeneralFunction generalFunction = GeneralFunction();
 
-   // mobile back button handle
+  // mobile back button handle
 
   Future<bool> _onWillPop() async {
     return (await showDialog(
@@ -178,11 +180,21 @@ class _MyHomePageState extends State<DailyActivitytScreenHome> {
       print('Error uploading image: $error');
     }
   }
-
+  // Future<void> _getImageFromCamera() async {
+  //   final ImagePicker _picker = ImagePicker();
+  //   final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+  //
+  //   if (image != null) {
+  //     setState(() {
+  //       _imageFile = File(image.path);
+  //     });
+  //     print('----129---$_imageFile');
+  //   }
+  // }
   getUserIdFromSharedPreference() async{
-     SharedPreferences prefs = await SharedPreferences.getInstance();
-     iUserId = prefs.getString('iUserId');
-   }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    iUserId = prefs.getString('iUserId');
+  }
 
   // InitState
   @override
@@ -226,8 +238,8 @@ class _MyHomePageState extends State<DailyActivitytScreenHome> {
     debugPrint(position.latitude.toString());
 
     setState(() {
-       lat = position.latitude;
-       long = position.longitude;
+      lat = position.latitude;
+      long = position.longitude;
 
     });
     print('-----------141----$lat');
@@ -245,77 +257,77 @@ class _MyHomePageState extends State<DailyActivitytScreenHome> {
       borderRadius: BorderRadius.circular(10.0),
 
       child: Container(
-        width: MediaQuery.of(context).size.width - 50,
-        height: 42,
-        color: Color(0xFFf2f3f5),
+          width: MediaQuery.of(context).size.width - 50,
+          height: 42,
+          color: Color(0xFFf2f3f5),
 
-        child:ListView(
-          scrollDirection: Axis.horizontal,
-          children: [
-            DropdownButtonHideUnderline(
-              child: ButtonTheme(
-                alignedDropdown: true,
-                child: DropdownButton(
-                  onTap: () {
-                    FocusScope.of(context).unfocus();
-                  },
-                  hint: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      children: [
-                        RichText(
-                          text: const TextSpan(
-                            text: "Select a Sector",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal),
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: '',
-                                  style: TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold)),
-                            ],
+          child:ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              DropdownButtonHideUnderline(
+                child: ButtonTheme(
+                  alignedDropdown: true,
+                  child: DropdownButton(
+                    onTap: () {
+                      FocusScope.of(context).unfocus();
+                    },
+                    hint: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Row(
+                        children: [
+                          RichText(
+                            text: const TextSpan(
+                              text: "Select a Sector",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: '',
+                                    style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
 
-                  // Not necessary for Option 1
-                  value: _dropDownValueDistric,
-                  // key: distDropdownFocus,
-                  onChanged: (newValue) {
-                    setState(() {
-                      _dropDownValueDistric = newValue;
-                      print('---233---$_dropDownValueDistric');
-                      //  _isShowChosenDistError = false;
-                      // Iterate the List
-                      distList.forEach((element) {
-                        if (element["sSectorName"] == _dropDownValueDistric) {
-                          setState(() {
-                            _selectedStateId = element['iSectorCode'];
-                          });
-                          print("Distic Name xxxxxxx.... $_dropDownValueDistric");
-                          print("Block list Ali xxxxxxxxx.... $distList");
-                        }
+                    // Not necessary for Option 1
+                    value: _dropDownValueDistric,
+                    // key: distDropdownFocus,
+                    onChanged: (newValue) {
+                      setState(() {
+                        _dropDownValueDistric = newValue;
+                        print('---233---$_dropDownValueDistric');
+                        //  _isShowChosenDistError = false;
+                        // Iterate the List
+                        distList.forEach((element) {
+                          if (element["sSectorName"] == _dropDownValueDistric) {
+                            setState(() {
+                              _selectedStateId = element['iSectorCode'];
+                            });
+                            print("Distic Name xxxxxxx.... $_dropDownValueDistric");
+                            print("Block list Ali xxxxxxxxx.... $distList");
+                          }
+                        });
                       });
-                    });
-                  },
-                  items: distList.map((dynamic item) {
-                    return DropdownMenuItem(
-                      child: Text(item['sSectorName'].toString()),
-                      value: item["sSectorName"].toString(),
-                    );
-                  }).toList(),
+                    },
+                    items: distList.map((dynamic item) {
+                      return DropdownMenuItem(
+                        child: Text(item['sSectorName'].toString()),
+                        value: item["sSectorName"].toString(),
+                      );
+                    }).toList(),
+                  ),
                 ),
               ),
-            ),
-          ],
-        )
-        ),
+            ],
+          )
+      ),
     );
   }
 
@@ -332,23 +344,25 @@ class _MyHomePageState extends State<DailyActivitytScreenHome> {
             statusBarColor: Color(0xFF8b2355),
             statusBarIconBrightness: Brightness.dark,
             statusBarBrightness: Brightness.light,
+            // Status bar brightness (optional)
+            // For Android (dark icons)
+            // For iOS (dark icons)
           ),
           backgroundColor:  const Color(0xFFD31F76),
           leading: GestureDetector(
               onTap: () {
                 Navigator.pop(context);
-                // Navigator.pop(context);
-                //
+
                 // Navigator.push(context,
                 //     MaterialPageRoute(builder: (context) => SupervisiorDashBoard()));
-                //Navigator.pop(context);
+                // Navigator.pop(context);
               },
               child:const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Icon(Icons.arrow_back_ios),
               )),
           title:const Text(
-            'Random Inspection',
+            'GNIDA Beautification',
             style: TextStyle(
                 fontFamily: 'Montserrat',
                 color: Colors.white,
@@ -403,7 +417,7 @@ class _MyHomePageState extends State<DailyActivitytScreenHome> {
                             children: <Widget>[
                               Container(
                                 margin:
-                                    EdgeInsets.only(left: 0, right: 10, top: 10),
+                                EdgeInsets.only(left: 0, right: 10, top: 10),
                                 child: Image.asset(
                                   'assets/images/ic_expense.png', // Replace with your image asset path
                                   width: 24,
@@ -424,13 +438,13 @@ class _MyHomePageState extends State<DailyActivitytScreenHome> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                 Icon(
-                                      Icons.forward_sharp,
-                                      size: 12,
-                                      color: Colors.black54,
-                                    ),
-                                 SizedBox(width: 2),
-                                 Text('Sector',
+                                Icon(
+                                  Icons.forward_sharp,
+                                  size: 12,
+                                  color: Colors.black54,
+                                ),
+                                SizedBox(width: 2),
+                                Text('Sector',
                                     style: TextStyle(
                                         fontFamily: 'Montserrat',
                                         color: Color(0xFF707d83),
@@ -446,12 +460,12 @@ class _MyHomePageState extends State<DailyActivitytScreenHome> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                               Icon(
-                                      Icons.forward_sharp,
-                                      size: 12,
-                                      color: Colors.black54,
-                                    ),
-                                Text('Description',
+                                Icon(
+                                  Icons.forward_sharp,
+                                  size: 12,
+                                  color: Colors.black54,
+                                ),
+                                Text('Location',
                                     style: TextStyle(
                                         fontFamily: 'Montserrat',
                                         color: Color(0xFF707d83),
@@ -468,8 +482,8 @@ class _MyHomePageState extends State<DailyActivitytScreenHome> {
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 10),
                                 child: TextFormField(
-                                 // focusNode: locationfocus,
-                                  controller: _activityDetails,
+                                  // focusNode: locationfocus,
+                                  controller: _locationController,
                                   textInputAction: TextInputAction.next,
                                   onEditingComplete: () =>
                                       FocusScope.of(context).nextFocus(),
@@ -481,7 +495,7 @@ class _MyHomePageState extends State<DailyActivitytScreenHome> {
                                         vertical: AppPadding.p10),
                                   ),
                                   autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
+                                  AutovalidateMode.onUserInteraction,
                                   // validator: (value) {
                                   //   if (value!.isEmpty) {
                                   //     return 'Enter location';
@@ -498,10 +512,61 @@ class _MyHomePageState extends State<DailyActivitytScreenHome> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 Icon(
-                                      Icons.forward_sharp,
-                                      size: 12,
-                                      color: Colors.black54,
-                                    ),
+                                  Icons.forward_sharp,
+                                  size: 12,
+                                  color: Colors.black54,
+                                ),
+                                Text('Description',
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Color(0xFF707d83),
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 0, right: 0),
+                            child: Container(
+                              height: 42,
+                              color: Color(0xFFf2f3f5),
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 10),
+                                child: TextFormField(
+                                  // focusNode: locationfocus,
+                                  controller: _descriptionController,
+                                  textInputAction: TextInputAction.next,
+                                  onEditingComplete: () =>
+                                      FocusScope.of(context).nextFocus(),
+                                  decoration: const InputDecoration(
+                                    // labelText: AppStrings.txtMobile,
+                                    // border: OutlineInputBorder(),
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: AppPadding.p10),
+                                  ),
+                                  autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                                  // validator: (value) {
+                                  //   if (value!.isEmpty) {
+                                  //     return 'Enter location';
+                                  //   }
+                                  //   return null;
+                                  // },
+                                ),
+                              ),
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 5, top: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.forward_sharp,
+                                  size: 12,
+                                  color: Colors.black54,
+                                ),
                                 Text('Upload Photo',
                                     style: TextStyle(
                                         fontFamily: 'Montserrat',
@@ -516,7 +581,7 @@ class _MyHomePageState extends State<DailyActivitytScreenHome> {
                             decoration: BoxDecoration(
                               color: Color(0xFFf2f3f5),
                               borderRadius:
-                                  BorderRadius.circular(10.0), // Border radius
+                              BorderRadius.circular(10.0), // Border radius
                             ),
                             child: Padding(
                               padding: EdgeInsets.only(bottom: 10),
@@ -541,7 +606,7 @@ class _MyHomePageState extends State<DailyActivitytScreenHome> {
                                           padding: EdgeInsets.only(left: 10),
                                           child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                            MainAxisAlignment.start,
                                             children: <Widget>[
                                               Text(
                                                 'Please click here to take a photo',
@@ -586,55 +651,55 @@ class _MyHomePageState extends State<DailyActivitytScreenHome> {
                               children: <Widget>[
                                 _imageFile != null
                                     ? Stack(
-                                        children: [
-                                          GestureDetector(
-                                            behavior: HitTestBehavior.translucent,
-                                            onTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          FullScreenPage(
-                                                            child: _imageFile!,
-                                                            dark: true,
-                                                          )));
-                                            },
-                                            child: Container(
-                                                color: Colors.lightGreenAccent,
-                                                height: 100,
-                                                width: 70,
-                                                child: Image.file(
-                                                  _imageFile!,
-                                                  fit: BoxFit.fill,
-                                                )),
+                                  children: [
+                                    GestureDetector(
+                                      behavior: HitTestBehavior.translucent,
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    FullScreenPage(
+                                                      child: _imageFile!,
+                                                      dark: true,
+                                                    )));
+                                      },
+                                      child: Container(
+                                          color: Colors.lightGreenAccent,
+                                          height: 100,
+                                          width: 70,
+                                          child: Image.file(
+                                            _imageFile!,
+                                            fit: BoxFit.fill,
+                                          )),
+                                    ),
+                                    Positioned(
+                                        bottom: 65,
+                                        left: 35,
+                                        child: IconButton(
+                                          onPressed: () {
+                                            _imageFile = null;
+                                            setState(() {});
+                                          },
+                                          icon: const Icon(
+                                            Icons.close,
+                                            color: Colors.red,
+                                            size: 30,
                                           ),
-                                          Positioned(
-                                              bottom: 65,
-                                              left: 35,
-                                              child: IconButton(
-                                                onPressed: () {
-                                                  _imageFile = null;
-                                                  setState(() {});
-                                                },
-                                                icon: const Icon(
-                                                  Icons.close,
-                                                  color: Colors.red,
-                                                  size: 30,
-                                                ),
-                                              ))
-                                        ],
-                                      )
+                                        ))
+                                  ],
+                                )
                                     : Text(
-                                        "",
-                                        style: TextStyle(color: Colors.red[700]),
-                                      )
+                                  "",
+                                  style: TextStyle(color: Colors.red[700]),
+                                )
                               ]),
                           ElevatedButton(
                               onPressed: () async {
-                               // getLocation();
+                                // getLocation();
                                 var random = Random();
                                 int randomNumber = random.nextInt(99999999 - 10000000) + 10000000;
-                               //print('Random 8-digit number---770--: $randomNumber');
+                                //print('Random 8-digit number---770--: $randomNumber');
                                 print('-------615---');
                                 String activityDetaile = _activityDetails.text;
                                 print('--iTranNo --$randomNumber');
@@ -646,8 +711,8 @@ class _MyHomePageState extends State<DailyActivitytScreenHome> {
                                 print('--fLongitude --$long');
                                 double latitude = lat??0.0;
                                 double longitude = long??0.0;
-                                 print('--fLatitude--604 --$latitude');
-                                 print('--fLongitude ---605---$longitude');
+                                print('--fLatitude--604 --$latitude');
+                                print('--fLongitude ---605---$longitude');
 
                                 if (_formKey.currentState!.validate() &&
                                     activityDetaile != null &&
@@ -667,9 +732,9 @@ class _MyHomePageState extends State<DailyActivitytScreenHome> {
                                       latitude,
                                       longitude);
 
-                                 print('-------625---$postDailyActivityResponse');
-                                 result = postDailyActivityResponse['Result'];
-                                 msg = postDailyActivityResponse['Msg'];
+                                  print('-------625---$postDailyActivityResponse');
+                                  result = postDailyActivityResponse['Result'];
+                                  msg = postDailyActivityResponse['Msg'];
 
                                 } else {
 
@@ -690,7 +755,7 @@ class _MyHomePageState extends State<DailyActivitytScreenHome> {
                                   print("----556----"+result);
                                   print("----569---Success-");
                                   displayToast(msg);
-                                 Navigator.pop(context);
+                                  Navigator.pop(context);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(builder: (context) => const HomePage()),
@@ -737,13 +802,5 @@ class _MyHomePageState extends State<DailyActivitytScreenHome> {
         fontSize: 16.0,
       ),
     );
-    // Fluttertoast.showToast(
-    //     msg: msg,
-    //     toastLength: Toast.LENGTH_SHORT,
-    //     gravity: ToastGravity.CENTER,
-    //     timeInSecForIosWeb: 1,
-    //     backgroundColor: Colors.red,
-    //     textColor: Colors.white,
-    //     fontSize: 16.0);
   }
 }

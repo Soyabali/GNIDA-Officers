@@ -14,6 +14,7 @@ import '../resources/values_manager.dart';
 import 'forgotpassword.dart';
 import 'generalFunction.dart';
 import 'gnidaofficers/gnoidadashboard.dart';
+import 'gnidaofficers/supervisorDashboard/supervisiorDashboard.dart';
 import 'homeScreen.dart';
 import 'homepagesecod.dart';
 
@@ -478,30 +479,64 @@ class _LoginPageState extends State<LoginPage> {
                                     print('---464-----stringContact--$stringName');
                                     print('---465----stringContact----$stringContact');
                                     print('---473----iAgencyCode----$iAgencyCode');
-                                    if(iAgencyCode =="1"){
 
-                                      print("----482------GNIDA Officers");
+                                    if(iUserTypeCode=="6"){
+                                      print("----open Ngo ------");
+                                      print("-----483-----$iUserTypeCode");
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => GnoidaOfficersHome()),
+                                      );
+                                    }else if(iUserTypeCode=="1"){
 
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(builder: (context) => GnoidaOfficersHome()),
-                                        );
+                                      print("----supervisiior Screen--");
+                                      print("-----486----$iUserTypeCode");
 
+                                           Navigator.pushReplacement(
+                                             context,
+                                             MaterialPageRoute(builder: (context) => SupervisiorDashBoard()),
+                                           );
 
+                                      // Navigator.pushReplacement(
+                                      //       context,
+                                      //        MaterialPageRoute(builder: (context) => HomePage()),
+                                      //      );
 
-                                      /// todo her this is important code after , this is used to gess the flow of the application
+                                    }else{
+                                      print("----open Complaint Screen ------");
+                                      print("-----489----$iUserTypeCode");
 
-                                    //   Navigator.pushReplacement(
-                                    //     context,
-                                    //     MaterialPageRoute(builder: (context) => HomePage()),
-                                    //   );
-                                    // }else{
-                                    //   Navigator.pushReplacement(
-                                    //     context,
-                                    //     MaterialPageRoute(builder: (context) => HomeScreen_2()),
-                                    //   );
-
-                                     }
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => HomeScreen_2()),
+                                      );
+                                    }
+                                    // if(iAgencyCode =="1"){
+                                    //
+                                    //   print("----482------GNIDA Officers");
+                                    //
+                                    //   print("----UserTypeCode---$iUserTypeCode");
+                                    //
+                                    //     // Navigator.pushReplacement(
+                                    //     //   context,
+                                    //     //   MaterialPageRoute(builder: (context) => GnoidaOfficersHome()),
+                                    //     // );
+                                    //
+                                    //
+                                    //
+                                    //   /// todo her this is important code after , this is used to gess the flow of the application
+                                    //
+                                    // //   Navigator.pushReplacement(
+                                    // //     context,
+                                    // //     MaterialPageRoute(builder: (context) => HomePage()),
+                                    // //   );
+                                    // // }else{
+                                    // //   Navigator.pushReplacement(
+                                    // //     context,
+                                    // //     MaterialPageRoute(builder: (context) => HomeScreen_2()),
+                                    // //   );
+                                    //
+                                    //  }
 
                                 }else{
                                   print('----373---To display error msg---');

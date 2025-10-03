@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:noidaone/screens/viewimage.dart';
@@ -11,6 +12,7 @@ import '../Helpers/loader_helper.dart';
 import '../resources/app_text_style.dart';
 import 'actionOnSchedulePoint.dart';
 import 'generalFunction.dart';
+import 'gnidaofficers/supervisorDashboard/supervisiorDashboard.dart';
 
 class ScheduledPointScreen extends StatelessWidget {
   const ScheduledPointScreen({Key? key}) : super(key: key);
@@ -183,7 +185,51 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
       onWillPop: _onWillPop,
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: generalfunction.appbarback(context, "Scheduled Points"),
+        appBar:AppBar(
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            // Status bar color
+            statusBarColor: Color(0xFF8b2355),
+            statusBarIconBrightness: Brightness.dark,
+            statusBarBrightness: Brightness.light,
+            // Status bar brightness (optional)
+            // For Android (dark icons)
+            // For iOS (dark icons)
+          ),
+          backgroundColor:  const Color(0xFFD31F76),
+          leading: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SupervisiorDashBoard()));
+
+                // Navigator.pop(context);
+                //  Navigator.push(context,
+                //      MaterialPageRoute(builder: (context) => const HomePage()));
+
+                // Navigator.pushAndRemoveUntil(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => HomePage()),
+                //       (Route<dynamic> route) => false,
+                // );
+
+                // Navigator.pop(context);
+              },
+              child:const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(Icons.arrow_back_ios),
+              )),
+          title:const Text(
+            'Scheduled Point',
+            style: TextStyle(
+                fontFamily: 'Montserrat',
+                color: Colors.white,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+
+        // appBar: generalfunction.appbarback(context, "Scheduled Points"),
 
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -20,6 +20,7 @@ import 'package:intl/intl.dart';
 import 'flull_screen_image.dart';
 import 'dart:math';
 import 'generalFunction.dart';
+import 'gnidaofficers/supervisorDashboard/supervisiorDashboard.dart';
 
 class MarkPointScreen extends StatelessWidget {
 
@@ -424,17 +425,24 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar:AppBar(
         systemOverlayStyle: const SystemUiOverlayStyle(
           // Status bar color
-          statusBarColor: Colors.blue,
+          statusBarColor: Color(0xFF8b2355),
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.light,
           // Status bar brightness (optional)
-          statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
-          statusBarBrightness: Brightness.light, // For iOS (dark icons)
+          // For Android (dark icons)
+          // For iOS (dark icons)
         ),
-        backgroundColor: Color(0xFF255899),
+        backgroundColor:  const Color(0xFFD31F76),
         leading: GestureDetector(
             onTap: () {
+              Navigator.pop(context);
+
+               Navigator.push(context,
+                   MaterialPageRoute(builder: (context) => SupervisiorDashBoard()));
+
              // Navigator.pop(context);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const HomePage()));
+             //  Navigator.push(context,
+             //      MaterialPageRoute(builder: (context) => const HomePage()));
 
               // Navigator.pushAndRemoveUntil(
               //   context,
@@ -444,7 +452,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
              // Navigator.pop(context);
             },
-            child:Padding(
+            child:const Padding(
               padding: EdgeInsets.all(8.0),
               child: Icon(Icons.arrow_back_ios),
             )),

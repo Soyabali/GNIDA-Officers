@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
+import 'package:noidaone/screens/dailyActivity.dart' hide MyHomePage;
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../Controllers/supervisorbottomlist.dart';
 import '../../components/components.dart';
 import '../generalFunction.dart';
 import 'package:gif/gif.dart';
+import '../gnidabeautification/gnidabeautification.dart';
+import '../shopSurvey.dart' hide MyHomePage;
 
 class GnoidaOfficersHome extends StatefulWidget {
   const GnoidaOfficersHome({super.key});
@@ -15,6 +20,7 @@ class _GnoidaOfficersHomeState extends State<GnoidaOfficersHome> with TickerProv
 
   GeneralFunction generalFunction = GeneralFunction();
   late GifController controller;
+  var sName,sContactNo;
 
   // create a function to draw a ui
   Widget buildFancyStack() {
@@ -24,7 +30,7 @@ class _GnoidaOfficersHomeState extends State<GnoidaOfficersHome> with TickerProv
         children: [
           // First Part (Main Container)
           Padding(
-            padding: const EdgeInsets.only(left: 10, right: 0, top: 5),
+            padding: const EdgeInsets.only(left: 10, right: 0, top: 10),
             child: Container(
               height: 280,
               decoration: BoxDecoration(
@@ -60,7 +66,7 @@ class _GnoidaOfficersHomeState extends State<GnoidaOfficersHome> with TickerProv
           Positioned(
             top: 225,
             left: 20,   // 👈 increased from 10 → 20
-            right: 20,  // 👈 increased from 10 → 20
+            right: 20,  // 👈 increased from 10 → 20Zz
             child: Container(
               height: 120,
               decoration: BoxDecoration(
@@ -96,7 +102,7 @@ class _GnoidaOfficersHomeState extends State<GnoidaOfficersHome> with TickerProv
                             ),
                             const SizedBox(height: 5),
                             const Text(
-                              'Profile',
+                              'Dashboard',
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontSize: 12.0,
@@ -130,7 +136,7 @@ class _GnoidaOfficersHomeState extends State<GnoidaOfficersHome> with TickerProv
                             ),
                             const SizedBox(height: 5),
                             const Text(
-                              'Attendance',
+                              'Pothole Dection',
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontSize: 12.0,
@@ -150,564 +156,23 @@ class _GnoidaOfficersHomeState extends State<GnoidaOfficersHome> with TickerProv
       ),
     );
   }
-
-  // Widget buildFancyStack() {
-  //   return SizedBox(
-  //     height: 330, // full stack height
-  //     child: Stack(
-  //       children: [
-  //         // First Part (Main Container)
-  //         Padding(
-  //           padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-  //           child: Container(
-  //             height: 280,
-  //             decoration: BoxDecoration(
-  //               color: Colors.white,
-  //               borderRadius: BorderRadius.circular(8),
-  //               border: Border.all(
-  //                 color: Colors.grey.shade300,
-  //                 width: 2,
-  //               ),
-  //             ),
-  //             child: Column(
-  //               children: [
-  //                 SizedBox(
-  //                   height: 220, // GIF height
-  //                   child: ClipRRect(
-  //                     borderRadius: const BorderRadius.only(
-  //                       topLeft: Radius.circular(12),
-  //                       topRight: Radius.circular(12),
-  //                     ),
-  //                     child: Image.asset(
-  //                       'assets/images/home_page_gif.gif',
-  //                       fit: BoxFit.cover,
-  //                     ),
-  //                   ),
-  //                 ),
-  //                 const SizedBox(height: 50),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //
-  //         // Second Part (Inner Container)
-  //         Positioned(
-  //           top: 200,
-  //           left: 20, // 👈 more inner padding
-  //           right: 20, // 👈 more inner padding
-  //           child: Container(
-  //             height: 120,
-  //             decoration: BoxDecoration(
-  //               borderRadius: BorderRadius.circular(16),
-  //               boxShadow: [
-  //                 BoxShadow(
-  //                   color: Colors.black.withOpacity(0.2),
-  //                   blurRadius: 8,
-  //                   offset: const Offset(0, 4),
-  //                 ),
-  //               ],
-  //             ),
-  //             child: Row(
-  //               children: [
-  //                 // First small card
-  //                 Expanded(
-  //                   child: Container(
-  //                     margin: const EdgeInsets.all(8),
-  //                     decoration: BoxDecoration(
-  //                       color: Colors.white,
-  //                       borderRadius: BorderRadius.circular(6),
-  //                       border: Border.all(
-  //                         color: Colors.grey.shade300,
-  //                         width: 1,
-  //                       ),
-  //                     ),
-  //                     child: Center(
-  //                       child: Column(
-  //                         mainAxisAlignment: MainAxisAlignment.center,
-  //                         children: [
-  //                           Image.asset(
-  //                             'assets/images/ic_served_points.png',
-  //                             height: 60,
-  //                             width: 60,
-  //                             fit: BoxFit.cover,
-  //                           ),
-  //                           const SizedBox(height: 5),
-  //                           const Text(
-  //                             'Profile',
-  //                             style: TextStyle(
-  //                               fontFamily: 'Montserrat',
-  //                               fontSize: 12.0,
-  //                               fontWeight: FontWeight.bold,
-  //                             ),
-  //                           ),
-  //                         ],
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ),
-  //
-  //                 // Second small card
-  //                 Expanded(
-  //                   child: Container(
-  //                     margin: const EdgeInsets.all(8),
-  //                     decoration: BoxDecoration(
-  //                       color: Colors.white,
-  //                       borderRadius: BorderRadius.circular(6),
-  //                       border: Border.all(
-  //                         color: Colors.grey.shade300,
-  //                         width: 1,
-  //                       ),
-  //                     ),
-  //                     child: Center(
-  //                       child: Column(
-  //                         mainAxisAlignment: MainAxisAlignment.center,
-  //                         children: [
-  //                           Image.asset(
-  //                             'assets/images/ic_create_points.png',
-  //                             height: 60,
-  //                             width: 60,
-  //                             fit: BoxFit.cover,
-  //                           ),
-  //                           const SizedBox(height: 5),
-  //                           const Text(
-  //                             'Attendance',
-  //                             style: TextStyle(
-  //                               fontFamily: 'Montserrat',
-  //                               fontSize: 12.0,
-  //                               fontWeight: FontWeight.bold,
-  //                             ),
-  //                           ),
-  //                         ],
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-
-
-  // Widget buildFancyStack() {
-  //   return SizedBox(
-  //     height: 330, // full stack height
-  //     child: Stack(
-  //       children: [
-  //         // First Part (Main Container)
-  //         Padding(
-  //           padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-  //           child: Container(
-  //             height: 280, // full box height
-  //             decoration: BoxDecoration(
-  //               color: Colors.white,
-  //               borderRadius: BorderRadius.circular(8),
-  //               border: Border.all(
-  //                 color: Colors.grey.shade300,
-  //                 width: 2,
-  //               ),
-  //             ),
-  //             child: Column(
-  //               children: [
-  //                 SizedBox(
-  //                   height: 220, // GIF height
-  //                   child: ClipRRect(
-  //                     borderRadius: const BorderRadius.only(
-  //                       topLeft: Radius.circular(12),
-  //                       topRight: Radius.circular(12),
-  //                     ),
-  //                     child: Image.asset(
-  //                       'assets/images/home_page_gif.gif',
-  //                       fit: BoxFit.cover,
-  //                     ),
-  //                   ),
-  //                 ),
-  //                 const SizedBox(
-  //                   height: 50, // white space at bottom
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //         // Second Part (Positioned Container)
-  //         Positioned(
-  //           top: 200,
-  //           left: 10,  // 👈 match first container padding
-  //           right: 10, // 👈 match first container padding
-  //           child: Container(
-  //             height: 120,
-  //             decoration: BoxDecoration(
-  //               borderRadius: BorderRadius.circular(16),
-  //               boxShadow: [
-  //                 BoxShadow(
-  //                   color: Colors.black.withOpacity(0.2),
-  //                   blurRadius: 8,
-  //                   offset: const Offset(0, 4),
-  //                 ),
-  //               ],
-  //             ),
-  //             child: SizedBox(
-  //               height: 100, // Row height
-  //               child: Row(
-  //                 children: [
-  //                   // First small card
-  //                   Expanded(
-  //                     child: Container(
-  //                       margin: const EdgeInsets.all(8),
-  //                       decoration: BoxDecoration(
-  //                         color: Colors.white,
-  //                         borderRadius: BorderRadius.circular(6),
-  //                         border: Border.all(color: Colors.grey.shade300, width: 1),
-  //                       ),
-  //                       child: Center(
-  //                         child: Column(
-  //                           mainAxisAlignment: MainAxisAlignment.center,
-  //                           children: [
-  //                             Image.asset(
-  //                               'assets/images/ic_served_points.png',
-  //                               height: 60,
-  //                               width: 60,
-  //                               fit: BoxFit.cover,
-  //                             ),
-  //                             const SizedBox(height: 5),
-  //                             const Text(
-  //                               'Profile',
-  //                               style: TextStyle(
-  //                                 fontFamily: 'Montserrat',
-  //                                 fontSize: 12.0,
-  //                                 fontWeight: FontWeight.bold,
-  //                               ),
-  //                             ),
-  //                           ],
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   ),
-  //
-  //                   // Second small card
-  //                   Expanded(
-  //                     child: Container(
-  //                       margin: const EdgeInsets.all(8),
-  //                       decoration: BoxDecoration(
-  //                         color: Colors.white,
-  //                         borderRadius: BorderRadius.circular(6),
-  //                         border: Border.all(color: Colors.grey.shade300, width: 1),
-  //                       ),
-  //                       child: Center(
-  //                         child: Column(
-  //                           mainAxisAlignment: MainAxisAlignment.center,
-  //                           children: [
-  //                             Image.asset(
-  //                               'assets/images/ic_create_points.png',
-  //                               height: 60,
-  //                               width: 60,
-  //                               fit: BoxFit.cover,
-  //                             ),
-  //                             const SizedBox(height: 5),
-  //                             const Text(
-  //                               'Attendance',
-  //                               style: TextStyle(
-  //                                 fontFamily: 'Montserrat',
-  //                                 fontSize: 12.0,
-  //                                 fontWeight: FontWeight.bold,
-  //                               ),
-  //                             ),
-  //                           ],
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-
-    // return SizedBox(
-    //   height: 330,// 330
-    //   //width: 300, // optional, you can make it full width with double.infinity
-    //   child: Stack(
-    //     children: [
-    //       // firstPart 280
-    //       Padding(
-    //         padding: const EdgeInsets.only(left: 10, right: 10,top: 10),
-    //         child: Container(
-    //           height: 280, // full box height
-    //           decoration: BoxDecoration(
-    //             color: Colors.white, // background (so radius is visible)
-    //             borderRadius: BorderRadius.circular(8), // 👈 border radius
-    //             border: Border.all(
-    //               color: Colors.grey.shade300, // 👈 light gray border
-    //               width: 2,
-    //             ),
-    //           ),
-    //           child: Column(
-    //             children: [
-    //               SizedBox(
-    //                 height: 220, // GIF height
-    //                 child: ClipRRect(
-    //                   borderRadius: const BorderRadius.only(
-    //                     topLeft: Radius.circular(12),
-    //                     topRight: Radius.circular(12),
-    //
-    //                   ), // apply radius to top only
-    //                   child: Image.asset(
-    //                     'assets/images/home_page_gif.gif',
-    //                     fit: BoxFit.cover,
-    //                   ),
-    //                 ),
-    //               ),
-    //               const SizedBox(
-    //                 height: 50, // white space at bottom
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-    //       ),
-    //
-    //
-    //
-    //       // Second container (fancy colored box)
-    //       Positioned(
-    //         top: 200,
-    //         left: 15,
-    //         right: 15,
-    //         child: Container(
-    //           height: 120,
-    //           decoration: BoxDecoration(
-    //             // color: Colors.white, // 🎨 any color you like
-    //             borderRadius: BorderRadius.circular(16),
-    //             boxShadow: [
-    //               BoxShadow(
-    //                 color: Colors.black.withOpacity(0.2),
-    //                 blurRadius: 8,
-    //                 offset: const Offset(0, 4),
-    //               ),
-    //             ],
-    //           ),
-    //           child:  SizedBox(
-    //             height: 100, // Row height
-    //             child: Row(
-    //               children: [
-    //                 // First Container
-    //                 Expanded(
-    //                   child: Container(
-    //                     margin: const EdgeInsets.all(8), // spacing
-    //                     decoration: BoxDecoration(
-    //                       color: Colors.white,
-    //                       borderRadius: BorderRadius.circular(6),
-    //                       border: Border.all(color: Colors.grey.shade300, width: 1),
-    //                     ),
-    //                     child: Center(
-    //                         child: Column(
-    //                           mainAxisAlignment: MainAxisAlignment.center,
-    //                           crossAxisAlignment: CrossAxisAlignment.center,
-    //                           children: [
-    //                             Image.asset('assets/images/ic_served_points.png',
-    //                               height: 60,
-    //                               width: 60,
-    //                               fit: BoxFit.cover,
-    //                             ),
-    //                             SizedBox(height: 5),
-    //                             const Text('Profile',
-    //                               style: const TextStyle(
-    //                                   fontFamily: 'Montserrat',
-    //                                   // color: Colors.white,
-    //                                   fontSize: 12.0,
-    //                                   fontWeight: FontWeight.bold),
-    //                             ),
-    //                           ],
-    //                         )
-    //                     ),
-    //                   ),
-    //                 ),
-    //
-    //                 // Second Container
-    //                 Expanded(
-    //                   child: Container(
-    //                     margin: const EdgeInsets.all(8),
-    //                     decoration: BoxDecoration(
-    //                       color: Colors.white,
-    //                       borderRadius: BorderRadius.circular(6),
-    //                       border: Border.all(color: Colors.grey.shade300, width: 1),
-    //                     ),
-    //                     child:Center(
-    //                         child: Column(
-    //                           mainAxisAlignment: MainAxisAlignment.center,
-    //                           crossAxisAlignment: CrossAxisAlignment.center,
-    //                           children: [
-    //                             Image.asset('assets/images/ic_create_points.png',
-    //                               height: 60,
-    //                               width: 60,
-    //                               fit: BoxFit.cover,
-    //                             ),
-    //                             SizedBox(height: 5),
-    //                             const Text('Attendance',
-    //                               style: TextStyle(
-    //                                   fontFamily: 'Montserrat',
-    //                                   // color: Colors.white,
-    //                                   fontSize: 12.0,
-    //                                   fontWeight: FontWeight.bold),
-    //                             )
-    //                           ],
-    //                         )
-    //                     ),
-    //                   ),
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //         ),
-    //
-    //       ),
-    //
-    //     ],
-    //   ),
-    // );
-  //}
-
-  // Widget buildFancyStack() {
-  //   return SizedBox(
-  //     height: 330,// 330
-  //     //width: 300, // optional, you can make it full width with double.infinity
-  //     child: Stack(
-  //       children: [
-  //         // firstPart 280
-  //         Padding(
-  //           padding: const EdgeInsets.only(left: 10, right: 10),
-  //           child: SizedBox(
-  //             height: 280, // full box height
-  //             child: Column(
-  //               children: [
-  //                 SizedBox(
-  //                   height: 230, // GIF height
-  //                   child: Image.asset(
-  //                     'assets/images/home_page_gif.gif',
-  //                     fit: BoxFit.cover,
-  //                   ),
-  //                 ),
-  //                 const SizedBox(
-  //                   height: 50, // white space at bottom
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //
-  //         // Second container (fancy colored box)
-  //         Positioned(
-  //           top: 200,
-  //           left: 15,
-  //           right: 15,
-  //           child: Container(
-  //             height: 120,
-  //             decoration: BoxDecoration(
-  //               // color: Colors.white, // 🎨 any color you like
-  //               borderRadius: BorderRadius.circular(16),
-  //               boxShadow: [
-  //                 BoxShadow(
-  //                   color: Colors.black.withOpacity(0.2),
-  //                   blurRadius: 8,
-  //                   offset: const Offset(0, 4),
-  //                 ),
-  //               ],
-  //             ),
-  //             child:  SizedBox(
-  //               height: 100, // Row height
-  //               child: Row(
-  //                 children: [
-  //                   // First Container
-  //                   Expanded(
-  //                     child: Container(
-  //                       margin: const EdgeInsets.all(8), // spacing
-  //                       decoration: BoxDecoration(
-  //                         color: Colors.white,
-  //                         borderRadius: BorderRadius.circular(6),
-  //                         border: Border.all(color: Colors.grey.shade300, width: 1),
-  //                       ),
-  //                       child: Center(
-  //                           child: Column(
-  //                             mainAxisAlignment: MainAxisAlignment.center,
-  //                             crossAxisAlignment: CrossAxisAlignment.center,
-  //                             children: [
-  //                               Image.asset('assets/images/ic_served_points.png',
-  //                                 height: 60,
-  //                                 width: 60,
-  //                                 fit: BoxFit.cover,
-  //                               ),
-  //                               SizedBox(height: 5),
-  //                               const Text('Profile',
-  //                                 style: const TextStyle(
-  //                                     fontFamily: 'Montserrat',
-  //                                     // color: Colors.white,
-  //                                     fontSize: 12.0,
-  //                                     fontWeight: FontWeight.bold),
-  //                               ),
-  //                             ],
-  //                           )
-  //                       ),
-  //                     ),
-  //                   ),
-  //
-  //                   // Second Container
-  //                   Expanded(
-  //                     child: Container(
-  //                       margin: const EdgeInsets.all(8),
-  //                       decoration: BoxDecoration(
-  //                         color: Colors.white,
-  //                         borderRadius: BorderRadius.circular(6),
-  //                         border: Border.all(color: Colors.grey.shade300, width: 1),
-  //                       ),
-  //                       child:Center(
-  //                           child: Column(
-  //                             mainAxisAlignment: MainAxisAlignment.center,
-  //                             crossAxisAlignment: CrossAxisAlignment.center,
-  //                             children: [
-  //                               Image.asset('assets/images/ic_create_points.png',
-  //                                 height: 60,
-  //                                 width: 60,
-  //                                 fit: BoxFit.cover,
-  //                               ),
-  //                               SizedBox(height: 5),
-  //                               const Text('Attendance',
-  //                                 style: TextStyle(
-  //                                     fontFamily: 'Montserrat',
-  //                                     // color: Colors.white,
-  //                                     fontSize: 12.0,
-  //                                     fontWeight: FontWeight.bold),
-  //                               )
-  //                             ],
-  //                           )
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           ),
-  //
-  //         ),
-  //
-  //       ],
-  //     ),
-  //   );
-  // }
+  List userModuleRightList = [];
 
   @override
   void initState() {
     // TODO: implement initState
     controller = GifController(vsync: this);
     controller.repeat(period: const Duration(seconds: 2));
-    // controller = GifController(vsync: this);
-    // controller.repeat(min: 0, max: 29, period: const Duration(seconds: 2));
+    usermoduleright();
+    getValueFromSharedPreference();
+
     super.initState();
+  }
+  // supervisorBottomList
+  usermoduleright() async {
+    userModuleRightList = await SuperVisorBottomListRepo().usermoduleright();
+    debugPrint("----719----xxxxx-> $userModuleRightList", wrapWidth: 1024);
+    setState(() {});
   }
   @override
   void dispose() {
@@ -715,12 +180,23 @@ class _GnoidaOfficersHomeState extends State<GnoidaOfficersHome> with TickerProv
     controller.dispose();
     super.dispose();
   }
+  void getValueFromSharedPreference() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // iAgencyCode = prefs.getString('iUserTypeCode').toString();
+
+    setState(() {
+      sName = prefs.getString('sName').toString();
+      sContactNo = prefs.getString('sContactNo').toString();
+    });
+    print("--Name : --: $sName");
+    print("--ContactNo : --: $sContactNo");
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      // appBar
-      //appBar: generalFunction.appbarFunction("GNIDA Officers"),
         appBar: AppBar(
           systemOverlayStyle: const SystemUiOverlayStyle(
             statusBarColor: Color(0xFF8b2355),
@@ -746,14 +222,15 @@ class _GnoidaOfficersHomeState extends State<GnoidaOfficersHome> with TickerProv
             color: Colors.white, // 👈 sets drawer icon color to white
           ),
         ),
-        drawer: generalFunction.drawerFunction(context,'Soyab','9871950881'),
+        drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
+
         body: ListView(
           children: [
           Padding(
             padding: const EdgeInsets.only(right: 15,left:10),
             child: buildFancyStack(),
           ),
-          listTile(),
+          listTile(context),
           SizedBox(height: 5),
           Padding(
              padding: const EdgeInsets.only(left: 10),
@@ -783,17 +260,100 @@ class _GnoidaOfficersHomeState extends State<GnoidaOfficersHome> with TickerProv
            ),
           SizedBox(height: 5),
           SizedBox(
-            height: 140,
-            child: ListView.builder(
+              height: 120, // container height (adjust as needed)
+              child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                 itemCount: 6,
-                itemBuilder: (context,index){
+                itemCount: userModuleRightList.length,
+                itemBuilder: (context, index) {
+                  var activity = userModuleRightList[index];
+                  String sActivityName = activity['sActivityName'];
                   return Padding(
-                    padding: const EdgeInsets.only(right: 6,left: 6), // spacing between cards
-                    child: bottomListCard(index),
+                    padding: const EdgeInsets.only(left: 6),
+                    child: InkWell(
+                      onTap: (){
+
+                        var iActivityCode = activity['iActivityCode'];
+                        print("-------AAA -----$iActivityCode");
+                        if(iActivityCode==5){
+
+                          print('----$iActivityCode');
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => const ComplaintStatusScreen()));
+
+                        }else if(iActivityCode==6){
+                          //  MyHomePage
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const DailyActivitytScreenHome()));
+
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => const DailyActivitytScreen()));
+
+                          print('----$iActivityCode');
+                        }else if(iActivityCode==7){
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const ShopSurveyHome()));
+                          print('----$iActivityCode');
+                        }else if(iActivityCode==8){
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const GnidaBeautificationHome()));
+                          print('----$iActivityCode');
+                        }else if(iActivityCode==9){
+                          print('----$iActivityCode');
+                        }else{
+
+                        }
+
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width / 3 - 16, // 👈 ensures 3 per screen
+                        margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Colors.grey.shade300,
+                            width: 1,
+                          ),
+                        ),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.network(
+                                '${activity['iImgIcon']}',
+                                width: 30,
+                                height: 30,
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                sActivityName,
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                style: const TextStyle(
+                                  color: Colors.black45,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   );
-                }),
-          ),
+                },
+              ),
+            ),
           SizedBox(height: 10),
         ],
       )

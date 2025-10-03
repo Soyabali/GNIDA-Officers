@@ -1,8 +1,6 @@
 
 import 'dart:io';
 import 'dart:math';
-
-
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,20 +9,16 @@ import 'package:noidaone/screens/homeScreen.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Controllers/agencyRepo.dart';
-import '../Controllers/block_repo.dart';
 import '../Controllers/district_repo.dart';
 import '../Controllers/markLocationRepo.dart';
-import '../Controllers/markpointSubmit.dart';
 import '../Controllers/postComplaintRepo.dart';
-import '../resources/color_manager.dart';
 import '../resources/values_manager.dart';
 import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
 import 'flull_screen_image.dart';
+import 'gnidaofficers/gnoidadashboard.dart';
 
 class PostComplaintScreen extends StatelessWidget {
+
   const PostComplaintScreen({super.key});
 
   @override
@@ -366,7 +360,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color(0xFF255899),
+        backgroundColor: const Color(0xFFD31F76),
         leading: GestureDetector(
             onTap: () {
               //Navigator.pop(context);
@@ -374,7 +368,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                      const HomePage()));
+                      const GnoidaOfficersHome()));
             },
             child: const Padding(
               padding: EdgeInsets.all(8.0),
@@ -854,7 +848,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+                              backgroundColor: Color(0xFFD31F76), // Hex color code (FF for alpha, followed by RGB)
                             ),
                             child: const Text("Submit",style: TextStyle(
                                 fontFamily: 'Montserrat',

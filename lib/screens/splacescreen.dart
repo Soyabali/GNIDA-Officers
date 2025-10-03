@@ -9,12 +9,12 @@ import 'package:url_launcher/url_launcher.dart';
 import '../Controllers/appversionrepo.dart';
 import '../resources/values_manager.dart';
 import 'gnidaofficers/gnoidadashboard.dart';
+import 'gnidaofficers/supervisorDashboard/supervisiorDashboard.dart';
 import 'homeScreen.dart';
 import 'homepagesecod.dart';
 import 'loginScreen_2.dart';
 
 class Splace extends StatefulWidget {
-
   const Splace({super.key});
 
   @override
@@ -89,35 +89,34 @@ class _SplaceState extends State<Splace> {
 
 
   getUserValueFromaLocalDataBase() async {
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          iAgencyCode = prefs.getString('iAgencyCode').toString();
-           if(iAgencyCode=="1"){
+         SharedPreferences prefs = await SharedPreferences.getInstance();
+         // iAgencyCode = prefs.getString('iUserTypeCode').toString();
+        var  iUserTypeCode = prefs.getString('iUserTypeCode').toString();
+           if(iUserTypeCode=="6"){
 
-             //GnoidaOfficersHome
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) =>  const GnoidaOfficersHome()));
+             Navigator.pushReplacement(
+               context,
+               MaterialPageRoute(builder: (context) => GnoidaOfficersHome()),
+             );
+           }else if(iUserTypeCode=="1"){
+             Navigator.pushReplacement(
+               context,
+               MaterialPageRoute(builder: (context) => SupervisiorDashBoard()),
+             );
+           }else {
+             Navigator.pushReplacement(
+               context,
+               MaterialPageRoute(builder: (context) => HomeScreen_2()),
+             );
            }
-             /// todo her you should uncomment in a future
-             ///
-           //   print('----Ali Screenn---xxxxx--');
-           //   Navigator.pushReplacement(context,
-           //       MaterialPageRoute(builder: (context) =>  const HomePage()));
-           // }else if(iAgencyCode=="5"){
-           //   print('----Ravi  Screen--xxxx-');
-           //   Navigator.pushReplacement(context,
-           //       MaterialPageRoute(builder: (context) =>  const HomeScreen_2()));
-           // }else{
-           //   print('----check user Connection and go LoginScreen-');
-           //   checkUserConnection();
-           // }
-
-
   }
+
   @override
   void initState() {
     // TODO: implement initState
     // shareScreenBehafeOfId();
-   // checkUserConnection();
+     checkUserConnection();
+    print("-------121-----splace Scren");
     _getAppVersion();
     getUserValueFromaLocalDataBase();
    // versionAliCall();
@@ -135,6 +134,7 @@ class _SplaceState extends State<Splace> {
     //print('---73--$result');
     //print('---74--$msg');
     if(iVersion=="1"){
+      print("------138------LaginScreen");
       // /// TODO HERE YOU SHOULD APPLY LOGIC
       // /// TODO YOU Fetch a value from a sharedPreference , behafe of value you should  open the screen login or Home Page or Second Home Page
       //  if(iAgencyCode=="1"){

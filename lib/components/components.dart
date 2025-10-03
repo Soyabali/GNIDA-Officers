@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../screens/complaintStatus.dart';
+import '../screens/dailyActivity.dart';
+import '../screens/postComplaint.dart';
+
 Widget buildFancyStack() {
   return SizedBox(
     height: 360,
@@ -117,7 +121,7 @@ Widget buildFancyStack() {
     ),
   );
 }
-Widget listTile(){
+Widget listTile(BuildContext context){
   return Center(
     child: Card(
         color: Colors.white,
@@ -159,7 +163,7 @@ Widget listTile(){
                 ),
               ),
               title: const Text(
-                'Attendance List',
+                'Post Complaint',
                 style:  const TextStyle(
                     fontFamily: 'Montserrat',
                     // color: Colors.white,
@@ -177,7 +181,11 @@ Widget listTile(){
               // ),
               onTap: () {
                 // Handle tap action
-                debugPrint("Profile tapped!");
+                debugPrint("-------Post Complaint------");
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PostComplaintScreen()));
               },
             ),
             SizedBox(height: 5),
@@ -213,25 +221,8 @@ Widget listTile(){
                   ),
                 ),
               ),
-              // leading: Container(
-              //   margin: const EdgeInsets.all(15), // margin on all sides
-              //   height: 35,
-              //   width: 35,
-              //   child: ClipRRect(
-              //     borderRadius: BorderRadius.circular(35 / 2), // makes it circular
-              //     child: Image.asset(
-              //       'assets/images/meeting.jpeg',
-              //       fit: BoxFit.cover,
-              //     ),
-              //   ),
-              // ),
-              // leading: Image.asset('assets/images/meeting.jpeg',
-              //   height: 35,
-              //   width: 35,
-              //   fit: BoxFit.cover,
-              // ),
               title: const Text(
-                'Meeting List',
+                'Complaint Status',
                 style:  const TextStyle(
                     fontFamily: 'Montserrat',
                     // color: Colors.white,
@@ -249,7 +240,11 @@ Widget listTile(){
               // ),
               onTap: () {
                 // Handle tap action
-                debugPrint("Profile tapped!");
+                //debugPrint("Profile tapped!");
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ComplaintStatusScreen()));
               },
             ),
           ],

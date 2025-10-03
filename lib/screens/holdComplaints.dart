@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:noidaone/Controllers/ajencyUserRepo.dart';
@@ -241,7 +242,41 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
       onWillPop: _onWillPop,
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: generalFunction.appbarFunction("Hold Complaints"),
+        appBar: AppBar(
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            // Status bar color
+            statusBarColor: Color(0xFF8b2355),
+            statusBarIconBrightness: Brightness.dark,
+            statusBarBrightness: Brightness.light,
+          ),
+          backgroundColor:  const Color(0xFFD31F76),
+          leading: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+                // Navigator.pop(context);
+                //
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => SupervisiorDashBoard()));
+                //Navigator.pop(context);
+              },
+              child:const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(Icons.arrow_back_ios),
+              )),
+          title:const Text(
+            'Hold Complaints',
+            style: TextStyle(
+                fontFamily: 'Montserrat',
+                color: Colors.white,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold),
+          ),
+          elevation: 1,
+          iconTheme: const IconThemeData(
+            color: Colors.white, // 👈 sets drawer icon color to white
+          ),
+        ),
+        // appBar: generalFunction.appbarFunction("Hold Complaints"),
         // drawer
         drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
         body: pendingInternalComplaintList == null

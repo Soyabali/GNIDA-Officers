@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,19 +29,19 @@ class ChangePassWord extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: MyHomePage(),
+      home: ChangePassWordHome(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class ChangePassWordHome extends StatefulWidget {
+  const ChangePassWordHome({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<ChangePassWordHome> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<ChangePassWordHome> {
   // Controller
   final TextEditingController _oldPasswordController = TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
@@ -254,7 +255,43 @@ class _MyHomePageState extends State<MyHomePage> {
       onWillPop: _onWillPop,
       child: Scaffold(
         backgroundColor: Colors.grey[200],
-        appBar: generalFunction.appbarFunction("Change PassWord"),
+        appBar: AppBar(
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            // Status bar color
+            statusBarColor: Color(0xFF8b2355),
+            statusBarIconBrightness: Brightness.dark,
+            statusBarBrightness: Brightness.light,
+          ),
+          backgroundColor:  const Color(0xFFD31F76),
+          leading: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+                // Navigator.pop(context);
+                //
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => SupervisiorDashBoard()));
+                //Navigator.pop(context);
+              },
+              child:const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(Icons.arrow_back_ios),
+              )),
+          title:const Text(
+            'Change PassWord',
+            style: TextStyle(
+                fontFamily: 'Montserrat',
+                color: Colors.white,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold),
+          ),
+          elevation: 1,
+          iconTheme: const IconThemeData(
+            color: Colors.white, // 👈 sets drawer icon color to white
+          ),
+        ),
+
+        // appBar: generalFunction.appbarFunction("Change PassWord"),
+
         // appBar: AppBar(
         //   backgroundColor: Color(0xFF255899),
         //   title: const Text(

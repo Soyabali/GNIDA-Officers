@@ -10,6 +10,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../resources/assets_manager.dart';
 import '../resources/values_manager.dart';
 import 'changePassword.dart';
+import 'gnidaofficers/gnoidadashboard.dart';
+import 'gnidaofficers/supervisorDashboard/supervisiorDashboard.dart';
 import 'holdComplaints.dart';
 import 'homeScreen.dart';
 import 'homepagesecod.dart';
@@ -111,24 +113,42 @@ class GeneralFunction {
                     onTap: () async {
                       // here you get a user id from a sharedPreferece
                       SharedPreferences prefs = await SharedPreferences.getInstance();
-                    var  iAgencyCode = prefs.getString('iAgencyCode').toString();
+                    var  iUserTypeCode = prefs.getString('iUserTypeCode').toString();
 
-                    if(iAgencyCode=="1"){
+                    if(iUserTypeCode=="6"){
                       print('-----ALi---home-------');
-                      Navigator.push(
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => const HomePage(),
+                      //   ),
+                      // );
+                      Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomePage(),
-                        ),
+                        MaterialPageRoute(builder: (context) => GnoidaOfficersHome()),
                       );
-                    }else{
+                    }else if(iUserTypeCode=="1"){
                       print('-----Yadav ---home-------');
-                      Navigator.push(
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => const HomeScreen_2(),
+                      //   ),
+                      // );
+                      Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomeScreen_2(),
-                        ),
+                        MaterialPageRoute(builder: (context) => SupervisiorDashBoard()),
                       );
+
+                    }else{
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomeScreen_2()),
+                      );
+                      // Navigator.pushReplacement(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => SupervisiorDashBoard()),
+                      // );
                     }
                     },
                     child: Row(
@@ -158,7 +178,7 @@ class GeneralFunction {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Mypoint(),
+                          builder: (context) => const MyPointPage(),
                         ),
                       );
                     },
@@ -189,7 +209,7 @@ class GeneralFunction {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const HoldComplaintScreen(),
+                          builder: (context) => const HoldComplaint(),
                         ),
                       );
                     },
@@ -220,7 +240,7 @@ class GeneralFunction {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const ChangePassWord(),
+                          builder: (context) => const ChangePassWordHome(),
                         ),
                       );
                     },
@@ -251,7 +271,7 @@ class GeneralFunction {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const NotificationPage(),
+                          builder: (context) => const NotificationPageHome(),
                         ),
                       );
                     },

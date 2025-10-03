@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:flutter/widgets.dart';
 import 'package:noidaone/Controllers/notificationRepo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,19 +25,19 @@ class NotificationPage extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: MyHomePage(),
+      home: NotificationPageHome(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class NotificationPageHome extends StatefulWidget {
+  const NotificationPageHome({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<NotificationPageHome> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<NotificationPageHome> {
 
   List<Map<String, dynamic>>? notificationList;
   String? sName, sContactNo;
@@ -97,7 +98,41 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: generalFunction.appbarFunction("Notification"),
+      appBar: AppBar(
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          // Status bar color
+          statusBarColor: Color(0xFF8b2355),
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.light,
+        ),
+        backgroundColor:  const Color(0xFFD31F76),
+        leading: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+              // Navigator.pop(context);
+              //
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => SupervisiorDashBoard()));
+              //Navigator.pop(context);
+            },
+            child:const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(Icons.arrow_back_ios),
+            )),
+        title:const Text(
+          'Notification',
+          style: TextStyle(
+              fontFamily: 'Montserrat',
+              color: Colors.white,
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold),
+        ),
+        elevation: 1,
+        iconTheme: const IconThemeData(
+          color: Colors.white, // 👈 sets drawer icon color to white
+        ),
+      ),
+       // appBar: generalFunction.appbarFunction("Notification"),
         // drawer
         drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
 
