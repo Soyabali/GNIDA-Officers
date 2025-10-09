@@ -15,10 +15,10 @@ import 'forgotpassword.dart';
 import 'generalFunction.dart';
 import 'gnidaofficers/gnoidadashboard.dart';
 import 'gnidaofficers/supervisorDashboard/supervisiorDashboard.dart';
-import 'homeScreen.dart';
 import 'homepagesecod.dart';
 
 class LoginScreen_2 extends StatelessWidget {
+
   const LoginScreen_2({super.key});
 
   @override
@@ -31,6 +31,7 @@ class LoginScreen_2 extends StatelessWidget {
 }
 
 class LoginPage extends StatefulWidget {
+
   const LoginPage({super.key});
 
   @override
@@ -458,6 +459,8 @@ class _LoginPageState extends State<LoginPage> {
                                     var iAgencyCode =
                                         "${loginMap['Data'][0]['iAgencyCode']}";
 
+                                    print("----xxxx---iUserTypeCode-----462---xx $iUserTypeCode");
+
                                     // To store value in  a SharedPreference
 
                                     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -483,10 +486,12 @@ class _LoginPageState extends State<LoginPage> {
                                     if(iUserTypeCode=="6"){
                                       print("----open Ngo ------");
                                       print("-----483-----$iUserTypeCode");
+
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(builder: (context) => GnoidaOfficersHome()),
                                       );
+
                                     }else if(iUserTypeCode=="1"){
 
                                       print("----supervisiior Screen--");
@@ -497,11 +502,6 @@ class _LoginPageState extends State<LoginPage> {
                                              MaterialPageRoute(builder: (context) => SupervisiorDashBoard()),
                                            );
 
-                                      // Navigator.pushReplacement(
-                                      //       context,
-                                      //        MaterialPageRoute(builder: (context) => HomePage()),
-                                      //      );
-
                                     }else{
                                       print("----open Complaint Screen ------");
                                       print("-----489----$iUserTypeCode");
@@ -511,32 +511,6 @@ class _LoginPageState extends State<LoginPage> {
                                         MaterialPageRoute(builder: (context) => HomeScreen_2()),
                                       );
                                     }
-                                    // if(iAgencyCode =="1"){
-                                    //
-                                    //   print("----482------GNIDA Officers");
-                                    //
-                                    //   print("----UserTypeCode---$iUserTypeCode");
-                                    //
-                                    //     // Navigator.pushReplacement(
-                                    //     //   context,
-                                    //     //   MaterialPageRoute(builder: (context) => GnoidaOfficersHome()),
-                                    //     // );
-                                    //
-                                    //
-                                    //
-                                    //   /// todo her this is important code after , this is used to gess the flow of the application
-                                    //
-                                    // //   Navigator.pushReplacement(
-                                    // //     context,
-                                    // //     MaterialPageRoute(builder: (context) => HomePage()),
-                                    // //   );
-                                    // // }else{
-                                    // //   Navigator.pushReplacement(
-                                    // //     context,
-                                    // //     MaterialPageRoute(builder: (context) => HomeScreen_2()),
-                                    // //   );
-                                    //
-                                    //  }
 
                                 }else{
                                   print('----373---To display error msg---');

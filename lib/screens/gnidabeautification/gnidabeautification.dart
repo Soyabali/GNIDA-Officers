@@ -2,16 +2,17 @@ import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:noidaone/screens/homeScreen.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
-import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
+import '../../Controllers/NoidaBeautificationRepo.dart';
+import '../../Controllers/baseurl.dart';
 import '../../Controllers/district_repo.dart';
 import '../../Controllers/markLocationRepo.dart';
 import '../../Controllers/postDailyActivityRepo.dart';
@@ -20,7 +21,6 @@ import '../../resources/app_text_style.dart';
 import '../../resources/values_manager.dart';
 import '../flull_screen_image.dart';
 import '../generalFunction.dart';
-import '../gnidaofficers/supervisorDashboard/supervisiorDashboard.dart';
 
 
 class GnidaBeautification extends StatelessWidget {
@@ -90,11 +90,11 @@ class _MyHomePageState extends State<GnidaBeautificationHome> {
   final distDropdownFocus = GlobalKey();
   File? _imageFile;
   var uplodedImage;
+  var locationAddress;
   final _formKey = GlobalKey<FormState>();
   GeneralFunction generalFunction = GeneralFunction();
 
   // mobile back button handle
-
   Future<bool> _onWillPop() async {
     return (await showDialog(
       context: context,
@@ -147,14 +147,14 @@ class _MyHomePageState extends State<GnidaBeautificationHome> {
     try {
       showLoader();
       // Create a multipart request
+      var baseURL = BaseRepo().baseurl;
+      /// TODO CHANGE HERE
+      var endPoint = "PostImage/PostImage";
+      var postImageApi = "$baseURL$endPoint";
       var request = http.MultipartRequest(
-          'POST',
-          Uri.parse(
-              'https://upegov.in/noidaoneapi/Api/PostImage/PostImage'));
-
+          'POST', Uri.parse('$postImageApi'));
       // Add headers
       request.headers['token'] = token;
-
       // Add the image file as a part of the request
       request.files.add(await http.MultipartFile.fromPath(
         'file', imageFile.path,
@@ -180,17 +180,6 @@ class _MyHomePageState extends State<GnidaBeautificationHome> {
       print('Error uploading image: $error');
     }
   }
-  // Future<void> _getImageFromCamera() async {
-  //   final ImagePicker _picker = ImagePicker();
-  //   final XFile? image = await _picker.pickImage(source: ImageSource.camera);
-  //
-  //   if (image != null) {
-  //     setState(() {
-  //       _imageFile = File(image.path);
-  //     });
-  //     print('----129---$_imageFile');
-  //   }
-  // }
   getUserIdFromSharedPreference() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     iUserId = prefs.getString('iUserId');
@@ -213,42 +202,63 @@ class _MyHomePageState extends State<GnidaBeautificationHome> {
     super.dispose();
     descriptionfocus.dispose();
   }
+
   void getLocation() async {
+    showLoader();
     bool serviceEnabled;
     LocationPermission permission;
+
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
+      hideLoader();
       return Future.error('Location services are disabled.');
     }
+
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
+        hideLoader();
+        return Future.error('Location permissions are denied.');
       }
     }
+
     if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+      hideLoader();
+      return Future.error('Location permissions are permanently denied.');
     }
+
+    // Get the current location
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
-    debugPrint("-------------Position-----------------");
-    debugPrint(position.latitude.toString());
 
+    // Convert latitude and longitude to an address
+    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+    // List<Placemark> placemarks = await placemarkFromCoordinates(27.2034949538412,78.0057668059695);
+    Placemark place = placemarks[0]; // Extract relevant details
+    // String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+    String address = "${place.street}, ${place.subLocality},${place.locality},${place.administrativeArea},${place.postalCode},${place.country}";
+
+    // Update state with location and address
     setState(() {
       lat = position.latitude;
       long = position.longitude;
-
+      locationAddress = address; // Store the converted address
     });
-    print('-----------141----$lat');
-    print('-----------142----$long');
-    // setState(() {
-    // });
-    debugPrint("Latitude: ----145--- $lat and Longitude: $long");
-    debugPrint(position.toString());
+    print('-------142----Address--$locationAddress');
+    print('-------143--lat----$lat');
+    print('-------144--long----$long');
+    print('-------street------${place.street}');
+    print('-------locality------${place.locality}');
+    print('-------administrationArea------${place.administrativeArea}');
+    print('-------country------${place.country}');
+    hideLoader();
   }
+
+
+  //geocoding: ^4.0.0
+  //geolocator: ^11.0.0
+
 
   // Todo bind sector code
   Widget _bindSector() {
@@ -310,8 +320,8 @@ class _MyHomePageState extends State<GnidaBeautificationHome> {
                             setState(() {
                               _selectedStateId = element['iSectorCode'];
                             });
-                            print("Distic Name xxxxxxx.... $_dropDownValueDistric");
-                            print("Block list Ali xxxxxxxxx.... $distList");
+                            print("sector code.... $_selectedStateId");
+
                           }
                         });
                       });
@@ -335,188 +345,100 @@ class _MyHomePageState extends State<GnidaBeautificationHome> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        //appBar: generalFunction.appbarback(context,"Random Inspection"),
-        appBar: AppBar(
-          systemOverlayStyle: const SystemUiOverlayStyle(
-            // Status bar color
-            statusBarColor: Color(0xFF8b2355),
-            statusBarIconBrightness: Brightness.dark,
-            statusBarBrightness: Brightness.light,
-            // Status bar brightness (optional)
-            // For Android (dark icons)
-            // For iOS (dark icons)
-          ),
-          backgroundColor:  const Color(0xFFD31F76),
-          leading: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
+      child: GestureDetector(
+        onTap: (){
+          FocusScope.of(context).unfocus();
+        },
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          //appBar: generalFunction.appbarback(context,"Random Inspection"),
+          appBar: AppBar(
+            systemOverlayStyle: const SystemUiOverlayStyle(
+              // Status bar color
+              statusBarColor: Color(0xFF8b2355),
+              statusBarIconBrightness: Brightness.dark,
+              statusBarBrightness: Brightness.light,
+              // Status bar brightness (optional)
+              // For Android (dark icons)
+              // For iOS (dark icons)
+            ),
+            backgroundColor:  const Color(0xFFD31F76),
+            leading: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
 
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => SupervisiorDashBoard()));
-                // Navigator.pop(context);
-              },
-              child:const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(Icons.arrow_back_ios),
-              )),
-          title:const Text(
-            'GNIDA Beautification',
-            style: TextStyle(
-                fontFamily: 'Montserrat',
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold),
+                  // Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => SupervisiorDashBoard()));
+                  // Navigator.pop(context);
+                },
+                child:const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.arrow_back_ios),
+                )),
+            title:const Text(
+              'GNIDA Beautification',
+              style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold),
+            ),
+            elevation: 1,
+            iconTheme: const IconThemeData(
+              color: Colors.white, // 👈 sets drawer icon color to white
+            ),
           ),
-          elevation: 1,
-          iconTheme: const IconThemeData(
-            color: Colors.white, // 👈 sets drawer icon color to white
-          ),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 150, // Height of the container
-                width: 200, // Width of the container
-                child: Opacity(
-                  opacity: 0.9,
-                  child: Image.asset(
-                    'assets/images/step3.jpg', // Replace 'image_name.png' with your asset image path
-                    fit: BoxFit
-                        .cover, // Adjust the image fit to cover the container
+          body: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 150, // Height of the container
+                  width: 200, // Width of the container
+                  child: Opacity(
+                    opacity: 0.9,
+                    child: Image.asset(
+                      'assets/images/step3.jpg', // Replace 'image_name.png' with your asset image path
+                      fit: BoxFit
+                          .cover, // Adjust the image fit to cover the container
+                    ),
                   ),
                 ),
-              ),
 
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: Container(
-                  width: MediaQuery.of(context).size.width - 30,
-                  decoration: BoxDecoration(
-                      color: Colors.white, // Background color of the container
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5), // Color of the shadow
-                          spreadRadius: 5, // Spread radius
-                          blurRadius: 7, // Blur radius
-                          offset: Offset(0, 3), // Offset of the shadow
-                        ),
-                      ]),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 15),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                margin:
-                                EdgeInsets.only(left: 0, right: 10, top: 10),
-                                child: Image.asset(
-                                  'assets/images/ic_expense.png', // Replace with your image asset path
-                                  width: 24,
-                                  height: 24,
-                                ),
-                              ),
-                              const Text('Fill the below details',
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xFF707d83),
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold)),
-                            ],
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width - 30,
+                    decoration: BoxDecoration(
+                        color: Colors.white, // Background color of the container
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5), // Color of the shadow
+                            spreadRadius: 5, // Spread radius
+                            blurRadius: 7, // Blur radius
+                            offset: Offset(0, 3), // Offset of the shadow
                           ),
-                          const SizedBox(height: 10),
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 5),
-                            child: Row(
+                        ]),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                Icon(
-                                  Icons.forward_sharp,
-                                  size: 12,
-                                  color: Colors.black54,
-                                ),
-                                SizedBox(width: 2),
-                                Text('Sector',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF707d83),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                          ),
-                          // _casteDropDownWithValidation(),
-                          _bindSector(),
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 5, top: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.forward_sharp,
-                                  size: 12,
-                                  color: Colors.black54,
-                                ),
-                                Text('Location',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF707d83),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 0, right: 0),
-                            child: Container(
-                              height: 42,
-                              color: Color(0xFFf2f3f5),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: TextFormField(
-                                  // focusNode: locationfocus,
-                                  controller: _locationController,
-                                  textInputAction: TextInputAction.next,
-                                  onEditingComplete: () =>
-                                      FocusScope.of(context).nextFocus(),
-                                  decoration: const InputDecoration(
-                                    // labelText: AppStrings.txtMobile,
-                                    // border: OutlineInputBorder(),
-                                    border: InputBorder.none,
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: AppPadding.p10),
+                                Container(
+                                  margin:
+                                  EdgeInsets.only(left: 0, right: 10, top: 10),
+                                  child: Image.asset(
+                                    'assets/images/ic_expense.png', // Replace with your image asset path
+                                    width: 24,
+                                    height: 24,
                                   ),
-                                  autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                                  // validator: (value) {
-                                  //   if (value!.isEmpty) {
-                                  //     return 'Enter location';
-                                  //   }
-                                  //   return null;
-                                  // },
                                 ),
-                              ),
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 5, top: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.forward_sharp,
-                                  size: 12,
-                                  color: Colors.black54,
-                                ),
-                                Text('Description',
+                                const Text('Fill the below details',
                                     style: TextStyle(
                                         fontFamily: 'Montserrat',
                                         color: Color(0xFF707d83),
@@ -524,267 +446,371 @@ class _MyHomePageState extends State<GnidaBeautificationHome> {
                                         fontWeight: FontWeight.bold)),
                               ],
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 0, right: 0),
-                            child: Container(
-                              height: 42,
-                              color: Color(0xFFf2f3f5),
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 10),
-                                child: TextFormField(
-                                  // focusNode: locationfocus,
-                                  controller: _descriptionController,
-                                  textInputAction: TextInputAction.next,
-                                  onEditingComplete: () =>
-                                      FocusScope.of(context).nextFocus(),
-                                  decoration: const InputDecoration(
-                                    // labelText: AppStrings.txtMobile,
-                                    // border: OutlineInputBorder(),
-                                    border: InputBorder.none,
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: AppPadding.p10),
-                                  ),
-                                  autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                                  // validator: (value) {
-                                  //   if (value!.isEmpty) {
-                                  //     return 'Enter location';
-                                  //   }
-                                  //   return null;
-                                  // },
-                                ),
-                              ),
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 5, top: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.forward_sharp,
-                                  size: 12,
-                                  color: Colors.black54,
-                                ),
-                                Text('Upload Photo',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF707d83),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                          ),
-                          //ContainerWithRow(),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Color(0xFFf2f3f5),
-                              borderRadius:
-                              BorderRadius.circular(10.0), // Border radius
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.only(bottom: 10),
+                            const SizedBox(height: 10),
+                            const Padding(
+                              padding: EdgeInsets.only(bottom: 5),
                               child: Row(
-                                children: [
-                                  const Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Text(
-                                            'Click Photo',
-                                            style: TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Colors.black54,
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                            children: <Widget>[
-                                              Text(
-                                                'Please click here to take a photo',
-                                                style: TextStyle(
-                                                    fontFamily: 'Montserrat',
-                                                    color: Colors.redAccent,
-                                                    fontSize: 10.0,
-                                                    fontWeight: FontWeight.bold),
-                                              ),
-                                              SizedBox(width: 10),
-                                              Icon(Icons.forward_sharp,
-                                                  size: 10,
-                                                  color: Colors.redAccent),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.forward_sharp,
+                                    size: 12,
+                                    color: Colors.black54,
                                   ),
-                                  InkWell(
-                                    onTap: () {
-                                      // pickImage();
-                                      pickImage();
-                                      print('---------530-----');
-                                    },
-                                    child: const Padding(
-                                      padding: EdgeInsets.only(right: 10, top: 5),
-                                      child: Image(image: AssetImage('assets/images/ic_camera.PNG'),
-                                        width: 35,
-                                        height: 35,
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  ),
+                                  SizedBox(width: 2),
+                                  Text('Sector',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xFF707d83),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold)),
                                 ],
                               ),
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                _imageFile != null
-                                    ? Stack(
-                                  children: [
-                                    GestureDetector(
-                                      behavior: HitTestBehavior.translucent,
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    FullScreenPage(
-                                                      child: _imageFile!,
-                                                      dark: true,
-                                                    )));
-                                      },
-                                      child: Container(
-                                          color: Colors.lightGreenAccent,
-                                          height: 100,
-                                          width: 70,
-                                          child: Image.file(
-                                            _imageFile!,
-                                            fit: BoxFit.fill,
-                                          )),
-                                    ),
-                                    Positioned(
-                                        bottom: 65,
-                                        left: 35,
-                                        child: IconButton(
-                                          onPressed: () {
-                                            _imageFile = null;
-                                            setState(() {});
-                                          },
-                                          icon: const Icon(
-                                            Icons.close,
-                                            color: Colors.red,
-                                            size: 30,
-                                          ),
-                                        ))
-                                  ],
-                                )
-                                    : Text(
-                                  "",
-                                  style: TextStyle(color: Colors.red[700]),
-                                )
-                              ]),
-                          ElevatedButton(
-                              onPressed: () async {
-                                // getLocation();
-                                var random = Random();
-                                int randomNumber = random.nextInt(99999999 - 10000000) + 10000000;
-                                //print('Random 8-digit number---770--: $randomNumber');
-                                print('-------615---');
-                                String activityDetaile = _activityDetails.text;
-                                print('--iTranNo --$randomNumber');
-                                print('--iSectorCode --$_selectedStateId');
-                                print("-sRemarks--"+activityDetaile);
-                                print('--sActivityPhoto --$uplodedImage');
-                                print('--iPostedBy --$iUserId');
-                                print('--fLatitude --$lat');
-                                print('--fLongitude --$long');
-                                double latitude = lat??0.0;
-                                double longitude = long??0.0;
-                                print('--fLatitude--604 --$latitude');
-                                print('--fLongitude ---605---$longitude');
-
-                                if (_formKey.currentState!.validate() &&
-                                    activityDetaile != null &&
-                                    _selectedStateId != null &&
-                                    _imageFile != null) {
-
-                                  print('---Api Call---');
-
-                                  var  postDailyActivityResponse =
-                                  await PostDailyActiviyRepo().postDailyActivity(
-                                      context,
-                                      randomNumber,
-                                      _selectedStateId,
-                                      activityDetaile,
-                                      uplodedImage,
-                                      iUserId,
-                                      latitude,
-                                      longitude);
-
-                                  print('-------625---$postDailyActivityResponse');
-                                  result = postDailyActivityResponse['Result'];
-                                  msg = postDailyActivityResponse['Msg'];
-
-                                } else {
-
-                                  print('---Api Not Call---');
-                                  // here you should apply again if condition
-                                  if (_selectedStateId==null || _selectedStateId=='') {
-                                    //activityDetailfocus.requestFocus();
-                                    displayToast('Please Select Sector');
-                                  }else if(activityDetaile==null || activityDetaile==''){
-                                    displayToast('Please Enter Description');
-                                  }else if(_imageFile==null){
-                                    displayToast('Please Click Photo');
-                                  }
-                                }
-                                /// Todo next Apply condition
-                                if(result=="1"){
-                                  // success
-                                  print("----556----"+result);
-                                  print("----569---Success-");
-                                  displayToast(msg);
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => const HomePage()),
-                                  );
-                                }else{
-                                  // failed
-                                  print("----573----"+result);
-                                  displayToast(msg);
-                                  print("----574---Faild-");
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xFFD31F76), // Hex color code (FF for alpha, followed by RGB)
+                            // _casteDropDownWithValidation(),
+                            _bindSector(),
+                            const Padding(
+                              padding: EdgeInsets.only(bottom: 5, top: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.forward_sharp,
+                                    size: 12,
+                                    color: Colors.black54,
+                                  ),
+                                  Text('Location',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xFF707d83),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold)),
+                                ],
                               ),
-                              child: const Text(
-                                "Submit",
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    color: Colors.white,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold),
-                              ))
-                        ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 0, right: 0),
+                              child: Container(
+                                height: 42,
+                                color: Color(0xFFf2f3f5),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: TextFormField(
+                                    // focusNode: locationfocus,
+                                    controller: _locationController,
+                                    textInputAction: TextInputAction.next,
+                                    onEditingComplete: () =>
+                                        FocusScope.of(context).nextFocus(),
+                                    decoration: const InputDecoration(
+                                      // labelText: AppStrings.txtMobile,
+                                      // border: OutlineInputBorder(),
+                                      border: InputBorder.none,
+                                      contentPadding: EdgeInsets.symmetric(
+                                          vertical: AppPadding.p10),
+                                    ),
+                                    autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                    // validator: (value) {
+                                    //   if (value!.isEmpty) {
+                                    //     return 'Enter location';
+                                    //   }
+                                    //   return null;
+                                    // },
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(bottom: 5, top: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.forward_sharp,
+                                    size: 12,
+                                    color: Colors.black54,
+                                  ),
+                                  Text('Description',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xFF707d83),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 0, right: 0),
+                              child: Container(
+                                height: 42,
+                                color: Color(0xFFf2f3f5),
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: TextFormField(
+                                    // focusNode: locationfocus,
+                                    controller: _descriptionController,
+                                    textInputAction: TextInputAction.next,
+                                    onEditingComplete: () =>
+                                        FocusScope.of(context).nextFocus(),
+                                    decoration: const InputDecoration(
+                                      // labelText: AppStrings.txtMobile,
+                                      // border: OutlineInputBorder(),
+                                      border: InputBorder.none,
+                                      contentPadding: EdgeInsets.symmetric(
+                                          vertical: AppPadding.p10),
+                                    ),
+                                    autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                    // validator: (value) {
+                                    //   if (value!.isEmpty) {
+                                    //     return 'Enter location';
+                                    //   }
+                                    //   return null;
+                                    // },
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(bottom: 5, top: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.forward_sharp,
+                                    size: 12,
+                                    color: Colors.black54,
+                                  ),
+                                  Text('Upload Photo',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xFF707d83),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ),
+                            //ContainerWithRow(),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Color(0xFFf2f3f5),
+                                borderRadius:
+                                BorderRadius.circular(10.0), // Border radius
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.only(bottom: 10),
+                                child: Row(
+                                  children: [
+                                    const Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(left: 10),
+                                            child: Text(
+                                              'Click Photo',
+                                              style: TextStyle(
+                                                  fontFamily: 'Montserrat',
+                                                  color: Colors.black54,
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(left: 10),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              children: <Widget>[
+                                                Text(
+                                                  'Please click here to take a photo',
+                                                  style: TextStyle(
+                                                      fontFamily: 'Montserrat',
+                                                      color: Colors.redAccent,
+                                                      fontSize: 10.0,
+                                                      fontWeight: FontWeight.bold),
+                                                ),
+                                                SizedBox(width: 10),
+                                                Icon(Icons.forward_sharp,
+                                                    size: 10,
+                                                    color: Colors.redAccent),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        // pickImage();
+                                        pickImage();
+                                        print('---------530-----');
+                                      },
+                                      child: const Padding(
+                                        padding: EdgeInsets.only(right: 10, top: 5),
+                                        child: Image(image: AssetImage('assets/images/ic_camera.PNG'),
+                                          width: 35,
+                                          height: 35,
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  _imageFile != null
+                                      ? Stack(
+                                    children: [
+                                      GestureDetector(
+                                        behavior: HitTestBehavior.translucent,
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      FullScreenPage(
+                                                        child: _imageFile!,
+                                                        dark: true,
+                                                      )));
+                                        },
+                                        child: Container(
+                                            color: Colors.lightGreenAccent,
+                                            height: 100,
+                                            width: 70,
+                                            child: Image.file(
+                                              _imageFile!,
+                                              fit: BoxFit.fill,
+                                            )),
+                                      ),
+                                      Positioned(
+                                          bottom: 65,
+                                          left: 35,
+                                          child: IconButton(
+                                            onPressed: () {
+                                              _imageFile = null;
+                                              setState(() {});
+                                            },
+                                            icon: const Icon(
+                                              Icons.close,
+                                              color: Colors.red,
+                                              size: 30,
+                                            ),
+                                          ))
+                                    ],
+                                  )
+                                      : Text(
+                                    "",
+                                    style: TextStyle(color: Colors.red[700]),
+                                  )
+                                ]),
+                            ElevatedButton(
+                                onPressed: () async {
+                                  // getLocation();
+
+                                  var locationController = _locationController.text;
+                                  var descriptionController = _descriptionController.text;
+                                  var random = Random();
+                                  int randomNumber = random.nextInt(99999999 - 10000000) + 10000000;
+                                  //print('Random 8-digit number---770--: $randomNumber');
+                                  print('-------615---');
+                                  String activityDetaile = _activityDetails.text;
+                                  print('--iTranNo --$randomNumber');
+                                  print('--iSectorCode --$_selectedStateId');
+                                  print("-sRemarks--"+activityDetaile);
+                                  print('--sActivityPhoto --$uplodedImage');
+                                  print('--iPostedBy --$iUserId');
+                                  print('--fLatitude --$lat');
+                                  print('--fLongitude --$long');
+                                  double latitude = lat??0.0;
+                                  double longitude = long??0.0;
+                                  print('--fLatitude--604 --$latitude');
+                                  print('--fLongitude ---605---$longitude');
+
+
+                                  // iSectorId
+                                  // sDescription
+                                  // sLocation
+                                  // sPhoto
+                                  // iPostedBy
+                                  // fLatitude
+                                  // fLongitude
+                                  // sGoogleLocation
+
+                                  if (_formKey.currentState!.validate() &&
+                                      activityDetaile != null &&
+                                      _selectedStateId != null &&
+                                      locationController != null) {
+
+                                    print('---Api Call---');
+
+                                    var  noidabeautificationResponse =
+                                    await NoidaBeautificationRepo().noidaBeautification(
+                                        context,
+                                        _selectedStateId,
+                                        locationController,
+                                        descriptionController,
+                                        uplodedImage,
+                                        lat,
+                                        long,
+                                        locationAddress
+
+                                    );
+
+                                    print('-------625---$noidabeautificationResponse');
+                                    result = noidabeautificationResponse['Result'];
+                                    msg = noidabeautificationResponse['Msg'];
+
+                                  } else {
+
+                                    print('---Api Not Call---');
+                                    // here you should apply again if condition
+                                    if (_selectedStateId==null || _selectedStateId=='') {
+                                      //activityDetailfocus.requestFocus();
+                                      displayToast('Please Select Sector');
+                                    }else if(activityDetaile==null || activityDetaile==''){
+                                      displayToast('Please Enter Description');
+                                    }else if(_imageFile==null){
+                                      displayToast('Please Click Photo');
+                                    }
+                                  }
+                                  /// Todo next Apply condition
+                                  if(result=="1"){
+                                    // success
+                                    print("----556----"+result);
+                                    print("----569---Success-");
+                                    displayToast(msg);
+                                    Navigator.pop(context);
+                                  }else{
+                                    // failed
+                                    print("----573----"+result);
+                                    displayToast(msg);
+                                    print("----574---Faild-");
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Color(0xFFD31F76), // Hex color code (FF for alpha, followed by RGB)
+                                ),
+                                child: const Text(
+                                  "Submit",
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Colors.white,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold),
+                                ))
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

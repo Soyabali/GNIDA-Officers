@@ -11,7 +11,7 @@ void main() {
 
   //runApp(const MyApp());
   runApp(
-    OKToast(
+    const OKToast(
       child: MyApp(), // or your root widget
     ),
   );

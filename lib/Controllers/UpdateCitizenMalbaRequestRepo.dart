@@ -8,12 +8,12 @@ import '../screens/generalFunction.dart';
 import 'baseurl.dart';
 
 
-class NoidaBeautificationRepo {
+class UpdateCitizenMalbaRequestRepo {
 
   // this is a loginApi call functin
   GeneralFunction generalFunction = GeneralFunction();
 
-  Future noidaBeautification(BuildContext context, selectedStateId, String locationController, String descriptionController, uplodedImage, double? lat, double? long, locationAddress) async {
+  Future updateCitizenMalba(BuildContext context, sReqNo, String remarks, uplodedImage, double? lat, double? long, locationAddress) async {
 
     /// Here you should get a value from a sharedPreferenc that is stored at a login time.
     ///
@@ -24,35 +24,33 @@ class NoidaBeautificationRepo {
     try {
 
       var baseURL = BaseRepo().baseurl;
-      var endPoint = "NoidaBeautification/NoidaBeautification";
-      var noidaBeautificationApi = "$baseURL$endPoint";
-      print('------------17---noidaBeautificationApi---$noidaBeautificationApi');
+      var endPoint = "UpdateCitizenMalbaRequest/UpdateCitizenMalbaRequest";
+      var updateCitizenApi = "$baseURL$endPoint";
+      print('------------17---updateCitizenApi---$updateCitizenApi');
 
       showLoader();
       var headers = {
         'token': '$sToken',
         'Content-Type': 'application/json'
       };
-      var request = http.Request('POST', Uri.parse('$noidaBeautificationApi'));
+      var request = http.Request('POST', Uri.parse('$updateCitizenApi'));
       request.body = json.encode({
-        "iSectorId": selectedStateId,
-        "sDescription": descriptionController,
-        "sLocation":locationController,
-        "sPhoto":uplodedImage,
-        "iPostedBy":iUserId,
-        "fLatitude":lat,
-        "fLongitude":long,
-        "sGoogleLocation":locationAddress
+        "sReqNo": sReqNo,
+        "iUserId": iUserId,
+        "sRemarks": remarks,
+        "sResolveImage": uplodedImage,
+        "fResolvedLat": lat,
+        "fResolvedLon": long,
+        "sResolveLoc": locationAddress,
 
       });
       request.headers.addAll(headers);
-
       http.StreamedResponse response = await request.send();
 
       var map;
       var data = await response.stream.bytesToString();
       map = json.decode(data);
-      print('----------50---changePassword Response----$map');
+      print('----------50---UpdateCitizenMalbaRequest Response----$map');
       if(response.statusCode ==401){
         generalFunction.logout(context);
       }
@@ -62,7 +60,7 @@ class NoidaBeautificationRepo {
         print('----------53-----$map');
         return map;
       } else{
-        print('----------29---NoidaBeautification Response----$map');
+        print('----------29---UpdateCitizenMalbaRequest Response----$map');
         hideLoader();
         print(response.reasonPhrase);
         return map;

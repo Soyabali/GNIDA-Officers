@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
@@ -99,7 +100,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     List<Map<String, dynamic>>.from(pendingInternalComplaintList ?? []);
 
     print('--77-----$pendingInternalComplaintList');
-    print('--45--$_filteredData');
+    print('--103--$_filteredData');
     setState(() {});
   }
   // bottomSheetForward
@@ -1103,7 +1104,31 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       onWillPop: _onWillPop,
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: generalFunction.appbarFunction("Noida One"),
+        appBar: AppBar(
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: Color(0xFF8b2355),
+            statusBarIconBrightness: Brightness.dark,
+            statusBarBrightness: Brightness.light,
+          ),
+          backgroundColor: const Color(0xFFD31F76),
+          title: const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5),
+            child: Text(
+              'GNIDA',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Montserrat',
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          elevation: 0,
+          iconTheme: const IconThemeData(
+            color: Colors.white, // 👈 sets drawer icon color to white
+          ),
+        ),
         drawer: generalFunction.drawerFunction(context, '$sName', '$sContactNo'),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1115,7 +1140,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                     // color: Color(0xFF255898),
                     // 0xFF3A6090
                     //color: Colors.blue,
-                    color: Color(0xFF3A6090),
+                    color: Color(0xFF8b2355),
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(20),
                       // Set the desired radius for top left corner
@@ -1159,7 +1184,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                 const SizedBox(width: 10),
                                 Text(
                                   '${iTotalComp ?? 0}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontFamily: 'Montserrat',
                                       color: Colors.white,
                                       fontSize: 14.0,

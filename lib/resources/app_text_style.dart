@@ -139,6 +139,10 @@ class AppTextStyle {
       color: const Color.fromARGB(255, 32, 25, 19), fontSize: 12, fontWeight: FontWeight.w400);
   static TextStyle font12OpenSansRegularRedTextStyle = GoogleFonts.openSans(
       color: AppColors.red, fontSize: 12, fontWeight: FontWeight.w400);
+  static TextStyle font14OpenSansRegularBlack45TextStyle =  GoogleFonts.openSans(
+      color: AppColors.black, fontSize: 14, fontWeight: FontWeight.w400);
+
+
 
   static TextStyle font8OpenSansRegularBlackTextStyle = GoogleFonts.openSans(
       color: AppColors.black, fontSize: 8, fontWeight: FontWeight.w400);

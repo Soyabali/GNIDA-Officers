@@ -9,7 +9,7 @@ import '../../generalFunction.dart';
 import '../../gnidabeautification/gnidabeautification.dart';
 import '../../pendingcomplaint.dart';
 import '../../scheduledpoint.dart';
-import '../../shopSurvey.dart' show ShopSurvey;
+import '../../shopSurvey.dart' show ShopSurvey, ShopSurveyHome;
 
 class SupervisiorDashBoard extends StatefulWidget {
 
@@ -168,7 +168,7 @@ class _GnoidaOfficersHomeState extends State<SupervisiorDashBoard> with TickerPr
     );
   }
   // widget
-  Widget listTile(){
+  Widget listTile() {
     return Center(
       child: Card(
           color: Colors.white,
@@ -459,17 +459,29 @@ class _GnoidaOfficersHomeState extends State<SupervisiorDashBoard> with TickerPr
                           var sActivityName = activity['sActivityName'];
                           print(sActivityName);
                           if(iActivityCode==6){
-                            //  RandomInspection
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const DailyActivitytScreen()));
 
+                            //  RandomInspection
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const DailyActivitytScreenHome()));
 
                           }else if(iActivityCode==7){
                             // shop Survey
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const ShopSurvey()));
+                           // Navigator.push(context, MaterialPageRoute(builder: (context) => const ShopSurvey()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ShopSurveyHome()));
+
                           }else if(iActivityCode==8){
                             print("----Gnida Beautification-----");
                            // DnidaBeautification
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const GnidaBeautification()));
+                           // Navigator.push(context, MaterialPageRoute(builder: (context) => const GnidaBeautification()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const GnidaBeautificationHome()));
                           }else{
                           }
                         },

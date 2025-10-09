@@ -7,10 +7,12 @@ import 'package:intl/intl.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Controllers/actionOnSchedulePointRepo.dart';
+import '../Controllers/baseurl.dart';
 import '../Controllers/district_repo.dart';
 import '../Helpers/loader_helper.dart';
 import '../resources/values_manager.dart';
 import 'flull_screen_image.dart';
+import 'gnidaofficers/gnoidadashboard.dart';
 import 'homeScreen.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -120,12 +122,13 @@ class _ActionOnSchedultPointScreenState
   Future<void> uploadImage(String token, File imageFile) async {
     try {
       showLoader();
+      var baseURL = BaseRepo().baseurl;
+      var endPoint = "PostImage/PostImage";
+      var postImageApi = "$baseURL$endPoint";
       // Create a multipart request
       var request = http.MultipartRequest(
           'POST',
-          Uri.parse(
-              'https://upegov.in/noidaoneapi/Api/PostImage/PostImage'));
-
+          Uri.parse('$postImageApi'));
       // Add headers
       request.headers['token'] = token;
 
@@ -175,21 +178,36 @@ class _ActionOnSchedultPointScreenState
         fontSize: 16.0,
       ),
     );
-    // Fluttertoast.showToast(
-    //     msg: msg,
-    //     toastLength: Toast.LENGTH_SHORT,
-    //     gravity: ToastGravity.CENTER,
-    //     timeInSecForIosWeb: 1,
-    //     backgroundColor: Colors.red,
-    //     textColor: Colors.white,
-    //     fontSize: 16.0
-    // );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      // appBar: AppBar(
+      //     backgroundColor: const Color(0xFFD31F76),
+      //     leading: GestureDetector(
+      //         onTap: () {
+      //           //Navigator.pop(context);
+      //           Navigator.push(context,
+      //               MaterialPageRoute(builder: (context) => const GnoidaOfficersHome()));
+      //         },
+      //         child: const Padding(
+      //           padding: EdgeInsets.all(8.0),
+      //           child: Icon(Icons.arrow_back_ios),
+      //         )),
+      //     title: const Text(
+      //       'Action on Malba Request',
+      //       style: TextStyle(
+      //           fontFamily: 'Montserrat',
+      //           color: Colors.white,
+      //           fontSize: 18.0,
+      //           fontWeight: FontWeight.bold),
+      //     ),
+      //     centerTitle: true,
+      //     elevation: 0,
+      //     iconTheme:  Theme.of(context).iconTheme.copyWith(color: Colors.white
+      //     )),
       appBar: AppBar(
         backgroundColor: Color(0xFF255899),
         leading: GestureDetector(

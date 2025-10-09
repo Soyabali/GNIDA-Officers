@@ -1,17 +1,20 @@
 
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:noidaone/screens/homeScreen.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Controllers/agencyRepo.dart';
+import '../Controllers/baseurl.dart';
 import '../Controllers/district_repo.dart';
 import '../Controllers/markLocationRepo.dart';
 import '../Controllers/postComplaintRepo.dart';
+import '../Helpers/loader_helper.dart';
 import '../resources/values_manager.dart';
 import 'dart:async';
 import 'flull_screen_image.dart';
@@ -50,6 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List AgencyList = [];
   List blockList = [];
   List marklocationList = [];
+  File? image;
   //File? image;
 
   //
@@ -97,21 +101,90 @@ class _MyHomePageState extends State<MyHomePage> {
   String? sec;
   final distDropdownFocus = GlobalKey();
   File? _imageFile;
+  var uplodedImage;
   final _formKey = GlobalKey<FormState>();
 
   // pick Image Codew
-  Future<void> _getImageFromCamera() async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+  // Future<void> _getImageFromCamera() async {
+  //   final ImagePicker _picker = ImagePicker();
+  //   final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+  //
+  //   if (image != null) {
+  //     setState(() {
+  //       _imageFile = File(image.path);
+  //
+  //     });
+  //     print('----129---$_imageFile');
+  //   }
+  // }
+  Future pickImage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? sToken = prefs.getString('sToken');
+    image=null;
+    print('---Token----107--$sToken');
+    try {
+      final pickFileid = await ImagePicker().pickImage(source: ImageSource.camera, imageQuality: 65);
+      if (pickFileid != null) {
+        image = File(pickFileid.path);
+        setState(() {});
+        print('Image File path Id Proof-------167----->$image');
+        // multipartProdecudre();
+        uploadImage(sToken!, image!);
+      } else {
+        print('no image selected');
+      }
+    } catch (e) {}
+  }
+  // uplode image
+  Future<void> uploadImage(String token, File imageFile) async {
 
-    if (image != null) {
-      setState(() {
-        _imageFile = File(image.path);
+    print("--------225---tolen---$token");
+    print("--------226---imageFile---$imageFile");
+    // http://125.21.67.106:5000/detect
+    var baseURL = BaseRepo().baseurl;
+    var endPoint = "PostImage/PostImage";
+    var uploadImageApi = "$baseURL$endPoint";
+    try {
+      showLoader();
+      // Create a multipart request
+      var request = http.MultipartRequest(
+        'POST', Uri.parse('$uploadImageApi'),
+      );
+      // Add headers
+      //request.headers['token'] = '04605D46-74B1-4766-9976-921EE7E700A6';
+      request.headers['token'] = token;
+      //  request.headers['sFolder'] = 'CompImage';
+      // Add the image file as a part of the request
+      request.files.add(await http.MultipartFile.fromPath('sImagePath',imageFile.path,
+      ));
+      // Send the request
+      var streamedResponse = await request.send();
+      // Get the response
+      var response = await http.Response.fromStream(streamedResponse);
+      // Parse the response JSON
+      var responseData = json.decode(response.body); // No explicit type casting
+      print("---------248-----$responseData");
+      if (responseData is Map<String, dynamic>) {
+        // Check for specific keys in the response
+        uplodedImage = responseData['Data'][0]['sImagePath'];
+        print("-----170----$uplodedImage");
+        //uere to uplode pothole detections api to calll a response
+        // if(uplodedImage!=null){
+        //   detectFromApiUrl(uplodedImage);
+        // }
 
-      });
-      print('----129---$_imageFile');
+       // print('Uploaded Image--------201---->>.--: $uplodedImage');
+      } else {
+        print('Unexpected response format: $responseData');
+      }
+      hideLoader();
+    } catch (error) {
+      hideLoader();
+      print('Error uploading image: $error');
     }
   }
+
+
   // InitState
   @override
   void initState() {
@@ -160,7 +233,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 hint: RichText(
                   text: const TextSpan(
-                    text: "Please choose a Sector",
+                    text: "Select Sector",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 16,
@@ -306,7 +379,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 hint: RichText(
                   text: const TextSpan(
-                    text: "Please choose a Location",
+                    text: "Select Point Type",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 16,
@@ -388,16 +461,14 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             SizedBox(
               height: 130, // Height of the container
-              width: 200, // Width of the container
-              child: Opacity(
-                opacity: 0.9,
-                child: Image.asset(
-                  'assets/images/step3.jpg', // Replace 'image_name.png' with your asset image path
+             // width: 200, // Width of the container
+             width: MediaQuery.of(context).size.width-200,
+              child: Image.asset(
+                  'assets/images/step1.jpg', // Replace 'image_name.png' with your asset image path
                   fit:
-                  BoxFit.cover, // Adjust the image fit to cover the container
+                  BoxFit.fill, // Adjust the image fit to cover the container
                 ),
               ),
-            ),
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Container(
@@ -454,7 +525,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     color: Colors.black54,
                                   )),
                               const Text(
-                                  'Complaint Type',
+                                  'Point Type',
                                   style: TextStyle(
                                       fontFamily: 'Montserrat',
                                       color: Color(0xFF707d83),
@@ -705,7 +776,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 InkWell(
                                   onTap: (){
                                     // pickImage();
-                                    _getImageFromCamera();
+                                    //_getImageFromCamera();
+                                    pickImage();
                                     print('---------530-----');
                                     },
                                   child: const Padding(
@@ -730,7 +802,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              _imageFile != null
+                              image != null
                                   ? Stack(
                                 children: [
                                   GestureDetector(
@@ -741,7 +813,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   FullScreenPage(
-                                                    child: _imageFile!,
+                                                    child: image!,
                                                     dark: true,
                                                   )));
                                     },
@@ -750,7 +822,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         height: 100,
                                         width: 70,
                                         child: Image.file(
-                                          _imageFile!,
+                                          image!,
                                           fit: BoxFit.fill,
                                         )),
                                   ),
@@ -759,7 +831,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       left: 35,
                                       child: IconButton(
                                         onPressed: () {
-                                          _imageFile = null;
+                                          image = null;
                                           setState(() {});
                                         },
                                         icon: const Icon(
@@ -799,14 +871,14 @@ class _MyHomePageState extends State<MyHomePage> {
                               print('--fLatitude --$lat');
                               print('--fLongitude --$long');
                               print('--sDescription --$description');
-                              print('--sBeforePhoto --$_imageFile');
+                              print('--sBeforePhoto --$uplodedImage');
                               print('--dPostedOn --$todayDate');
                               print('--iPostedBy --$iUserId');
 
                               // apply condition
                               if(_formKey.currentState!.validate() && _iPointTypeCode != null
                                   && _iSectorCode != null && location !=null
-                                  && _imageFile!=null
+                                  && uplodedImage!=null
                               ){
                                 print('---Api Call---');
                                 var  postComplaintResponse =
@@ -819,7 +891,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     lat,
                                     long,
                                     description,
-                                    _imageFile,
+                                    uplodedImage,
                                     todayDate,
                                     iUserId);
 
@@ -840,9 +912,15 @@ class _MyHomePageState extends State<MyHomePage> {
                               if(result=="1"){
                                 displayToast(msg);
                                 Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const HomePage()),
-                                );
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                        const GnoidaOfficersHome()));
+                                //Navigator.pop(context);
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(builder: (context) => const HomePage()),
+                                // );
                               }else{
                                 displayToast(msg);
                               }

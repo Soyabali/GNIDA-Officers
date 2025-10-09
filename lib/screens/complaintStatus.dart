@@ -1,21 +1,18 @@
-import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
 import 'package:geolocator/geolocator.dart';
-import 'package:noidaone/Controllers/ajencyUserRepo.dart';
+import 'package:noidaone/screens/viewimage.dart';
 import 'package:oktoast/oktoast.dart';
-import '../Controllers/bindAjencyRepo.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../Controllers/internalComplaintStatusRepo.dart';
-import '../Controllers/pendingInternalComplaintRepo.dart';
+import '../resources/app_text_style.dart';
 import 'generalFunction.dart';
 import 'gnidaofficers/gnoidadashboard.dart';
-import 'homeScreen.dart';
-import 'navigateScreen.dart';
+import 'malbaRequest/actionOnMalbaRequest.dart';
+
 
 class ComplaintStatusScreen extends StatelessWidget {
+
   const ComplaintStatusScreen({Key? key}) : super(key: key);
 
   @override
@@ -35,6 +32,7 @@ class ComplaintStatusScreen extends StatelessWidget {
 }
 
 class ComplaintScreen extends StatefulWidget {
+
   const ComplaintScreen({Key? key}) : super(key: key);
 
   @override
@@ -54,19 +52,17 @@ class _SchedulePointScreenState extends State<ComplaintScreen> {
   double? lat;
   double? long;
   GeneralFunction generalfunction = GeneralFunction();
-
   final distDropdownFocus = GlobalKey();
-
   double _borderRadius = 0.0; // Initial border radius
-
   var result,msg;
 
   // Get a api response
   intStatusComplaintResponse() async {
     internalComplaintList = await InternalComplaintStatusRepo().internalComplaintStatus(context);
     _filteredData = List<Map<String, dynamic>>.from(internalComplaintList ?? []);
-    print('--65--$internalComplaintList');
-    print('--66--$_filteredData');
+    //print('--60--$internalComplaintList');
+    //print('--61--$_filteredData');
+    debugPrint("--61--$_filteredData", wrapWidth: 1024);
     setState(() {});
   }
 
@@ -146,385 +142,431 @@ class _SchedulePointScreenState extends State<ComplaintScreen> {
         fontSize: 16.0,
       ),
     );
-    // Fluttertoast.showToast(
-    //     msg: msg,
-    //     toastLength: Toast.LENGTH_SHORT,
-    //     gravity: ToastGravity.CENTER,
-    //     timeInSecForIosWeb: 1,
-    //     backgroundColor: Colors.red,
-    //     textColor: Colors.white,
-    //     fontSize: 16.0);
+  }
+
+  Future<void> openGoogleMapPath(double sourceLat, double sourceLng, double destLat, double destLng) async {
+    final Uri googleMapUrl = Uri.parse(
+      'https://www.google.com/maps/dir/?api=1&origin=$sourceLat,$sourceLng&destination=$destLat,$destLng&travelmode=driving',
+    );
+
+    if (await canLaunchUrl(googleMapUrl)) {
+      await launchUrl(googleMapUrl, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch $googleMapUrl';
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFD31F76),
-        leading: GestureDetector(
-            onTap: () {
-              //Navigator.pop(context);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const GnoidaOfficersHome()));
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(Icons.arrow_back_ios),
-            )),
-        title: const Text(
-          'Complaint Status',
-          style: TextStyle(
-              fontFamily: 'Montserrat',
-              color: Colors.white,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold),
+    return GestureDetector(
+      onTap: (){
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: const Color(0xFFD31F76),
+          leading: GestureDetector(
+              onTap: () {
+                //Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const GnoidaOfficersHome()));
+              },
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(Icons.arrow_back_ios),
+              )),
+          title: const Text(
+            'Complaint Status',
+            style: TextStyle(
+                fontFamily: 'Montserrat',
+                color: Colors.white,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold),
+          ),
         ),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Center(
-            child: Padding(
-              padding: EdgeInsets.only(left: 15, right: 15,top: 10),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5.0),
-                  border: Border.all(
-                    color: Colors.grey, // Outline border color
-                    width: 0.2, // Outline border width
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Center(
+              child: Padding(
+                padding: EdgeInsets.only(left: 15, right: 15,top: 10),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5.0),
+                    border: Border.all(
+                      color: Colors.grey, // Outline border color
+                      width: 0.2, // Outline border width
+                    ),
+                    color: Colors.white,
                   ),
-                  color: Colors.white,
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: _searchController,
-                        autofocus: true,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.search),
-                          hintText: 'Enter Keywords',
-                          hintStyle: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Color(0xFF707d83),
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold),
-                          border: InputBorder.none,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: _searchController,
+                          autofocus: true,
+                          decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.search),
+                            hintText: 'Enter Keywords',
+                            hintStyle: TextStyle(
+                                fontFamily: 'Montserrat',
+                                color: Color(0xFF707d83),
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold),
+                            border: InputBorder.none,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          // scroll item after search bar
-          Expanded(
-            child: ListView.builder(
-              itemCount: _filteredData.length ?? 0,
-              itemBuilder: (context, index) {
-              Map<String, dynamic> item = _filteredData[index];
+            // scroll item after search bar
+            Expanded(
+              child: ListView.builder(
+                itemCount: _filteredData.length ?? 0,
+                itemBuilder: (context, index) {
+                Map<String, dynamic> item = _filteredData[index];
 
-              final status = _filteredData[index]['sStatusName'];
-              final buttonColor = status == 'Pending' ? Colors.red : Colors.green;
+                final status = _filteredData[index]['sStatusName'];
+                final buttonColor = status == 'Pending' ? Colors.red : Colors.green;
 
-
-              return Padding(
-                  padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
-                  child: Container(
-                    child: Column(
-                      children: [
-                        Card(
-                          elevation: 1,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.0),
-                              border: Border.all(
-                                color: Colors.grey, // Outline border color
-                                width: 0.2, // Outline border width
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 8, right: 0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 5),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Container(
-                                          width: 30.0,
-                                          height: 30.0,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(15.0),
-                                            border: Border.all(
-                                              color: Color(0xFF255899),
-                                              // Outline border color
-                                              width:
-                                              0.5, // Outline border width
-                                            ),
-                                            color: Colors.white,
-                                          ),
-                                          child: const Center(
-                                              child: Icon(Icons.ac_unit_rounded,
-                                                  color: Color(0xFF255899),
-                                                  size: 20)),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Column(
+                return Padding(
+                    padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
+                    child: Container(
+                      child: Column(
+                        children: [
+                             Card(
+                              elevation: 1,
+                               //color: Colors.white,
+                              child: Container(
+                               // color: Colors.white,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  border: Border.all(
+                                    color: Colors.grey, // Outline border color
+                                    width: 0.2, // Outline border width
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 8, right: 0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 5),
+                                        child: Row(
                                           mainAxisAlignment:
                                           MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
-                                            Text(
-                                              item['sPointTypeName'] ?? '',
-                                              style: const TextStyle(
-                                                  fontFamily: 'Montserrat',
-                                                  color: Color(0xff3f617d),
-                                                  fontSize: 14.0,
-                                                  fontWeight: FontWeight.bold),
+                                            Padding(
+                                              padding: const EdgeInsets.only(top: 8),
+                                              child: Container(
+                                                height: 45,
+                                                width:2,
+                                                color:Colors.red
+                                              ),
                                             ),
-                                            const Text(
-                                              'Point Name',
-                                              style: TextStyle(
-                                                  fontFamily: 'Montserrat',
-                                                  color: Color(0xff3f617d),
-                                                  fontSize: 12.0,
-                                                  fontWeight: FontWeight.bold),
+                                            SizedBox(width: 10),
+                                            Column(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text('${index+1}.',style: AppTextStyle.font16OpenSansRegularBlackTextStyle),
+                                                    SizedBox(width: 4),
+                                                    Text(item['sPointTypeName'] ?? '',
+                                                        style: AppTextStyle.font16OpenSansRegularBlackTextStyle),
+                                                  ],
+                                                ),
+                                                Text(
+                                                  'Point Name',
+                                                  style: AppTextStyle
+                                                      .font14OpenSansRegularBlack45TextStyle,
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                        SizedBox(width: 0),
-                                        Expanded(
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              var fLatitude =
-                                                  item['fLatitude'] ?? '';
-                                              var fLongitude =
-                                                  item['fLongitude'] ?? '';
-                                              print('----462----${fLatitude}');
-                                              print('-----463---${fLongitude}');
-                                              // getLocation();
-                                              if (fLatitude != null &&
-                                                  fLongitude != null) {
-                                                generalfunction.launchGoogleMaps(fLatitude,fLongitude);
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 5, right: 15),
+                                        child: Container(
+                                          height: 0.5,
+                                          color: Color(0xff3f617d),
+                                        ),
+                                      ),
+                                      SizedBox(height: 5),
+                                       Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          const Icon(
+                                            Icons.forward,
+                                            size: 10,
+                                            color: Colors.black,
+                                          ),
+                                          SizedBox(width: 5),
+                                          Text(
+                                            'Sector',
+                                              style: AppTextStyle.font16OpenSansRegularBlackTextStyle
+                                          )
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 15),
+                                        child: Text(
+                                          item['sSectorName'] ?? '',
+                                          style: AppTextStyle
+                                              .font14OpenSansRegularBlack45TextStyle,
+                                        ),
+                                      ),
+                                       SizedBox(height: 5),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          const Icon(
+                                            Icons.forward,
+                                            size: 10,
+                                            color: Colors.black,
+                                          ),
+                                          SizedBox(width: 5),
+                                          Text(
+                                              'Agency Name',
+                                              style: AppTextStyle.font16OpenSansRegularBlackTextStyle
+                                          )
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 15),
+                                        child: Text(
+                                          item['sAgencyName'] ?? '',
+                                          style: AppTextStyle
+                                              .font14OpenSansRegularBlack45TextStyle,
+                                        ),
+                                      ),
+                                       SizedBox(height: 2),
+                                       Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          const Icon(
+                                            Icons.forward,
+                                            size: 10,
+                                            color: Colors.black,
+                                          ),
+                                          SizedBox(width: 5),
+                                          Text(
+                                            'Posted At',
+                                            style: AppTextStyle
+                                            .font14OpenSansRegularBlackTextStyle,
+                                          )
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 15),
+                                        child: Text(
+                                          item['dPostedOn'] ?? '',
+                                          style: AppTextStyle
+                                              .font14OpenSansRegularBlack45TextStyle,
+                                        ),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          const Icon(Icons.forward,
+                                              size: 10, color: Colors.black),
+                                          SizedBox(width: 5),
+                                          Text(
+                                            'Location',
+                                            style: AppTextStyle
+                                                .font14OpenSansRegularBlackTextStyle,
+                                          )
+                                        ],
+                                      ),
+                                       Padding(
+                                        padding: EdgeInsets.only(left: 15),
+                                        child: Text(
+                                          item['sLocation'] ?? '',
+                                          style: AppTextStyle
+                                              .font14OpenSansRegularBlack45TextStyle,
+                                        ),
+                                      ),
+                                       Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          const Icon(Icons.forward,
+                                              size: 10, color: Colors.black),
+                                          SizedBox(width: 5),
+                                          Text(
+                                            'Description',
+                                            style: AppTextStyle
+                                                .font14OpenSansRegularBlackTextStyle,
+                                          )
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 15),
+                                        child: Text(
+                                          item['sDescription'] ?? '',
+                                          style: AppTextStyle
+                                              .font14OpenSansRegularBlack45TextStyle,
+                                        ),
+                                      ),
+                                      SizedBox(height: 5),
+                                      const Divider(
+                                        height: 1,
+                                        color: Colors.grey,
+                                      ),
+                                      SizedBox(height: 5),
+                                      Container(
+                                       child: Row(
+                                         mainAxisAlignment: MainAxisAlignment.start,
+                                         crossAxisAlignment: CrossAxisAlignment.start,
+                                         children: [
+                                           const Icon(Icons.file_copy,
+                                           size: 25,
+                                           ),
+                                           SizedBox(width: 5),
+                                           Text(item['sPendingFrom'] ?? '',style: AppTextStyle
+                                               .font14OpenSansRegularBlackTextStyle),
+                                           Spacer(),
+                                           //  sStatusName
+                                           Container(
+                                             height: 35,
+                                             width: 90, // you can adjust or use double.infinity for full width
+                                             decoration: BoxDecoration(
+                                               color: Color(0xFFD31F76), // background color
+                                               borderRadius: BorderRadius.circular(20), // half of height
+                                             ),
+                                             alignment: Alignment.center,
+                                             child: Text(
+                                               item['sStatusName'] ?? '',
+                                               style: const TextStyle(
+                                                 color: Colors.white,
+                                                 fontSize: 14,
+                                                 fontWeight: FontWeight.bold,
+                                               ),
+                                             ),
+                                           )
+                                         ],
+                                       ),
 
-                                              } else {
-                                                displayToast("Please check the location.");
-                                              }
-                                            },
-                                            child: Container(
-                                              alignment: Alignment.centerRight,
-                                              height: 40,
-                                              width: 40,
-                                              child: Image(
-                                                  image: AssetImage(
-                                                      'assets/images/ic_google_maps.PNG')),
+                                      ),
+                                      SizedBox(height: 5),
+                                      Container(
+                                          height: 40,
+                                          decoration: const BoxDecoration(
+                                            gradient: LinearGradient(
+                                              colors: [Colors.white, Colors.grey, Colors.white],
+                                              stops: [0.0, 0.5, 1.0],
+                                              begin: Alignment.centerLeft,
+                                              end: Alignment.centerRight,
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 15, right: 15),
-                                    child: Container(
-                                      height: 0.5,
-                                      color: Color(0xff3f617d),
-                                    ),
-                                  ),
-                                  SizedBox(height: 5),
-                                  const Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.forward,
-                                        size: 10,
-                                        color: Color(0xff3f617d),
-                                      ),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        'Sector',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Color(0xFF255899),
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 15),
-                                    child: Text(
-                                      item['sSectorName'] ?? '',
-                                      style: const TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xff3f617d),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  const Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.forward,
-                                        size: 10,
-                                        color: Color(0xff3f617d),
-                                      ),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        'Posted At',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Color(0xFF255899),
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 15),
-                                    child: Text(
-                                      item['dPostedOn'] ?? '',
-                                      style: const TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xff3f617d),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  const Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Icon(Icons.forward,
-                                          size: 10, color: Color(0xff3f617d)),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        'Location',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Color(0xFF255899),
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 15),
-                                    child: Text(
-                                      item['sLocation'] ?? '',
-                                      style: const TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xff3f617d),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  const Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Icon(Icons.forward,
-                                          size: 10, color: Color(0xff3f617d)),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        'Description',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Color(0xFF255899),
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 15),
-                                    child: Text(
-                                      item['sDescription'] ?? '',
-                                      style: const TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xff3f617d),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      const Icon(
-                                        Icons.calendar_month,
-                                        size: 14,
-                                        color: Color(0xff3f617d),
-                                      ),
-                                      SizedBox(width: 5),
-                                      const Text(
-                                        'Pending Since :-',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Color(0xFF255899),
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      const SizedBox(width: 5),
-                                      Text(
-                                        item['sPendingFrom'] ?? '',
-                                        style: const TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Color(0xff3f617d),
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 10),
+                                          child: Row(
+                                            children: [
+                                              // Left Column
+                                              Expanded(
+                                                child: InkWell(
+                                                  onTap:(){
+                                                    print("Left Button ");
+                                                  },
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          var fLatitude = item['fLatitude'] ?? '';
+                                                          var fLongitude = item['fLongitude'] ?? '';
 
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10,bottom: 3),
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child:ElevatedButton(
-                                    onPressed: () {
-                                      // Button action based on status
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: buttonColor,
-                                    ),
-                                    child: Text(status!,style: const TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Colors.white,
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold),
-                                    ),
+                                                          if (fLatitude != null &&
+                                                              fLongitude != null) {
+                                                            generalfunction.launchGoogleMaps(fLatitude,fLongitude);
+
+                                                          } else {
+                                                            displayToast("Please check the location.");
+                                                          }
+
+                                                          },
+                                                        child: const Text("Navigate"),
+                                                      ),
+                                                      const Icon(Icons.arrow_forward_ios, size: 16),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+
+                                              // Divider in Middle
+                                              Container(
+                                                width: 1,
+                                                height: 40,
+                                                color: Colors.grey,
+                                              ),
+
+                                              // Right Column
+                                              Expanded(
+                                                child: InkWell(
+                                                  onTap: (){
+                                                    // print('Right Button');
+                                                  },
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          var images = item['sBeforePhoto'];
+                                                          print("----529----$images");
+                                                          // print(images);
+                                                          //ImageScreen(sBeforePhoto: images);
+                                                          if(images!=null){
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder: (context) =>
+                                                                        ImageScreen(sBeforePhoto: images)));
+                                                          }else{
+                                                            displayToast('Image is not selected');
+                                                          }
+                                                         // ✅ Passing image URL
+                                                        },
+                                                        child: const Text("View Image"),
+                                                      ),
+                                                      const Icon(Icons.arrow_forward_ios, size: 16),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+
+                                      ),
+
+
+                                    ],
                                   ),
                                 ),
-                            ),
-
-
-
-
-                                ],
                               ),
                             ),
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
-          )
-        ],
+                  );
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

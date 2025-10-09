@@ -8,6 +8,7 @@ import 'package:noidaone/Controllers/shopSubmitRepo.dart';
 import 'package:noidaone/screens/homeScreen.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../Controllers/baseurl.dart';
 import '../Controllers/district_repo.dart';
 import '../Controllers/postimagerepo.dart';
 import '../Controllers/shopTypeRepo.dart';
@@ -21,7 +22,6 @@ import 'package:http/http.dart' as http;
 import 'flull_screen_image.dart';
 import 'generalFunction.dart';
 import 'package:geocoding/geocoding.dart';
-import 'gnidaofficers/supervisorDashboard/supervisiorDashboard.dart';
 
 class ShopSurvey extends StatelessWidget {
   const ShopSurvey({super.key});
@@ -124,6 +124,7 @@ class _MyHomePageState extends State<ShopSurveyHome> {
   TextEditingController _addressController = TextEditingController();
 
   String? _selectedOption;
+  var locationAddress;
 
   // focus
   // FocusNode locationfocus = FocusNode();
@@ -166,9 +167,7 @@ class _MyHomePageState extends State<ShopSurveyHome> {
   Position? _currentPosition;
 
   GeneralFunction generalfunction = GeneralFunction();
-
   // mobile back button handle
-
   Future<bool> _onWillPop() async {
     return (await showDialog(
       context: context,
@@ -197,7 +196,6 @@ class _MyHomePageState extends State<ShopSurveyHome> {
     )) ??
         false;
   }
-
   // Uplode Id Proof with gallary
   Future pickImage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -247,22 +245,18 @@ class _MyHomePageState extends State<ShopSurveyHome> {
     try {
       showLoader();
       // Create a multipart request
-      var request = http.MultipartRequest(
-          'POST',
-          Uri.parse(
-              'https://upegov.in/noidaoneapi/Api/PostImage/PostImage'));
-
+      var baseURL = BaseRepo().baseurl;
+      var endPoint = "PostImage/PostImage";
+      var postImageUrl = "$baseURL$endPoint";
+      var request = http.MultipartRequest('POST',Uri.parse('$postImageUrl'));
       // Add headers
       request.headers['token'] = token;
-
       // Add the image file as a part of the request
       request.files.add(await http.MultipartFile.fromPath(
         'file', imageFile.path,
       ));
-
       // Send the request
       var streamedResponse = await request.send();
-
       // Get the response
       var response = await http.Response.fromStream(streamedResponse);
 
@@ -322,72 +316,58 @@ class _MyHomePageState extends State<ShopSurveyHome> {
     _addressfocus = FocusNode();
   }
 
-  // location
   void getLocation() async {
+    showLoader();
     bool serviceEnabled;
     LocationPermission permission;
+
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
+      hideLoader();
       return Future.error('Location services are disabled.');
     }
+
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
+        hideLoader();
+        return Future.error('Location permissions are denied.');
       }
     }
+
     if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    debugPrint("-------------Position-----------------");
-    debugPrint(position.latitude.toString());
-    // call a human readable function
-    if(position!=null){
-      _getAddressFromLatLng(position);
+      hideLoader();
+      return Future.error('Location permissions are permanently denied.');
     }
 
+    // Get the current location
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+
+    // Convert latitude and longitude to an address
+    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+    // List<Placemark> placemarks = await placemarkFromCoordinates(27.2034949538412,78.0057668059695);
+    Placemark place = placemarks[0]; // Extract relevant details
+    // String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+    String address = "${place.street}, ${place.subLocality},${place.locality},${place.administrativeArea},${place.postalCode},${place.country}";
+
+    // Update state with location and address
     setState(() {
       lat = position.latitude;
       long = position.longitude;
-
+      locationAddress = address; // Store the converted address
     });
-    if (lat != null && long != null) {
-      // call a Human readable code
-     // _getAddressFromLatLng(_currentPosition!);
-      print('----351----------lat-------$lat----');
-     // _getAddressFromLatLng(position!);
-    }
-
-    print('-----------306----lat--$lat');
-    print('-----------307-----long-$long');
-
-    // setState(() {
-    // });
-
-    debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
-    debugPrint(position.toString());
+    print('-------142----Address--$locationAddress');
+    print('-------143--lat----$lat');
+    print('-------144--long----$long');
+    print('-------street------${place.street}');
+    print('-------locality------${place.locality}');
+    print('-------administrationArea------${place.administrativeArea}');
+    print('-------country------${place.country}');
+    hideLoader();
   }
 
-  // human readable function
-  // Future<void> _getAddressFromLatLng(Position position) async {
-  //   await placemarkFromCoordinates(
-  //       lat!, long!)
-  //       .then((List<Placemark> placemarks) {
-  //     Placemark place = placemarks[0];
-  //     setState(() {
-  //       _currentAddress = '${place.street}, ${place.subLocality},${place
-  //           .subAdministrativeArea}, ${place.postalCode}';
-  //     });
-  //     print('-----370---Address----${_currentAddress}');
-  //   }).catchError((e) {
-  //     debugPrint(e);
-  //   });
-  // }
   Future<void> _getAddressFromLatLng(Position position) async {
     await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
         .then((List<Placemark> placemarks) {
@@ -401,7 +381,6 @@ class _MyHomePageState extends State<ShopSurveyHome> {
       debugPrint(e);
     });
   }
-
 
   @override
   void dispose() {
@@ -421,53 +400,47 @@ class _MyHomePageState extends State<ShopSurveyHome> {
       child: Container(
         width: MediaQuery.of(context).size.width - 50,
         height: 42,
-        color: Color(0xFFf2f3f5),
+        color: const Color(0xFFf2f3f5),
         child: DropdownButtonHideUnderline(
           child: ButtonTheme(
             alignedDropdown: true,
-            child: DropdownButton(
+            child: DropdownButton<String>(
+              isExpanded: true, // ✅ Prevent right overflow
               onTap: () {
                 FocusScope.of(context).unfocus();
               },
-              hint: RichText(
-                text: const TextSpan(
-                  text: "Select a Sector",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal),
-                  children: <TextSpan>[
-                    TextSpan(
-                        text: '',
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold)),
-                  ],
+              hint: const Text(
+                "Select a Sector",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
                 ),
-              ), // Not necessary for Option 1
+              ),
               value: _dropDownSector,
               key: sectorFocus,
               onChanged: (newValue) {
                 setState(() {
                   _dropDownSector = newValue;
                   print('---187---$_dropDownSector');
-                  //  _isShowChosenDistError = false;
-                  // Iterate the List
+
                   distList.forEach((element) {
                     if (element["sSectorName"] == _dropDownSector) {
                       _selectedSectorId = element['iSectorCode'];
-                      setState(() {
-                      });
+                      setState(() {});
                       print('-----286-----sector id---$_selectedSectorId');
                     }
                   });
                 });
               },
-              items: distList.map((dynamic item) {
-                return DropdownMenuItem(
-                  child: Text(item['sSectorName'].toString()),
+              items: distList.map<DropdownMenuItem<String>>((dynamic item) {
+                return DropdownMenuItem<String>(
                   value: item["sSectorName"].toString(),
+                  child: Text(
+                    item['sSectorName'].toString(),
+                    overflow: TextOverflow.ellipsis, // ✅ shows "..." if too long
+                    maxLines: 1,                      // keep one line
+                  ),
                 );
               }).toList(),
             ),
@@ -476,7 +449,6 @@ class _MyHomePageState extends State<ShopSurveyHome> {
       ),
     );
   }
-
   /// Todo same way you should bind point Type data.
   Widget _bindShopType() {
     return Material(
@@ -626,774 +598,766 @@ class _MyHomePageState extends State<ShopSurveyHome> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        //appBar: generalFunction.appbarback(context,"Field Inspection"),
-       // appBar: generalfunction.appbarback(context,"Shop Survey"),
-        appBar:AppBar(
-          systemOverlayStyle: const SystemUiOverlayStyle(
-            // Status bar color
-            statusBarColor: Color(0xFF8b2355),
-            statusBarIconBrightness: Brightness.dark,
-            statusBarBrightness: Brightness.light,
-            // Status bar brightness (optional)
-            // For Android (dark icons)
-            // For iOS (dark icons)
-          ),
-          backgroundColor:  const Color(0xFFD31F76),
-          leading: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
+      child: GestureDetector(
+        onTap: (){
+          FocusScope.of(context).unfocus();
+        },
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          //appBar: generalFunction.appbarback(context,"Field Inspection"),
+         // appBar: generalfunction.appbarback(context,"Shop Survey"),
+          appBar:AppBar(
+            systemOverlayStyle: const SystemUiOverlayStyle(
+              // Status bar color
+              statusBarColor: Color(0xFF8b2355),
+              statusBarIconBrightness: Brightness.dark,
+              statusBarBrightness: Brightness.light,
+              // Status bar brightness (optional)
+              // For Android (dark icons)
+              // For iOS (dark icons)
+            ),
+            backgroundColor:  const Color(0xFFD31F76),
+            leading: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
 
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => SupervisiorDashBoard()));
-                // Navigator.pop(context);
-              },
-              child:const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(Icons.arrow_back_ios),
-              )),
-          title:const Text(
-            'Shop Survey',
-            style: TextStyle(
-                fontFamily: 'Montserrat',
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold),
+                  // Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => SupervisiorDashBoard()));
+                  // Navigator.pop(context);
+                },
+                child:const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.arrow_back_ios),
+                )),
+            title:const Text(
+              'Shop Survey',
+              style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold),
+            ),
+            elevation: 1,
+            iconTheme: const IconThemeData(
+              color: Colors.white, // 👈 sets drawer icon color to white
+            ),
           ),
-          elevation: 1,
-          iconTheme: const IconThemeData(
-            color: Colors.white, // 👈 sets drawer icon color to white
-          ),
-        ),
 
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 150, // Height of the container
-                width: 200, // Width of the container
-                child: Opacity(
-                  opacity: 0.9,
-                  //step3.jpg
-                  child: Image.asset('assets/images/markpointheader.jpeg', // Replace 'image_name.png' with your asset image path
-                    fit: BoxFit.cover, // Adjust the image fit to cover the container
+          body: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 150, // Height of the container
+                  width: 200, // Width of the container
+                  child: Opacity(
+                    opacity: 0.9,
+                    //step3.jpg
+                    child: Image.asset('assets/images/markpointheader.jpeg', // Replace 'image_name.png' with your asset image path
+                      fit: BoxFit.cover, // Adjust the image fit to cover the container
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: Container(
-                  width: MediaQuery.of(context).size.width - 30,
-                  decoration: BoxDecoration(
-                      color: Colors.white, // Background color of the container
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color:
-                          Colors.grey.withOpacity(0.5), // Color of the shadow
-                          spreadRadius: 5, // Spread radius
-                          blurRadius: 7, // Blur radius
-                          offset: Offset(0, 3), // Offset of the shadow
-                        ),
-                      ]),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 15),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              // 'assets/images/favicon.png',
-                              Container(
-                                margin:
-                                EdgeInsets.only(left: 0, right: 10, top: 10),
-                                child: Image.asset(
-                                  'assets/images/ic_expense.png', // Replace with your image asset path
-                                  width: 24,
-                                  height: 24,
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width - 30,
+                    decoration: BoxDecoration(
+                        color: Colors.white, // Background color of the container
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color:
+                            Colors.grey.withOpacity(0.5), // Color of the shadow
+                            spreadRadius: 5, // Spread radius
+                            blurRadius: 7, // Blur radius
+                            offset: Offset(0, 3), // Offset of the shadow
+                          ),
+                        ]),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                // 'assets/images/favicon.png',
+                                Container(
+                                  margin:
+                                  EdgeInsets.only(left: 0, right: 10, top: 10),
+                                  child: Image.asset(
+                                    'assets/images/ic_expense.png', // Replace with your image asset path
+                                    width: 24,
+                                    height: 24,
+                                  ),
                                 ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(top: 10),
-                                child: Text('Fill the below details',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF707d83),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold)),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 5,top: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                    margin: const EdgeInsets.only(
-                                        left: 0, right: 2, bottom: 2),
-                                    child: const Icon(
-                                      Icons.forward_sharp,
-                                      size: 12,
-                                      color: Colors.black54,
-                                    )),
-                                const Text('Sector',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF707d83),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                          ),
-                          _bindSector(),
-                          const SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                    margin: EdgeInsets.only(left: 0, right: 2),
-                                    child: const Icon(
-                                      Icons.forward_sharp,
-                                      size: 12,
-                                      color: Colors.black54,
-                                    )),
-                                const Text('Shop Type',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF707d83),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                          ),
-                          _bindShopType(),
-                          const SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                    margin: EdgeInsets.only(left: 0, right: 2),
-                                    child: const Icon(
-                                      Icons.forward_sharp,
-                                      size: 12,
-                                      color: Colors.black54,
-                                    )),
-                                const Text('Shop Size',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF707d83),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                          ),
-                          _bindShopSize(),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 5, top: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                    margin: EdgeInsets.only(left: 0, right: 2),
-                                    child: const Icon(
-                                      Icons.forward_sharp,
-                                      size: 12,
-                                      color: Colors.black54,
-                                    )),
-                                const Text('Shop Name',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF707d83),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 0, right: 0),
-                            child: Container(
-                              height: 42,
-                              color: Color(0xFFf2f3f5),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: TextFormField(
-                                  focusNode: _shopfocus,
-                                  controller: _shopController,
-                                  textInputAction: TextInputAction.next,
-                                  onEditingComplete: () =>
-                                      FocusScope.of(context).nextFocus(),
-                                  decoration: const InputDecoration(
-                                    // labelText: AppStrings.txtMobile,
-                                    // border: OutlineInputBorder(),
-                                    border: InputBorder.none,
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: AppPadding.p10),
-                                  ),
-                                  autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                                  // validator: (value) {
-                                  //   if (value!.isEmpty) {
-                                  //     return 'Enter location';
-                                  //   }
-                                  //   return null;
-                                  // },
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 10),
+                                  child: Text('Fill the below details',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xFF707d83),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold)),
                                 ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 5, top: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                    margin: EdgeInsets.only(left: 0, right: 2),
-                                    child: const Icon(
-                                      Icons.forward_sharp,
-                                      size: 12,
-                                      color: Colors.black54,
-                                    )),
-                                const Text('Owner Name',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF707d83),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold)),
                               ],
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 0, right: 0),
-                            child: Container(
-                              height: 42,
-                              color: Color(0xFFf2f3f5),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: TextFormField(
-                                  focusNode: _owenerfocus,
-                                  controller: _ownerController,
-                                  textInputAction: TextInputAction.next,
-                                  onEditingComplete: () =>
-                                      FocusScope.of(context).nextFocus(),
-                                  decoration: const InputDecoration(
-                                    // labelText: AppStrings.txtMobile,
-                                    // border: OutlineInputBorder(),
-                                    border: InputBorder.none,
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: AppPadding.p10),
-                                  ),
-                                  autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                                  // validator: (value) {
-                                  //   if (value!.isEmpty) {
-                                  //     return 'Enter location';
-                                  //   }
-                                  //   return null;
-                                  // },
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 5, top: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                    margin: EdgeInsets.only(left: 0, right: 2),
-                                    child: const Icon(
-                                      Icons.forward_sharp,
-                                      size: 12,
-                                      color: Colors.black54,
-                                    )),
-                                const Text('Contact No',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF707d83),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 0, right: 0),
-                            child: Container(
-                              height: 42,
-                              color: Color(0xFFf2f3f5),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: TextFormField(
-                                  focusNode: _contactfocus,
-                                  controller: _contactController,
-                                  textInputAction: TextInputAction.next,
-                                  onEditingComplete: () =>
-                                      FocusScope.of(context).nextFocus(),
-                                  keyboardType: TextInputType.phone,
-                                  inputFormatters: [
-                                    LengthLimitingTextInputFormatter(10), // Limit to 10 digits
-                                    //FilteringTextInputFormatter.allow(RegExp(r'[0-9]')), // Only allow digits
-                                  ],
-                                  decoration: const InputDecoration(
-                                    // labelText: AppStrings.txtMobile,
-                                    // border: OutlineInputBorder(),
-                                    border: InputBorder.none,
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: AppPadding.p10),
-                                  ),
-                                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                                  // validator: (value) {
-                                  //   if (value!.isEmpty) {
-                                  //     return 'Enter location';
-                                  //   }
-                                  //   return null;
-                                  // },
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 5, top: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                    margin: EdgeInsets.only(left: 0, right: 2),
-                                    child: const Icon(
-                                      Icons.forward_sharp,
-                                      size: 12,
-                                      color: Colors.black54,
-                                    )),
-                                const Text('Landmark',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF707d83),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 0, right: 0),
-                            child: Container(
-                              height: 42,
-                              //  color: Colors.black12,
-                              color: Color(0xFFf2f3f5),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: TextFormField(
-                                  focusNode: _landMarkfocus,
-                                  controller: _landMarkController,
-                                  textInputAction: TextInputAction.next,
-                                  onEditingComplete: () =>
-                                      FocusScope.of(context).nextFocus(),
-                                  decoration: const InputDecoration(
-                                    // labelText: AppStrings.txtMobile,
-                                    //  border: OutlineInputBorder(),
-                                    border: InputBorder.none,
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: AppPadding.p10),
-                                    //prefixIcon: Icon(Icons.phone,color:Color(0xFF255899),),
-                                  ),
-                                  autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                                  // validator: (value) {
-                                  //   if (value!.isEmpty) {
-                                  //     return 'Enter Description';
-                                  //   }
-                                  //   return null;
-                                  // },
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 5, top: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                    margin: EdgeInsets.only(left: 0, right: 2),
-                                    child: const Icon(
-                                      Icons.forward_sharp,
-                                      size: 12,
-                                      color: Colors.black54,
-                                    )),
-                                const Text('Address',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF707d83),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 0, right: 0),
-                            child: Container(
-                              height: 42,
-                              //  color: Colors.black12,
-                              color: Color(0xFFf2f3f5),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: TextFormField(
-                                  focusNode: _addressfocus,
-                                  controller: _addressController,
-                                  textInputAction: TextInputAction.next,
-                                  onEditingComplete: () =>
-                                      FocusScope.of(context).nextFocus(),
-                                  decoration: const InputDecoration(
-                                    // labelText: AppStrings.txtMobile,
-                                    //  border: OutlineInputBorder(),
-                                    border: InputBorder.none,
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: AppPadding.p10),
-                                    //prefixIcon: Icon(Icons.phone,color:Color(0xFF255899),),
-                                  ),
-                                  autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                                  // validator: (value) {
-                                  //   if (value!.isEmpty) {
-                                  //     return 'Enter Description';
-                                  //   }
-                                  //   return null;
-                                  // },
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 5, top: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                    margin: EdgeInsets.only(left: 0, right: 2),
-                                    child: const Icon(
-                                      Icons.forward_sharp,
-                                      size: 12,
-                                      color: Colors.black54,
-                                    )),
-                                const Text('Payment Received',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF707d83),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                          ),
-                         // bollen value
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Radio<String>(
-                                    value: 'Yes',
-                                    groupValue: _selectedOption,
-                                    onChanged: (String? value) {
-                                      setState(() {
-                                        _selectedOption = value;
-                                        print('----968--$_selectedOption');
-                                      });
-                                    },
-                                  ),
-                                  Text('Yes'),
-                                ],
-                              ),
-                              SizedBox(width: 20),
-                              Row(
-                                children: [
-                                  Radio<String>(
-                                    value: 'No',
-                                    groupValue: _selectedOption,
-                                    onChanged: (String? value) {
-                                      setState(() {
-                                        _selectedOption = value;
-                                        print('----984--$_selectedOption');
-                                      });
-                                    },
-                                  ),
-                                  Text('No'),
-                                ],
-                              ),
-                            ],
-
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 5, top: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                    margin: EdgeInsets.only(left: 0, right: 2),
-                                    child: const Icon(
-                                      Icons.forward_sharp,
-                                      size: 12,
-                                      color: Colors.black54,
-                                    )),
-                                const Text('Upload Photo',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF707d83),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                          ),
-                          //ContainerWithRow(),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Color(0xFFf2f3f5),
-                              borderRadius:
-                              BorderRadius.circular(10.0), // Border radius
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.only(bottom: 10),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 5,top: 10),
                               child: Row(
-                                children: [
-                                  const Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Text(
-                                            'Click Photo',
-                                            style: TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                color: Colors.black54,
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                            children: <Widget>[
-                                              Text(
-                                                'Please click here to take a photo',
-                                                style: TextStyle(
-                                                    fontFamily: 'Montserrat',
-                                                    color: Colors.redAccent,
-                                                    fontSize: 10.0,
-                                                    fontWeight: FontWeight.bold),
-                                              ),
-                                              SizedBox(width: 10),
-                                              Image(image: AssetImage('assets/images/ic_long_right_arrow.PNG'),
-                                                width: 15,
-                                                height: 15,
-                                                fit: BoxFit.fill,
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                      margin: const EdgeInsets.only(
+                                          left: 0, right: 2, bottom: 2),
+                                      child: const Icon(
+                                        Icons.forward_sharp,
+                                        size: 12,
+                                        color: Colors.black54,
+                                      )),
+                                  const Text('Sector',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xFF707d83),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ),
+                            _bindSector(),
+                            const SizedBox(height: 10),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                      margin: EdgeInsets.only(left: 0, right: 2),
+                                      child: const Icon(
+                                        Icons.forward_sharp,
+                                        size: 12,
+                                        color: Colors.black54,
+                                      )),
+                                  const Text('Shop Type',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xFF707d83),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ),
+                            _bindShopType(),
+                            const SizedBox(height: 10),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                      margin: EdgeInsets.only(left: 0, right: 2),
+                                      child: const Icon(
+                                        Icons.forward_sharp,
+                                        size: 12,
+                                        color: Colors.black54,
+                                      )),
+                                  const Text('Shop Size',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xFF707d83),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ),
+                            _bindShopSize(),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 5, top: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                      margin: EdgeInsets.only(left: 0, right: 2),
+                                      child: const Icon(
+                                        Icons.forward_sharp,
+                                        size: 12,
+                                        color: Colors.black54,
+                                      )),
+                                  const Text('Shop Name',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xFF707d83),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 0, right: 0),
+                              child: Container(
+                                height: 42,
+                                color: Color(0xFFf2f3f5),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: TextFormField(
+                                    focusNode: _shopfocus,
+                                    controller: _shopController,
+                                    textInputAction: TextInputAction.next,
+                                    onEditingComplete: () =>
+                                        FocusScope.of(context).nextFocus(),
+                                    decoration: const InputDecoration(
+                                      // labelText: AppStrings.txtMobile,
+                                      // border: OutlineInputBorder(),
+                                      border: InputBorder.none,
+                                      contentPadding: EdgeInsets.symmetric(
+                                          vertical: AppPadding.p10),
                                     ),
+                                    autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                    // validator: (value) {
+                                    //   if (value!.isEmpty) {
+                                    //     return 'Enter location';
+                                    //   }
+                                    //   return null;
+                                    // },
                                   ),
-                                  InkWell(
-                                    onTap: () {
-                                      // pickImage();
-                                      // _getImageFromCamera();
-                                      pickImage();
-                                      print('---------530-----');
-                                    },
-                                    child: const Padding(
-                                      padding: EdgeInsets.only(right: 10, top: 5),
-                                      child: Image(image: AssetImage('assets/images/ic_camera.PNG'),
-                                        width: 40,
-                                        height: 40,
-                                        fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 5, top: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                      margin: EdgeInsets.only(left: 0, right: 2),
+                                      child: const Icon(
+                                        Icons.forward_sharp,
+                                        size: 12,
+                                        color: Colors.black54,
+                                      )),
+                                  const Text('Owner Name',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xFF707d83),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 0, right: 0),
+                              child: Container(
+                                height: 42,
+                                color: Color(0xFFf2f3f5),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: TextFormField(
+                                    focusNode: _owenerfocus,
+                                    controller: _ownerController,
+                                    textInputAction: TextInputAction.next,
+                                    onEditingComplete: () =>
+                                        FocusScope.of(context).nextFocus(),
+                                    decoration: const InputDecoration(
+                                      // labelText: AppStrings.txtMobile,
+                                      // border: OutlineInputBorder(),
+                                      border: InputBorder.none,
+                                      contentPadding: EdgeInsets.symmetric(
+                                          vertical: AppPadding.p10),
+                                    ),
+                                    autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                    // validator: (value) {
+                                    //   if (value!.isEmpty) {
+                                    //     return 'Enter location';
+                                    //   }
+                                    //   return null;
+                                    // },
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 5, top: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                      margin: EdgeInsets.only(left: 0, right: 2),
+                                      child: const Icon(
+                                        Icons.forward_sharp,
+                                        size: 12,
+                                        color: Colors.black54,
+                                      )),
+                                  const Text('Contact No',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xFF707d83),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 0, right: 0),
+                              child: Container(
+                                height: 42,
+                                color: Color(0xFFf2f3f5),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: TextFormField(
+                                    focusNode: _contactfocus,
+                                    controller: _contactController,
+                                    textInputAction: TextInputAction.next,
+                                    onEditingComplete: () =>
+                                        FocusScope.of(context).nextFocus(),
+                                    keyboardType: TextInputType.phone,
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(10), // Limit to 10 digits
+                                      //FilteringTextInputFormatter.allow(RegExp(r'[0-9]')), // Only allow digits
+                                    ],
+                                    decoration: const InputDecoration(
+                                      // labelText: AppStrings.txtMobile,
+                                      // border: OutlineInputBorder(),
+                                      border: InputBorder.none,
+                                      contentPadding: EdgeInsets.symmetric(
+                                          vertical: AppPadding.p10),
+                                    ),
+                                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                                    // validator: (value) {
+                                    //   if (value!.isEmpty) {
+                                    //     return 'Enter location';
+                                    //   }
+                                    //   return null;
+                                    // },
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 5, top: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                      margin: EdgeInsets.only(left: 0, right: 2),
+                                      child: const Icon(
+                                        Icons.forward_sharp,
+                                        size: 12,
+                                        color: Colors.black54,
+                                      )),
+                                  const Text('Landmark',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xFF707d83),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 0, right: 0),
+                              child: Container(
+                                height: 42,
+                                //  color: Colors.black12,
+                                color: Color(0xFFf2f3f5),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: TextFormField(
+                                    focusNode: _landMarkfocus,
+                                    controller: _landMarkController,
+                                    textInputAction: TextInputAction.next,
+                                    onEditingComplete: () =>
+                                        FocusScope.of(context).nextFocus(),
+                                    decoration: const InputDecoration(
+                                      // labelText: AppStrings.txtMobile,
+                                      //  border: OutlineInputBorder(),
+                                      border: InputBorder.none,
+                                      contentPadding: EdgeInsets.symmetric(
+                                          vertical: AppPadding.p10),
+                                      //prefixIcon: Icon(Icons.phone,color:Color(0xFF255899),),
+                                    ),
+                                    autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                    // validator: (value) {
+                                    //   if (value!.isEmpty) {
+                                    //     return 'Enter Description';
+                                    //   }
+                                    //   return null;
+                                    // },
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 5, top: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                      margin: EdgeInsets.only(left: 0, right: 2),
+                                      child: const Icon(
+                                        Icons.forward_sharp,
+                                        size: 12,
+                                        color: Colors.black54,
+                                      )),
+                                  const Text('Address',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xFF707d83),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 0, right: 0),
+                              child: Container(
+                                height: 42,
+                                //  color: Colors.black12,
+                                color: Color(0xFFf2f3f5),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: TextFormField(
+                                    focusNode: _addressfocus,
+                                    controller: _addressController,
+                                    textInputAction: TextInputAction.next,
+                                    onEditingComplete: () =>
+                                        FocusScope.of(context).nextFocus(),
+                                    decoration: const InputDecoration(
+                                      // labelText: AppStrings.txtMobile,
+                                      //  border: OutlineInputBorder(),
+                                      border: InputBorder.none,
+                                      contentPadding: EdgeInsets.symmetric(
+                                          vertical: AppPadding.p10),
+                                      //prefixIcon: Icon(Icons.phone,color:Color(0xFF255899),),
+                                    ),
+                                    autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                    // validator: (value) {
+                                    //   if (value!.isEmpty) {
+                                    //     return 'Enter Description';
+                                    //   }
+                                    //   return null;
+                                    // },
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 5, top: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                      margin: EdgeInsets.only(left: 0, right: 2),
+                                      child: const Icon(
+                                        Icons.forward_sharp,
+                                        size: 12,
+                                        color: Colors.black54,
+                                      )),
+                                  const Text('Payment Received',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xFF707d83),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ),
+                           // bollen value
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Radio<String>(
+                                      value: 'Yes',
+                                      groupValue: _selectedOption,
+                                      onChanged: (String? value) {
+                                        setState(() {
+                                          _selectedOption = value;
+                                          print('----968--$_selectedOption');
+                                        });
+                                      },
+                                    ),
+                                    Text('Yes'),
+                                  ],
+                                ),
+                                SizedBox(width: 20),
+                                Row(
+                                  children: [
+                                    Radio<String>(
+                                      value: 'No',
+                                      groupValue: _selectedOption,
+                                      onChanged: (String? value) {
+                                        setState(() {
+                                          _selectedOption = value;
+                                          print('----984--$_selectedOption');
+                                        });
+                                      },
+                                    ),
+                                    Text('No'),
+                                  ],
+                                ),
+                              ],
+
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 5, top: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                      margin: EdgeInsets.only(left: 0, right: 2),
+                                      child: const Icon(
+                                        Icons.forward_sharp,
+                                        size: 12,
+                                        color: Colors.black54,
+                                      )),
+                                  const Text('Upload Photo',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xFF707d83),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ),
+                            //ContainerWithRow(),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Color(0xFFf2f3f5),
+                                borderRadius:
+                                BorderRadius.circular(10.0), // Border radius
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.only(bottom: 10),
+                                child: Row(
+                                  children: [
+                                    const Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(left: 10),
+                                            child: Text(
+                                              'Click Photo',
+                                              style: TextStyle(
+                                                  fontFamily: 'Montserrat',
+                                                  color: Colors.black54,
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(left: 10),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              children: <Widget>[
+                                                Text(
+                                                  'Please click here to take a photo',
+                                                  style: TextStyle(
+                                                      fontFamily: 'Montserrat',
+                                                      color: Colors.redAccent,
+                                                      fontSize: 10.0,
+                                                      fontWeight: FontWeight.bold),
+                                                ),
+                                                SizedBox(width: 10),
+                                                Image(image: AssetImage('assets/images/ic_long_right_arrow.PNG'),
+                                                  width: 15,
+                                                  height: 15,
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     ),
-                                  ),
-                                ],
+                                    InkWell(
+                                      onTap: () {
+                                        // pickImage();
+                                        // _getImageFromCamera();
+                                        pickImage();
+                                        print('---------530-----');
+                                      },
+                                      child: const Padding(
+                                        padding: EdgeInsets.only(right: 10, top: 5),
+                                        child: Image(image: AssetImage('assets/images/ic_camera.PNG'),
+                                          width: 40,
+                                          height: 40,
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                image != null
-                                    ? Stack(
-                                  children: [
-                                    GestureDetector(
-                                      behavior: HitTestBehavior.translucent,
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    FullScreenPage(
-                                                      child: image!,
-                                                      dark: true,
-                                                    )));
-                                      },
-                                      child: Container(
-                                          color: Colors.lightGreenAccent,
-                                          height: 100,
-                                          width: 70,
-                                          child: Image.file(
-                                            image!,
-                                            fit: BoxFit.fill,
-                                          )),
-                                    ),
-                                    Positioned(
-                                        bottom: 65,
-                                        left: 35,
-                                        child: IconButton(
-                                          onPressed: () {
-                                            image = null;
-                                            setState(() {});
-                                          },
-                                          icon: const Icon(
-                                            Icons.close,
-                                            color: Colors.red,
-                                            size: 30,
-                                          ),
-                                        ))
-                                  ],
-                                )
-                                    : Text(
-                                  "",
-                                  style: TextStyle(color: Colors.red[700]),
-                                )
-                              ]),
+                            SizedBox(height: 10),
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  image != null
+                                      ? Stack(
+                                    children: [
+                                      GestureDetector(
+                                        behavior: HitTestBehavior.translucent,
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      FullScreenPage(
+                                                        child: image!,
+                                                        dark: true,
+                                                      )));
+                                        },
+                                        child: Container(
+                                            color: Colors.lightGreenAccent,
+                                            height: 100,
+                                            width: 70,
+                                            child: Image.file(
+                                              image!,
+                                              fit: BoxFit.fill,
+                                            )),
+                                      ),
+                                      Positioned(
+                                          bottom: 65,
+                                          left: 35,
+                                          child: IconButton(
+                                            onPressed: () {
+                                              image = null;
+                                              setState(() {});
+                                            },
+                                            icon: const Icon(
+                                              Icons.close,
+                                              color: Colors.red,
+                                              size: 30,
+                                            ),
+                                          ))
+                                    ],
+                                  )
+                                      : Text(
+                                    "",
+                                    style: TextStyle(color: Colors.red[700]),
+                                  )
+                                ]),
 
-                          ElevatedButton(
-                              onPressed: () async {
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: ElevatedButton(
+                                  onPressed: () async {
 
-                                SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                                iUserTypeCode = prefs.getString('iUserTypeCode');
-                                userId = prefs.getString('iUserId');
+                                    SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                    iUserTypeCode = prefs.getString('iUserTypeCode');
+                                    userId = prefs.getString('iUserId');
 
-                                var shopName = _shopController.text;
-                                var ownerName = _ownerController.text;
-                                var contactNo = _contactController.text;
-                                var landMark = _landMarkController.text;
-                                var address = _addressController.text;
+                                    var shopName = _shopController.text;
+                                    var ownerName = _ownerController.text;
+                                    var contactNo = _contactController.text;
+                                    var landMark = _landMarkController.text;
+                                    var address = _addressController.text;
 
-                                print('---995--sShopName---$shopName');
-                                print('---996--OwnerName---$ownerName');
-                                print('---997--sShopType---$_selectedShopId');
-                                print('---998--sContactNo ---$contactNo');
-                                print('---1000--isectorCode ---$_selectedSectorId');
-                                print('---1007--_selectedShopSizeId ---$_selectedShopSizeId');
-                                print('---1001--sAddress ---$address');
-                                print('---1002--sLandmark ---$landMark');
-                                print('---1003--sPhoto ---$uplodedImage');
-                                print('---1004--slat ---$lat');
-                                print('---1005--slong ---$long');
-                                print('---1006--sGoogleLocation ---');
-                                print('---1007--sSurveyBt ---$userId');
-                                print('---1008--_selectedShopSizeId ---$_selectedShopSizeId');
-                                print('---1009--_selectedOption ---$_selectedOption');
+                                    // apply condition
+                                    if (_formKey.currentState!.validate() &&
+                                        _selectedSectorId != null &&
+                                        _selectedShopId != null &&
+                                        shopName != null &&
+                                        ownerName !=null &&
+                                        contactNo !=null &&
+                                        address!=null &&
+                                        uplodedImage!=null) {
+                                      print('---call Api---');
 
+                                      var shopSurveyResponse =
+                                      await ShopSubmitRepo().shopSummit(
+                                          context,
+                                          shopName,
+                                          ownerName,
+                                          _selectedShopId,
+                                          contactNo,
+                                          _selectedSectorId,
+                                          address,
+                                          landMark,
+                                          uplodedImage,
+                                          lat,
+                                          long,
+                                          userId,
+                                          _selectedShopSizeId,
+                                          _selectedOption,
+                                          locationAddress
+                                      );
+                                      print('---1036----$shopSurveyResponse');
+                                      result2 = shopSurveyResponse['Result'];
+                                      msg2 = shopSurveyResponse['Msg'];
 
-                                // apply condition
-                                if (_formKey.currentState!.validate() &&
-                                    _selectedSectorId != null &&
-                                    _selectedShopId != null &&
-                                    shopName != null &&
-                                    ownerName !=null &&
-                                    contactNo !=null &&
-                                    address!=null &&
-                                    uplodedImage!=null) {
-                                  print('---call Api---');
+                                    } else {
+                                      if (_selectedSectorId == null) {
+                                        displayToast('Select Sector');
+                                      } else if (_selectedShopId == null) {
+                                        displayToast('Select Shop Type');
+                                      } else if (_selectedShopSizeId == null) {
+                                        displayToast('Select Shop Size');
+                                      }
+                                      else if (shopName == "") {
+                                        displayToast('Enter Shop Name');
+                                      } else if (ownerName == "") {
+                                        displayToast('Enter Owner Name');
+                                      } else if (contactNo == "") {
+                                        displayToast('Enter Contact No');
+                                      } else if (address == "") {
+                                        displayToast('Enter Address');
+                                      } else if (_selectedOption == null) {
+                                        displayToast('Select Payment Received');
+                                      }
+                                      else if (uplodedImage == null) {
+                                        displayToast('Please click a Photo');
+                                      }
+                                    }
+                                    if(result2=="1"){
+                                      print('------823----xxxxxxxxxxxxxxx----');
+                                      print('------823---result2  -xxxxxxxxxxxxxxx--$result2');
+                                      displayToast(msg2);
+                                      Navigator.pop(context);
+                                     //  Navigator.push(
+                                     //    context,
+                                     //    MaterialPageRoute(
+                                     //        builder: (context) => const HomePage()),
+                                     //  );
 
-                                  var shopSurveyResponse =
-                                  await ShopSubmitRepo().shopSummit(
-                                      context,
-                                      shopName,
-                                      ownerName,
-                                      _selectedShopId,
-                                      contactNo,
-                                      _selectedSectorId,
-                                      address,
-                                      landMark,
-                                      uplodedImage,
-                                      lat,
-                                      long,
-                                      userId,
-                                      _selectedShopSizeId,
-                                      _selectedOption
-                                  );
-                                  print('---1036----$shopSurveyResponse');
-                                  result2 = shopSurveyResponse['Result'];
-                                  msg2 = shopSurveyResponse['Msg'];
+                                    }else{
+                                      displayToast(msg2);
+                                    }
 
-                                } else {
-                                  if (_selectedSectorId == null) {
-                                    displayToast('Select Sector');
-                                  } else if (_selectedShopId == null) {
-                                    displayToast('Select Shop Type');
-                                  } else if (_selectedShopSizeId == null) {
-                                    displayToast('Select Shop Size');
-                                  }
-                                  else if (shopName == "") {
-                                    displayToast('Enter Shop Name');
-                                  } else if (ownerName == "") {
-                                    displayToast('Enter Owner Name');
-                                  } else if (contactNo == "") {
-                                    displayToast('Enter Contact No');
-                                  } else if (address == "") {
-                                    displayToast('Enter Address');
-                                  } else if (_selectedOption == null) {
-                                    displayToast('Select Payment Received');
-                                  }
-                                  else if (uplodedImage == null) {
-                                    displayToast('Please click a Photo');
-                                  }
-                                }
-                                if(result2=="1"){
-                                  print('------823----xxxxxxxxxxxxxxx----');
-                                  print('------823---result2  -xxxxxxxxxxxxxxx--$result2');
-                                  displayToast(msg2);
-                                 // Navigator.pop(context);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const HomePage()),
-                                  );
-
-                                }else{
-                                  displayToast(msg2);
-                                }
-
-                                /// Todo next Apply condition
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xFFD31F76), // Hex color code (FF for alpha, followed by RGB)
-                              ),
-                              child: const Text(
-                                "Submit",
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    color: Colors.white,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold),
-                              ))
-                        ],
+                                    /// Todo next Apply condition
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Color(0xFFD31F76), // Hex color code (FF for alpha, followed by RGB)
+                                  ),
+                                  child: const Text(
+                                    "Submit",
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Colors.white,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

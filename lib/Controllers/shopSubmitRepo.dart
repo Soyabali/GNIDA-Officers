@@ -6,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Helpers/loader_helper.dart';
 import 'baseurl.dart';
 
-
 class ShopSubmitRepo {
 
   // this is a loginApi call functin
@@ -15,27 +14,11 @@ class ShopSubmitRepo {
   Future shopSummit(BuildContext context, String shopName,
       String ownerName, selectedShopId, String contactNo,
       selectedSectorId, String address, String landMark, uplodedImage, double? lat,
-      double? long, userId, selectedShopSizeId, String? selectedOption) async {
+      double? long, userId, selectedShopSizeId, String? selectedOption, locationAddress) async {
     //selectedShopSizeId, String? selectedOption
-
-      print('---21--sShopName---$shopName');
-      print('---22--OwnerName---$ownerName');
-      print('---23--sShopType---$selectedShopId');
-      print('---24--sContactNo ---$contactNo');
-      print('---25--isectorCode ---$selectedSectorId');
-      print('---26--sAddress ---$address');
-      print('---27--sLandmark ---$landMark');
-      print('---28--sPhoto ---$uplodedImage');
-      print('---29--slat ---$lat');
-      print('---30--slong ---$long');
-      print('---31--sGoogleLocation ---');
-      print('---31--sSurveyBt ---$userId');
-     print('---32--selectedShopSizeId ---$selectedShopSizeId');
-     print('---33--selectedOption ---$selectedOption');
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? sToken = prefs.getString('sToken');
-
       print('-----22---$sToken');
 
       try {
@@ -62,7 +45,7 @@ class ShopSubmitRepo {
           "sPhoto": uplodedImage,
           "fLatitude": lat,
           "fLongitude": long,
-          "sGoogleLocation":'A6, Bishanpura Rd, Block A, Sector 57, Noida, Uttar Pradesh 201301',
+          "sGoogleLocation":locationAddress,
           "iSurveyBy": userId,
           "iSizeTypeId":selectedShopSizeId,
           "sPaymentReceived":selectedOption
@@ -91,5 +74,4 @@ class ShopSubmitRepo {
       throw e;
     }
   }
-
 }

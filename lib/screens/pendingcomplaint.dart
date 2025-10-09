@@ -2,9 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:http/http.dart' as http;
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:noidaone/Controllers/ajencyUserRepo.dart';
@@ -25,12 +23,11 @@ import 'actionOnSchedulePoint.dart';
 import 'flull_screen_image.dart';
 import 'generalFunction.dart';
 import 'gnidaofficers/supervisorDashboard/supervisiorDashboard.dart';
-import 'homeScreen.dart';
-import 'navigateScreen.dart';
 
 class PendingComplaintScreen extends StatelessWidget {
 
   const PendingComplaintScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -102,11 +99,11 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     List<Map<String, dynamic>>.from(pendingInternalComplaintList ?? []);
 
     print('--77-----$pendingInternalComplaintList');
-    print('--45--$_filteredData');
+    print('--102--$_filteredData');
     setState(() {});
   }
-
   // bottomSheetForward
+
   bottomSheetForward(BuildContext context, String iCompCode) {
     showModalBottomSheet(
         shape: const RoundedRectangleBorder(
@@ -114,7 +111,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
             top: Radius.circular(12.0),
           ),
         ),
-
         context: context,
         builder: (context) {
           return Padding(
@@ -299,7 +295,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
           );
         });
   }
-
   // bottomSheetComplaintTransfer
   bottomSheetComplaintTransfer() {
     showModalBottomSheet(
@@ -840,6 +835,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
     getlocalvalue();
     super.initState();
   }
+
   getComplaintStatus() async {
     //Future<List<Map<String, dynamic>>?> pendingInternalComplaint(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -1049,6 +1045,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       print('${userAjencyList.length}');
     }
   }
+
   getlocalvalue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -1107,8 +1104,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
             color: Colors.white, // 👈 sets drawer/back icon color to white
           ),
         ),
-
-          // appBar: generalfunction.appbarback(context, "Pending Complaint"),
         // drawer
         drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
 

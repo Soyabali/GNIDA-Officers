@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:noidaone/screens/homeScreen.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../Controllers/baseurl.dart';
 import '../Controllers/district_repo.dart';
 import '../Controllers/markLocationRepo.dart';
 import '../Controllers/markpointSubmit.dart';
@@ -62,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
   // Distic List
   updatedSector() async {
     distList = await DistRepo().getDistList();
-    print(" -----xxxxx-  list Data--65---> $distList");
+    print(" -----xxxxx-  sector--65---> $distList");
     setState(() {});
   }
 
@@ -112,9 +115,9 @@ class _MyHomePageState extends State<MyHomePage> {
   var slong;
   File? image;
   var uplodedImage;
+  var locationAddress;
   GeneralFunction generalFunction = GeneralFunction();
   // mobile back button handler
-
   Future<bool> _onWillPop() async {
     return (await showDialog(
       context: context,
@@ -189,11 +192,13 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> uploadImage(String token, File imageFile) async {
     try {
       showLoader();
+      var baseURL = BaseRepo().baseurl;
+      var bindSector = "PostImage/PostImage";
+      var postImageApi = "$baseURL$bindSector";
       // Create a multipart request
       var request = http.MultipartRequest(
           'POST',
-          Uri.parse(
-              'https://upegov.in/noidaoneapi/Api/PostImage/PostImage'));
+          Uri.parse('$postImageApi'));
 
       // Add headers
       request.headers['token'] = token;
@@ -217,7 +222,7 @@ class _MyHomePageState extends State<MyHomePage> {
       hideLoader();
       print('---------172---$responseData');
       uplodedImage = "${responseData['Data'][0]['sImagePath']}";
-      print('----174---$uplodedImage');
+      print('----223---$uplodedImage');
     } catch (error) {
       showLoader();
       print('Error uploading image: $error');
@@ -254,10 +259,13 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO: implement initState
     updatedSector();
     marklocationData();
+    getLocation();
     super.initState();
     locationfocus = FocusNode();
     descriptionfocus = FocusNode();
   }
+
+  //
 
   @override
   void dispose() {
@@ -265,6 +273,57 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
     locationfocus.dispose();
     descriptionfocus.dispose();
+  }
+  void getLocation() async {
+    showLoader();
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      hideLoader();
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        hideLoader();
+        return Future.error('Location permissions are denied.');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      hideLoader();
+      return Future.error('Location permissions are permanently denied.');
+    }
+
+    // Get the current location
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+
+    // Convert latitude and longitude to an address
+    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+    // List<Placemark> placemarks = await placemarkFromCoordinates(27.2034949538412,78.0057668059695);
+    Placemark place = placemarks[0]; // Extract relevant details
+    // String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+    String address = "${place.street}, ${place.subLocality},${place.locality},${place.administrativeArea},${place.postalCode},${place.country}";
+
+    // Update state with location and address
+    setState(() {
+      slat = position.latitude;
+      slong = position.longitude;
+      locationAddress = address; // Store the converted address
+    });
+    print('-------142----Address--$locationAddress');
+    print('-------143--lat----$slat');
+    print('-------144--long----$slong');
+    print('-------street------${place.street}');
+    print('-------locality------${place.locality}');
+    print('-------administrationArea------${place.administrativeArea}');
+    print('-------country------${place.country}');
+    hideLoader();
   }
 
   // Todo bind sector code
@@ -439,18 +498,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
                Navigator.push(context,
                    MaterialPageRoute(builder: (context) => SupervisiorDashBoard()));
-
-             // Navigator.pop(context);
-             //  Navigator.push(context,
-             //      MaterialPageRoute(builder: (context) => const HomePage()));
-
-              // Navigator.pushAndRemoveUntil(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => HomePage()),
-              //       (Route<dynamic> route) => false,
-              // );
-
-             // Navigator.pop(context);
             },
             child:const Padding(
               padding: EdgeInsets.all(8.0),
@@ -471,13 +518,9 @@ class _MyHomePageState extends State<MyHomePage> {
               SizedBox(
                 height: 150, // Height of the container
                 width: 200, // Width of the container
-                child: Opacity(
-                  opacity: 0.9,
-                  //step3.jpg
-                  child: Image.asset(
+                child: Image.asset(
                     'assets/images/markpointheader.jpeg', // Replace 'image_name.png' with your asset image path
                     fit: BoxFit.cover, // Adjust the image fit to cover the container
-                  ),
                 ),
               ),
               Padding(
@@ -835,12 +878,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                 DateTime currentDate = DateTime.now();
                                 todayDate = DateFormat('dd/MMM/yyyy HH:mm').format(currentDate);
 
-                                SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
+                                SharedPreferences prefs = await SharedPreferences.getInstance();
                                 iUserTypeCode = prefs.getString('iUserTypeCode');
                                 userId = prefs.getString('iUserId');
-                                slat = prefs.getDouble('lat');
-                                slong = prefs.getDouble('long');
                                 print('--774--lati--$slat');
                                 print('--775--longitude--$slong');
 
@@ -849,14 +889,20 @@ class _MyHomePageState extends State<MyHomePage> {
                                 // apply condition
                                 if (_formKey.currentState!.validate() &&
                                     location != null &&
-                                    _dropDownValueMarkLocation != null &&
-                                    _dropDownValueDistric != null && uplodedImage !=null) {
+                                    _dropDownValueMarkLocation != null
+                                     && uplodedImage !=null) {
 
-                                    print('---787--$location');
-                                    print('---788--$description');
-                                    print('---789--$_dropDownValueMarkLocation');
-                                    print('---790--$_dropDownValueDistric');
-                                    print('---791--$uplodedImage');
+                                    print('---randomNumber--$randomNumber');
+                                    print('---_selectedPointId--$_selectedPointId');
+                                    print('---_selectedBlockId--$_selectedBlockId');
+                                    print('---location--$location');
+                                    print('---slat--$slat');
+                                    print('---slong--$slong');
+                                    print('---description--$description');
+                                    print('---uplodedImage--$uplodedImage');
+                                    print('---todayDate--$todayDate');
+                                    print('---userId--$userId');
+
 
                                     print('---call Api---');
                                     var markPointSubmitResponse =
@@ -872,12 +918,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                           uplodedImage,
                                           todayDate,
                                           userId);
-                                  print('----699---$markPointSubmitResponse');
+                                  print('----921---$markPointSubmitResponse');
                                     result2 = markPointSubmitResponse['Result'];
                                     msg2 = markPointSubmitResponse['Msg'];
                                   print('---806---xxxxx----$result2');
                                   print('---807--$msg2');
-                                  //
+
 
                                 } else {
                                   if(_dropDownValueMarkLocation==null){
@@ -908,8 +954,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 /// Todo next Apply condition
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(
-                                    0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+                                backgroundColor: Color(0xFFD31F76), // Hex color code (FF for alpha, followed by RGB)
                               ),
                               child: const Text(
                                 "Submit",

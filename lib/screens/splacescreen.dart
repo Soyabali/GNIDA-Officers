@@ -10,11 +10,11 @@ import '../Controllers/appversionrepo.dart';
 import '../resources/values_manager.dart';
 import 'gnidaofficers/gnoidadashboard.dart';
 import 'gnidaofficers/supervisorDashboard/supervisiorDashboard.dart';
-import 'homeScreen.dart';
 import 'homepagesecod.dart';
 import 'loginScreen_2.dart';
 
 class Splace extends StatefulWidget {
+
   const Splace({super.key});
 
   @override
@@ -26,6 +26,7 @@ class _SplaceState extends State<Splace> {
   bool activeConnection = false;
   String T = "";
   var iAgencyCode;
+
   Future checkUserConnection() async {
     try {
       final result = await InternetAddress.lookup('google.com');
@@ -92,6 +93,9 @@ class _SplaceState extends State<Splace> {
          SharedPreferences prefs = await SharedPreferences.getInstance();
          // iAgencyCode = prefs.getString('iUserTypeCode').toString();
         var  iUserTypeCode = prefs.getString('iUserTypeCode').toString();
+
+        print('----97-----iUserTypeCode--xxx----$iUserTypeCode');
+
            if(iUserTypeCode=="6"){
 
              Navigator.pushReplacement(
@@ -103,12 +107,15 @@ class _SplaceState extends State<Splace> {
                context,
                MaterialPageRoute(builder: (context) => SupervisiorDashBoard()),
              );
-           }else {
+           }else if(iUserTypeCode=="8"){
              Navigator.pushReplacement(
                context,
                MaterialPageRoute(builder: (context) => HomeScreen_2()),
              );
+           }else{
+
            }
+
   }
 
   @override

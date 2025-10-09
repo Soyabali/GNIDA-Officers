@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:noidaone/screens/viewimage.dart';
 import 'package:oktoast/oktoast.dart';
@@ -15,6 +13,7 @@ import 'generalFunction.dart';
 import 'gnidaofficers/supervisorDashboard/supervisiorDashboard.dart';
 
 class ScheduledPointScreen extends StatelessWidget {
+
   const ScheduledPointScreen({Key? key}) : super(key: key);
 
   @override
@@ -113,7 +112,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
     pendingSchedulepointList = await PendingSchedulePointRepo().pendingschedulepoint(context);
     _filteredData = List<Map<String, dynamic>>.from(pendingSchedulepointList ?? []);
     print('--59--$pendingSchedulepointList');
-    print('--60--$_filteredData');
+    print('--115----$_filteredData');
     setState(() {});
   }
   void _search() {
@@ -203,17 +202,6 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => SupervisiorDashBoard()));
 
-                // Navigator.pop(context);
-                //  Navigator.push(context,
-                //      MaterialPageRoute(builder: (context) => const HomePage()));
-
-                // Navigator.pushAndRemoveUntil(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => HomePage()),
-                //       (Route<dynamic> route) => false,
-                // );
-
-                // Navigator.pop(context);
               },
               child:const Padding(
                 padding: EdgeInsets.all(8.0),
@@ -228,9 +216,6 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                 fontWeight: FontWeight.bold),
           ),
         ),
-
-        // appBar: generalfunction.appbarback(context, "Scheduled Points"),
-
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[

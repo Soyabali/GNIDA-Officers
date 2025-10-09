@@ -8,9 +8,11 @@ import '../generalFunction.dart';
 import 'package:gif/gif.dart';
 import '../gnidabeautification/gnidabeautification.dart';
 import '../malbaRequest/malbaRequest.dart';
+import '../potholeDetection.dart';
 import '../shopSurvey.dart' hide MyHomePage;
 
 class GnoidaOfficersHome extends StatefulWidget {
+
   const GnoidaOfficersHome({super.key});
 
   @override
@@ -118,33 +120,46 @@ class _GnoidaOfficersHomeState extends State<GnoidaOfficersHome> with TickerProv
 
                   // Second small card
                   Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(6),
-                        border: Border.all(color: Colors.grey.shade300, width: 1),
-                      ),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/images/ic_create_points.png',
-                              height: 60,
-                              width: 60,
-                              fit: BoxFit.cover,
-                            ),
-                            const SizedBox(height: 5),
-                            const Text(
-                              'Pothole Dection',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 12.0,
-                                fontWeight: FontWeight.bold,
+                    child: InkWell(
+                      onTap: (){
+                        //  patholeDectionForm// patholeDectionForm
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (context) => patholeDectionForm(name: "Pothole Dection", iCategoryCode: null,),
+                          ),
+                        );
+
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(6),
+                          border: Border.all(color: Colors.grey.shade300, width: 1),
+                        ),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/images/ic_create_points.png',
+                                height: 60,
+                                width: 60,
+                                fit: BoxFit.cover,
                               ),
-                            ),
-                          ],
+                              const SizedBox(height: 5),
+                              const Text(
+                                'Pothole Dection',
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -166,7 +181,6 @@ class _GnoidaOfficersHomeState extends State<GnoidaOfficersHome> with TickerProv
     controller.repeat(period: const Duration(seconds: 2));
     usermoduleright();
     getValueFromSharedPreference();
-
     super.initState();
   }
   // supervisorBottomList
@@ -192,7 +206,6 @@ class _GnoidaOfficersHomeState extends State<GnoidaOfficersHome> with TickerProv
     print("--Name : --: $sName");
     print("--ContactNo : --: $sContactNo");
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -276,12 +289,7 @@ class _GnoidaOfficersHomeState extends State<GnoidaOfficersHome> with TickerProv
                         var iActivityCode = activity['iActivityCode'];
                         print("-------AAA -----$iActivityCode");
                         if(iActivityCode==5){
-
                           print('----$iActivityCode');
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => const ComplaintStatusScreen()));
 
                         }else if(iActivityCode==6){
                           //  MyHomePage

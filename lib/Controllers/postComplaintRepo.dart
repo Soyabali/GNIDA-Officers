@@ -12,7 +12,7 @@ class PostComplaintRepo {
   GeneralFunction generalFunction = GeneralFunction();
 
   Future postComplaint(
-      BuildContext context, int randomNumber, iPointTypeCode, iSectorCode, String location, double? lat, double? long, String description, File? imageFile, String todayDate, String? iUserId,) async {
+      BuildContext context, int randomNumber, iPointTypeCode, iSectorCode, String location, double? lat, double? long, String description, String imageFile, String todayDate, String? iUserId,) async {
     // sharedP
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('sToken');
@@ -82,7 +82,7 @@ class PostComplaintRepo {
       } else if(response.statusCode==401)
       {
         generalFunction.logout(context);
-      }else{
+      }else {
         print('----------99----$map');
         hideLoader();
         print(response.reasonPhrase);

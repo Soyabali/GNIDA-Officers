@@ -27,6 +27,8 @@ class MarkPointSubmitRepo {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('sToken');
 
+    print("-----------xxxx----30-----$token");
+
     try {
       print('----markLocation---$dropDownValueMarkLocation');
       print('----sectorvalue---$dropDownValueDistric');
@@ -48,7 +50,7 @@ class MarkPointSubmitRepo {
       print('------------39---markPointSubmitApi---$markPointSubmitApi');
 
       String jsonResponse =
-          '{"sArray":[{"iCompCode":$randomNumber,"iPointTypeCode":$dropDownValueMarkLocation,"iSectorCode":$dropDownValueDistric,"sLocation":"$location","fLatitude":$slat,"fLongitude":$slong,"sDescription":"$description","sBeforePhoto":"$uplodedImage","dPostedOn":"$todayDate","iPostedBy":$userId}]}';
+          '{"sArray":[{"iCompCode":$randomNumber,"iPointTypeCode":$dropDownValueMarkLocation,"iSectorCode":"$dropDownValueDistric","sLocation":"$location","fLatitude":$slat,"fLongitude":$slong,"sDescription":"$description","sBeforePhoto":"$uplodedImage","dPostedOn":"$todayDate","iPostedBy":$userId}]}';
 // Parse the JSON response
       Map<String, dynamic> parsedResponse = jsonDecode(jsonResponse);
 
@@ -92,17 +94,21 @@ class MarkPointSubmitRepo {
         print('------92----xxxxxxxxxxxxxxx----');
         hideLoader();
         print('----------96-----$map');
+        print("------97-----${response.statusCode}");
         return map;
-      } else if(response.statusCode==401)
-      {
-        generalFunction.logout(context);
-      }else{
-        print('----------99----$map');
-        hideLoader();
-        print(response.reasonPhrase);
-        return map;
-      }
+      // } else if(response.statusCode==401)
+      // {
+      //   generalFunction.logout(context);
+      // }else{
+      //   print('----------99----$map');
+      //   hideLoader();
+      //   print(response.reasonPhrase);
+      //   return map;
+       }
     } catch (e) {
+     // print("------97-----${response.statusCode}");
+
+      print("--------111---------------");
       hideLoader();
       debugPrint("exception: $e");
       throw e;
