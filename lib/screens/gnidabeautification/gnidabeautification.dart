@@ -15,7 +15,6 @@ import '../../Controllers/NoidaBeautificationRepo.dart';
 import '../../Controllers/baseurl.dart';
 import '../../Controllers/district_repo.dart';
 import '../../Controllers/markLocationRepo.dart';
-import '../../Controllers/postDailyActivityRepo.dart';
 import '../../Helpers/loader_helper.dart';
 import '../../resources/app_text_style.dart';
 import '../../resources/values_manager.dart';

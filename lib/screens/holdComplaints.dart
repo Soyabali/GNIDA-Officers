@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:geolocator/geolocator.dart';
 import 'package:noidaone/Controllers/ajencyUserRepo.dart';
-import 'package:noidaone/Controllers/complaintForwardRepo.dart';
 import 'package:noidaone/screens/viewimage.dart';
 import 'package:oktoast/oktoast.dart';
 import '../Controllers/HoldComplaintRepo.dart';
@@ -52,8 +51,6 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
   TextEditingController _searchController = TextEditingController();
   double? lat;
   double? long;
-  var _dropDownAgency2;
-  var _dropDownValueUserAgency;
   final distDropdownFocus = GlobalKey();
   var result, msg;
   var userAjencyData;
@@ -70,8 +67,6 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
     await HoldComplaintRepo().holdComplaintRepo(context);
     _filteredData = List<Map<String, dynamic>>.from(pendingInternalComplaintList ?? []);
 
-    print('--73--$pendingInternalComplaintList');
-    print('--74--$_filteredData');
     setState(() {});
   }
 
@@ -79,8 +74,6 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
   getlocalvalue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      String? nameFirst = prefs.getString('nameFirst') ?? "";
-      int? pointFirst = prefs.getInt('pointFirst');
       sName = prefs.getString('sName') ?? "";
       sContactNo = prefs.getString('sContactNo') ?? "";
     });
@@ -170,9 +163,6 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
   }
   userAjency(int ajencyCode) async {
     print('-----170--$ajencyCode');
-    // setState(() {
-    // });
-    // List ajencyUserList = [];
     userAjencyList = await AjencyUserRepo().ajencyuser(ajencyCode);
     setState(() {
     });
@@ -305,7 +295,7 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
             // scroll item after search bar
             Expanded(
               child: ListView.builder(
-                itemCount: _filteredData.length ?? 0,
+                itemCount: _filteredData.length,
                 itemBuilder: (context, index) {
                   Map<String, dynamic> item = _filteredData[index];
                   return Padding(
@@ -458,7 +448,7 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
                                         Padding(
                                           padding: EdgeInsets.only(left: 15),
                                           child: Text(
-                                            item['iCompCode'].toString() ?? '',
+                                            item['iCompCode'].toString(),
                                             style: const TextStyle(
                                                 fontFamily: 'Montserrat',
                                                 color: Color(0xff3f617d),
@@ -703,317 +693,6 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
           ],
         ),
       ),
-    );
-  }
-
-// bottom screen
-  void _showBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.grey,
-      builder: (BuildContext context) {
-        return AnimatedContainer(
-            duration: Duration(seconds: 1),
-            curve: Curves.easeInOut,
-            height: 280,
-            // Adjust height as needed
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0), // Adjust the radius as needed
-                topRight: Radius.circular(20.0), // Adjust the radius as needed
-              ),
-            ),
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: Container(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width - 30,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        // Background color of the container
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            // Color of the shadow
-                            spreadRadius: 5,
-                            // Spread radius
-                            blurRadius: 7,
-                            // Blur radius
-                            offset: Offset(0, 3), // Offset of the shadow
-                          ),
-                        ]),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15,top: 0),
-                      child: Form(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  margin:
-                                  EdgeInsets.only(left: 0, right: 10, top: 10),
-                                  child: Image.asset(
-                                    'assets/images/ic_expense.png',
-                                    // Replace with your image asset path
-                                    width: 24,
-                                    height: 24,
-                                  ),
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.only(top: 10),
-                                  child: Text('Fill the below details',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xFF707d83),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  bottom: 5, top: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 0, right: 2, bottom: 2),
-                                      child: const Icon(
-                                        Icons.forward_sharp,
-                                        size: 12,
-                                        color: Colors.black54,
-                                      )),
-                                  const Text('Agency',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xFF707d83),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width - 50,
-                              height: 50,
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: DropdownButtonHideUnderline(
-                                  child: ButtonTheme(
-                                    alignedDropdown: true,
-                                    child: DropdownButton(
-                                      onTap: () {
-                                        FocusScope.of(context).unfocus();
-                                      },
-                                      hint: RichText(
-                                        text: const TextSpan(
-                                          text: 'Please choose a Agency ',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                              text: '*',
-                                              style: TextStyle(
-                                                color: Colors.red,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      value: _dropDownAgency2,
-                                      onChanged: (newValue) {
-                                        setState(() {
-                                          _dropDownAgency2 = newValue;
-                                          userAjencyList = [];
-                                          _dropDownValueUserAgency = null;
-                                          bindAjencyList.forEach((element) async {
-                                            if (element["sAgencyName"] == _dropDownAgency2) {
-                                              iAgencyCode = element['iAgencyCode'];
-                                              setState(() {});
-                                              if (iAgencyCode != null) {
-                                                // TODO: update next api
-                                                userAjency(iAgencyCode);
-
-                                              } else {
-                                                print('Please Select State name');
-                                              }
-                                            }
-                                          });
-                                          print("iAgencyCode value----xxx $iAgencyCode");
-                                          print("_dropDownAgency Name----xxx$_dropDownAgency2");
-                                        });
-                                      },
-                                      items: bindAjencyList.map((dynamic item) {
-                                        return DropdownMenuItem(
-                                          child: Text(item['sAgencyName'].toString()),
-                                          value: item["sAgencyName"].toString(),
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 5),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 0, right: 2),
-                                      child: const Icon(
-                                        Icons.forward_sharp,
-                                        size: 12,
-                                        color: Colors.black54,
-                                      )),
-                                  const Text('User',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xFF707d83),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                            ),
-                            Container(
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width - 50,
-                                height: 50,
-                                child:
-                                SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: DropdownButtonHideUnderline(
-                                      child: ButtonTheme(
-                                        alignedDropdown: true,
-                                        child: DropdownButton(
-                                          onTap: () {
-                                            FocusScope.of(context).unfocus();
-                                          },
-                                          hint: RichText(
-                                            text: const TextSpan(
-                                              text: 'Please choose a State ',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.normal,
-                                              ),
-                                              children: <TextSpan>[
-                                                TextSpan(
-                                                  text: '*',
-                                                  style: TextStyle(
-                                                    color: Colors.red,
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          value: _dropDownValueUserAgency,
-                                          onChanged: (newValue) {
-                                            setState(() {
-                                              _dropDownValueUserAgency = newValue;
-                                              // userAjencyData = [];
-                                              //_dropDownValueUserAgency = null;
-                                              userAjencyList.forEach((element) async {
-                                                if (element["sName"] == _dropDownValueUserAgency) {
-                                                  agencyUserId = element['iUserId'];
-                                                  setState(() {});
-                                                  //   if (agencyUserId != null) {
-                                                  //     // TODO: update next api
-                                                  //     userAjency(iAgencyCode);
-                                                  //
-                                                  //   } else {
-                                                  //     print('Please Select State name');
-                                                  //   }
-                                                }
-                                              });
-                                              print("agencyUserId value----xxx $agencyUserId");
-                                              print("_dropDownValueUserAgency Name----xxx$_dropDownValueUserAgency");
-                                            });
-                                          },
-                                          items: userAjencyList.map((dynamic item) {
-                                            return DropdownMenuItem(
-                                              child: Text(item['sName'].toString()),
-                                              value: item["sName"].toString(),
-                                            );
-                                          }).toList(),
-                                        ),
-                                      ),
-                                    )
-
-                                )
-                            ),
-
-                            SizedBox(height: 10),
-                            ElevatedButton(
-                                onPressed: () async {
-                                  /// TODO REMOVE COMMENT AND apply proper api below and handle api data
-                                  // print('----clicked--xxxxxxxx--');
-                                  if (iAgencyCode != null &&
-                                      agencyUserId != null) {
-                                    var complaintForwardResponse = await ComplaintForwardRepo()
-                                        .complaintForward(context,
-                                        iAgencyCode, agencyUserId);
-                                    result1 = "${complaintForwardResponse['Result']}";
-                                    msg1 = "${complaintForwardResponse['Msg']}";
-                                    print('---1126---$result1');
-                                    if(result1=="1"){
-
-                                      print('----1----xxx----');
-                                      displayToast(msg1);
-                                      Navigator.pop(context);
-
-                                    }else{
-                                      displayToast(msg1);
-                                      print('----0---');
-                                    }
-
-                                  } else {
-                                    print('----Not call a Api--');
-                                  }
-                                  /// Todo next Apply condition
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(
-                                      0xFF255899), // Hex color code (FF for alpha, followed by RGB)
-                                ),
-                                child: const Text("Submit",
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Colors.white,
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold),
-                                ))
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            )
-        );
-      },
     );
   }
 }

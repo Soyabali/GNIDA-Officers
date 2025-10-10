@@ -44,8 +44,6 @@ class AjencyUserRepo
   {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
-    String? iUserId = prefs.getString('iUserId');
-
 
     print('-----ajencyCode---$ajencyCode');
     try

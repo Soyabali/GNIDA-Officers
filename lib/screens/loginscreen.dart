@@ -30,7 +30,6 @@ class _LoginState extends State<Login> {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _passWordController = TextEditingController();
   bool _isObscured = true;
-  bool _isObscured2 = true;
 
   @override
   Widget build(BuildContext context) {

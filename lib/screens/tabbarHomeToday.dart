@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../Controllers/userContributionRepo.dart';
 import '../Controllers/usercontributionTodayRepo.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -56,12 +55,7 @@ class _TabPageState extends State<TabTodayPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('nameFirst', nameFirst!);
     prefs.setInt('pointFirst', pointFirst!);
-    // if(nameFirst!=null){
-    //   sendData(nameFirst);
-    // }
-    print('-----------44---xxxxxxxxxx-$nameFirst');
-    print('-----------45---xxxxxxxxxx-$pointFirst');
-    String dataToSend = 'Data from TodayClass';
+
     // Call the callback function to send data to homePage
     setState(() {});
   }

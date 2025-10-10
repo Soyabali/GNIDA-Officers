@@ -67,7 +67,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   List userAjencyList = [];
   var iAgencyCode;
   var agencyUserId;
-  File? _imageFile;
   File? image;
   var iCompCode;
   TextEditingController _searchController = TextEditingController();
@@ -77,8 +76,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   var _dropDownComplaintType;
   var _dropDownHold;
   final distDropdownFocus = GlobalKey();
-  final _formKey = GlobalKey<FormState>();
-  double _borderRadius = 0.0; // Initial border radius
   var result, msg;
   var userAjencyData;
   var uplodedImage;
@@ -1277,7 +1274,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
 
             Expanded(
               child: ListView.builder(
-                itemCount: _filteredData.length ?? 0,
+                itemCount: _filteredData.length,
                 itemBuilder: (context, index) {
                   Map<String, dynamic> item = _filteredData[index];
                   return Padding(
@@ -1386,7 +1383,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                           SizedBox(width: 2),
                                           GestureDetector(
                                             onTap: () {
-                                              iCompCode = item['iCompCode'].toString() ?? '';
+                                              iCompCode = item['iCompCode'].toString();
                                               bottomSheetHold();
                                             },
                                             child: const Padding(
@@ -1549,7 +1546,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                               Padding(
                                 padding: EdgeInsets.only(left: 15),
                                 child: Text(
-                                  item['iCompCode'].toString() ?? '',
+                                  item['iCompCode'].toString(),
                                   style: const TextStyle(
                                       fontFamily: 'Montserrat',
                                       color: Color(0xff3f617d),
@@ -1780,9 +1777,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                                     var sBeforePhoto =
                                                         "${item['sBeforePhoto']}";
                                                     var iTaskCode =
-                                                        item['iCompCode']
-                                                                .toString() ??
-                                                            '';
+                                                        item['iCompCode'].toString();
                                                     print(
                                                         '----357---$sBeforePhoto');
                                                     Navigator.push(
@@ -1833,11 +1828,9 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                                     print(
                                                         '---Complaint Transfer ---');
                                                     iCompCode = item['iCompCode']
-                                                            .toString() ??
-                                                        '';
+                                                            .toString();
                                                     print('---506--$iCompCode');
                                                     bottomSheetComplaintTransfer();
-                                                    //  _showBottomSheetComplaintType(context,iCompCode);
                                                   },
                                                   child: const Row(
                                                     mainAxisAlignment:
@@ -1874,11 +1867,8 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                                   onTap: () {
                                                     print('---Forward---');
                                                     iCompCode = item['iCompCode']
-                                                            .toString() ??
-                                                        '';
-                                                    print('---506--$iCompCode');
-                                                    // _showBottomSheetHold(context,iCompCode);
-                                                    //_showBottomSheet(context,iCompCode);
+                                                            .toString();
+
                                                     bottomSheetForward(
                                                         context, iCompCode);
                                                   },

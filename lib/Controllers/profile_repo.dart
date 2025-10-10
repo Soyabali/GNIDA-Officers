@@ -44,7 +44,6 @@ http.StreamedResponse response = await request.send();
         });
         return profilelist;
       } else {
-        var status = response.statusCode;
         debugPrint(response.reasonPhrase);
         return profilelist;
       }

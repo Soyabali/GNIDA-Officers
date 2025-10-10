@@ -1,13 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:noidaone/screens/homeScreen.dart';
-import '../Controllers/DrywetSegregationSubmitRepo.dart';
-import '../Controllers/block_repo.dart';
 import '../Controllers/district_repo.dart';
-import '../resources/app_strings.dart';
-import '../resources/component.dart';
 import '../resources/values_manager.dart';
 import 'flull_screen_image.dart';
 
@@ -38,7 +33,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String? _chosenValue;
   final _formKey = GlobalKey<FormState>();
   var sectorresponse;
   String? sec;

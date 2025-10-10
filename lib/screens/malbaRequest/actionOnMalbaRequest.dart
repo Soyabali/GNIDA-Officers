@@ -34,7 +34,6 @@ class ActionOnMalbaRequest extends StatefulWidget {
 class _ActionOnSchedultPointScreenState
     extends State<ActionOnMalbaRequest> {
 
-  String? _chosenValue;
   final _formKey = GlobalKey<FormState>();
   var sectorresponse;
   String? sec;

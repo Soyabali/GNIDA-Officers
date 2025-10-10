@@ -52,7 +52,6 @@ class _SplaceState extends State<Splace> {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     setState(() {
       _appVersion = packageInfo.version;
-      //print('----31-----$_appVersion');
     });
   }
   //url

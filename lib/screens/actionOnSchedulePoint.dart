@@ -13,8 +13,6 @@ import '../Controllers/district_repo.dart';
 import '../Helpers/loader_helper.dart';
 import '../resources/values_manager.dart';
 import 'flull_screen_image.dart';
-import 'gnidaofficers/gnoidadashboard.dart';
-import 'homeScreen.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -35,7 +33,6 @@ class ActionOnSchedultPointScreen extends StatefulWidget {
 class _ActionOnSchedultPointScreenState
     extends State<ActionOnSchedultPointScreen> {
 
-  String? _chosenValue;
   final _formKey = GlobalKey<FormState>();
   var sectorresponse;
   String? sec;
@@ -562,11 +559,10 @@ class _ActionOnSchedultPointScreenState
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+                    backgroundColor: Color(0xFFD31F76), // Hex color code (FF for alpha, followed by RGB)
                   ),
 
-
-                  child: const Text("Submit", style: TextStyle(
+                    child: const Text("Submit", style: TextStyle(
                     fontFamily: 'Montserrat',
                     color: Colors.white,
                     fontSize: 16.0,

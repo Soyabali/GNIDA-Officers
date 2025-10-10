@@ -9,7 +9,8 @@ import '../../generalFunction.dart';
 import '../../gnidabeautification/gnidabeautification.dart';
 import '../../pendingcomplaint.dart';
 import '../../scheduledpoint.dart';
-import '../../shopSurvey.dart' show ShopSurvey, ShopSurveyHome;
+import '../../shopSurvey.dart';
+
 
 class SupervisiorDashBoard extends StatefulWidget {
 
@@ -222,11 +223,6 @@ class _GnoidaOfficersHomeState extends State<SupervisiorDashBoard> with TickerPr
                   size: 20,
                   color: Colors.grey.shade400,
                 ),
-                // trailing:  Image.asset('assets/images/small_right_arrow.png',
-                //   height: 20,
-                //   width: 20,
-                //   fit: BoxFit.cover,
-                // ),
                 onTap: () {
                   // Handle tap action
                  // debugPrint("Mark Point !");
@@ -279,11 +275,6 @@ class _GnoidaOfficersHomeState extends State<SupervisiorDashBoard> with TickerPr
                   size: 20,
                   color: Colors.grey.shade400,
                 ),
-                // trailing: Image.asset('assets/images/small_right_arrow.png',
-                //   height: 20,
-                //   width: 20,
-                //   fit: BoxFit.cover,
-                // ),
                 onTap: () {
                   // Handle tap action
                  // debugPrint("-----Schedule Points-----");

@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -91,33 +90,6 @@ class _LoginPageState extends State<LoginPage> {
     // });
     debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
     debugPrint(position.toString());
-  }
-
-  Future<bool> _onWillPop() async {
-    return (await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Are you sure?',style: AppTextStyle
-            .font14OpenSansRegularBlackTextStyle,),
-        content: new Text('Do you want to exit app',style: AppTextStyle
-            .font14OpenSansRegularBlackTextStyle,),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false), //<-- SEE HERE
-            child: new Text('No'),
-          ),
-          TextButton(
-            onPressed: () {
-              //  goToHomePage();
-              // exit the app
-              exit(0);
-            }, //Navigator.of(context).pop(true), // <-- SEE HERE
-            child: new Text('Yes'),
-          ),
-        ],
-      ),
-    )) ??
-        false;
   }
 
  @override

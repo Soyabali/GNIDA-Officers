@@ -18,7 +18,6 @@ class _TabPageState extends State<TabPage> {
   void fetchDataAndSendDataToParent(String nameFirst,int pointFirst,String nameSecond,int pointSecond,
       String nameThird,int pointThird)
   {
-    String data = 'Some data from TabTodayPage';
     // Access the callback function through widget.onDataReceived
     widget.onDataReceived(nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird);
   }

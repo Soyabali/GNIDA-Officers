@@ -75,8 +75,6 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {});
   }
 
-
-  String? _chosenValue;
   var msg;
   var result;
   var SectorData;
@@ -90,7 +88,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List? data;
   double? lat, long;
-  var _selectedStateId;
   var _dropDownValueDistric;
   var _dropDownValueAgency;
   var _dropDownValueMarkLocation;
@@ -100,7 +97,6 @@ class _MyHomePageState extends State<MyHomePage> {
   var sectorresponse;
   String? sec;
   final distDropdownFocus = GlobalKey();
-  File? _imageFile;
   var uplodedImage;
   final _formKey = GlobalKey<FormState>();
 

@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:noidaone/screens/homeScreen.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Controllers/baseurl.dart';
@@ -14,7 +13,6 @@ import '../Controllers/markLocationRepo.dart';
 import '../Controllers/markpointSubmit.dart';
 import '../Controllers/postimagerepo.dart';
 import '../Helpers/loader_helper.dart';
-import '../resources/app_text_style.dart';
 import '../resources/values_manager.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -82,8 +80,6 @@ class _MyHomePageState extends State<MyHomePage> {
     print(" -----xxxxx-  --72---> $postimageResponse");
     setState(() {});
   }
-
-  String? _chosenValue;
   var msg;
   var result;
   var SectorData;
@@ -97,11 +93,8 @@ class _MyHomePageState extends State<MyHomePage> {
   String? todayDate;
 
   List? data;
-  //List distList = [];
-  var _selectedStateId;
   var _dropDownValueDistric;
   var _dropDownValueMarkLocation;
-  var _dropDownValue;
   var sectorresponse;
   String? sec;
   final distDropdownFocus = GlobalKey();
@@ -118,33 +111,6 @@ class _MyHomePageState extends State<MyHomePage> {
   var locationAddress;
   GeneralFunction generalFunction = GeneralFunction();
   // mobile back button handler
-  Future<bool> _onWillPop() async {
-    return (await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Are you sure?',style: AppTextStyle
-            .font14OpenSansRegularBlackTextStyle,),
-        content: new Text('Do you want to exit app',style: AppTextStyle
-            .font14OpenSansRegularBlackTextStyle,),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false), //<-- SEE HERE
-            child: new Text('No'),
-          ),
-          TextButton(
-            onPressed: () {
-              //  goToHomePage();
-              // exit the app
-              exit(0);
-            }, //Navigator.of(context).pop(true), // <-- SEE HERE
-            child: new Text('Yes'),
-          ),
-        ],
-      ),
-    )) ??
-        false;
-  }
-
   // Uplode Id Proof with gallary
   Future pickImage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -972,56 +938,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
-      ),
-    );
-  }
-  // caste dropdown with a validation
-  Widget _casteDropDownWithValidation() {
-    return Container(
-      height: 45,
-      //color: Color(0xFFD3D3D3),
-      color: Color(0xFFf2f3f5),
-
-      child: DropdownButtonFormField<String>(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        value: _chosenValue,
-        //  key: casteDropdownFocus,
-        hint: Padding(
-          padding: const EdgeInsets.only(left: 10),
-          child: RichText(
-            text: const TextSpan(
-              text: 'Select Point Type',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal),
-              children: <TextSpan>[
-                TextSpan(
-                    text: '',
-                    style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold)),
-              ],
-            ),
-          ),
-        ),
-        onChanged: (salutation) {
-          setState(() {
-            _chosenValue = salutation;
-            //  _isShowChosenValueError = false;
-            print('CAST GENERATE XXXXXX $_chosenValue');
-          });
-        },
-        items: ['General', 'OBC', 'SC', 'ST']
-            .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
       ),
     );
   }

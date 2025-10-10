@@ -1,5 +1,4 @@
 
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -54,7 +53,6 @@ class PostImageRepo {
       http.StreamedResponse response = await request.send();
 
       var map;
-      var data = await response.stream.bytesToString();
       // map = json.decode(data);
       // print('----------50---poarImage Response----$map')
 

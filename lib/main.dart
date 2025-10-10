@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
 
-  //runApp(const MyApp());
   runApp(
     const OKToast(
       child: MyApp(), // or your root widget
@@ -65,22 +64,6 @@ class MyApp extends StatelessWidget {
                backgroundColor: Colors.white, // all drawers white by default
              ),
            ),
-        // theme: ThemeData(
-        // primaryColor: ColorManager.primary,
-        // primaryColorLight: ColorManager.primaryOpacity70,
-        // primaryColorDark: ColorManager.darkPrimary,
-        // disabledColor: ColorManager.grey1,
-        // // ripple color
-        // splashColor: ColorManager.primaryOpacity70,
-        // // will be used incase of disabled button for example
-        // hintColor: ColorManager.grey
-        // ),
-
-          // theme: ThemeData(
-          //   primarySwatch: Colors.blue,
-          //   //
-          // ),
-         // initialRoute: AppStrings.routeToSplash,
           home: Splace(),
           // home: goNext(context),
           // theme: getApplicationTheme(),

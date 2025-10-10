@@ -306,7 +306,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
               // scroll item after search bar
               Expanded(
                 child: ListView.builder(
-                  itemCount: _filteredData.length ?? 0,
+                  itemCount: _filteredData.length,
                   itemBuilder: (context, index) {
                     Map<String, dynamic> item = _filteredData[index];
                     return Padding(

@@ -65,7 +65,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   List userAjencyList = [];
   var iAgencyCode;
   var agencyUserId;
-  File? _imageFile;
   File? image;
   var iCompCode;
   TextEditingController _searchController = TextEditingController();
@@ -75,8 +74,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   var _dropDownComplaintType;
   var _dropDownHold;
   final distDropdownFocus = GlobalKey();
-  final _formKey = GlobalKey<FormState>();
-  double _borderRadius = 0.0; // Initial border radius
   var result, msg;
   var userAjencyData;
   var uplodedImage;
@@ -278,8 +275,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                         /// Todo next Apply condition
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(
-                            0xFF255899), // Hex color code (FF for alpha, followed by RGB)
+                        backgroundColor: const Color(0xFFD31F76) // Hex color code (FF for alpha, followed by RGB)
                       ),
                       child: const Text(
                         "Submit",
@@ -404,7 +400,9 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                       if (element["sPointTypeName"] == bindPointTypeDropDown) {
                                         setState(() {
                                           selectedComplaintValue = element['iPointTypeCode'];
+                                          print("--404---$selectedComplaintValue");
                                         });
+
                                       }
                                     });
                                   });
@@ -438,49 +436,51 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                     ),
 
                     SizedBox(height: 10),
-                    ElevatedButton(
-                        onPressed: () async {
-                          /// TODO REMOVE COMMENT AND apply proper api below and handle api data
-                          // print('----clicked--xxxxxxxx--');
-                          if (selectedComplaintValue != null) {
-                            var complaintForwardResponse =
-                            await ChangePointTypeRepo().changePointType(
-                                context, selectedComplaintValue, iCompCode);
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            /// TODO REMOVE COMMENT AND apply proper api below and handle api data
+                            // print('----clicked--xxxxxxxx--');
+                            if (selectedComplaintValue != null) {
+                              var complaintForwardResponse =
+                              await ChangePointTypeRepo().changePointType(
+                                  context, selectedComplaintValue, iCompCode);
 
-                            print('-----1453----$complaintForwardResponse');
+                              print('-----1453----$complaintForwardResponse');
 
-                            result1 = "${complaintForwardResponse['Result']}";
-                            msg1 = "${complaintForwardResponse['Msg']}";
-                            print('---1468---xxx-----$result1');
-                            print('---1469---xxx-----$msg1');
-                          } else {
-                            if (selectedComplaintValue == null) {
-                              displayToast('Select Complaints Type');
+                              result1 = "${complaintForwardResponse['Result']}";
+                              msg1 = "${complaintForwardResponse['Msg']}";
+                              print('---1468---xxx-----$result1');
+                              print('---1469---xxx-----$msg1');
+                            } else {
+                              if (selectedComplaintValue == null) {
+                                displayToast('Select Complaints Type');
+                              }
                             }
-                          }
-                          if (result1 == "1") {
-                            print('----1----xxx----');
-                            displayToast(msg1);
-                            Navigator.pop(context);
-                          } else {
-                            displayToast(msg1);
-                            print('----0---');
-                          }
-                        },
+                            if (result1 == "1") {
+                              print('----1----xxx----');
+                              displayToast(msg1);
+                              Navigator.pop(context);
+                            } else {
+                              displayToast(msg1);
+                              print('----0---');
+                            }
+                          },
 
-                        /// Todo next Apply condition
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(
-                              0xFF255899), // Hex color code (FF for alpha, followed by RGB)
-                        ),
-                        child: const Text(
-                          "Submit",
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Colors.white,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold),
-                        ))
+                          /// Todo next Apply condition
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFFD31F76), // Hex color code (FF for alpha, followed by RGB)
+                          ),
+                          child: const Text(
+                            "Submit",
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold),
+                          )),
+                    )
                   ],
                 ),
               ),
@@ -983,10 +983,12 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   Future<void> uploadImage(String token, File imageFile) async {
     try {
       showLoader();
+      var baseURL = BaseRepo().baseurl;
+      var endPoint = "PostImage/PostImage";
+      var postImageApi = "$baseURL$endPoint";
+
       // Create a multipart request
-      var request = http.MultipartRequest(
-          'POST',
-          Uri.parse('https://upegov.in/noidaoneapi/Api/PostImage/PostImage'));
+      var request = http.MultipartRequest('POST', Uri.parse('$postImageApi'));
       // Add headers
       request.headers['token'] = token;
       // Add the image file as a part of the request
@@ -1019,7 +1021,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
   bindPointTypeDropDown_2() async {
     // bindPointTypeDropDown = [];
     bindPointTypeDropDown = await BindPointTypeDropDownRepo().bindPointType();
-    print(" -----310---bindPointType---> $bindPointTypeDropDown");
+    print(" -----1022---bindPointType---> $bindPointTypeDropDown");
     setState(() {});
   }
   // bind Hold
@@ -1045,7 +1047,6 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
       print('${userAjencyList.length}');
     }
   }
-
   getlocalvalue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -1079,12 +1080,8 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios, color: Colors.white), // 👈 iOS style back
             onPressed: () {
-              //  SupervisiorDashBoard
               Navigator.push(context, MaterialPageRoute(builder: (context) => const SupervisiorDashBoard()));
-
-              // Navigator.pop(context); // 👈 go back when pressed
-
-            },
+              },
           ),
           title: const Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
@@ -1151,10 +1148,11 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                 ),
               ),
             ),
+            SizedBox(height: 5),
             // scroll item after search bar
             Expanded(
               child: ListView.builder(
-                itemCount: _filteredData.length ?? 0,
+                itemCount: _filteredData.length,
                 itemBuilder: (context, index) {
                   Map<String, dynamic> item = _filteredData[index];
                   return Padding(
@@ -1188,7 +1186,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(15.0),
                                         border: Border.all(
-                                          color: Color(0xFF255899),
+                                          color: Colors.black,
                                           width: 0.5,
                                         ),
                                         color: Colors.white,
@@ -1196,12 +1194,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                       child: Center(
                                         child: Text(
                                           '${index + 1}',
-                                          style: const TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Color(0xff3f617d),
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                            style: AppTextStyle.font14OpenSansRegularBlackTextStyle
                                         ),
                                       ),
                                     ),
@@ -1214,23 +1207,13 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                         children: <Widget>[
                                           Text(
                                             item['sPointTypeName'] ?? '',
-                                            style: const TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Color(0xff3f617d),
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                            style: AppTextStyle.font14OpenSansRegularBlackTextStyle,
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),
-                                          const Text(
+                                          Text(
                                             'Point Name',
-                                            style: TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Color(0xff3f617d),
-                                              fontSize: 12.0,
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                              style: AppTextStyle.font12OpenSansRegularBlack45TextStyle
                                           ),
                                         ],
                                       ),
@@ -1250,9 +1233,9 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                                 displayToast("Please check the location.");
                                               }
                                             },
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(top: 5),
-                                              child: const Image(
+                                            child: const Padding(
+                                              padding: EdgeInsets.only(top: 5),
+                                              child: Image(
                                                   image: AssetImage('assets/images/ic_google_maps.PNG'),
                                                   height: 30,
                                                 width: 30,
@@ -1263,7 +1246,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                           SizedBox(width: 2),
                                           GestureDetector(
                                             onTap: () {
-                                              iCompCode = item['iCompCode'].toString() ?? '';
+                                              iCompCode = item['iCompCode'].toString();
                                               bottomSheetHold();
                                             },
                                             child: const Padding(
@@ -1292,52 +1275,40 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                 ),
                               ),
                               const SizedBox(height: 5),
-                              const Row(
+                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-                                  Icon(
+                                  const Icon(
                                     Icons.forward,
                                     size: 10,
-                                    color: Color(0xff3f617d),
+                                    color: Colors.black,
                                   ),
                                   SizedBox(width: 5),
                                   Text(
                                     'Complaint No',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF255899),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold),
+                                      style: AppTextStyle.font14OpenSansRegularBlackTextStyle,
                                   )
                                 ],
                               ),
                               Padding(
                                 padding: EdgeInsets.only(left: 15),
                                 child: Text(
-                                  item['iCompCode'].toString() ?? '',
-                                  style: const TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xff3f617d),
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold),
+                                  item['iCompCode'].toString(),
+                                    style: AppTextStyle.font12OpenSansRegularBlack45TextStyle
                                 ),
                               ),
-                              const Row(
+                              Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-                                  Icon(
+                                  const Icon(
                                     Icons.forward,
                                     size: 10,
-                                    color: Color(0xff3f617d),
+                                    color: Colors.black,
                                   ),
                                   SizedBox(width: 5),
                                   Text(
                                     'Sector',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF255899),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold),
+                                      style: AppTextStyle.font14OpenSansRegularBlackTextStyle
                                   )
                                 ],
                               ),
@@ -1345,29 +1316,21 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                 padding: EdgeInsets.only(left: 15),
                                 child: Text(
                                   item['sSectorName'] ?? '',
-                                  style: const TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xff3f617d),
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold),
+                                    style: AppTextStyle.font12OpenSansRegularBlack45TextStyle
                                 ),
                               ),
-                              const Row(
+                              Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Icon(
                                     Icons.forward,
                                     size: 10,
-                                    color: Color(0xff3f617d),
+                                    color: Colors.black,
                                   ),
                                   SizedBox(width: 5),
                                   Text(
                                     'Posted At',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF255899),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold),
+                                    style: AppTextStyle.font14OpenSansRegularBlackTextStyle
                                   )
                                 ],
                               ),
@@ -1375,26 +1338,19 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                 padding: EdgeInsets.only(left: 15),
                                 child: Text(
                                   item['dPostedOn'] ?? '',
-                                  style: const TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xff3f617d),
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold),
+                                  style: AppTextStyle.font12OpenSansRegularBlack45TextStyle
                                 ),
                               ),
-                              const Row(
+                              Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-                                  Icon(Icons.forward,
-                                      size: 10, color: Color(0xff3f617d)),
+                                  const Icon(Icons.forward,
+                                      size: 10, color: Colors.black
+                                  ),
                                   SizedBox(width: 5),
                                   Text(
                                     'Location',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF255899),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold),
+                                      style: AppTextStyle.font14OpenSansRegularBlackTextStyle
                                   )
                                 ],
                               ),
@@ -1402,26 +1358,19 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                 padding: EdgeInsets.only(left: 15),
                                 child: Text(
                                   item['sLocation'] ?? '',
-                                  style: const TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xff3f617d),
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold),
+                                  style: AppTextStyle.font12OpenSansRegularBlack45TextStyle
                                 ),
                               ),
-                              const Row(
+                              Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-                                  Icon(Icons.forward,
-                                      size: 10, color: Color(0xff3f617d)),
+                                  const Icon(Icons.forward,
+                                      size: 10, color: Colors.black
+                                  ),
                                   SizedBox(width: 5),
                                   Text(
                                     'Description',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF255899),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold),
+                                      style: AppTextStyle.font14OpenSansRegularBlackTextStyle
                                   )
                                 ],
                               ),
@@ -1429,11 +1378,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                 padding: EdgeInsets.only(left: 15),
                                 child: Text(
                                   item['sDescription'] ?? '',
-                                  style: const TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xff3f617d),
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold),
+                                    style: AppTextStyle.font12OpenSansRegularBlack45TextStyle
                                 ),
                               ),
                               Row(
@@ -1445,25 +1390,17 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                       const Icon(
                                         Icons.calendar_month,
                                         size: 10,
-                                        color: Color(0xff3f617d),
+                                        color: Colors.black,
                                       ),
                                       SizedBox(width: 5),
-                                      const Text(
+                                      Text(
                                         'Pending Since :',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Color(0xFF255899),
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold),
+                                          style: AppTextStyle.font14OpenSansRegularBlackTextStyle
                                       ),
                                       const SizedBox(width: 5),
                                       Text(
                                         item['sPendingFrom'] ?? '',
-                                        style: const TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Color(0xff3f617d),
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold),
+                                          style: AppTextStyle.font12OpenSansRegularBlack45TextStyle
                                       ),
                                     ],
                                   ),
@@ -1486,22 +1423,18 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                       // toast
                                     }
                                   },
-                                  child: const Row(
+                                  child:Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
                                         'View Image',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: Color(0xFF255899),
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold),
+                                          style: AppTextStyle.font14OpenSansRegularBlackTextStyle
                                       ),
                                       SizedBox(width: 5),
-                                      Icon(
+                                      const Icon(
                                         Icons.forward_sharp,
                                         size: 15,
-                                        color: Color(0xFF255899),
+                                        color: Colors.black,
                                       )
                                     ],
                                   ),
@@ -1519,7 +1452,7 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                     borderRadius: BorderRadius.circular(10),
                                     // Border radius
                                     border: Border.all(
-                                      color: Color(0xFF255899),
+                                      color: Colors.grey,
                                       // Border color
                                       width: 1, // Border width
                                     ),
@@ -1546,10 +1479,10 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                                         "${item['sBeforePhoto']}";
                                                     var iTaskCode =
                                                         item['iCompCode']
-                                                            .toString() ??
-                                                            '';
-                                                    print(
-                                                        '----357---$sBeforePhoto');
+                                                            .toString();
+
+                                                    print('----1479----xx--$sBeforePhoto');
+
                                                     Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
@@ -1561,27 +1494,21 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                                                 iTaskCode),
                                                       ),
                                                     );
+
+
                                                   },
-                                                  child: const Row(
+                                                  child: Row(
                                                     mainAxisAlignment:
                                                     MainAxisAlignment.start,
                                                     children: [
-                                                      Text(
-                                                        'Action',
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                            'Montserrat',
-                                                            color:
-                                                            Color(0xFF255899),
-                                                            fontSize: 12.0,
-                                                            fontWeight: FontWeight
-                                                                .normal),
+                                                      Text('Action',
+                                                          style: AppTextStyle.font14OpenSansRegularBlackTextStyle
                                                       ),
-                                                      SizedBox(width: 2),
-                                                      Icon(Icons.forward_sharp,
+                                                      const SizedBox(width: 2),
+                                                      const Icon(Icons.forward_sharp,
                                                           size: 15,
                                                           color:
-                                                          Color(0xFF255899)),
+                                                          Colors.black),
                                                     ],
                                                   ),
                                                 ),
@@ -1598,32 +1525,24 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                                     print(
                                                         '---Complaint Transfer ---');
                                                     iCompCode = item['iCompCode']
-                                                        .toString() ??
-                                                        '';
+                                                        .toString();
                                                     print('---506--$iCompCode');
                                                     bottomSheetComplaintTransfer();
                                                     //  _showBottomSheetComplaintType(context,iCompCode);
                                                   },
-                                                  child: const Row(
+                                                  child:Row(
                                                     mainAxisAlignment:
                                                     MainAxisAlignment.start,
                                                     children: [
                                                       Text(
                                                         'Complaint Transfer',
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                            'Montserrat',
-                                                            color:
-                                                            Color(0xFF255899),
-                                                            fontSize: 12.0,
-                                                            fontWeight: FontWeight
-                                                                .normal),
+                                                          style: AppTextStyle.font14OpenSansRegularBlackTextStyle
                                                       ),
                                                       SizedBox(width: 2),
-                                                      Icon(Icons.forward_sharp,
+                                                      const Icon(Icons.forward_sharp,
                                                           size: 15,
                                                           color:
-                                                          Color(0xFF255899)),
+                                                          Colors.black),
                                                     ],
                                                   ),
                                                 ),
@@ -1639,34 +1558,26 @@ class _SchedulePointScreenState extends State<HomeScreenPage_2> {
                                                   onTap: () {
                                                     print('---Forward---');
                                                     iCompCode = item['iCompCode']
-                                                        .toString() ??
-                                                        '';
+                                                        .toString();
                                                     print('---506--$iCompCode');
                                                     // _showBottomSheetHold(context,iCompCode);
                                                     //_showBottomSheet(context,iCompCode);
                                                     bottomSheetForward(
                                                         context, iCompCode);
                                                   },
-                                                  child: const Row(
+                                                  child:Row(
                                                     mainAxisAlignment:
                                                     MainAxisAlignment.start,
                                                     children: [
                                                       Text(
                                                         'Forward',
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                            'Montserrat',
-                                                            color:
-                                                            Color(0xFF255899),
-                                                            fontSize: 12.0,
-                                                            fontWeight: FontWeight
-                                                                .normal),
+                                                          style: AppTextStyle.font14OpenSansRegularBlackTextStyle
                                                       ),
                                                       SizedBox(width: 2),
-                                                      Icon(Icons.forward_sharp,
+                                                      const Icon(Icons.forward_sharp,
                                                           size: 15,
                                                           color:
-                                                          Color(0xFF255899))
+                                                          Colors.black)
                                                     ],
                                                   ),
                                                 ),

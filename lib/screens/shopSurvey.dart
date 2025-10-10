@@ -57,7 +57,6 @@ class _MyHomePageState extends State<ShopSurveyHome> {
   List shopTypeList = [];
   List shopSizeList = [];
   var result2, msg2;
-  String _address = 'No address found';
 
   // Distic List
   updatedSector() async {
@@ -88,30 +87,6 @@ class _MyHomePageState extends State<ShopSurveyHome> {
     setState(() {});
   }
 
-  // getHuman ReadableForm
-  Future<void> _getAddressFromCoordinates() async {
-    try {
-      List<Placemark> placemarks = await placemarkFromCoordinates(
-          lat!, long!);
-      if (placemarks.isNotEmpty) {
-        Placemark place = placemarks[0];
-        setState(() {
-          _address = '${place.street}, ${place.locality}, ${place
-              .administrativeArea}, ${place.country}';
-        });
-      } else {
-        setState(() {
-          _address = 'No address available for the provided coordinates.';
-        });
-      }
-    } catch (e) {
-      setState(() {
-        _address = 'Error: $e';
-      });
-    }
-  }
-
-  String? _chosenValue;
   var msg;
   var result;
   var SectorData;
@@ -133,7 +108,7 @@ class _MyHomePageState extends State<ShopSurveyHome> {
   FocusNode _contactfocus = FocusNode();
   FocusNode _landMarkfocus = FocusNode();
   FocusNode _addressfocus = FocusNode();
-  bool _isLocationPermanentlyDenied = false;
+
 
   // FocusNode descriptionfocus = FocusNode();
   String? todayDate;
@@ -143,9 +118,7 @@ class _MyHomePageState extends State<ShopSurveyHome> {
   var _dropDownValueShopeType;
   var _dropDownValueShopeSize;
   var _dropDownSector;
-  var _dropDownSector2gi;
 
-  var _dropDownValue;
   var sectorresponse;
   String? sec;
   final distDropdownFocus = GlobalKey();
@@ -153,7 +126,6 @@ class _MyHomePageState extends State<ShopSurveyHome> {
   File? _imageFile;
   var _selectedShopId;
   var _selectedShopSizeId;
-  var _selectedBlockId;
   var _selectedSectorId;
   final _formKey = GlobalKey<FormState>();
   var iUserTypeCode;
@@ -163,8 +135,6 @@ class _MyHomePageState extends State<ShopSurveyHome> {
   File? image;
   var uplodedImage;
   double? lat, long;
-  String? _currentAddress;
-  Position? _currentPosition;
 
   GeneralFunction generalfunction = GeneralFunction();
   // mobile back button handle
@@ -366,20 +336,6 @@ class _MyHomePageState extends State<ShopSurveyHome> {
     print('-------administrationArea------${place.administrativeArea}');
     print('-------country------${place.country}');
     hideLoader();
-  }
-
-  Future<void> _getAddressFromLatLng(Position position) async {
-    await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
-        .then((List<Placemark> placemarks) {
-      Placemark place = placemarks[0];
-      setState(() {
-        _currentAddress = '${place.street}, ${place.subLocality},${place.subAdministrativeArea}, ${place.postalCode}';
-        print('----383----Address---$_currentAddress');
-      });
-      print('----385----Address---$_currentAddress');
-    }).catchError((e) {
-      debugPrint(e);
-    });
   }
 
   @override

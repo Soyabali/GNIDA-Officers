@@ -3,7 +3,6 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'base_api.dart';
 
 class LoginRepo {
   List dataList = [];
@@ -38,7 +37,6 @@ http.StreamedResponse response = await request.send();
       } else if(response.statusCode == 401) {
 
     }else{
-        var status = response.statusCode;
         debugPrint(response.reasonPhrase);
         return dataList;
       }

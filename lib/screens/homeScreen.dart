@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:noidaone/screens/MarkPointScreen.dart';
@@ -14,7 +12,6 @@ import 'package:noidaone/screens/tabbarHome.dart';
 import 'package:noidaone/screens/tabbarHomeToday.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Controllers/userModuleRight.dart';
-import '../resources/app_text_style.dart';
 import 'complaintStatus.dart';
 import 'dailyActivity.dart';
 
@@ -128,42 +125,12 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     //  userContributionResponse();
     super.didUpdateWidget(oldWidget);
   }
-  // backbutton handle
-
-  Future<bool> _onWillPop() async {
-    return (await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Are you sure?',style: AppTextStyle
-            .font14OpenSansRegularBlackTextStyle,),
-        content: new Text('Do you want to exit app',style: AppTextStyle
-            .font14OpenSansRegularBlackTextStyle,),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false), //<-- SEE HERE
-            child: new Text('No'),
-          ),
-          TextButton(
-            onPressed: () {
-              //  goToHomePage();
-              // exit the app
-              exit(0);
-            }, //Navigator.of(context).pop(true), // <-- SEE HERE
-            child: new Text('Yes'),
-          ),
-        ],
-      ),
-    )) ??
-        false;
-  }
-
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
     return WillPopScope(
-     // onWillPop: () {  },
       onWillPop: () async {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -517,7 +484,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                     itemBuilder: (context, index) {
                       var activity = userModuleRightList[index];
                       var sActivityName = activity['sActivityName'];
-                      final parts = sActivityName.split('\n');  // Split on the newline character
 
                       return InkWell(
                         onTap: () {

@@ -85,7 +85,6 @@ class _MyHomePageState extends State<patholeDectionForm> with WidgetsBindingObse
   final distDropdownFocus = GlobalKey();
   final subCategoryFocus = GlobalKey();
   final wardFocus = GlobalKey();
-  File? _imageFile;
   var _selectedWardId2;
   final _formKey = GlobalKey<FormState>();
   var iUserTypeCode;
@@ -691,12 +690,6 @@ class _MyHomePageState extends State<patholeDectionForm> with WidgetsBindingObse
                                     String? sContactNo = prefs.getString('sContactNo');
                                     // random number
                                     String random12DigitNumber = generateRandom20DigitNumber();
-                                    // datrFormat
-                                    DateTime now = DateTime.now();
-                                    // Define the format
-                                    String formattedDate = DateFormat('dd/MMM/yyyy hh:mm').format(now);
-                                    // TextFormField value
-
                                     var location = _addressController.text.trim();
                                     var complaintDescription = _landmarkController.text.trim();
                                     // Check Form Validation

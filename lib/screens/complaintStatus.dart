@@ -53,7 +53,7 @@ class _SchedulePointScreenState extends State<ComplaintScreen> {
   double? long;
   GeneralFunction generalfunction = GeneralFunction();
   final distDropdownFocus = GlobalKey();
-  double _borderRadius = 0.0; // Initial border radius
+   // Initial border radius
   var result,msg;
 
   // Get a api response
@@ -256,12 +256,9 @@ class _SchedulePointScreenState extends State<ComplaintScreen> {
             // scroll item after search bar
             Expanded(
               child: ListView.builder(
-                itemCount: _filteredData.length ?? 0,
+                itemCount: _filteredData.length,
                 itemBuilder: (context, index) {
                 Map<String, dynamic> item = _filteredData[index];
-
-                final status = _filteredData[index]['sStatusName'];
-                final buttonColor = status == 'Pending' ? Colors.red : Colors.green;
 
                 return Padding(
                     padding: const EdgeInsets.only(left: 8, top: 8, right: 8),

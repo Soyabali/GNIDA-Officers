@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:noidaone/Controllers/usercontributionMonthRepo.dart';
-import '../Controllers/userContributionRepo.dart';
+
 
 class TabPageMonth extends StatefulWidget {
   final Function(String,int,String,int,String,int) onDataReceived;
@@ -18,7 +17,6 @@ class _TabPageState extends State<TabPageMonth> {
   void fetchDataAndSendDataToParent(String nameFirst,int pointFirst,String nameSecond,int pointSecond,
       String nameThird,int pointThird)
   {
-    String data = 'Some data from TabTodayPage';
     // Access the callback function through widget.onDataReceived
     widget.onDataReceived(nameFirst,pointFirst,nameSecond,pointSecond,nameThird,pointThird);
   }

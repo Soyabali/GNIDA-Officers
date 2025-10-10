@@ -33,33 +33,3 @@ class CustomDialog extends StatelessWidget {
     }
   }
 }
-// show bottomSheet
-void _showBottomSheet(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    builder: (BuildContext context) {
-      return Container(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Text(
-              'This is a TextView in the bottom sheet.',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18.0),
-            ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                // Add your button onPressed logic here
-                Navigator.pop(context); // Close the bottom sheet
-              },
-              child: Text('Close'),
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}

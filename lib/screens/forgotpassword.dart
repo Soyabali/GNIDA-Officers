@@ -1,17 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:noidaone/screens/otpverification.dart';
 import 'package:oktoast/oktoast.dart';
 import '../Controllers/forgotpasswordrepo.dart';
 import '../resources/app_strings.dart';
 import '../resources/values_manager.dart';
-import 'changePassword.dart';
-import 'homeScreen.dart';
 import 'loginScreen_2.dart';
-import 'mypoint.dart';
-import 'notification.dart';
 
 class ForgotPassword extends StatelessWidget {
 
@@ -44,8 +38,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final TextEditingController _phoneNumberController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
-  bool _isObscured = true;
 
   @override
   Widget build(BuildContext context) {

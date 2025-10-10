@@ -46,7 +46,6 @@ http.StreamedResponse response = await request.send();
         });
         return dataList;
       } else {
-        var status = response.statusCode;
         debugPrint(response.reasonPhrase);
         return dataList;
       }
