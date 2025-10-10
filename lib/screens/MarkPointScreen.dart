@@ -532,8 +532,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
                         BoxShadow(
-                          color:
-                              Colors.grey.withOpacity(0.5), // Color of the shadow
+                          color: Colors.grey.withOpacity(0.5), // Color of the shadow
                           spreadRadius: 5, // Spread radius
                           blurRadius: 7, // Blur radius
                           offset: Offset(0, 3), // Offset of the shadow
@@ -866,7 +865,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                         style: TextStyle(color: Colors.red[700]),
                                       )
                               ]),
-
                           ElevatedButton(
                               onPressed: () async {
                                 // random number
@@ -903,8 +901,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                     print('---todayDate--$todayDate');
                                     print('---userId--$userId');
 
-
                                     print('---call Api---');
+
                                     var markPointSubmitResponse =
                                       await MarkPointSubmitRepo().markpointsubmit(
                                           context,
@@ -938,14 +936,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                   }
                                 }
                                 if(result2=="1"){
-                                  print('------823----xxxxxxxxxxxxxxx----');
-                                  print('------823---result2  -xxxxxxxxxxxxxxx--$result2');
+                                  print('------939----msg2----$msg2');
+                                  print('------940---result2  -xxxxxxxxxxxxxxx--$result2');
                                     displayToast(msg2);
-                                    //Navigator.pop(context);
+                                    Navigator.pop(context);
+
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => const HomePage()),
+                                          builder: (context) => const SupervisiorDashBoard()),
                                     );
                                 }else{
                                   displayToast(msg2);

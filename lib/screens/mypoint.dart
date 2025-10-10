@@ -1,9 +1,7 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Controllers/myPointRepo.dart';
@@ -11,6 +9,7 @@ import '../resources/app_text_style.dart';
 import 'generalFunction.dart';
 
 class Mypoint extends StatelessWidget {
+
   const Mypoint({super.key});
 
   @override
@@ -37,7 +36,9 @@ class MyPointPage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyPointPage> {
+
   List<Map<String, dynamic>>? myPoinList;
+
   var totalPoint;
   String? sName, sContactNo;
   GeneralFunction generalFunction = GeneralFunction();
@@ -116,11 +117,6 @@ class _MyHomePageState extends State<MyPointPage> {
             leading: GestureDetector(
                 onTap: () {
                   Navigator.pop(context);
-                  // Navigator.pop(context);
-                  //
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) => SupervisiorDashBoard()));
-                  //Navigator.pop(context);
                 },
                 child:const Padding(
                   padding: EdgeInsets.all(8.0),
@@ -139,18 +135,6 @@ class _MyHomePageState extends State<MyPointPage> {
               color: Colors.white, // 👈 sets drawer icon color to white
             ),
           ),
-            //appBar: generalFunction.appbarFunction("My Points"),
-          // appBar: AppBar(
-          //   backgroundColor: Color(0xFF255899),
-          //   title: const Text(
-          //     'My Points',
-          //     style: TextStyle(
-          //         fontFamily: 'Montserrat',
-          //         color: Colors.white,
-          //         fontSize: 18.0,
-          //         fontWeight: FontWeight.bold),
-          //   ),
-          // ),
           // Drawer
           drawer: generalFunction.drawerFunction(context, '$sName', '$sContactNo'),
 
@@ -297,7 +281,7 @@ class _MyHomePageState extends State<MyPointPage> {
                                        children: <Widget>
                                        [
                                          Text(
-                                           '${index + 1} ',
+                                           '${index + 1}',
                                            style: GoogleFonts.lato(
                                              textStyle: const TextStyle(
                                                color: Color(0xFF707d83),
@@ -366,387 +350,10 @@ class _MyHomePageState extends State<MyPointPage> {
                                  );
                                },
                              ),
-                             // child: ListView.builder(
-                             //   itemCount: userContributionList != null
-                             //       ? userContributionList!.length - 3
-                             //       : 0,
-                             //   itemBuilder: (context, index) {
-                             //     return Card(
-                             //       shape: RoundedRectangleBorder(
-                             //         borderRadius: BorderRadius.circular(15.0),
-                             //         side: BorderSide(color: Colors.grey.shade300, width: 1),
-                             //       ),
-                             //       elevation: 2,
-                             //       color: Colors.white,
-                             //       child: Container(
-                             //         height: 48,
-                             //         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
-                             //         child: Row(
-                             //           mainAxisAlignment: MainAxisAlignment.start,
-                             //           children: <Widget>[
-                             //             Text(
-                             //               '${index + 4} .',
-                             //               style: GoogleFonts.lato(
-                             //                 textStyle: const TextStyle(
-                             //                   color: Color(0xFF707d83),
-                             //                   fontSize: 14.0,
-                             //                   letterSpacing: .5,
-                             //                   fontWeight: FontWeight.normal,
-                             //                 ),
-                             //               ),
-                             //             ),
-                             //             SizedBox(width: 8),
-                             //             const Icon(
-                             //               Icons.person,
-                             //               size: 20,
-                             //               color: Color(0xFF3375af),
-                             //             ),
-                             //             SizedBox(width: 8),
-                             //             Expanded(
-                             //               child: Text(
-                             //                 userContributionList?[index + 3]['sName'].toString() ?? '',
-                             //                 overflow: TextOverflow.ellipsis,
-                             //                 textAlign: TextAlign.start,
-                             //                 style: GoogleFonts.lato(
-                             //                   textStyle: const TextStyle(
-                             //                     color: Color(0xFF707d83),
-                             //                     fontSize: 14.0,
-                             //                     letterSpacing: .5,
-                             //                     fontWeight: FontWeight.normal,
-                             //                   ),
-                             //                 ),
-                             //               ),
-                             //             ),
-                             //             Padding(
-                             //               padding: const EdgeInsets.only(right: 10),
-                             //               child: Row(
-                             //                 mainAxisAlignment: MainAxisAlignment.end,
-                             //                 children: [
-                             //                   Text(
-                             //                     userContributionList?[index + 3]['iEarnedPoints'].toString() ?? '',
-                             //                     style: GoogleFonts.lato(
-                             //                       textStyle: const TextStyle(
-                             //                         color: Color(0xFFad964a),
-                             //                         fontSize: 14.0,
-                             //                         letterSpacing: .5,
-                             //                         fontWeight: FontWeight.normal,
-                             //                       ),
-                             //                     ),
-                             //                   ),
-                             //                   SizedBox(width: 8),
-                             //                   Text(
-                             //                     'Points',
-                             //                     style: GoogleFonts.lato(
-                             //                       textStyle: const TextStyle(
-                             //                         color: Color(0xFFad964a),
-                             //                         fontSize: 14.0,
-                             //                         letterSpacing: .5,
-                             //                         fontWeight: FontWeight.normal,
-                             //                       ),
-                             //                     ),
-                             //                   ),
-                             //                 ],
-                             //               ),
-                             //             ),
-                             //           ],
-                             //         ),
-                             //       ),
-                             //     );
-                             //   },
-                             // ),
-
-
-                             // child: ListView.builder(
-                             //   itemCount: userContributionList != null
-                             //       ? userContributionList!.length - 3
-                             //       : 0,
-                             //   itemBuilder: (context, index) {
-                             //     return Padding(
-                             //       padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-                             //       child: Card(
-                             //         shape: RoundedRectangleBorder(
-                             //           borderRadius: BorderRadius.circular(15.0),
-                             //           side: BorderSide(color: Colors.grey.shade300, width: 1),
-                             //         ),
-                             //         elevation: 2,
-                             //         color: Colors.white,
-                             //         child: Container(
-                             //           height: 48,
-                             //           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
-                             //           child: Row(
-                             //             mainAxisAlignment: MainAxisAlignment.start,
-                             //             children: <Widget>[
-                             //               Text(
-                             //                 '${index + 4} .',
-                             //                 style: GoogleFonts.lato(
-                             //                   textStyle: const TextStyle(
-                             //                     color: Color(0xFF707d83),
-                             //                     fontSize: 14.0,
-                             //                     letterSpacing: .5,
-                             //                     fontWeight: FontWeight.normal,
-                             //                   ),
-                             //                 ),
-                             //               ),
-                             //               SizedBox(width: 8),
-                             //               const Icon(
-                             //                 Icons.person,
-                             //                 size: 20,
-                             //                 color: Color(0xFF3375af),
-                             //               ),
-                             //               SizedBox(width: 8),
-                             //               Expanded(
-                             //                 child: Text(
-                             //                   userContributionList?[index + 3]['sName'].toString() ?? '',
-                             //                   overflow: TextOverflow.ellipsis,
-                             //                   textAlign: TextAlign.start,
-                             //                   style: GoogleFonts.lato(
-                             //                     textStyle: const TextStyle(
-                             //                       color: Color(0xFF707d83),
-                             //                       fontSize: 14.0,
-                             //                       letterSpacing: .5,
-                             //                       fontWeight: FontWeight.normal,
-                             //                     ),
-                             //                   ),
-                             //                 ),
-                             //               ),
-                             //               Padding(
-                             //                 padding: const EdgeInsets.only(right: 10),
-                             //                 child: Row(
-                             //                   mainAxisAlignment: MainAxisAlignment.end,
-                             //                   children: [
-                             //                     Text(
-                             //                       userContributionList?[index + 3]['iEarnedPoints'].toString() ?? '',
-                             //                       style: GoogleFonts.lato(
-                             //                         textStyle: const TextStyle(
-                             //                           color: Color(0xFFad964a),
-                             //                           fontSize: 14.0,
-                             //                           letterSpacing: .5,
-                             //                           fontWeight: FontWeight.normal,
-                             //                         ),
-                             //                       ),
-                             //                     ),
-                             //                     SizedBox(width: 8),
-                             //                     Text(
-                             //                       'Points',
-                             //                       style: GoogleFonts.lato(
-                             //                         textStyle: const TextStyle(
-                             //                           color: Color(0xFFad964a),
-                             //                           fontSize: 14.0,
-                             //                           letterSpacing: .5,
-                             //                           fontWeight: FontWeight.normal,
-                             //                         ),
-                             //                       ),
-                             //                     ),
-                             //                   ],
-                             //                 ),
-                             //               ),
-                             //             ],
-                             //           ),
-                             //         ),
-                             //       ),
-                             //     );
-                             //   },
-                             // ),
                            ),
                          ),
                        ],
                      ),
-                //     child: ListView(
-                //   children: <Widget>[
-                //     Padding(
-                //       padding:
-                //           const EdgeInsets.only(left: 15, right: 5, bottom: 15),
-                //       child: Container(
-                //         height: 430,
-                //         width: double.infinity,
-                //         decoration: BoxDecoration(
-                //           borderRadius: BorderRadius.circular(20),
-                //         ),
-                //         child: ListView.builder(
-                //           itemCount: myPoinList != null ? myPoinList!.length : 0,
-                //           itemBuilder: (context, index) {
-                //             return Card(
-                //               shape: RoundedRectangleBorder(
-                //                 borderRadius: BorderRadius.circular(15.0),
-                //                 side: BorderSide(color: Colors.grey.shade300, width: 1),
-                //               ),
-                //               elevation: 2,
-                //               color: Colors.white,
-                //               child: Container(
-                //                 height: 48,
-                //                 padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
-                //                 child: Row(
-                //                   mainAxisAlignment: MainAxisAlignment.start,
-                //                   children: <Widget>[
-                //                     Text(
-                //                       '${index + 1} .',
-                //                       style: GoogleFonts.lato(
-                //                         textStyle: const TextStyle(
-                //                           color: Color(0xFF707d83),
-                //                           fontSize: 14.0,
-                //                           letterSpacing: .5,
-                //                           fontWeight: FontWeight.normal,
-                //                         ),
-                //                       ),
-                //                     ),
-                //                     SizedBox(width: 8),
-                //                     const Icon(
-                //                       Icons.calendar_month,
-                //                       size: 20,
-                //                       color: Color(0xFF3375af),
-                //                     ),
-                //                     SizedBox(width: 8),
-                //                     Expanded(
-                //                       child: Text(
-                //                         myPoinList?[index]['dMonth'].toString() ?? '',
-                //                         overflow: TextOverflow.ellipsis,
-                //                         textAlign: TextAlign.start,
-                //                         style: GoogleFonts.lato(
-                //                           textStyle: const TextStyle(
-                //                             color: Color(0xFF707d83),
-                //                             fontSize: 14.0,
-                //                             letterSpacing: .5,
-                //                             fontWeight: FontWeight.normal,
-                //                           ),
-                //                         ),
-                //                       ),
-                //                     ),
-                //                     Padding(
-                //                       padding: const EdgeInsets.only(right: 10),
-                //                       child: Row(
-                //                         mainAxisAlignment: MainAxisAlignment.end,
-                //                         children: [
-                //                           Text(
-                //                             myPoinList?[index]['iEarnedPoint'].toString() ?? '',
-                //                             style: GoogleFonts.lato(
-                //                               textStyle: const TextStyle(
-                //                                 color: Color(0xFFad964a),
-                //                                 fontSize: 14.0,
-                //                                 letterSpacing: .5,
-                //                                 fontWeight: FontWeight.normal,
-                //                               ),
-                //                             ),
-                //                           ),
-                //                           SizedBox(width: 8),
-                //                           Text(
-                //                             'Points',
-                //                             style: GoogleFonts.lato(
-                //                               textStyle: const TextStyle(
-                //                                 color: Color(0xFFad964a),
-                //                                 fontSize: 14.0,
-                //                                 letterSpacing: .5,
-                //                                 fontWeight: FontWeight.normal,
-                //                               ),
-                //                             ),
-                //                           ),
-                //                         ],
-                //                       ),
-                //                     ),
-                //                   ],
-                //                 ),
-                //               ),
-                //             );
-                //           },
-                //         ),
-                //
-                //
-                //         // child: ListView.builder(
-                //         //   itemCount: myPoinList != null ? myPoinList!.length : 0,
-                //         //   itemBuilder: (context, index) {
-                //         //     return Padding(
-                //         //       padding: const EdgeInsets.symmetric(
-                //         //           vertical: 4.0, horizontal: 8.0),
-                //         //       child: Card(
-                //         //         shape: RoundedRectangleBorder(
-                //         //           borderRadius: BorderRadius.circular(15.0),
-                //         //           side: BorderSide(
-                //         //               color: Colors.grey.shade300, width: 1),
-                //         //         ),
-                //         //         elevation: 2,
-                //         //         color: Colors.white,
-                //         //         child: Container(
-                //         //           height: 48,
-                //         //           padding: const EdgeInsets.symmetric(
-                //         //               vertical: 8.0, horizontal: 10.0),
-                //         //           child: Row(
-                //         //             mainAxisAlignment: MainAxisAlignment.start,
-                //         //             children: <Widget>[
-                //         //               Text(
-                //         //                 '${index+1} .',
-                //         //                 style: GoogleFonts.lato(
-                //         //                   textStyle: const TextStyle(
-                //         //                     color: Color(0xFF707d83),
-                //         //                     fontSize: 14.0,
-                //         //                     letterSpacing: .5,
-                //         //                     fontWeight: FontWeight.normal,
-                //         //                   ),
-                //         //                 ),
-                //         //               ),
-                //         //               SizedBox(width: 8),
-                //         //               const Icon(
-                //         //                 Icons.calendar_month,
-                //         //                 size: 20,
-                //         //                 color: Color(0xFF3375af),
-                //         //               ),
-                //         //               SizedBox(width: 8),
-                //         //               Expanded(
-                //         //                 child: Text(
-                //         //                   myPoinList?[index]['dMonth'].toString() ?? '',
-                //         //                   overflow: TextOverflow.ellipsis,
-                //         //                   textAlign: TextAlign.start,
-                //         //                   style: GoogleFonts.lato(
-                //         //                     textStyle: const TextStyle(
-                //         //                       color: Color(0xFF707d83),
-                //         //                       fontSize: 14.0,
-                //         //                       letterSpacing: .5,
-                //         //                       fontWeight: FontWeight.normal,
-                //         //                     ),
-                //         //                   ),
-                //         //                 ),
-                //         //               ),
-                //         //               Padding(
-                //         //                 padding: const EdgeInsets.only(right: 10),
-                //         //                 child: Row(
-                //         //                   mainAxisAlignment:
-                //         //                       MainAxisAlignment.end,
-                //         //                   children: [
-                //         //                     Text(
-                //         //                       myPoinList?[index]['iEarnedPoint'].toString() ?? '',
-                //         //                       style: GoogleFonts.lato(
-                //         //                         textStyle: const TextStyle(
-                //         //                           color: Color(0xFFad964a),
-                //         //                           fontSize: 14.0,
-                //         //                           letterSpacing: .5,
-                //         //                           fontWeight: FontWeight.normal,
-                //         //                         ),
-                //         //                       ),
-                //         //                     ),
-                //         //                     SizedBox(width: 8),
-                //         //                     Text(
-                //         //                       'Points',
-                //         //                       style: GoogleFonts.lato(
-                //         //                         textStyle: const TextStyle(
-                //         //                           color: Color(0xFFad964a),
-                //         //                           fontSize: 14.0,
-                //         //                           letterSpacing: .5,
-                //         //                           fontWeight: FontWeight.normal,
-                //         //                         ),
-                //         //                       ),
-                //         //                     ),
-                //         //                   ],
-                //         //                 ),
-                //         //               ),
-                //         //             ],
-                //         //           ),
-                //         //         ),
-                //         //       ),
-                //         //     );
-                //         //   },
-                //         // ),
-                //       ),
-                //     ),
-                //   ],
-                // )
                 ),
               )
             ],

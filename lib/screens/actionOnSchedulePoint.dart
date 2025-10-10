@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -184,41 +185,26 @@ class _ActionOnSchedultPointScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      // appBar: AppBar(
-      //     backgroundColor: const Color(0xFFD31F76),
-      //     leading: GestureDetector(
-      //         onTap: () {
-      //           //Navigator.pop(context);
-      //           Navigator.push(context,
-      //               MaterialPageRoute(builder: (context) => const GnoidaOfficersHome()));
-      //         },
-      //         child: const Padding(
-      //           padding: EdgeInsets.all(8.0),
-      //           child: Icon(Icons.arrow_back_ios),
-      //         )),
-      //     title: const Text(
-      //       'Action on Malba Request',
-      //       style: TextStyle(
-      //           fontFamily: 'Montserrat',
-      //           color: Colors.white,
-      //           fontSize: 18.0,
-      //           fontWeight: FontWeight.bold),
-      //     ),
-      //     centerTitle: true,
-      //     elevation: 0,
-      //     iconTheme:  Theme.of(context).iconTheme.copyWith(color: Colors.white
-      //     )),
-      appBar: AppBar(
-        backgroundColor: Color(0xFF255899),
+      appBar:AppBar(
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          // Status bar color
+          statusBarColor: Color(0xFF8b2355),
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.light,
+          // Status bar brightness (optional)
+          // For Android (dark icons)
+          // For iOS (dark icons)
+        ),
+        backgroundColor:  const Color(0xFFD31F76),
         leading: GestureDetector(
             onTap: () {
               Navigator.pop(context);
             },
-            child: const Padding(
+            child:const Padding(
               padding: EdgeInsets.all(8.0),
-              child: Icon(Icons.arrow_back_ios, color: Colors.white),
+              child: Icon(Icons.arrow_back_ios),
             )),
-        title: const Text(
+        title:const Text(
           'Action on Scheduled Point',
           style: TextStyle(
               fontFamily: 'Montserrat',
@@ -566,9 +552,10 @@ class _ActionOnSchedultPointScreenState
                     }
                     if (result == "1") {
                           displayToast(mag);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const HomePage()));
+                          Navigator.pop(context);
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(builder: (context) => const HomePage()));
 
                     }else{
                       displayToast(mag);

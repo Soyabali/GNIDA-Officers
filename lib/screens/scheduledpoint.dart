@@ -308,7 +308,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                                   borderRadius:
                                                       BorderRadius.circular(15.0),
                                                   border: Border.all(
-                                                    color: Color(0xFF255899), // Outline border color
+                                                    color: Colors.black, // Outline border color
                                                     width: 0.5, // Outline border width
                                                   ),
                                                   color: Colors.white,
@@ -318,7 +318,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                                     "${index + 1}",
                                                     style: const TextStyle(
                                                         fontFamily: 'Montserrat',
-                                                        color: Color(0xFF255899),
+                                                        color: Colors.black,
                                                         fontSize: 14.0,
                                                         fontWeight: FontWeight.bold),
                                                   ),
@@ -330,21 +330,24 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: <Widget>[
+                                                // Text(
+                                                //   item['sPointTypeName'] ?? '',
+                                                //   style: const TextStyle(
+                                                //       fontFamily: 'Montserrat',
+                                                //       color: Color(0xff3f617d),
+                                                //       fontSize: 14.0,
+                                                //       fontWeight: FontWeight.bold),
+                                                // ),
+                                                // Text(
+                                                //   item['sPointTypeName'] ?? '',
+                                                // style: AppTextStyle.font16OpenSansRegularBlackTextStyle),
+                                          SizedBox(width: 4),
+                                          Text(item['sPointTypeName'] ?? '',
+                                              style: AppTextStyle.font14OpenSansRegularBlackTextStyle),
                                                 Text(
-                                                  item['sPointTypeName'] ?? '',
-                                                  style: const TextStyle(
-                                                      fontFamily: 'Montserrat',
-                                                      color: Color(0xff3f617d),
-                                                      fontSize: 14.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                                const Text(
                                                   'Point Name',
-                                                  style: TextStyle(
-                                                      fontFamily: 'Montserrat',
-                                                      color: Color(0xff3f617d),
-                                                      fontSize: 12.0,
-                                                      fontWeight: FontWeight.bold),
+                                                    style: AppTextStyle
+                                                        .font12OpenSansRegularBlack45TextStyle,
                                                 ),
                                               ],
                                             )
@@ -356,11 +359,11 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                         padding: const EdgeInsets.only(left: 15, right: 15),
                                         child: Container(
                                           height: 0.5,
-                                          color: Color(0xff3f617d),
+                                          color: Colors.black,
                                         ),
                                       ),
                                       SizedBox(height: 5),
-                                      const Padding(
+                                       Padding(
                                         padding: EdgeInsets.only(left: 4,right: 4),
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.start,
@@ -374,11 +377,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                             //  '‣ Sector',
                                             Text(
                                               'Sector',
-                                              style: TextStyle(
-                                                  fontFamily: 'Montserrat',
-                                                  color: Color(0xFF255899),
-                                                  fontSize: 14.0,
-                                                  fontWeight: FontWeight.bold),
+                                                style: AppTextStyle.font14OpenSansRegularBlackTextStyle
                                             )
                                           ],
                                         ),
@@ -387,28 +386,20 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                         padding: EdgeInsets.only(left: 19),
                                         child: Text(
                                           item['sSectorName'] ?? '',
-                                          style: const TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Color(0xff3f617d),
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.bold),
+                                            style: AppTextStyle.font12OpenSansRegularBlack45TextStyle
                                         ),
                                       ),
-                                      const Padding(
+                                      Padding(
                                         padding: EdgeInsets.only(left: 4,right: 4),
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           children: <Widget>[
                                             Icon(Icons.forward,
-                                                size: 10, color: Color(0xff3f617d)),
+                                                size: 10, color: Colors.black),
                                             SizedBox(width: 5),
                                             Text(
                                               'Location',
-                                              style: TextStyle(
-                                                  fontFamily: 'Montserrat',
-                                                  color: Color(0xFF255899),
-                                                  fontSize: 14.0,
-                                                  fontWeight: FontWeight.bold),
+                                                style: AppTextStyle.font14OpenSansRegularBlackTextStyle
                                             )
                                           ],
                                         ),
@@ -417,11 +408,7 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                         padding: EdgeInsets.only(left: 19),
                                         child: Text(
                                           item['sLocation'] ?? '',
-                                          style: const TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Color(0xff3f617d),
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.bold),
+                                          style: AppTextStyle.font12OpenSansRegularBlack45TextStyle
                                         ),
                                       ),
                                       SizedBox(height: 10),
@@ -459,20 +446,16 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                                           // toast
                                                         }
                                                       },
-                                                      child: const Text(
+                                                      child:Text(
                                                         'View Image',
-                                                        style: TextStyle(
-                                                            fontFamily: 'Montserrat',
-                                                            color: Color(0xFF255899),
-                                                            fontSize: 14.0,
-                                                            fontWeight: FontWeight.bold),
+                                                          style: AppTextStyle.font14OpenSansRegularBlackTextStyle
                                                       ),
                                                     ),
                                                     const SizedBox(width: 5),
                                                     const Icon(
                                                       Icons.forward_sharp,
                                                       size: 15,
-                                                      color: Color(0xFF255899),
+                                                      color: Colors.black,
                                                     )
                                                   ],
                                                 ),
@@ -501,28 +484,21 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                                   },
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(8.0),
+                                                    EdgeInsets.all(8.0),
                                                     child: Container(
-                                                      child: const Row(
+                                                      child: Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment.start,
                                                         children: [
                                                           Text(
                                                             'Action',
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'Montserrat',
-                                                                color:
-                                                                    Color(0xFF255899),
-                                                                fontSize: 14.0,
-                                                                fontWeight:
-                                                                    FontWeight.bold),
+                                                              style: AppTextStyle.font14OpenSansRegularBlackTextStyle
                                                           ),
                                                           SizedBox(width: 5),
-                                                          Icon(
+                                                          const Icon(
                                                             Icons.forward_sharp,
                                                             size: 15,
-                                                            color: Color(0xFF255899),
+                                                            color: Colors.black,
                                                           ),
                                                         ],
                                                       ),
@@ -569,23 +545,17 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                                           displayToast("Please check the location.");
                                                         }
                                                       },
-                                                      child: const Row(
+                                                      child:Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment.start,
                                                         children: [
-                                                          Text('Navigate',style: TextStyle(
-                                                                  fontFamily:
-                                                                      'Montserrat',
-                                                                  color:
-                                                                      Color(0xFF255899),
-                                                                  fontSize: 14.0,
-                                                                  fontWeight:
-                                                                      FontWeight.bold)),
+                                                          Text('Navigate',style: AppTextStyle.font14OpenSansRegularBlackTextStyle
+                                                          ),
                                                           SizedBox(width: 5),
-                                                          Icon(
+                                                          const Icon(
                                                             Icons.forward_sharp,
                                                             size: 15,
-                                                            color: Color(0xFF255899),
+                                                            color: Colors.black,
                                                           ),
                                                           // SizedBox(width: 5),
                                                           //Icon(Icons.forward_sharp,color: Color(0xFF255899))

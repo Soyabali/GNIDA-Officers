@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:noidaone/resources/color_manager.dart';
 import 'package:noidaone/screens/homeScreen.dart';
 import 'package:noidaone/screens/homepagesecod.dart';
 import 'package:noidaone/screens/splacescreen.dart';

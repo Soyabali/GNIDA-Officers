@@ -9,6 +9,7 @@ import 'baseurl.dart';
 
 class MarkPointSubmitRepo {
   // this is a loginApi call functin
+  var markPointSubmitApi;
   GeneralFunction generalFunction = GeneralFunction();
 
   Future markpointsubmit(
@@ -46,7 +47,7 @@ class MarkPointSubmitRepo {
 
       /// TODO CHANGE HERE
       var endPoint = "MarkLocation/MarkLocation";
-      var markPointSubmitApi = "$baseURL$endPoint";
+      markPointSubmitApi = "$baseURL$endPoint";
       print('------------39---markPointSubmitApi---$markPointSubmitApi');
 
       String jsonResponse =
@@ -73,10 +74,11 @@ class MarkPointSubmitRepo {
 //Your API call
       var headers = {'token': '$token', 'Content-Type': 'application/json'};
 
+
+
       var request = http.Request(
           'POST',
-          Uri.parse(
-              'https://upegov.in/noidaoneapi/Api/MarkLocation/MarkLocation'));
+          Uri.parse('$markPointSubmitApi'));
       request.body =
           updatedJsonResponse; // Assign the JSON string to the request body
       request.headers.addAll(headers);

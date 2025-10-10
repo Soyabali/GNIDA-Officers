@@ -13,6 +13,7 @@ import '../../shopSurvey.dart' show ShopSurvey, ShopSurveyHome;
 
 class SupervisiorDashBoard extends StatefulWidget {
 
+
   const SupervisiorDashBoard({super.key});
 
   @override
@@ -337,11 +338,9 @@ class _GnoidaOfficersHomeState extends State<SupervisiorDashBoard> with TickerPr
     );
   }
 
-
  void getValueFromSharedPreference() async{
    SharedPreferences prefs = await SharedPreferences.getInstance();
    // iAgencyCode = prefs.getString('iUserTypeCode').toString();
-
    setState(() {
      sName = prefs.getString('sName').toString();
      sContactNo = prefs.getString('sContactNo').toString();

@@ -1,19 +1,14 @@
 import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../Controllers/changepasswordrepo.dart';
 import '../resources/app_text_style.dart';
 import '../resources/values_manager.dart';
 import 'generalFunction.dart';
-import 'homeScreen.dart';
 import 'loginScreen_2.dart';
-import 'mypoint.dart';
-import 'notification.dart';
+
 
 class ChangePassWord extends StatelessWidget {
   const ChangePassWord({super.key});
@@ -64,135 +59,6 @@ class _MyHomePageState extends State<ChangePassWordHome> {
   var  changePasswordRepo;
   String? sName, sContactNo;
 
-  void _showBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          height: 150,
-          color: Colors.white,
-          child: GestureDetector(
-            onTap: () {
-              print('---------');
-            },
-            child: Container(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  const Text(
-                    "Logout",
-                    style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      color: Color(0xff3f617d),
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  const Text(
-                    "Do you want to logout?",
-                    style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      color: Color(0xff3f617d),
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          height: 30,
-                          width: 90,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              // Fetch info from a local database and remove that info
-                              SharedPreferences prefs =
-                              await SharedPreferences.getInstance();
-                              prefs.remove("iUserId");
-                              prefs.remove("sName");
-                              prefs.remove("sContactNo");
-                              prefs.remove("sDesgName");
-                              prefs.remove("iDesgCode");
-                              prefs.remove("iDeptCode");
-                              prefs.remove("iUserTypeCode");
-                              prefs.remove("sToken");
-                              prefs.remove("dLastLoginAt");
-                              //Return String
-                              // String? sName = prefs.getString('sName');
-                              //print('---745--$sName');
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) =>
-                              //         const LoginScreen_2()));
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginScreen_2()),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              backgroundColor: Color(0xFF255899),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    20), // Adjust as needed
-                              ), // Text color
-                            ),
-                            child: const Text(
-                              'Yes',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        Container(
-                          height: 30,
-                          width: 90,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              backgroundColor: Colors.red,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    20), // Adjust as needed
-                              ), // Text color
-                            ),
-                            child: const Text(
-                              'No',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   @override
   void initState() {
@@ -290,19 +156,6 @@ class _MyHomePageState extends State<ChangePassWordHome> {
           ),
         ),
 
-        // appBar: generalFunction.appbarFunction("Change PassWord"),
-
-        // appBar: AppBar(
-        //   backgroundColor: Color(0xFF255899),
-        //   title: const Text(
-        //     'Change PassWord',
-        //     style: TextStyle(
-        //         fontFamily: 'Montserrat',
-        //         color: Colors.white,
-        //         fontSize: 18.0,
-        //         fontWeight: FontWeight.bold),
-        //   ),
-        // ),
         // drawer
         drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
 
@@ -638,15 +491,6 @@ class _MyHomePageState extends State<ChangePassWordHome> {
         fontSize: 16.0,
       ),
     );
-    // Fluttertoast.showToast(
-    //     msg: msg,
-    //     toastLength: Toast.LENGTH_SHORT,
-    //     gravity: ToastGravity.CENTER,
-    //     timeInSecForIosWeb: 1,
-    //     backgroundColor: Colors.red,
-    //     textColor: Colors.white,
-    //     fontSize: 16.0
-    // );
 
   }
 }

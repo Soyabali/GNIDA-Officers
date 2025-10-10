@@ -1,10 +1,6 @@
-import 'dart:convert';
 import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
-import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:noidaone/Controllers/ajencyUserRepo.dart';
 import 'package:noidaone/Controllers/complaintForwardRepo.dart';
@@ -56,12 +52,9 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
   TextEditingController _searchController = TextEditingController();
   double? lat;
   double? long;
-  var _dropDownAgency;
   var _dropDownAgency2;
   var _dropDownValueUserAgency;
   final distDropdownFocus = GlobalKey();
-  final _formKey = GlobalKey<FormState>();
-  double _borderRadius = 0.0; // Initial border radius
   var result, msg;
   var userAjencyData;
 
@@ -70,16 +63,15 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
   String? sName, sContactNo;
   GeneralFunction generalFunction = GeneralFunction();
   GeneralFunction generalfunction = GeneralFunction();
-  // Function to toggle between border radii
-  // Get a api response
+
 
   holdComplaintResponse() async {
     pendingInternalComplaintList =
     await HoldComplaintRepo().holdComplaintRepo(context);
     _filteredData = List<Map<String, dynamic>>.from(pendingInternalComplaintList ?? []);
 
-    print('--44--$pendingInternalComplaintList');
-    print('--45--$_filteredData');
+    print('--73--$pendingInternalComplaintList');
+    print('--74--$_filteredData');
     setState(() {});
   }
 
@@ -91,13 +83,8 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
       int? pointFirst = prefs.getInt('pointFirst');
       sName = prefs.getString('sName') ?? "";
       sContactNo = prefs.getString('sContactNo') ?? "";
-      print("------146---$nameFirst");
-      print("------1147---$pointFirst");
-      print("------177---$sName");
-      print("------178---$sContactNo");
     });
     setState(() {
-
     });
   }
 
@@ -159,8 +146,6 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
 
     lat = position.latitude;
     long = position.longitude;
-    print('-----------105----$lat');
-    print('-----------106----$long');
     // setState(() {
     // });
     debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
@@ -177,14 +162,6 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
         fontSize: 16.0,
       ),
     );
-    // Fluttertoast.showToast(
-    //     msg: msg,
-    //     toastLength: Toast.LENGTH_SHORT,
-    //     gravity: ToastGravity.CENTER,
-    //     timeInSecForIosWeb: 1,
-    //     backgroundColor: Colors.red,
-    //     textColor: Colors.white,
-    //     fontSize: 16.0);
   }
   bindAjency() async {
     bindAjencyList = await BindAjencyRepo().bindajency();
@@ -253,11 +230,6 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
           leading: GestureDetector(
               onTap: () {
                 Navigator.pop(context);
-                // Navigator.pop(context);
-                //
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => SupervisiorDashBoard()));
-                //Navigator.pop(context);
               },
               child:const Padding(
                 padding: EdgeInsets.all(8.0),
@@ -276,7 +248,6 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
             color: Colors.white, // 👈 sets drawer icon color to white
           ),
         ),
-        // appBar: generalFunction.appbarFunction("Hold Complaints"),
         // drawer
         drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
         body: pendingInternalComplaintList == null
@@ -326,22 +297,6 @@ class _SchedulePointScreenState extends State<HoldComplaint> {
                           ),
                         ),
                       )
-                      // Expanded(
-                      //   child: TextFormField(
-                      //     controller: _searchController,
-                      //     autofocus: true,
-                      //     decoration: const InputDecoration(
-                      //       prefixIcon: Icon(Icons.search),
-                      //       hintText: 'Enter Keywords',
-                      //       hintStyle: TextStyle(
-                      //           fontFamily: 'Montserrat',
-                      //           color: Color(0xFF707d83),
-                      //           fontSize: 14.0,
-                      //           fontWeight: FontWeight.bold),
-                      //       border: InputBorder.none,
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),

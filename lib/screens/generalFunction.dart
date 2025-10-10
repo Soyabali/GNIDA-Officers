@@ -43,11 +43,6 @@ class GeneralFunction {
       MaterialPageRoute(builder: (context) => LoginScreen_2()),
           (Route<dynamic> route) => false, // This ensures all previous routes are removed
     );
-    // Navigator.pushAndRemoveUntil(
-    //   context,
-    //   MaterialPageRoute(builder: (context) => LoginScreen_2()),
-    //       (route) => false, // Pop all routes until this page
-    // );
   }
   // mobile back hale code
   // drawerFunction
@@ -62,17 +57,14 @@ class GeneralFunction {
               image: DecorationImage(image: AssetImage('assets/images/drawerimage.jpeg'), // Replace with your asset image path
                 fit: BoxFit.fill,
               ),
-              // image: DecorationImage(image: AssetImage('assets/images/citysimpe.png'), // Replace with your asset image path
-              //   fit: BoxFit.cover,
-              // ),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${sName}',
-                  style: TextStyle(
+                  sName,
+                  style: const TextStyle(
                     fontFamily: 'Montserrat',
                     color: Colors.black,
                     fontSize: 16.0,
@@ -82,7 +74,7 @@ class GeneralFunction {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Icon(
+                    const Icon(
                       Icons.call,
                       size: 18,
                       color: Colors.black,
@@ -90,8 +82,8 @@ class GeneralFunction {
 
                     SizedBox(width: 5),
                     Text(
-                      '${sContactNo}',
-                      style: TextStyle(
+                      sContactNo,
+                      style: const TextStyle(
                         fontFamily: 'Montserrat',
                         color: Colors.black,
                         fontSize: 16.0,
@@ -129,12 +121,6 @@ class GeneralFunction {
                       );
                     }else if(iUserTypeCode=="1"){
                       print('-----Yadav ---home-------');
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => const HomeScreen_2(),
-                      //   ),
-                      // );
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => SupervisiorDashBoard()),

@@ -1,9 +1,7 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
-import 'package:flutter/widgets.dart';
 import 'package:noidaone/Controllers/notificationRepo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../resources/app_text_style.dart';
@@ -66,33 +64,6 @@ class _MyHomePageState extends State<NotificationPageHome> {
       print("------1149---$sContactNo");
     });
   }
-  // onWillPopScope
-  Future<bool> _onWillPop() async {
-    return (await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Are you sure?',style: AppTextStyle
-            .font14OpenSansRegularBlackTextStyle,),
-        content: new Text('Do you want to exit app',style: AppTextStyle
-            .font14OpenSansRegularBlackTextStyle,),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false), //<-- SEE HERE
-            child: new Text('No'),
-          ),
-          TextButton(
-            onPressed: () {
-              //  goToHomePage();
-              // exit the app
-              exit(0);
-            }, //Navigator.of(context).pop(true), // <-- SEE HERE
-            child: new Text('Yes'),
-          ),
-        ],
-      ),
-    )) ??
-        false;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,11 +80,6 @@ class _MyHomePageState extends State<NotificationPageHome> {
         leading: GestureDetector(
             onTap: () {
               Navigator.pop(context);
-              // Navigator.pop(context);
-              //
-              // Navigator.push(context,
-              //     MaterialPageRoute(builder: (context) => SupervisiorDashBoard()));
-              //Navigator.pop(context);
             },
             child:const Padding(
               padding: EdgeInsets.all(8.0),
@@ -132,10 +98,8 @@ class _MyHomePageState extends State<NotificationPageHome> {
           color: Colors.white, // 👈 sets drawer icon color to white
         ),
       ),
-       // appBar: generalFunction.appbarFunction("Notification"),
         // drawer
         drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
-
         body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
           child: ListView.separated(
@@ -152,7 +116,7 @@ class _MyHomePageState extends State<NotificationPageHome> {
                     const Icon(
                       Icons.notification_important,
                       size: 30,
-                      color: Color(0xFF255899),
+                      color: Colors.black,
                     ),
                     SizedBox(width: 10),
                     Expanded(
@@ -161,22 +125,12 @@ class _MyHomePageState extends State<NotificationPageHome> {
                         children: <Widget>[
                           Text(
                             notificationList?[index]['sTitle'].toString() ?? '',
-                            style: const TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Color(0xff3f617d),
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          style: AppTextStyle.font14OpenSansRegularBlackTextStyle
                           ),
                           SizedBox(height: 2),
                           Text(
                             notificationList?[index]['sNotification'].toString() ?? '',
-                            style: const TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Color(0xff3f617d),
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: AppTextStyle.font12OpenSansRegularBlack45TextStyle,
                             textAlign: TextAlign.start,
                           ),
                           SizedBox(height: 2),
@@ -185,17 +139,12 @@ class _MyHomePageState extends State<NotificationPageHome> {
                               const Icon(
                                 Icons.calendar_month,
                                 size: 18,
-                                color: Color(0xff3f617d),
+                                color: Colors.black,
                               ),
                               SizedBox(width: 5),
                               Text(
                                 notificationList?[index]['dRecivedAt'].toString() ?? '',
-                                style: const TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Color(0xff3f617d),
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: AppTextStyle.font12OpenSansRegularBlack45TextStyle
                               ),
                             ],
                           ),
