@@ -779,7 +779,7 @@ class _MyHomePageState extends State<patholeDectionForm> with WidgetsBindingObse
                                     height: AppSize.s45,
                                     padding: EdgeInsets.all(AppPadding.p5),
                                     decoration: BoxDecoration(
-                                      color: Color(0xFF255898),
+                                      color: Color(0xFFD31F76),
                                       // Background color using HEX value
                                       borderRadius: BorderRadius.circular(
                                           AppMargin.m10), // Rounded corners

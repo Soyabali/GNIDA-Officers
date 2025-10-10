@@ -45,28 +45,29 @@ class _MyHomePageState extends State<MyHomePage> {
       backgroundColor: Colors.grey[200],
       // Forgot Password
       appBar: AppBar(
-        backgroundColor: Color(0xFF255899),
-        leading: GestureDetector(
-            onTap: () {
-              //Navigator.of(context).pop();
-
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const LoginScreen_2()));
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(Icons.arrow_back_ios),
-            )),
-        title: const Text(
-          'Forgot Password',
-          style: TextStyle(
-              fontFamily: 'Montserrat',
-              color: Colors.white,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold),
-        ),
-      ),
-      // drawer
+          backgroundColor: const Color(0xFFD31F76),
+          leading: GestureDetector(
+              onTap: () {
+                //Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const LoginScreen_2()));
+              },
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(Icons.arrow_back_ios),
+              )),
+          title: const Text(
+            'Forgot Password',
+            style: TextStyle(
+                fontFamily: 'Montserrat',
+                color: Colors.white,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold),
+          ),
+          centerTitle: true,
+          elevation: 0,
+          iconTheme:  Theme.of(context).iconTheme.copyWith(color: Colors.white
+          )),
 
       body: ListView(
         children: <Widget>[
@@ -219,7 +220,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           height: 45,
                                           padding: EdgeInsets.all(5.0),
                                           decoration: BoxDecoration(
-                                            color: Color(0xFF255899), // Background color using HEX value
+                                            color: Color(0xFFD31F76), // Background color using HEX value
                                             borderRadius: BorderRadius.circular(
                                                 10.0), // Rounded corners
                                           ),
