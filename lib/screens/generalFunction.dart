@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:noidaone/resources/routes_managements.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../resources/app_text_style.dart';
 import '../resources/assets_manager.dart';
 import '../resources/values_manager.dart';
 import 'changePassword.dart';
@@ -45,6 +47,150 @@ class GeneralFunction {
     );
   }
   // mobile back hale code
+  //-----------logoutDialogBox ---------.
+
+  Widget _logoutDialog(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.center,
+        children: [
+          Container(
+            height: 160,
+            padding: EdgeInsets.fromLTRB(20, 40, 20, 20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 0), // Space for the image
+                Text(
+                    'Logout',
+                    style: AppTextStyle.font16OpenSansRegularBlackTextStyle
+                ),
+                SizedBox(height: 10),
+                Text(
+                  "Do you want to Logout ?",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey[600],
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 15),
+                Container(
+                  height: 35,
+                  // Reduced height to 35
+                  padding: EdgeInsets.symmetric(horizontal: 5),
+                  // Adjust padding as needed
+                  decoration: BoxDecoration(
+                    color: Colors.white, // Container background color
+                    borderRadius: BorderRadius.circular(15), // Rounded corners
+                    border: Border.all(color: Colors.grey), // Border color
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                           // generalFunction.logout(context);
+                            logout(context);
+                            Navigator.of(context).pop();
+                          },
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            // Remove default padding
+                            minimumSize: Size(0, 0),
+                            // Remove minimum size constraints
+                            backgroundColor: Colors.white,
+                            // Button background
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15), // Button border radius
+                            ),
+                          ),
+                          child: Text(
+                            'Yes',
+                            style: GoogleFonts.openSans(
+                              color: Colors.green,
+                              // Text color for "Yes"
+                              fontSize: 12,
+                              // Adjust font size to fit the container
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const VerticalDivider(
+                        color: Colors.grey, // Divider color
+                        width: 20, // Space between buttons
+                        thickness: 1, // Thickness of the divider
+                      ),
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            // Remove default padding
+                            minimumSize: Size(0, 0),
+                            // Remove minimum size constraints
+                            backgroundColor: Colors.white,
+                            // Button background
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15), // Button border radius
+                            ),
+                          ),
+                          child: Text(
+                            'No',
+                            style: GoogleFonts.openSans(
+                              color: Colors.red,
+                              // Text color for "No"
+                              fontSize: 12,
+                              // Adjust font size to fit the container
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+              ],
+            ),
+          ),
+          Positioned(
+            top: -30, // Position the image at the top center
+            child: CircleAvatar(
+              radius: 30,
+              backgroundColor: Colors.blueAccent,
+              child: ClipOval(
+                child: Image.asset(
+                  'assets/images/logoutnew.jpeg',
+                  // Replace with your asset image path
+                  fit: BoxFit.cover,
+                  width: 60,
+                  height: 60,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+
   // drawerFunction
   drawerFunction(BuildContext context, String sName, String sContactNo) {
     return Drawer(
@@ -286,7 +432,15 @@ class GeneralFunction {
                   GestureDetector(
                     onTap: () {
                      // _showBottomSheet(context);
-                      logout(context);
+                     // logout(context);
+
+                      /// todo her you should open DialogBox and take a actio
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return _logoutDialog(context);
+                        },
+                      );
 
                     },
                     child: Row(

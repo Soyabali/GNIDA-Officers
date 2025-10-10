@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:noidaone/screens/viewimage.dart';
@@ -8,8 +10,6 @@ import '../Controllers/internalComplaintStatusRepo.dart';
 import '../resources/app_text_style.dart';
 import 'generalFunction.dart';
 import 'gnidaofficers/gnoidadashboard.dart';
-import 'malbaRequest/actionOnMalbaRequest.dart';
-
 
 class ComplaintStatusScreen extends StatelessWidget {
 
@@ -72,6 +72,35 @@ class _SchedulePointScreenState extends State<ComplaintScreen> {
     intStatusComplaintResponse();
     _searchController.addListener(_search);
     super.initState();
+  }
+  // navigate google map
+  Future<void> launchGoogleMaps(double latitude, double longitude) async {
+    final String googleMapsUrl = "comgooglemaps://?q=$latitude,$longitude";
+    final String appleMapsUrl = "http://maps.apple.com/?q=$latitude,$longitude";
+    final String androidGoogleMapsUrl = "google.navigation:q=$latitude,$longitude";
+
+    Uri uri;
+
+    if (Platform.isAndroid) {
+      // For Android
+      uri = Uri.parse(androidGoogleMapsUrl);
+    } else if (Platform.isIOS) {
+      // For iOS (try Google Maps, else fallback to Apple Maps)
+      uri = Uri.parse(googleMapsUrl);
+
+      if (!await canLaunchUrl(uri)) {
+        uri = Uri.parse(appleMapsUrl); // fallback to Apple Maps
+      }
+    } else {
+      debugPrint("Unsupported platform");
+      return;
+    }
+
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      debugPrint('Could not launch Maps');
+    }
   }
 
   @override
@@ -241,9 +270,8 @@ class _SchedulePointScreenState extends State<ComplaintScreen> {
                         children: [
                              Card(
                               elevation: 1,
-                               //color: Colors.white,
+                               color: Colors.white,
                               child: Container(
-                               // color: Colors.white,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5.0),
                                   border: Border.all(
@@ -428,42 +456,57 @@ class _SchedulePointScreenState extends State<ComplaintScreen> {
                                         height: 1,
                                         color: Colors.grey,
                                       ),
-                                      SizedBox(height: 5),
+                                      //SizedBox(height: 5),
                                       Container(
-                                       child: Row(
-                                         mainAxisAlignment: MainAxisAlignment.start,
-                                         crossAxisAlignment: CrossAxisAlignment.start,
-                                         children: [
-                                           const Icon(Icons.file_copy,
-                                           size: 25,
-                                           ),
-                                           SizedBox(width: 5),
-                                           Text(item['sPendingFrom'] ?? '',style: AppTextStyle
-                                               .font14OpenSansRegularBlackTextStyle),
-                                           Spacer(),
-                                           //  sStatusName
-                                           Container(
-                                             height: 35,
-                                             width: 90, // you can adjust or use double.infinity for full width
-                                             decoration: BoxDecoration(
-                                               color: Color(0xFFD31F76), // background color
-                                               borderRadius: BorderRadius.circular(20), // half of height
-                                             ),
-                                             alignment: Alignment.center,
-                                             child: Text(
-                                               item['sStatusName'] ?? '',
-                                               style: const TextStyle(
-                                                 color: Colors.white,
-                                                 fontSize: 14,
-                                                 fontWeight: FontWeight.bold,
-                                               ),
-                                             ),
-                                           )
-                                         ],
-                                       ),
-
+                                        height: 60,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Expanded(
+                                              flex:1,
+                                              child: Container(
+                                                child: Icon(Icons.file_copy,
+                                                  size: 25,
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 6,
+                                              child: Container(
+                                                child:  Text(item['sPendingFrom'] ?? '',style: AppTextStyle
+                                                    .font14OpenSansRegularBlackTextStyle,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                  softWrap: false,
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 3,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(right: 2),
+                                                child: Container(
+                                                  height: 35,
+                                                  width: 75, // you can adjust or use double.infinity for full width
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0xFFD31F76), // background color
+                                                    borderRadius: BorderRadius.circular(20), // half of height
+                                                  ),
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                    item['sStatusName'] ?? '',
+                                                    style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                      SizedBox(height: 5),
                                       Container(
                                           height: 40,
                                           decoration: const BoxDecoration(
@@ -492,7 +535,8 @@ class _SchedulePointScreenState extends State<ComplaintScreen> {
 
                                                           if (fLatitude != null &&
                                                               fLongitude != null) {
-                                                            generalfunction.launchGoogleMaps(fLatitude,fLongitude);
+                                                            launchGoogleMaps(fLatitude,fLongitude);
+                                                           // generalfunction.launchGoogleMaps(fLatitude,fLongitude);
 
                                                           } else {
                                                             displayToast("Please check the location.");
